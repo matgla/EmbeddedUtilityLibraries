@@ -1,3 +1,5 @@
+#pragma once
+
 #include <cassert>
 #include <cstdio>
 #include <new>
@@ -13,40 +15,82 @@ template <std::size_t Size, class ReturnType, class... Args>
 class function<ReturnType(Args...), Size>
 {
 public:
-    template <class FunctionType>
-    function(FunctionType&& function)
+    constexpr static std::size_t size = Size;
+
+    using StorageType = typename std::aligned_storage<size, 8>::type;
+    using This                = function<ReturnType(Args...), size>;
+    explicit operator bool() const noexcept
     {
-        registerCallback(function);
+        return vtable_.exec != nullptr;
+    }
+    
+    function(const function& otherFunction)
+    {
+        if (otherFunction)
+        {
+            otherFunction.copyTo(storage_, &vtable_);
+        }
+    }
+    function(function& otherFunction)
+    {
+        if (otherFunction)
+        {
+            otherFunction.copyTo(storage_, &vtable_);
+        }
     }
 
-    ReturnType operator()(Args... args)
+    function(function&& oldFunction)
     {
-        assert(vtable.exec != nullptr && "Function not initialized!");
-        return vtable.exec(&storage_, std::forward<Args>(args)...);
+        oldFunction.copyTo(storage_, &vtable_);
+    }
+
+    template <class FunctionType>
+    function(FunctionType&& fun)
+    {
+        registerCallback(std::forward<FunctionType>(fun));
     }
 
     function()
-        : vtable{nullptr}
+        : vtable_{}
     {
     }
 
     ~function()
     {
-        if (vtable.exec)
+        if (vtable_.exec)
         {
-            vtable.destructor(&storage_);
+            vtable_.destructor(&storage_);
         }
     }
 
-private:
-    struct VTable
+    ReturnType operator()(Args... args)
     {
-        using Executor   = ReturnType (*)(void*, Args&&...);
-        using Destructor = void (*)(void*);
-        Executor exec;
-        Destructor destructor;
+        assert(vtable_.exec != nullptr && "Function not initialized!");
+        return vtable_.exec(&storage_, std::forward<Args>(args)...);
+    }
+
+    void copyTo(StorageType& newPlace, void* vtable) const
+    {
+        vtable_.copy(&storage_, &newPlace, vtable);
+    }
+
+private:    
+struct VTable
+    {
+        VTable() : exec{nullptr}, destructor{nullptr}, copy{nullptr}, move{nullptr}
+        {}
+        using ExecutorType   = ReturnType (*)(void*, Args&&...);
+        using DestructorType = void (*)(void*);
+        using CopyType       = void (*)(const void*, void*, void* vtable);
+        using MoveType       = void (*)(void*);
+
+        ExecutorType exec;
+        DestructorType destructor;
+        CopyType copy;
+        MoveType move;
     };
-    VTable vtable;
+
+    VTable vtable_;
 
     template <typename FunctionType>
     static ReturnType execute(void* data, Args&&... args)
@@ -64,21 +108,31 @@ private:
     }
 
     template <class FunctionType>
+    static void copy(const void* data, void* place, void* vtable)
+    {
+        const FunctionType f = *static_cast<const FunctionType*>(data);
+        VTable& vt = *static_cast<VTable*>(vtable);
+        new (place) FunctionType(f);
+        vt.exec       = &execute<FunctionType>;
+        vt.destructor = &deleteCallback<FunctionType>;
+        vt.copy       = &copy<FunctionType>;
+    }
+
+    template <class FunctionType>
     void registerCallback(FunctionType&& function)
     {
         using DecayedFunctionType = typename std::decay<FunctionType>::type;
-        using This                = eul::function<ReturnType(Args...), size>;
         static_assert(!std::is_same<DecayedFunctionType, This>::value, "Wrong function type declared");
         static_assert(sizeof(DecayedFunctionType) <= size, "Buffer overflow. Increase size parameter!");
 
         new (&storage_) DecayedFunctionType(std::forward<FunctionType>(function));
 
-        vtable.exec       = &execute<DecayedFunctionType>;
-        vtable.destructor = &deleteCallback<DecayedFunctionType>;
+        vtable_.exec       = &execute<DecayedFunctionType>;
+        vtable_.destructor = &deleteCallback<DecayedFunctionType>;
+        vtable_.copy       = &copy<DecayedFunctionType>;
     }
 
-    constexpr static std::size_t size = Size;
-    using StorageType                 = typename std::aligned_storage<size, 8>::type;
     StorageType storage_;
 };
+
 } // namespace eul

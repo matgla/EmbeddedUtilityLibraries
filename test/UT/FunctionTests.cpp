@@ -32,60 +32,81 @@ private:
 
 TEST_CASE("Function test", "[FunctionTests]")
 {
-    SECTION("return value")
-    {
-        constexpr int expectedValue = 15;
-        constexpr int otherValue    = -9999999;
+    // SECTION("return value")
+    // {
+    //     constexpr int expectedValue = 15;
+    //     constexpr int otherValue    = -9999999;
 
-        eul::function<int(), 1> f1([]() { return expectedValue; });
-        REQUIRE(f1() == expectedValue);
+    //     eul::function<int(), 1> f1([]() { return expectedValue; });
+    //     REQUIRE(f1() == expectedValue);
 
-        eul::function<int(), 1> f2([]() { return otherValue; });
-        REQUIRE(f2() == otherValue);
-    }
+    //     eul::function<int(), 1> f2([]() { return otherValue; });
+    //     REQUIRE(f2() == otherValue);
+    // }
 
-    SECTION("capture arguments")
-    {
-        int expectedValue        = 15;
-        constexpr int otherValue = -9999999;
+    // SECTION("capture arguments")
+    // {
+    //     int expectedValue        = 15;
+    //     constexpr int otherValue = -9999999;
 
-        eul::function<void(int), 8> f1([&expectedValue, otherValue](int a) { expectedValue = otherValue + a; });
-        f1(10);
-        REQUIRE(expectedValue == (otherValue + 10));
-        f1(-100);
-        REQUIRE(expectedValue == (otherValue - 100));
-    }
+    //     eul::function<void(int), 8> f1([&expectedValue, otherValue](int a) { expectedValue = otherValue + a; });
+    //     f1(10);
+    //     REQUIRE(expectedValue == (otherValue + 10));
+    //     f1(-100);
+    //     REQUIRE(expectedValue == (otherValue - 100));
+    // }
 
-    SECTION("change to another function")
-    {
-        int expectedValue        = 15;
-        constexpr int otherValue = -9999999;
+    // SECTION("change to another function")
+    // {
+    //     int expectedValue        = 15;
+    //     constexpr int otherValue = -9999999;
 
-        eul::function<int(int), 8> f1([&expectedValue, otherValue](int a) { expectedValue = otherValue + a; return expectedValue; });
-        f1(10);
-        REQUIRE(expectedValue == (otherValue + 10));
-        f1 = [](int a) { return a; };
-        REQUIRE(f1(15) == 15);
-        REQUIRE(f1(-5) == -5);
-    }
+    //     eul::function<int(int), 8> f1([&expectedValue, otherValue](int a) { expectedValue = otherValue + a; return expectedValue; });
+    //     f1(10);
+    //     REQUIRE(expectedValue == (otherValue + 10));
+    //     f1 = [](int a) { return a; };
+    //     REQUIRE(f1(15) == 15);
+    //     REQUIRE(f1(-5) == -5);
+    // }
 
-    SECTION("Functor")
+    // SECTION("Functor")
+    // {
+    //     int constructorCalled = 0;
+    //     int destructorCalled  = 0;
+    //     int value             = 0;
+    //     {
+    //         eul::function<void(int), 16> f1(TestFunctor(constructorCalled, destructorCalled, value));
+
+    //         f1(1234567);
+
+    //         REQUIRE(value == 1234567);
+    //         REQUIRE(constructorCalled == 1);
+    //         REQUIRE(destructorCalled == 1);
+    //     }
+    //     REQUIRE(value == 1234567);
+    //     REQUIRE(constructorCalled == 1);
+    //     REQUIRE(destructorCalled == 2);
+    // }
+
+    SECTION("Copy")
     {
         int constructorCalled = 0;
         int destructorCalled  = 0;
         int value             = 0;
         {
             eul::function<void(int), 16> f1(TestFunctor(constructorCalled, destructorCalled, value));
-
+            eul::function<void(int), 16> f2(f1);
             f1(1234567);
 
             REQUIRE(value == 1234567);
             REQUIRE(constructorCalled == 1);
-            REQUIRE(destructorCalled == 1);
+            REQUIRE(destructorCalled == 2);
+
+            f2(11);
         }
-        REQUIRE(value == 1234567);
+        REQUIRE(value == 11);
         REQUIRE(constructorCalled == 1);
-        REQUIRE(destructorCalled == 2);
+        REQUIRE(destructorCalled == 4);
     }
 }
 
