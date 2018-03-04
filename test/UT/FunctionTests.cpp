@@ -129,6 +129,40 @@ TEST_CASE("Function test", "[FunctionTests]")
         REQUIRE(constructorCalled == 1);
         REQUIRE(destructorCalled == 4);
     }
+
+    SECTION("Copy by operator")
+    {
+        int constructorCalled  = 0;
+        int destructorCalled   = 0;
+        int value              = 0;
+        int constructorCalled2 = 0;
+        int destructorCalled2  = 0;
+        int value2             = 0;
+        {
+            eul::function<void(int), 16> f1(TestFunctor(constructorCalled, destructorCalled, value));
+
+            {
+                f1(1234567);
+
+                REQUIRE(value == 1234567);
+                REQUIRE(constructorCalled == 1);
+                REQUIRE(destructorCalled == 1);
+            }
+            {
+                f1 = TestFunctor(constructorCalled2, destructorCalled2, value2);
+                f1(1112);
+                REQUIRE(value2 == 1112);
+                REQUIRE(constructorCalled2 == 1);
+                REQUIRE(destructorCalled2 == 1);
+            }
+        }
+        REQUIRE(value == 1234567);
+        REQUIRE(constructorCalled == 1);
+        REQUIRE(destructorCalled == 2);
+        REQUIRE(value2 == 1112);
+        REQUIRE(constructorCalled2 == 1);
+        REQUIRE(destructorCalled2 == 2);
+    }
 }
 
 } // namespace msgui

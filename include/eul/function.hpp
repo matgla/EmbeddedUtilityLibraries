@@ -19,51 +19,45 @@ public:
 
     using StorageType = typename std::aligned_storage<size, 8>::type;
     using This        = function<ReturnType(Args...), size>;
-    explicit operator bool() const noexcept
-    {
-        return vtable_.exec != nullptr;
-    }
 
-    function(const function& otherFunction)
-    {
-        if (otherFunction)
-        {
-            otherFunction.copyTo(storage_, &vtable_);
-        }
-    }
-
-    function(function& otherFunction)
-    {
-        if (otherFunction)
-        {
-            otherFunction.copyTo(storage_, &vtable_);
-        }
-    }
-
-    function(function&& oldFunction)
-    {
-        oldFunction.copyTo(storage_, &vtable_);
-    }
-
-    function& operator=(const function& otherFunction)
-    {
-        if (vtable_.exec)
-        {
-            vtable_.destructor(&storage_);
-        }
-        otherFunction.copyTo(storage_, &vtable_);
-        return *this;
-    }
-
-    template <class FunctionType>
-    function(FunctionType&& fun)
-    {
-        registerCallback(std::forward<FunctionType>(fun));
-    }
-
-    function()
+    function() noexcept
         : vtable_{}
     {
+    }
+
+    function(std::nullptr_t) noexcept
+        : vtable_{}
+    {
+    }
+
+    function(const function& other)
+    {
+        if (other)
+        {
+            other.copyTo(storage_, &vtable_);
+        }
+    }
+
+    function(function&& other)
+    {
+        if (other)
+        {
+            other.moveTo(storage_, &vtable_);
+        }
+    }
+
+    function(function& other)
+    {
+        if (other)
+        {
+            other.copyTo(storage_, &vtable_);
+        }
+    }
+
+    template <class F>
+    function(F&& f)
+    {
+        registerCallback(std::forward<F>(f));
     }
 
     ~function()
@@ -72,6 +66,63 @@ public:
         {
             vtable_.destructor(&storage_);
         }
+    }
+
+
+    function& operator=(const function& other)
+    {
+        if (vtable_.exec)
+        {
+            vtable_.destructor(&storage_);
+        }
+        other.copyTo(storage_, &vtable_);
+        return *this;
+    }
+
+    function& operator=(function&& other)
+    {
+        if (vtable_.exec)
+        {
+            vtable_.destructor(&storage_);
+        }
+        other.moveTo(storage_, &vtable_);
+        return *this;
+    }
+
+    function& operator=(std::nullptr_t)
+    {
+        if (vtable_.exec)
+        {
+            vtable_.destructor(&storage_);
+        }
+        vtable_.move       = nullptr;
+        vtable_.copy       = nullptr;
+        vtable_.destructor = nullptr;
+        vtable_.exec       = nullptr;
+        return *this;
+    }
+
+    template <class F>
+    function& operator=(F&& f) noexcept
+    {
+        if (vtable_.exec)
+        {
+            vtable_.destructor(&storage_);
+        }
+        registerCallback(std::forward<F>(f));
+        return *this;
+    }
+
+    void swap(function& other) noexcept
+    {
+        auto copy = function(*this);
+        *this     = other;
+        other     = copy;
+    }
+
+    explicit operator bool() const noexcept
+    {
+        return vtable_.exec != nullptr;
     }
 
     ReturnType operator()(Args... args)
@@ -86,12 +137,17 @@ public:
         return vtable_.exec(&storage_, std::forward<Args>(args)...);
     }
 
+
+private:
     void copyTo(StorageType& newPlace, void* vtable) const
     {
         vtable_.copy(&storage_, &newPlace, vtable);
     }
 
-private:
+    void moveTo(StorageType& newPlace, void* vtable) const
+    {
+        vtable_.move(&storage_, &newPlace, vtable);
+    }
     struct VTable
     {
         VTable()
