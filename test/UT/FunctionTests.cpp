@@ -2,9 +2,6 @@
 
 #include "eul/function.hpp"
 
-namespace msgui
-{
-
 class TestFunctor
 {
 public:
@@ -164,5 +161,3 @@ TEST_CASE("Function test", "[FunctionTests]")
         REQUIRE(destructorCalled2 == 2);
     }
 }
-
-} // namespace msgui

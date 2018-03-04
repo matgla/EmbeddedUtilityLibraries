@@ -103,7 +103,18 @@ public:
     }
 
     template <class F>
-    function& operator=(F&& f) noexcept
+    function& operator=(F&& f)
+    {
+        if (vtable_.exec)
+        {
+            vtable_.destructor(&storage_);
+        }
+        registerCallback(std::forward<F>(f));
+        return *this;
+    }
+
+    template <class F>
+    function& operator=(std::reference_wrapper<F> f)
     {
         if (vtable_.exec)
         {

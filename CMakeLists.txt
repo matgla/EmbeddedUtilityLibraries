@@ -4,6 +4,7 @@ project(eul CXX)
 
 file(GLOB_RECURSE eul_srcs
     "include/eul/function.hpp"
+    "include/eul/event_loop.hpp"
     )
 
 set(Eul_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include/eul" CACHE STRING "path to EUL sources" FORCE)

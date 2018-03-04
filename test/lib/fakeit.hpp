@@ -10,7 +10,7 @@
 #ifndef fakeit_h__
 #define fakeit_h__
 
-
+#include "catch.hpp"
 
 #include <functional>
 #include <memory>
@@ -1170,12 +1170,13 @@ namespace fakeit {
                 std::string fomattedMessage,
                 Catch::ResultWas::OfType resultWas = Catch::ResultWas::OfType::ExpressionFailed ){
             Catch::AssertionHandler catchAssertionHandler( vetificationType, sourceLineInfo, failingExpression, Catch::ResultDisposition::Normal );
-            INTERNAL_CATCH_TRY( catchAssertionHandler ) { \
-                CATCH_INTERNAL_SUPPRESS_PARENTHESES_WARNINGS \
-                catchAssertionHandler.handle( resultWas , fomattedMessage); \
-                CATCH_INTERNAL_UNSUPPRESS_PARENTHESES_WARNINGS \
-            } INTERNAL_CATCH_CATCH( catchAssertionHandler ) \
-            INTERNAL_CATCH_REACT( catchAssertionHandler )
+            INTERNAL_CATCH_TRY { \
+					CATCH_INTERNAL_SUPPRESS_PARENTHESES_WARNINGS \
+					catchAssertionHandler.handleMessage(resultWas, fomattedMessage); \
+					CATCH_INTERNAL_UNSUPPRESS_PARENTHESES_WARNINGS \
+			} INTERNAL_CATCH_CATCH(catchAssertionHandler) { \
+					INTERNAL_CATCH_REACT(catchAssertionHandler) \
+			}
         }
 
         virtual void handle(const UnexpectedMethodCallEvent &evt) override {
