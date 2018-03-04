@@ -1,8 +1,6 @@
 #pragma once
 
 #include <cassert>
-#include <cstdio>
-#include <new>
 #include <type_traits>
 #include <utility>
 
@@ -17,15 +15,15 @@ class function<ReturnType(Args...), Size>
 public:
     constexpr static std::size_t size = Size;
 
-    using StorageType = typename std::aligned_storage<size, 8>::type;
-    using This        = function<ReturnType(Args...), size>;
+    using storage_type = typename std::aligned_storage<size, 8>::type;
+    using this_type    = function<ReturnType(Args...), size>;
 
     function() noexcept
         : vtable_{}
     {
     }
 
-    function(std::nullptr_t) noexcept
+    explicit function(std::nullptr_t) noexcept
         : vtable_{}
     {
     }
@@ -34,15 +32,15 @@ public:
     {
         if (other)
         {
-            other.copyTo(storage_, &vtable_);
+            other.copy_to(storage_, &vtable_);
         }
     }
 
-    function(function&& other)
+    function(function&& other) noexcept
     {
         if (other)
         {
-            other.moveTo(storage_, &vtable_);
+            other.move_to(storage_, &vtable_);
         }
     }
 
@@ -50,14 +48,14 @@ public:
     {
         if (other)
         {
-            other.copyTo(storage_, &vtable_);
+            other.copy_to(storage_, &vtable_);
         }
     }
 
     template <class F>
     function(F&& f)
     {
-        registerCallback(std::forward<F>(f));
+        register_callback(std::forward<F>(f));
     }
 
     ~function()
@@ -69,170 +67,223 @@ public:
     }
 
 
-    function& operator=(const function& other)
-    {
-        if (vtable_.exec)
-        {
-            vtable_.destructor(&storage_);
-        }
-        other.copyTo(storage_, &vtable_);
-        return *this;
-    }
+    function& operator=(const function& other);
 
-    function& operator=(function&& other)
-    {
-        if (vtable_.exec)
-        {
-            vtable_.destructor(&storage_);
-        }
-        other.moveTo(storage_, &vtable_);
-        return *this;
-    }
+    function& operator=(function&& other) noexcept;
 
-    function& operator=(std::nullptr_t)
-    {
-        if (vtable_.exec)
-        {
-            vtable_.destructor(&storage_);
-        }
-        vtable_.move       = nullptr;
-        vtable_.copy       = nullptr;
-        vtable_.destructor = nullptr;
-        vtable_.exec       = nullptr;
-        return *this;
-    }
+    function& operator=(std::nullptr_t);
 
     template <class F>
-    function& operator=(F&& f)
-    {
-        if (vtable_.exec)
-        {
-            vtable_.destructor(&storage_);
-        }
-        registerCallback(std::forward<F>(f));
-        return *this;
-    }
+    function& operator=(F&& f);
 
     template <class F>
-    function& operator=(std::reference_wrapper<F> f)
-    {
-        if (vtable_.exec)
-        {
-            vtable_.destructor(&storage_);
-        }
-        registerCallback(std::forward<F>(f));
-        return *this;
-    }
+    function& operator=(std::reference_wrapper<F> f);
 
-    void swap(function& other) noexcept
-    {
-        auto copy = function(*this);
-        *this     = other;
-        other     = copy;
-    }
+    void swap(function& other) noexcept;
 
     explicit operator bool() const noexcept
     {
         return vtable_.exec != nullptr;
     }
 
-    ReturnType operator()(Args... args)
-    {
-        assert(vtable_.exec != nullptr && "Function not initialized!");
-        return vtable_.exec(&storage_, std::forward<Args>(args)...);
-    }
+    ReturnType operator()(Args... args);
 
-    ReturnType operator()(Args... args) const
-    {
-        assert(vtable_.exec != nullptr && "Function not initialized!");
-        return vtable_.exec(&storage_, std::forward<Args>(args)...);
-    }
+    ReturnType operator()(Args... args) const;
 
 
 private:
-    void copyTo(StorageType& newPlace, void* vtable) const
-    {
-        vtable_.copy(&storage_, &newPlace, vtable);
-    }
+    void copy_to(storage_type& new_place, void* vtable) const;
 
-    void moveTo(StorageType& newPlace, void* vtable) const
+    void move_to(storage_type& new_place, void* vtable) const;
+
+    struct v_table
     {
-        vtable_.move(&storage_, &newPlace, vtable);
-    }
-    struct VTable
-    {
-        VTable()
+        v_table()
             : exec{nullptr}, destructor{nullptr}, copy{nullptr}, move{nullptr}
         {
         }
-        using ExecutorType   = ReturnType (*)(void*, Args&&...);
-        using DestructorType = void (*)(void*);
-        using CopyType       = void (*)(const void*, void*, void* vtable);
-        using MoveType       = void (*)(const void*, void*, void* vtable);
+        using executor_type   = ReturnType (*)(void*, Args&&...);
+        using destructor_type = void (*)(void*);
+        using copy_type       = void (*)(const void*, void*, void* vtable);
+        using move_type       = void (*)(const void*, void*, void* vtable);
 
-        ExecutorType exec;
-        DestructorType destructor;
-        CopyType copy;
-        MoveType move;
+        executor_type exec;
+        destructor_type destructor;
+        copy_type copy;
+        move_type move;
     };
 
-    VTable vtable_;
+    v_table vtable_;
 
     template <typename FunctionType>
-    static ReturnType execute(void* data, Args&&... args)
-    {
-        FunctionType& f = *static_cast<FunctionType*>(data);
-
-        return f(std::forward<Args>(args)...);
-    }
+    static ReturnType execute(void* data, Args&&... args);
 
     template <class FunctionType>
-    static void deleteCallback(void* function)
-    {
-        FunctionType& f = *static_cast<FunctionType*>(function);
-        f.~FunctionType();
-    }
+    static void delete_callback(void* function);
 
     template <class FunctionType>
-    static void copy(const void* data, void* place, void* vtable)
-    {
-        const FunctionType f = *static_cast<const FunctionType*>(data);
-        VTable& vt           = *static_cast<VTable*>(vtable);
-        new (place) FunctionType(f);
-        vt.exec       = &execute<FunctionType>;
-        vt.destructor = &deleteCallback<FunctionType>;
-        vt.copy       = &copy<FunctionType>;
-        vt.move       = &move<FunctionType>;
-    }
+    static void copy(const void* data, void* place, void* vtable);
 
     template <class FunctionType>
-    static void move(const void* data, void* place, void* vtable)
-    {
-        const FunctionType& f = *static_cast<const FunctionType*>(data);
-        VTable& vt            = *static_cast<VTable*>(vtable);
-        new (place) FunctionType(std::move(f));
-        vt.exec       = &execute<FunctionType>;
-        vt.destructor = &deleteCallback<FunctionType>;
-        vt.copy       = &copy<FunctionType>;
-        vt.move       = &move<FunctionType>;
-    }
+    static void move(const void* data, void* place, void* vtable);
 
     template <class FunctionType>
-    void registerCallback(FunctionType&& function)
-    {
-        using DecayedFunctionType = typename std::decay<FunctionType>::type;
-        static_assert(!std::is_same<DecayedFunctionType, This>::value, "Wrong function type declared");
-        static_assert(sizeof(DecayedFunctionType) <= size, "Buffer overflow. Increase size parameter!");
+    void register_callback(FunctionType&& function);
 
-        new (&storage_) DecayedFunctionType(std::forward<FunctionType>(function));
-
-        vtable_.exec       = &execute<DecayedFunctionType>;
-        vtable_.destructor = &deleteCallback<DecayedFunctionType>;
-        vtable_.copy       = &copy<DecayedFunctionType>;
-        vtable_.move       = &move<DecayedFunctionType>;
-    }
-
-    StorageType storage_;
+    storage_type storage_;
 };
 
+template <std::size_t Size, class ReturnType, class... Args>
+function<ReturnType(Args...), Size>& function<ReturnType(Args...), Size>::operator=(const function& other)
+{
+    if (vtable_.exec)
+    {
+        vtable_.destructor(&storage_);
+    }
+    other.copy_to(storage_, &vtable_);
+    return *this;
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+function<ReturnType(Args...), Size>& function<ReturnType(Args...), Size>::operator=(function&& other) noexcept
+{
+    if (vtable_.exec)
+    {
+        vtable_.destructor(&storage_);
+    }
+    other.move_to(storage_, &vtable_);
+    return *this;
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+function<ReturnType(Args...), Size>& function<ReturnType(Args...), Size>::operator=(std::nullptr_t)
+{
+    if (vtable_.exec)
+    {
+        vtable_.destructor(&storage_);
+    }
+    vtable_.move       = nullptr;
+    vtable_.copy       = nullptr;
+    vtable_.destructor = nullptr;
+    vtable_.exec       = nullptr;
+    return *this;
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+template <class F>
+function<ReturnType(Args...), Size>& function<ReturnType(Args...), Size>::operator=(F&& f)
+{
+    if (vtable_.exec)
+    {
+        vtable_.destructor(&storage_);
+    }
+    register_callback(std::forward<F>(f));
+    return *this;
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+template <class F>
+function<ReturnType(Args...), Size>& function<ReturnType(Args...), Size>::operator=(std::reference_wrapper<F> f)
+{
+    if (vtable_.exec)
+    {
+        vtable_.destructor(&storage_);
+    }
+    register_callback(std::forward<F>(f));
+    return *this;
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+void function<ReturnType(Args...), Size>::swap(function& other) noexcept
+{
+    auto copy = function(*this);
+    *this     = other;
+    other     = copy;
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+ReturnType function<ReturnType(Args...), Size>::operator()(Args... args)
+{
+    assert(vtable_.exec != nullptr && "Function not initialized!");
+    return vtable_.exec(&storage_, std::forward<Args>(args)...);
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+ReturnType function<ReturnType(Args...), Size>::operator()(Args... args) const
+{
+    assert(vtable_.exec != nullptr && "Function not initialized!");
+    return vtable_.exec(&storage_, std::forward<Args>(args)...);
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+void function<ReturnType(Args...), Size>::copy_to(storage_type& new_place, void* vtable) const
+{
+    vtable_.copy(&storage_, &new_place, vtable);
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+void function<ReturnType(Args...), Size>::move_to(storage_type& new_place, void* vtable) const
+{
+    vtable_.move(&storage_, &new_place, vtable);
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+template <typename FunctionType>
+ReturnType function<ReturnType(Args...), Size>::execute(void* data, Args&&... args)
+{
+    FunctionType& f = *static_cast<FunctionType*>(data);
+
+    return f(std::forward<Args>(args)...);
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+template <class FunctionType>
+void function<ReturnType(Args...), Size>::delete_callback(void* function)
+{
+    FunctionType& f = *static_cast<FunctionType*>(function);
+    f.~FunctionType();
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+template <class FunctionType>
+void function<ReturnType(Args...), Size>::copy(const void* data, void* place, void* vtable)
+{
+    const FunctionType f = *static_cast<const FunctionType*>(data);
+    v_table& vt          = *static_cast<v_table*>(vtable);
+    new (place) FunctionType(f);
+    vt.exec       = &execute<FunctionType>;
+    vt.destructor = &delete_callback<FunctionType>;
+    vt.copy       = &copy<FunctionType>;
+    vt.move       = &move<FunctionType>;
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+template <class FunctionType>
+void function<ReturnType(Args...), Size>::move(const void* data, void* place, void* vtable)
+{
+    const FunctionType& f = *static_cast<const FunctionType*>(data);
+    v_table& vt           = *static_cast<v_table*>(vtable);
+    new (place) FunctionType(std::move(f));
+    vt.exec       = &execute<FunctionType>;
+    vt.destructor = &delete_callback<FunctionType>;
+    vt.copy       = &copy<FunctionType>;
+    vt.move       = &move<FunctionType>;
+}
+
+template <std::size_t Size, class ReturnType, class... Args>
+template <class FunctionType>
+void function<ReturnType(Args...), Size>::register_callback(FunctionType&& function)
+{
+    using decayed_function_type = typename std::decay<FunctionType>::type;
+    static_assert(!std::is_same<decayed_function_type, this_type>::value, "Wrong function type declared");
+    static_assert(sizeof(decayed_function_type) <= size, "Buffer overflow. Increase size parameter!");
+
+    // ReSharper disable once CppNonReclaimedResourceAcquisition
+    new (&storage_) decayed_function_type(std::forward<FunctionType>(function));
+
+    vtable_.exec       = &execute<decayed_function_type>;
+    vtable_.destructor = &delete_callback<decayed_function_type>;
+    vtable_.copy       = &copy<decayed_function_type>;
+    vtable_.move       = &move<decayed_function_type>;
+}
 } // namespace eul

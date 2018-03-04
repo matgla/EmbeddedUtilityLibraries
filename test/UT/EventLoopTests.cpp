@@ -35,7 +35,7 @@ TEST_CASE("Event loop", "[EventLoop]")
 
         Fake(Method(mock, a));
         When(Method(mock, a)).AlwaysReturn();
-        loop.registerEvent<A>([&mock](const A&) { mock.get().a(); });
+        loop.register_event<A>([&mock](const A&) { mock.get().a(); });
 
         loop.dispatch(A{});
         Verify(Method(mock, a)).Exactly(1);
@@ -49,7 +49,7 @@ TEST_CASE("Event loop", "[EventLoop]")
         loop.dispatch(B{1});
         Verify(Method(mock, b)).Exactly(0);
 
-        loop.registerEvent<B>([&mock](const B& b) {
+        loop.register_event<B>([&mock](const B& b) {
             if (b.callA)
             {
                 mock.get().a();
@@ -62,7 +62,7 @@ TEST_CASE("Event loop", "[EventLoop]")
 
         Fake(Method(mock, c));
 
-        loop.registerEvent<C>([&mock](const C& c) { mock.get().c(c.value); });
+        loop.register_event<C>([&mock](const C& c) { mock.get().c(c.value); });
 
         loop.dispatch(B{true});
         Verify(Method(mock, a)).Exactly(3);

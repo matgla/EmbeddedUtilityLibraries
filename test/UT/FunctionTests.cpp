@@ -16,7 +16,7 @@ public:
         destructorCalled_++;
     }
 
-    void operator()(int a)
+    void operator()(const int a) const
     {
         functionCalled_ = a;
     }

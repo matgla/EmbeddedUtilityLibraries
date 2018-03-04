@@ -33,3 +33,5 @@
 
 bin*/
 .vscode
+.vs 
+build*/

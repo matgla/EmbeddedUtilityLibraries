@@ -2,7 +2,7 @@
  *  Catch v2.1.2
  *  Generated: 2018-02-09 17:05:21.506253
  *  ----------------------------------------------------------
- *  This file has been merged from multiple headers. Please don't edit it directly
+ *  this_type file has been merged from multiple headers. Please don't edit it directly
  *  Copyright (c) 2018 Two Blue Cubes Ltd. All rights reserved.
  *
  *  Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -207,7 +207,7 @@ namespace Catch {
 #if defined(CATCH_INTERNAL_CONFIG_WINDOWS_SEH) && !defined(CATCH_CONFIG_NO_WINDOWS_SEH) && !defined(CATCH_CONFIG_WINDOWS_SEH)
 #   define CATCH_CONFIG_WINDOWS_SEH
 #endif
-// This is set by default, because we assume that unix compilers are posix-signal-compatible by default.
+// this_type is set by default, because we assume that unix compilers are posix-signal-compatible by default.
 #if !defined(CATCH_INTERNAL_CONFIG_NO_POSIX_SIGNALS) && !defined(CATCH_CONFIG_NO_POSIX_SIGNALS) && !defined(CATCH_CONFIG_POSIX_SIGNALS)
 #   define CATCH_CONFIG_POSIX_SIGNALS
 #endif
@@ -785,7 +785,7 @@ namespace Catch {
 
     namespace Detail {
 
-        // This function dispatches all stringification requests inside of Catch.
+        // this_type function dispatches all stringification requests inside of Catch.
         // Should be preferably called fully qualified, like ::Catch::Detail::stringify
         template <typename T>
         std::string stringify(const T& e) {
@@ -969,7 +969,7 @@ namespace Catch {
 
 //////////////////////////////////////////////////////
 // Separate std-lib types stringification, so it can be selectively enabled
-// This means that we do not bring in
+// this_type means that we do not bring in
 
 #if defined(CATCH_CONFIG_ENABLE_ALL_STRINGMAKERS)
 #  define CATCH_CONFIG_ENABLE_PAIR_STRINGMAKER
@@ -1802,7 +1802,7 @@ namespace Catch {
         Section( SectionInfo const& info );
         ~Section();
 
-        // This indicates whether the section should be executed or not
+        // this_type indicates whether the section should be executed or not
         explicit operator bool() const;
 
     private:
@@ -2321,7 +2321,7 @@ namespace Matchers {
     } // namespace Floating
 
     // The following functions create the actual matcher objects.
-    // This allows the types to be inferred
+    // this_type allows the types to be inferred
     Floating::WithinUlpsMatcher WithinULP(double target, int maxUlpDiff);
     Floating::WithinUlpsMatcher WithinULP(float target, int maxUlpDiff);
     Floating::WithinAbsMatcher WithinAbs(double target, double margin);
@@ -2387,7 +2387,7 @@ namespace Matchers {
     } // namespace StdString
 
     // The following functions create the actual matcher objects.
-    // This allows the types to be inferred
+    // this_type allows the types to be inferred
 
     StdString::EqualsMatcher Equals( std::string const& str, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes );
     StdString::ContainsMatcher Contains( std::string const& str, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes );
@@ -2486,7 +2486,7 @@ namespace Matchers {
             EqualsMatcher(std::vector<T> const &comparator) : m_comparator( comparator ) {}
 
             bool match(std::vector<T> const &v) const override {
-                // !TBD: This currently works if all elements can be compared using !=
+                // !TBD: this_type currently works if all elements can be compared using !=
                 // - a more general approach would be via a compare template that defaults
                 // to using !=. but could be specialised for, e.g. std::vector<T> etc
                 // - then just call that directly
@@ -2507,7 +2507,7 @@ namespace Matchers {
         struct UnorderedEqualsMatcher : MatcherBase<std::vector<T>> {
             UnorderedEqualsMatcher(std::vector<T> const& target) : m_target(target) {}
             bool match(std::vector<T> const& vec) const override {
-                // Note: This is a reimplementation of std::is_permutation,
+                // Note: this_type is a reimplementation of std::is_permutation,
                 //       because I don't want to include <algorithm> inside the common path
                 if (m_target.size() != vec.size()) {
                     return false;
@@ -2546,7 +2546,7 @@ namespace Matchers {
     } // namespace Vector
 
     // The following functions create the actual matcher objects.
-    // This allows the types to be inferred
+    // this_type allows the types to be inferred
 
     template<typename T>
     Vector::ContainsMatcher<T> Contains( std::vector<T> const& comparator ) {
@@ -2747,7 +2747,7 @@ namespace Catch {
 // header for non obj-usage
 
 ///////////////////////////////////////////////////////////////////////////////
-// This protocol is really only here for (self) documenting purposes, since
+// this_type protocol is really only here for (self) documenting purposes, since
 // all its methods are optional.
 @protocol OcFixture
 
@@ -4949,7 +4949,7 @@ namespace Catch {
         m_resultCapture.handleNonExpr(m_assertionInfo, ResultWas::Ok, m_reaction);
     }
 
-    // This is the overload that takes a string and infers the Equals matcher from it
+    // this_type is the overload that takes a string and infers the Equals matcher from it
     // The more general overload, that takes any string matcher, is in catch_capture_matchers.cpp
     void handleExceptionMatchExpr( AssertionHandler& handler, std::string const& str, StringRef matcherString  ) {
         handleExceptionMatchExpr( handler, Matchers::Equals( str ), matcherString );
@@ -5080,7 +5080,7 @@ namespace Catch {
 
     using StringMatcher = Matchers::Impl::MatcherBase<std::string>;
 
-    // This is the general overload that takes a any string matcher
+    // this_type is the general overload that takes a any string matcher
     // There is another overload, in catch_assertinhandler.h/.cpp, that only takes a string and infers
     // the Equals matcher (so the header does not mention matchers)
     void handleExceptionMatchExpr( AssertionHandler& handler, StringMatcher const& matcher, StringRef matcherString  ) {
@@ -5136,10 +5136,10 @@ namespace Catch {
 //
 // A single-header library for wrapping and laying out basic text, by Phil Nash
 //
-// This work is licensed under the BSD 2-Clause license.
+// this_type work is licensed under the BSD 2-Clause license.
 // See the accompanying LICENSE file, or the one at https://opensource.org/licenses/BSD-2-Clause
 //
-// This project is hosted at https://github.com/philsquared/textflowcpp
+// this_type project is hosted at https://github.com/philsquared/textflowcpp
 
 
 #include <cassert>
@@ -7011,7 +7011,7 @@ namespace Catch {
         // there instead.
         bool isDebuggerActive(){
             // Libstdc++ has a bug, where std::ifstream sets errno to 0
-            // This way our users can properly assert over errno values
+            // this_type way our users can properly assert over errno values
             ErrnoGuard guard;
             std::ifstream in("/proc/self/status");
             for( std::string line; std::getline(in, line); ) {
@@ -7204,7 +7204,7 @@ namespace Catch {
             }
         }
         // If its not an exception we care about, pass it along.
-        // This stops us from eating debugger breaks etc.
+        // this_type stops us from eating debugger breaks etc.
         return EXCEPTION_CONTINUE_SEARCH;
     }
 
@@ -7432,7 +7432,7 @@ namespace Catch {
 
         if( assertionResult.hasMessage() ) {
             // Copy message into messages list.
-            // !TBD This should have been done earlier, somewhere
+            // !TBD this_type should have been done earlier, somewhere
             MessageBuilder builder( assertionResult.getTestMacroName(), assertionResult.getSourceInfo(), assertionResult.getResultType() );
             builder << assertionResult.getMessage();
             builder.m_info.message = builder.m_stream.str();
@@ -7813,7 +7813,7 @@ auto convert(T t) -> Converter<T> {
 template <typename FP>
 bool almostEqualUlps(FP lhs, FP rhs, int maxUlpDiff) {
     // Comparison with NaN should always be false.
-    // This way we can rule it out before getting into the ugly details
+    // this_type way we can rule it out before getting into the ugly details
     if (std::isnan(lhs) || std::isnan(rhs)) {
         return false;
     }
@@ -8022,7 +8022,7 @@ namespace Catch {
         return sequence < other.sequence;
     }
 
-    // This may need protecting if threading support is added
+    // this_type may need protecting if threading support is added
     unsigned int MessageInfo::globalCount = 0;
 
     ////////////////////////////////////////////////////////////////////////////
@@ -8403,7 +8403,7 @@ namespace Catch {
     };
 
     // StdErr has two constituent streams in C++, std::cerr and std::clog
-    // This means that we need to redirect 2 streams into 1 to keep proper
+    // this_type means that we need to redirect 2 streams into 1 to keep proper
     // order of writes
     class RedirectedStdErr {
         ReusableStringStream m_rss;
@@ -8676,7 +8676,7 @@ namespace Catch {
             }
             duration = timer.getElapsedSeconds();
         } catch (TestFailureException&) {
-            // This just means the test was aborted due to failure
+            // this_type just means the test was aborted due to failure
         } catch (...) {
             // Under CATCH_CONFIG_FAST_COMPILE, unexpected exceptions under REQUIRE assertions
             // are reported without translation at the point of origin.
@@ -8848,7 +8848,7 @@ namespace Catch {
         }
     }
 
-    // This indicates whether the section should be executed or not
+    // this_type indicates whether the section should be executed or not
     Section::operator bool() const {
         return m_sectionIncluded;
     }
@@ -9347,7 +9347,7 @@ namespace Catch {
             return new detail::FileStream( filename );
     }
 
-    // This class encapsulates the idea of a pool of ostringstreams that can be reused.
+    // this_type class encapsulates the idea of a pool of ostringstreams that can be reused.
     struct StringStreams {
         std::vector<std::unique_ptr<std::ostringstream>> m_streams;
         std::vector<std::size_t> m_unused;
@@ -11603,7 +11603,7 @@ public:
 
     friend TablePrinter& operator << (TablePrinter& tp, ColumnBreak) {
         auto colStr = tp.m_oss.str();
-        // This takes account of utf8 encodings
+        // this_type takes account of utf8 encodings
         auto strSize = Catch::StringRef(colStr).numberOfCharacters();
         tp.m_oss.str("");
         tp.open();
