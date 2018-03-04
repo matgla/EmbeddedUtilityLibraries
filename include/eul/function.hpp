@@ -18,12 +18,12 @@ public:
     constexpr static std::size_t size = Size;
 
     using StorageType = typename std::aligned_storage<size, 8>::type;
-    using This                = function<ReturnType(Args...), size>;
+    using This        = function<ReturnType(Args...), size>;
     explicit operator bool() const noexcept
     {
         return vtable_.exec != nullptr;
     }
-    
+
     function(const function& otherFunction)
     {
         if (otherFunction)
@@ -31,6 +31,7 @@ public:
             otherFunction.copyTo(storage_, &vtable_);
         }
     }
+
     function(function& otherFunction)
     {
         if (otherFunction)
@@ -42,6 +43,16 @@ public:
     function(function&& oldFunction)
     {
         oldFunction.copyTo(storage_, &vtable_);
+    }
+
+    function& operator=(const function& otherFunction)
+    {
+        if (vtable_.exec)
+        {
+            vtable_.destructor(&storage_);
+        }
+        otherFunction.copyTo(storage_, &vtable_);
+        return *this;
     }
 
     template <class FunctionType>
@@ -69,20 +80,28 @@ public:
         return vtable_.exec(&storage_, std::forward<Args>(args)...);
     }
 
+    ReturnType operator()(Args... args) const
+    {
+        assert(vtable_.exec != nullptr && "Function not initialized!");
+        return vtable_.exec(&storage_, std::forward<Args>(args)...);
+    }
+
     void copyTo(StorageType& newPlace, void* vtable) const
     {
         vtable_.copy(&storage_, &newPlace, vtable);
     }
 
-private:    
-struct VTable
+private:
+    struct VTable
     {
-        VTable() : exec{nullptr}, destructor{nullptr}, copy{nullptr}, move{nullptr}
-        {}
+        VTable()
+            : exec{nullptr}, destructor{nullptr}, copy{nullptr}, move{nullptr}
+        {
+        }
         using ExecutorType   = ReturnType (*)(void*, Args&&...);
         using DestructorType = void (*)(void*);
         using CopyType       = void (*)(const void*, void*, void* vtable);
-        using MoveType       = void (*)(void*);
+        using MoveType       = void (*)(const void*, void*, void* vtable);
 
         ExecutorType exec;
         DestructorType destructor;
@@ -111,11 +130,24 @@ struct VTable
     static void copy(const void* data, void* place, void* vtable)
     {
         const FunctionType f = *static_cast<const FunctionType*>(data);
-        VTable& vt = *static_cast<VTable*>(vtable);
+        VTable& vt           = *static_cast<VTable*>(vtable);
         new (place) FunctionType(f);
         vt.exec       = &execute<FunctionType>;
         vt.destructor = &deleteCallback<FunctionType>;
         vt.copy       = &copy<FunctionType>;
+        vt.move       = &move<FunctionType>;
+    }
+
+    template <class FunctionType>
+    static void move(const void* data, void* place, void* vtable)
+    {
+        const FunctionType& f = *static_cast<const FunctionType*>(data);
+        VTable& vt            = *static_cast<VTable*>(vtable);
+        new (place) FunctionType(std::move(f));
+        vt.exec       = &execute<FunctionType>;
+        vt.destructor = &deleteCallback<FunctionType>;
+        vt.copy       = &copy<FunctionType>;
+        vt.move       = &move<FunctionType>;
     }
 
     template <class FunctionType>
@@ -130,6 +162,7 @@ struct VTable
         vtable_.exec       = &execute<DecayedFunctionType>;
         vtable_.destructor = &deleteCallback<DecayedFunctionType>;
         vtable_.copy       = &copy<DecayedFunctionType>;
+        vtable_.move       = &move<DecayedFunctionType>;
     }
 
     StorageType storage_;
