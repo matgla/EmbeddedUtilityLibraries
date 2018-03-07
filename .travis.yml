@@ -1,22 +1,5 @@
 language: cpp
 dist: trusty
-#services:
-#  - docker
-
-#before_install:
-#  - docker pull matgla/esp8266
-#  - docker ps -a
-#  - sudo apt-get install lcov
-#  - gem install coveralls-lcov
-#script:
-#  - docker run -v $(pwd):/mnt/repo -it matgla/esp8266 /bin/sh -c "cd /mnt/repo && sh run_tests.sh && sh build_x86.sh"
-
-#after_success:
-#  - cd bin_tests
-#  - lcov --directory . --capture --output-file coverage.info # capture coverage info
-#  - lcov --remove coverage.info 'test/*' '/usr/*' 'lib/*' 'src/hal*' --output-file coverage.info # filter out system and test code
-#  - lcov --list coverage.info # debug before upload
-#  - coveralls-lcov --repo-token ${COVERALLS_TOKEN} coverage.info # uploads to coveralls
 
 before_script:
   - mkdir build
@@ -38,33 +21,9 @@ before_script:
     fi
 matrix:
   include:
-    ################################
-    #           doxygen            #
-    ################################
-    # - os: linux
-      # env:
-      #   - TEST="Doxygen"
-      # addons:
-      #   apt:
-      #     packages:
-      #       - doxygen
-      # script:
-      #   - cd ..
-      #   - doxygen .doxygen.txt
-      #   - |
-      #   - if [[ -s doxygen_warnings.txt ]]; then
-      #       echo "Doxygen generation failed"
-      #       echo ""
-      #       cat doxygen_warnings.txt
-      #       exit -1
-      #     fi
-      
-    ################################
-    #             UTs              #
-    ################################
-   - os: linux
-   env:
-      - TEST="Clang Tidy"
+    - os: linux
+    env:
+      - TEST="Unit Tests"
     addons:
       apt:
         sources:
@@ -81,47 +40,6 @@ matrix:
       - cmake .. -DCLANG_TIDY=ON -DBUILD_TESTS=ON -DARCH=X86
       - make
       - test/UT/eul_tests
-  #    - make clang_tidy > tidy.log 2>&1
-  #    - |
-  #      if [[ -n $(grep "warning: " output.txt) ]] || [[ -n $(grep "error: " output.txt) ]]; then
-  #          echo "You have to pass the clang tidy checks before submitting a pull request"
-  #          echo ""
-  #          grep --color -E '^|warning: |error: ' output.txt
-  #          exit -1;
-  #      else
-  #          echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
-  #      fi
 
-   ################################
-    #          clang-tidy          #
-    ################################
-  # - os: linux
-  # env:
-  #    - TEST="Clang Tidy"
-  #  addons:
-  #    apt:
-  #      sources:
-  #        - ubuntu-toolchain-r-test
-  #        - llvm-toolchain-trusty-5.0
-  #      packages:
-  #        - clang-5.0
-  #        - clang-tidy-5.0
-  #        - gcc-7
-  #        - g++-7
-  #  script:
-  #    - mkdir bin_test
-  #    - cd bin_test
-  #    - cmake .. -DCLANG_TIDY=ON -DBUILD_TESTS=ON -DARCH=X86
-  #    - make
-  #    - make clang_tidy > tidy.log 2>&1
-  ##    - |
-  #      if [[ -n $(grep "warning: " output.txt) ]] || [[ -n $(grep "error: " output.txt) ]]; then
-  #          echo "You have to pass the clang tidy checks before submitting a pull request"
-  #          echo ""
-  #          grep --color -E '^|warning: |error: ' output.txt
-  #          exit -1;
-  #      else
-  #          echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
-  #      fi
 install: true
 script: true
