@@ -7,7 +7,7 @@ file(GLOB_RECURSE eul_srcs
     "include/eul/event_loop.hpp"
     )
 
-set(Eul_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include/eul" CACHE STRING "path to EUL sources" FORCE)
+set(Eul_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include" CACHE STRING "path to EUL sources" FORCE)
 
 add_library(eul INTERFACE)
 target_sources(eul INTERFACE ${eul_srcs})

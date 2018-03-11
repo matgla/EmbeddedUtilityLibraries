@@ -97,13 +97,13 @@ TEST_CASE("Function test", "[FunctionTests]")
 
             REQUIRE(value == 1234567);
             REQUIRE(constructorCalled == 1);
-            REQUIRE(destructorCalled == 2);
+            REQUIRE(destructorCalled == 1);
 
             f2(11);
         }
         REQUIRE(value == 11);
         REQUIRE(constructorCalled == 1);
-        REQUIRE(destructorCalled == 4);
+        REQUIRE(destructorCalled == 3);
     }
 
     SECTION("Copy by operator")
@@ -118,13 +118,13 @@ TEST_CASE("Function test", "[FunctionTests]")
 
             REQUIRE(value == 1234567);
             REQUIRE(constructorCalled == 1);
-            REQUIRE(destructorCalled == 2);
+            REQUIRE(destructorCalled == 1);
 
             f2(11);
         }
         REQUIRE(value == 11);
         REQUIRE(constructorCalled == 1);
-        REQUIRE(destructorCalled == 4);
+        REQUIRE(destructorCalled == 3);
     }
 
     SECTION("Copy by operator")
