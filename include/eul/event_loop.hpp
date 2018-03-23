@@ -34,8 +34,6 @@ class event_loop;
 template <std::size_t CallbackSize, typename... Events>
 struct events
 {
-    template <typename... Args>
-    void operator()(std::size_t, Args...);
     constexpr static std::size_t callbackSize = CallbackSize;
     using event_list = std::tuple<Events...>;
 };
