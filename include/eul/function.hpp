@@ -93,6 +93,7 @@ public:
         if (isCallable_)
         {
             get_invoker().~IFunctionInvoker();
+            isCallable_ = false;
         }
     }
 
@@ -102,7 +103,13 @@ public:
         if (other)
         {
             other.copy_to(storage_);
+            isCallable_ = true;
         }
+        else 
+        {
+            isCallable_ = false;        
+        }
+    
         return *this;
     }
 
@@ -112,7 +119,13 @@ public:
         if (other)
         {
             other.move_to(storage_);
+            isCallable_ = true;
         }
+        else 
+        {
+            isCallable_ = false;        
+        }
+        
         return *this;
     }
 

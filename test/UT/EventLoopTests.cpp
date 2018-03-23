@@ -31,7 +31,7 @@ TEST_CASE("Event loop", "[EventLoop]")
         fakeit::Mock<CallMeInterface> mock;
 
 
-        eul::event_loop<8, A, B, C> loop;
+        eul::event_loop<eul::events<8, A, B, C>> loop;
 
         Fake(Method(mock, a));
         When(Method(mock, a)).AlwaysReturn();

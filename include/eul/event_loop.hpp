@@ -28,48 +28,49 @@ struct binder<CallbackSize, std::tuple<Args...>>
 };
 } // namespace detail
 
+template <typename Event>
+class event_loop;
+
 template <std::size_t CallbackSize, typename... Events>
+struct events
+{
+    template <typename... Args>
+    void operator()(std::size_t, Args...);
+    constexpr static std::size_t callbackSize = CallbackSize;
+    using event_list = std::tuple<Events...>;
+};
+
+template <typename Events>
 class event_loop
 {
 public:
     template <typename EventType>
-    using callback_type = function<void(const EventType&), CallbackSize>;
+    using callback_type = function<void(const EventType&), Events::callbackSize>;
 
     template <typename EventType>
-    void register_event(const callback_type<EventType>& callback);
+    void register_event(const callback_type<EventType>& callback)
+    {
+        std::get<callback_type<EventType>>(callbacks_) = callback;
+    }
 
     template <typename EventType>
-    constexpr void dispatch(const EventType& event);
+    constexpr void dispatch(const EventType& event)
+    {
+        if (!std::get<callback_type<EventType>>(callbacks_))
+        {
+            return;
+        }
+        std::get<callback_type<EventType>>(callbacks_)(event);
+    }
 
     template <typename EventType>
-    constexpr void unregister();
+    constexpr void unregister()
+    {
+        std::get<callback_type<EventType>>(callbacks_) = nullptr;
+    }
 
 private:
-    typename detail::binder<CallbackSize, std::tuple<Events...>>::type callbacks_;
+    typename detail::binder<Events::callbackSize, typename Events::event_list>::type callbacks_;
 };
 
-template <std::size_t CallbackSize, typename... Events>
-template <typename EventType>
-constexpr void event_loop<CallbackSize, Events...>::dispatch(const EventType& event)
-{
-    if (!std::get<callback_type<EventType>>(callbacks_))
-    {
-        return;
-    }
-    std::get<callback_type<EventType>>(callbacks_)(event);
-}
-
-template <std::size_t CallbackSize, typename... Events>
-template <typename EventType>
-constexpr void event_loop<CallbackSize, Events...>::unregister()
-{
-    std::get<callback_type<EventType>>(callbacks_) = nullptr;
-}
-
-template <std::size_t CallbackSize, typename... Events>
-template <typename EventType>
-void event_loop<CallbackSize, Events...>::register_event(const callback_type<EventType>& callback)
-{
-    std::get<callback_type<EventType>>(callbacks_) = callback;
-}
 } // namespace eul
