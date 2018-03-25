@@ -78,6 +78,7 @@ public:
     }
 
     template <class F>
+    // cppcheck-suppress  noExplicitConstructor
     function(F&& f)
     {
         register_callback(std::forward<F>(f));
@@ -105,11 +106,11 @@ public:
             other.copy_to(storage_);
             isCallable_ = true;
         }
-        else 
+        else
         {
-            isCallable_ = false;        
+            isCallable_ = false;
         }
-    
+
         return *this;
     }
 
@@ -121,11 +122,11 @@ public:
             other.move_to(storage_);
             isCallable_ = true;
         }
-        else 
+        else
         {
-            isCallable_ = false;        
+            isCallable_ = false;
         }
-        
+
         return *this;
     }
 
@@ -196,7 +197,7 @@ private:
     {
         FunctionInvoker(const FunctionInvoker&) = default;
         FunctionInvoker(FunctionInvoker&&)      = default;
-        FunctionInvoker(FunctionType&& function)
+        explicit FunctionInvoker(FunctionType&& function)
             : function_(function)
         {
         }

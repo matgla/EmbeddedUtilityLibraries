@@ -35,7 +35,7 @@ template <std::size_t CallbackSize, typename... Events>
 struct events
 {
     constexpr static std::size_t callbackSize = CallbackSize;
-    using event_list = std::tuple<Events...>;
+    using event_list                          = std::tuple<Events...>;
 };
 
 template <typename Events>
