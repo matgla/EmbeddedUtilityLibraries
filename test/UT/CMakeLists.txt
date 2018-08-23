@@ -3,8 +3,9 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
 set (test_sources
-    FunctionTests.cpp
     EventLoopTests.cpp
+    FunctionTests.cpp
+    MemoryPoolTests.cpp
     Runner.cpp
 )
 
