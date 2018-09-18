@@ -1,9 +1,10 @@
 #pragma once
 
 #include <array>
-#include <iomanip>
-#include <iostream>
 #include <type_traits>
+
+#include <string>
+#include <sstream>
 
 #include "eul/assert.hpp"
 
@@ -14,6 +15,7 @@ template<typename Type, typename PoolType>
 struct pool_unique_ptr
 {
     using SizeType = typename PoolType::SizeType;
+    
     pool_unique_ptr(Type* ptr, PoolType& pool, SizeType positionInBuffer) : ptr_(ptr), pool_(pool), positionInBuffer_(positionInBuffer)
     {
     }
@@ -21,13 +23,28 @@ struct pool_unique_ptr
     ~pool_unique_ptr()
     {
         ptr_->~Type();
-        pool_.deallocate(this);
+        pool_.deallocate(*this);
     }
     
     Type* operator->() const noexcept
     {
         return ptr_;
     }
+    
+    typename std::add_lvalue_reference<Type>::type operator*() const
+    {
+        return ptr_;
+    }
+    
+    bool operator==(nullptr_t) const
+    {
+        return ptr_ == nullptr;
+    }   
+    
+    bool operator!=(nullptr_t) const
+    {
+        return ptr_ != nullptr;
+    }   
     
     void reset()
     {
@@ -37,7 +54,7 @@ struct pool_unique_ptr
         }
         
         ptr_->~Type();
-        pool_.deallocate(this);
+        pool_.deallocate(*this);
         
         ptr_ = nullptr;
     }
@@ -53,7 +70,7 @@ struct pool_unique_ptr
 };
     
 template<typename Type, typename PoolType>
-auto make_pool_unique_ptr(Type* ptr, PoolType& pool, PoolType::SizeType positionInBuffer)
+pool_unique_ptr<Type, PoolType> make_pool_unique_ptr(Type* ptr, PoolType& pool, typename PoolType::SizeType positionInBuffer)
 {
     return pool_unique_ptr(ptr, pool, positionInBuffer);
 }
@@ -77,6 +94,7 @@ struct MemoryPool
     using Storage = std::aligned_storage<sizeof(std::max_align_t), alignof(std::max_align_t)>::type;
     using SizeType = TSizeType;
 
+
     MemoryPool() : start_(0), current_(0), end_(0) 
     {
     }
@@ -93,16 +111,15 @@ struct MemoryPool
     }
 
     template <typename T, typename... Args>
-    auto allocate(Args&&... args)
+    pool_unique_ptr<T, MemoryPool<TSizeType, Size>> allocate(Args&&... args)
     {
         constexpr auto allocationSize = ceilingDivision(sizeof(T), sizeof(std::max_align_t)) + getAllocationHeaderSize();
         static_assert(allocationSize <= Size, "Not enough space in buffer");
         const auto freeSpace = (data_.size() - current_);
 
-        std::cerr << "allocate: " << std::to_string(allocationSize) << ", free: " << std::to_string(freeSpace) << std::endl; 
         if (allocationSize > freeSpace)
         {
-            return nullptr;
+            return pool_unique_ptr<T, MemoryPool<TSizeType, Size>>(nullptr, *this, 0);
         }
         current_ = end_;
         AllocationInfo<SizeType>* allocationHeader = new(&data_[current_]) AllocationInfo<SizeType>;
@@ -117,10 +134,20 @@ struct MemoryPool
     }
     
     template <typename T>
-    void deallocate(pool_unique_ptr<T, decltype(*this)>* data)
+    void deallocate(const pool_unique_ptr<T, MemoryPool<TSizeType, Size>>& data)
     {
-        AllocationInfo<SizeType>* header = reinterpret_cast<AllocationInfo<SizeType>*>(data_[data.position()]);
-        std::cerr << "0x: " << std::hex << static_cast<int>(header->state) << std::endl;
+        AllocationInfo<SizeType>* header = reinterpret_cast<AllocationInfo<SizeType>*>(&data_[data.position()]);
+    }
+    
+    std::string draw() const 
+    {
+        std::stringstream ss;
+        ss << "[";
+        bool endMemory = data_.size() == 0;
+        while (!endMemory)
+        {
+            AllocationInfo<SizeType>* header = reinterpret_cast<AllocationInfo<SizeType>*>(&data_[start_]);
+        }
     }
     
     int start_;
