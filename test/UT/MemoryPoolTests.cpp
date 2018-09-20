@@ -145,4 +145,28 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
         REQUIRE(isObject1Destroyed);
         REQUIRE(isObject2Destroyed);
     }
+    
+    SECTION("Best fit new object")
+    {
+        // b - free block ( sizeof(std::max_align_t), i.e 32bytes) 
+        // r - reserved block
+        // step 0
+        // [b b b b b b b b b b]
+        // step 1: allocation of 1.5 blocks (a1)
+        // [r r r b b b b b b b]
+        // step 2: allocation of 3 blocks (a2)
+        // [r r r r r r r b b b]
+        // step 3: deallocation a1
+        // [b b b r r r r b b b]
+        // step 4: allocation of 1 block (a3)
+        // [r r b r r r r b b b]
+        // step 5: allocation of 2 blocks (a4)
+        // [r r b r r r r r r r]
+        // step 6: allocation of 1 block (a5)
+        // -> fail
+    
+        
+        
+        
+    }
 }

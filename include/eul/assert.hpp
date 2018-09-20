@@ -7,6 +7,11 @@ namespace eul
 
 void assertFailed(const char* expr, const char* file, int line, const char* function, const char* msg)
 {
+    static_cast<void>(expr);
+    static_cast<void>(file);
+    static_cast<void>(line);
+    static_cast<void>(function);
+    static_cast<void>(msg);
 }
 
 } // namespace eul
