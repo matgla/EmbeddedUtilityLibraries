@@ -27,6 +27,7 @@ struct AllocationTestObject
     long double d;
 };
 
+
 class DestructorTester
 {
 public:
@@ -34,12 +35,12 @@ public:
     {
         destructed = false;
     }
-    
+
     ~DestructorTester()
     {
         destructed_ = true;
     }
-    
+
 private:
     bool& destructed_;
 };
@@ -52,7 +53,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
         auto test = sut.allocate<ConstructorTester>();
         REQUIRE(test->constructed());
     }
-    
+
     SECTION("allocate data")
     {
         eul::MemoryPool<uint8_t, 128> sut;
@@ -66,7 +67,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
         constexpr double double2 = 123512.1235325;
         constexpr char char2 = 'c';
         constexpr long double ldouble2 = -1234566788.865432;
-        
+
         test->a = integer1;
         test->b = double1;
         test->c = char1;
@@ -75,7 +76,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
         REQUIRE(test->b == double1);
         REQUIRE(test->c == char1);
         REQUIRE(test->d == ldouble1);
-        
+
         auto test2 = sut.allocate<AllocationTestObject>();
         REQUIRE(test2 != nullptr);
         test2->a = integer2;
@@ -86,7 +87,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
         REQUIRE(test->b == double1);
         REQUIRE(test->c == char1);
         REQUIRE(test->d == ldouble1);
-        
+
         REQUIRE(test2->a == integer2);
         REQUIRE(test2->b == double2);
         REQUIRE(test2->c == char2);
@@ -99,7 +100,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
         REQUIRE(test2->d == ldouble2);
 
     }
-    
+
     SECTION("don't overflow buffer")
     {
         eul::MemoryPool<uint8_t, sizeof(AllocationTestObject)/sizeof(uint8_t)*2> sut;
@@ -113,7 +114,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
         constexpr double double2 = 123512.1235325;
         constexpr char char2 = 'c';
         constexpr long double ldouble2 = -1234566788.865432;
-        
+
         test->a = integer1;
         test->b = double1;
         test->c = char1;
@@ -122,7 +123,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
         REQUIRE(test->b == double1);
         REQUIRE(test->c == char1);
         REQUIRE(test->d == ldouble1);
-        
+
         auto test2 = sut.allocate<AllocationTestObject>();
         REQUIRE(test2 == nullptr);
         REQUIRE(test->a == integer1);
@@ -130,7 +131,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
         REQUIRE(test->c == char1);
         REQUIRE(test->d == ldouble1);
     }
-    
+
     SECTION("Destroys object while deallocation")
     {
         eul::MemoryPool<uint8_t, 128> sut;
@@ -145,10 +146,10 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
         REQUIRE(isObject1Destroyed);
         REQUIRE(isObject2Destroyed);
     }
-    
+
     SECTION("Best fit new object")
     {
-        // b - free block ( sizeof(std::max_align_t), i.e 32bytes) 
+        // b - free block ( sizeof(std::max_align_t), i.e 32bytes)
         // r - reserved block
         // step 0
         // [b b b b b b b b b b]
@@ -164,9 +165,9 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
         // [r r b r r r r r r r]
         // step 6: allocation of 1 block (a5)
         // -> fail
-    
-        
-        
-        
+
+
+
+
     }
 }

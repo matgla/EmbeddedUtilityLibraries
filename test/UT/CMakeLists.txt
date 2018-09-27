@@ -7,6 +7,8 @@ set (test_sources
     FunctionTests.cpp
     MemoryPoolTests.cpp
     Runner.cpp
+    mpl/FilterTests.cpp
+    mpl/InheritFromTests.cpp
 )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-result -std=c++17 -Wall -Wextra")
@@ -20,3 +22,8 @@ endif (DEBUG)
 add_executable(eul_tests ${test_sources})
 target_link_libraries(eul_tests eul)
 enable_testing()
+
+add_custom_target(run_eul_ut
+  COMMAND "${CMAKE_BINARY_DIR}/test/UT/eul_tests"
+  DEPENDS eul_tests
+)

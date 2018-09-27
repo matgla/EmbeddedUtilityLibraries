@@ -1,0 +1,7 @@
+-I/home/mateusz/repos/MSMP/lib/eul/test/lib
+-I/home/mateusz/repos/MSMP/lib/eul/include
+-I/home/mateusz/repos/MSMP/lib/eul/src
+-Wno-unused-result
+-std=c++17
+-Wall
+-Wextra
