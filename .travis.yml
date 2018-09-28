@@ -19,27 +19,26 @@ dist: trusty
 #    else
 #      if ! brew ls --version cmake &>/dev/null; then brew install cmake; fi
 #    fi
-#matrix:
-#  include:
-#    - os: linux
-#    env:
-#      - TEST="Unit Tests"
-#    addons:
-#      apt:
-#        sources:
-#          - ubuntu-toolchain-r-test
-#          - llvm-toolchain-trusty-5.0
-#        packages:
-#          - clang-5.0
-#          - clang-tidy-5.0
-#          - gcc-7
-#          - g++-7
-#    script:
-#      - mkdir bin_test
-#      - cd bin_test
-#      - cmake .. -DCLANG_TIDY=ON -DBUILD_TESTS=ON -DARCH=X86
-#      - make
-#      - test/UT/eul_tests
-
-#install: true
-#script: true
+matrix:
+  include:
+    - os: linux
+    env:
+      - TEST="Unit Tests"
+    addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+          - llvm-toolchain-trusty-5.0
+        packages:
+          - clang-5.0
+          - clang-tidy-5.0
+          - gcc-7
+          - g++-7
+    script:
+      - mkdir bin_test
+      - cd bin_test
+      - cmake .. -DCLANG_TIDY=ON -DBUILD_TESTS=ON -DARCH=X86
+      - make
+      - test/UT/eul_tests
+install: true
+script: true
