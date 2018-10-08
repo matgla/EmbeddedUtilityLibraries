@@ -108,6 +108,18 @@ struct InterfaceC
         data.for_each(ability<has_set_a_method>{},
                       [a](auto& data) { data.setA(a); });
     }
+
+    void setDifferentAllA(int a)
+    {
+        a_        = a;
+        auto data = access<BaseType>(this);
+        data.for_each(ability<has_set_a_method>{}, [this](auto& data) {
+            data.setA(a_);
+            a_ += 10;
+        });
+    }
+
+    int a_;
 };
 
 struct DataForC
@@ -165,6 +177,11 @@ TEST_CASE("Mixin should", "[Mixin]")
         object.setAllA(11);
         REQUIRE(object.data1() == 11);
         REQUIRE(object.data2() == 11);
+
+        object.setDifferentAllA(40);
+
+        REQUIRE(object.data1() == 40);
+        REQUIRE(object.data2() == 50);
     }
 }
 
