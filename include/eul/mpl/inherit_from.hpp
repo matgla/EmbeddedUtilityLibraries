@@ -7,8 +7,8 @@ namespace eul
 namespace mpl
 {
 
-template <typename... Types>
-struct inherit_from : public Types...
+template <typename MixinType, template <typename> typename... Types>
+struct inherit_from : public Types<MixinType>...
 {
 };
 

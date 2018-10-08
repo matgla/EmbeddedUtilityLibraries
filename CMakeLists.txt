@@ -12,6 +12,9 @@ target_sources(eul INTERFACE
     "${PROJECT_SOURCE_DIR}/include/eul/logger.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/traits.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/utils.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/mpl/filter.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/mpl/inherit_from.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/interface.hpp"
 )
 
 target_include_directories(eul INTERFACE ${Eul_INCLUDE_DIR})

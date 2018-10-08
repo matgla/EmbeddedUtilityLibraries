@@ -9,9 +9,10 @@ set (test_sources
     Runner.cpp
     mpl/FilterTests.cpp
     mpl/InheritFromTests.cpp
+    mpl/mixin/MixinTests.cpp
 )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-result -std=c++17 -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-result -std=c++17 -Wall -Wextra -fconcepts")
 
 if (DEBUG)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Og")

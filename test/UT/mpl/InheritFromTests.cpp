@@ -10,6 +10,7 @@ namespace eul
 namespace mpl
 {
 
+template <typename ParentType>
 struct ChildOne
 {
 public:
@@ -19,6 +20,7 @@ public:
     }
 };
 
+template <typename ParentType>
 struct ChildTwo
 {
 public:
@@ -32,7 +34,7 @@ TEST_CASE("InheritFrom should", "[InheritFrom]")
 {
     SECTION("Inherit from one type")
     {
-        struct Parent : public eul::mpl::inherit_from<ChildOne>
+        struct Parent : public eul::mpl::inherit_from<Parent, ChildOne>
         {
         };
         Parent p;
@@ -42,7 +44,7 @@ TEST_CASE("InheritFrom should", "[InheritFrom]")
 
     SECTION("Inherit from multiple types")
     {
-        struct Parent : public eul::mpl::inherit_from<ChildOne, ChildTwo>
+        struct Parent : public eul::mpl::inherit_from<Parent, ChildOne, ChildTwo>
         {
         };
 
@@ -51,10 +53,10 @@ TEST_CASE("InheritFrom should", "[InheritFrom]")
         REQUIRE(p.someNumber() == 10);
     }
 
-    SECTION("Inherit from tuple")
+    SECTION("inherit from tuple")
     {
         struct Parent
-            : public eul::mpl::inherit_from<std::tuple<ChildOne, ChildTwo>>
+            : public eul::mpl::inherit_from<std::tuple<ChildOne<Parent>, ChildTwo<Parent>>>
         {
         };
 
