@@ -66,6 +66,9 @@ struct has_set_a_method
     };
 };
 
+struct DataForC;
+struct Data2ForC;
+
 template <typename BaseType>
 struct InterfaceC
 {
@@ -86,6 +89,25 @@ struct InterfaceC
         auto data = access<BaseType>(this);
         return data[ability<has_set_a_method>{}].a_;
     }
+
+    int data1()
+    {
+        auto data = access<BaseType>(this);
+        return data[type<DataForC>{}].a_;
+    }
+
+    int data2()
+    {
+        auto data = access<BaseType>(this);
+        return data[type<Data2ForC>{}].a_;
+    }
+
+    void setAllA(int a)
+    {
+        auto data = access<BaseType>(this);
+        data.for_each(ability<has_set_a_method>{},
+                      [a](auto& data) { data.setA(a); });
+    }
 };
 
 struct DataForC
@@ -96,6 +118,16 @@ struct DataForC
     }
 
     int a_ = 2;
+};
+
+struct Data2ForC
+{
+    void setA(int a)
+    {
+        a_ = a;
+    }
+
+    int a_ = 5;
 };
 
 TEST_CASE("Mixin should", "[Mixin]")
@@ -121,6 +153,18 @@ TEST_CASE("Mixin should", "[Mixin]")
         object.setA(15);
         REQUIRE(object.callA() == 15);
         REQUIRE(object.returnA() == 15);
+    }
+
+    SECTION("for each ability")
+    {
+        auto object = mixin<interface<InterfaceC>::type, data<DataForC>::type,
+                            data<Data2ForC>::type>();
+        REQUIRE(object.data1() == 2);
+        REQUIRE(object.data2() == 5);
+
+        object.setAllA(11);
+        REQUIRE(object.data1() == 11);
+        REQUIRE(object.data2() == 11);
     }
 }
 
