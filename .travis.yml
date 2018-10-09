@@ -41,8 +41,5 @@ before_script:
 #          - gcc-7
 #          - g++-7
 script:
-- mkdir bin_test
-- cd bin_test
-- cmake .. -DCLANG_TIDY=ON -DBUILD_TESTS=ON -DARCH=X86 -GNinja
-- ninja
-- test/UT/eul_tests
+- cmake .. -DBUILD_TESTS=ON -GNinja
+- ninja run_eul_ut
