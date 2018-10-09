@@ -1,6 +1,6 @@
 language: cpp
 dist: trusty
-install: ninja
+install: ninja-build
 
 before_script:
 - mkdir build
