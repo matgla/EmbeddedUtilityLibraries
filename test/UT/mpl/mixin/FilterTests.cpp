@@ -3,11 +3,13 @@
 
 #include <catch.hpp>
 
-#include "eul/mpl/filter.hpp"
+#include "eul/mpl/mixin/filter.hpp"
 
 namespace eul
 {
 namespace mpl
+{
+namespace mixin
 {
 
 template <typename... T>
@@ -67,5 +69,6 @@ TEST_CASE("Filter should", "[Filter]")
     }
 }
 
+} // namespace mixin
 } // namespace mpl
 } // namespace eul

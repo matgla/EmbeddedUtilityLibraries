@@ -3,11 +3,13 @@
 
 #include <catch.hpp>
 
-#include "eul/mpl/inherit_from.hpp"
+#include "eul/mpl/mixin/inherit_from.hpp"
 
 namespace eul
 {
 namespace mpl
+{
+namespace mixin
 {
 
 template <typename ParentType>
@@ -34,7 +36,7 @@ TEST_CASE("InheritFrom should", "[InheritFrom]")
 {
     SECTION("Inherit from one type")
     {
-        struct Parent : public eul::mpl::inherit_from<Parent, ChildOne>
+        struct Parent : public eul::mpl::mixin::inherit_from<Parent, ChildOne>
         {
         };
         Parent p;
@@ -44,7 +46,8 @@ TEST_CASE("InheritFrom should", "[InheritFrom]")
 
     SECTION("Inherit from multiple types")
     {
-        struct Parent : public eul::mpl::inherit_from<Parent, ChildOne, ChildTwo>
+        struct Parent
+            : public eul::mpl::mixin::inherit_from<Parent, ChildOne, ChildTwo>
         {
         };
 
@@ -55,8 +58,8 @@ TEST_CASE("InheritFrom should", "[InheritFrom]")
 
     SECTION("inherit from tuple")
     {
-        struct Parent
-            : public eul::mpl::inherit_from<std::tuple<ChildOne<Parent>, ChildTwo<Parent>>>
+        struct Parent : public eul::mpl::mixin::inherit_from<
+                            std::tuple<ChildOne<Parent>, ChildTwo<Parent>>>
         {
         };
 
@@ -66,5 +69,6 @@ TEST_CASE("InheritFrom should", "[InheritFrom]")
     }
 }
 
+} // namespace mixin
 } // namespace mpl
 } // namespace eul

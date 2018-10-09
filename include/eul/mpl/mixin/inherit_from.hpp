@@ -6,6 +6,8 @@ namespace eul
 {
 namespace mpl
 {
+namespace mixin
+{
 
 template <typename MixinType, template <typename> typename... Types>
 struct inherit_from : public Types<MixinType>...
@@ -17,5 +19,6 @@ struct inherit_from<std::tuple<T...>> : public T...
 {
 };
 
+} // namespace mixin
 } // namespace mpl
 } // namespace eul

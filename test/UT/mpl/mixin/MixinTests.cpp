@@ -5,8 +5,10 @@
 
 #include <catch.hpp>
 
+#include "eul/mpl/mixin/access.hpp"
+#include "eul/mpl/mixin/data.hpp"
 #include "eul/mpl/mixin/interface.hpp"
-#include "eul/mpl/mixin/mixin.hpp"
+#include "eul/mpl/mixin/object.hpp"
 
 namespace eul
 {
@@ -56,14 +58,21 @@ struct DataB
 
 
 template <typename T>
-struct has_set_a_method
+struct has_set_a_method : std::false_type
 {
-    constexpr static bool value = requires(T a)
-    {
-        // clang-format off
-        {a.setA(int{})}->void;
-        // clang-format on
-    };
+};
+
+template <typename T>
+concept bool has_a_method_concept = requires(T a)
+{
+    // clang-format off
+    {a.setA(int{})}->void;
+    // clang-format on
+};
+
+template <has_a_method_concept T>
+struct has_set_a_method<T> : std::true_type
+{
 };
 
 struct DataForC;
@@ -146,42 +155,43 @@ TEST_CASE("Mixin should", "[Mixin]")
 {
     SECTION("Create object")
     {
-        auto object
-            = mixin<interface<InterfaceA>::type, interface<InterfaceB>::type,
-                    data<DataA>::type, data<DataB>::type>();
-        REQUIRE(object.callA() == 2);
-        REQUIRE(object.callB() == 3);
+        auto mixedObject
+            = object<interface<InterfaceA>::type, interface<InterfaceB>::type,
+                     data<DataA>::type, data<DataB>::type>();
+        REQUIRE(mixedObject.callA() == 2);
+        REQUIRE(mixedObject.callB() == 3);
 
-        object.setA(10);
-        REQUIRE(object.callA() == 10);
-        REQUIRE(object.callB() == 3);
+        mixedObject.setA(10);
+        REQUIRE(mixedObject.callA() == 10);
+        REQUIRE(mixedObject.callB() == 3);
     }
 
     SECTION("set for ability")
     {
-        auto object
-            = mixin<interface<InterfaceC>::type, data<DataForC>::type>();
-        REQUIRE(object.callA() == 2);
-        object.setA(15);
-        REQUIRE(object.callA() == 15);
-        REQUIRE(object.returnA() == 15);
+        auto mixedObject = object<interface<InterfaceC>::type,
+                                  data<DataB>::type, data<DataForC>::type>();
+        REQUIRE(mixedObject.callA() == 2);
+        mixedObject.setA(15);
+        REQUIRE(mixedObject.callA() == 15);
+        REQUIRE(mixedObject.returnA() == 15);
     }
 
     SECTION("for each ability")
     {
-        auto object = mixin<interface<InterfaceC>::type, data<DataForC>::type,
-                            data<Data2ForC>::type>();
-        REQUIRE(object.data1() == 2);
-        REQUIRE(object.data2() == 5);
+        auto mixedObject
+            = object<interface<InterfaceC>::type, data<DataForC>::type,
+                     data<Data2ForC>::type>();
+        REQUIRE(mixedObject.data1() == 2);
+        REQUIRE(mixedObject.data2() == 5);
 
-        object.setAllA(11);
-        REQUIRE(object.data1() == 11);
-        REQUIRE(object.data2() == 11);
+        mixedObject.setAllA(11);
+        REQUIRE(mixedObject.data1() == 11);
+        REQUIRE(mixedObject.data2() == 11);
 
-        object.setDifferentAllA(40);
+        mixedObject.setDifferentAllA(40);
 
-        REQUIRE(object.data1() == 40);
-        REQUIRE(object.data2() == 50);
+        REQUIRE(mixedObject.data1() == 40);
+        REQUIRE(mixedObject.data2() == 50);
     }
 }
 

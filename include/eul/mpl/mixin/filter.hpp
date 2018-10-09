@@ -6,7 +6,10 @@ namespace eul
 {
 namespace mpl
 {
-
+namespace mixin
+{
+namespace detail
+{
 template <template <typename> typename pred, typename... T>
 struct filter_impl;
 
@@ -30,16 +33,18 @@ struct filter_impl<pred, Type, Rest...>
 {
     using type = typename std::conditional<
         pred<Type>::value,
-        typename push_front<Type, typename filter_impl<pred, Rest...>::type>::type,
+        typename push_front<Type,
+                            typename filter_impl<pred, Rest...>::type>::type,
         typename filter_impl<pred, Rest...>::type>::type;
 };
+} // namespace detail
 
 template <template <typename> typename pred, typename... Types>
 struct filter
 {
-    using type = typename filter_impl<pred, Types...>::type;
+    using type = typename detail::filter_impl<pred, Types...>::type;
 };
 
-
+} // namespace mixin
 } // namespace mpl
 } // namespace eul

@@ -7,8 +7,8 @@ set (test_sources
     FunctionTests.cpp
     MemoryPoolTests.cpp
     Runner.cpp
-    mpl/FilterTests.cpp
-    mpl/InheritFromTests.cpp
+    mpl/mixin/FilterTests.cpp
+    mpl/mixin/InheritFromTests.cpp
     mpl/mixin/MixinTests.cpp
 )
 
