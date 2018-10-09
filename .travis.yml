@@ -1,6 +1,17 @@
 language: cpp
 dist: trusty
 
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-trusty-5.0
+    packages:
+    - clang-5.0
+    - clang-tidy-5.0
+    - gcc-8
+    - g++-8
+
 before_script:
 - mkdir build
 - cd build
