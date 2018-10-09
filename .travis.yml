@@ -35,9 +35,9 @@ dist: trusty
 #          - clang-tidy-5.0
 #          - gcc-7
 #          - g++-7
-#    script:
-#      - mkdir bin_test
-#      - cd bin_test
-#      - cmake .. -DCLANG_TIDY=ON -DBUILD_TESTS=ON -DARCH=X86
-#      - make
-#      - test/UT/eul_tests
+script:
+- mkdir bin_test
+- cd bin_test
+- cmake .. -DCLANG_TIDY=ON -DBUILD_TESTS=ON -DARCH=X86 -GNinja
+- ninja
+- test/UT/eul_tests
