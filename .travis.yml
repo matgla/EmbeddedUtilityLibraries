@@ -11,7 +11,7 @@ addons:
     - clang-tidy-5.0
     - gcc-8
     - g++-8
-
+    
 before_script:
 - mkdir build
 - cd build
@@ -52,5 +52,7 @@ before_script:
 #          - gcc-7
 #          - g++-7
 script:
+- export CXX=/usr/bin/g++-8
+- export CC=/usr/bin/gcc-8
 - cmake .. -DBUILD_TESTS=ON -GNinja
 - ninja run_eul_ut
