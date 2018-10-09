@@ -41,5 +41,3 @@ matrix:
       - cmake .. -DCLANG_TIDY=ON -DBUILD_TESTS=ON -DARCH=X86
       - make
       - test/UT/eul_tests
-install: true
-script: true
