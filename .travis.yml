@@ -52,4 +52,6 @@ jobs:
       - export CXX=/usr/bin/g++-8
       - export CC=/usr/bin/gcc-8
       - cmake .. -DBUILD_TESTS=ON -DTEST_COVERAGE=ON -GNinja
-      - ninja eul_tests 
+      - ninja run_eul_ut 
+      after_success:
+      - coveralls --root . -E ".*catch.*" -E ".*CMakeFiles.*"
