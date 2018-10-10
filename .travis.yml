@@ -15,6 +15,7 @@ addons:
 before_script:
 - mkdir build
 - cd build
+
 #
 # Update / Install CMake
 #
@@ -36,6 +37,9 @@ before_script:
     unzip -q ninja-linux.zip -d build
     export PATH="$PWD/build:$PATH"
   fi
+
+before_install:
+  - pip install --user cpp-coveralls
 
 jobs:  
   include:
