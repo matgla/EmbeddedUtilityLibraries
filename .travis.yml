@@ -58,4 +58,4 @@ jobs:
       - cmake .. -DBUILD_TESTS=ON -DTEST_COVERAGE=ON -DDEBUG=ON -GNinja
       - ninja run_eul_ut 
       after_success:
-      - coveralls -b . -r .. -E ".*/lib/.*" -E ".*CMakeFiles.*"
+      - coveralls -b . --exclude lib --exclude tests --gcov-options '\-lp'
