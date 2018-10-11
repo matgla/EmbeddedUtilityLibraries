@@ -58,4 +58,4 @@ jobs:
       - cmake .. -DBUILD_TESTS=ON -DTEST_COVERAGE=ON -GNinja
       - ninja run_eul_ut 
       after_success:
-      - coveralls --root . -E ".*catch.*" -E ".*CMakeFiles.*"
+      - coveralls -b . -r .. -E ".*catch.*"
