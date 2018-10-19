@@ -1,6 +1,6 @@
 #pragma once
 
-#include "eul/mpl/mixin/interface.hpp"
+#include "eul/mpl/mixin/base.hpp"
 
 namespace eul
 {

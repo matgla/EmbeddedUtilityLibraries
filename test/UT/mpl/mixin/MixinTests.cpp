@@ -6,8 +6,8 @@
 #include <catch.hpp>
 
 #include "eul/mpl/mixin/access.hpp"
+#include "eul/mpl/mixin/base.hpp"
 #include "eul/mpl/mixin/data.hpp"
-#include "eul/mpl/mixin/interface.hpp"
 #include "eul/mpl/mixin/object.hpp"
 
 namespace eul
@@ -133,6 +133,11 @@ struct InterfaceC
 
 struct DataForC
 {
+    DataForC()                = default;
+    DataForC(const DataForC&) = delete;
+    DataForC& operator=(const DataForC&) = delete;
+    DataForC(DataForC&&)                 = default;
+    DataForC& operator=(DataForC&&) = default;
     void setA(int a)
     {
         a_ = a;
@@ -156,8 +161,8 @@ TEST_CASE("Mixin should", "[Mixin]")
     SECTION("Create object")
     {
         auto mixedObject
-            = object<interface<InterfaceA>::type, interface<InterfaceB>::type,
-                     data<DataA>::type, data<DataB>::type>();
+            = compose<base<InterfaceA, InterfaceB>::type>::with_data(DataA{},
+                                                                     DataB{});
         REQUIRE(mixedObject.callA() == 2);
         REQUIRE(mixedObject.callB() == 3);
 
@@ -168,8 +173,8 @@ TEST_CASE("Mixin should", "[Mixin]")
 
     SECTION("set for ability")
     {
-        auto mixedObject = object<interface<InterfaceC>::type,
-                                  data<DataB>::type, data<DataForC>::type>();
+        auto mixedObject
+            = compose<base<InterfaceC>::type>::with_data(DataB{}, DataForC{});
         REQUIRE(mixedObject.callA() == 2);
         mixedObject.setA(15);
         REQUIRE(mixedObject.callA() == 15);
@@ -178,9 +183,8 @@ TEST_CASE("Mixin should", "[Mixin]")
 
     SECTION("for each ability")
     {
-        auto mixedObject
-            = object<interface<InterfaceC>::type, data<DataForC>::type,
-                     data<Data2ForC>::type>();
+        auto mixedObject = compose<base<InterfaceC>::type>::with_data(
+            DataForC{}, Data2ForC{});
         REQUIRE(mixedObject.data1() == 2);
         REQUIRE(mixedObject.data2() == 5);
 

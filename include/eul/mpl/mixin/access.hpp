@@ -25,7 +25,7 @@ struct access
     template <typename DataType>
     DataType& get()
     {
-        return std::get<data_t<DataType>>(object_.data_);
+        return std::get<DataType>(object_.data_);
     }
 
     template <template <typename> typename Ability>

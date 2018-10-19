@@ -3,9 +3,9 @@
 #include <tuple>
 #include <type_traits>
 
+#include "eul/mpl/mixin/base.hpp"
 #include "eul/mpl/mixin/filter.hpp"
 #include "eul/mpl/mixin/inherit_from.hpp"
-#include "eul/mpl/mixin/interface.hpp"
 #include "eul/mpl/mixin/type.hpp"
 
 namespace eul
@@ -15,30 +15,30 @@ namespace mpl
 namespace mixin
 {
 
-template <template <typename> typename... Types>
-struct object
-    : public inherit_from<
-          typename filter<is_interface, Types<object<Types...>>...>::type>
+template <template <typename> typename Base, typename... Datas>
+struct object : public inherit_from<object<Base, Datas...>, Base>
 {
 public:
-    using DataType = typename filter<is_data, Types<object<Types...>>...>::type;
-    DataType data_;
-    static_assert(std::tuple_size<DataType>::value != 0,
-                  "Any data passed to mixed object.");
-    static_assert(
-        std::tuple_size<typename filter<
-                is_interface, Types<object<Types...>>...>::type>::value
-            != 0,
-        "Any interface passed to mixed object.");
+    template <typename... Args>
+    object(Args&&... args) : data_(std::forward<Args>(args)...)
+    {
+    }
 
+    using DataType = std::tuple<Datas...>;
+    DataType data_;
 
     friend class access<object>;
 };
 
-auto mix()
+template <template <typename> typename Base>
+struct compose
 {
-    return true;
-}
+    template <typename... Args>
+    constexpr static object<Base, Args...> with_data(Args&&... args)
+    {
+        return object<Base, Args...>(std::forward<Args>(args)...);
+    }
+};
 
 } // namespace mixin
 } // namespace mpl
