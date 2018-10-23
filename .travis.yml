@@ -34,11 +34,7 @@ before_script:
     unzip -q ninja-linux.zip -d build
     export PATH="$PWD/build:$PATH"
   fi
-
-before_install:
-  - sudo apt-get install lcov 
-  - gem install coveralls-lcov
-
+  
 jobs:  
   include:
     - stage: "Tests"         
