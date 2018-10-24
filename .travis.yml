@@ -52,4 +52,4 @@ jobs:
       - cmake .. -DBUILD_TESTS=ON -DTEST_COVERAGE=ON -DDEBUG=ON -GNinja
       - ninja run_eul_ut 
       after_success:
-      - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-7
+      - bash <(curl -s https://codecov.io/bash) -x /usr/bin/gcov-8
