@@ -11,35 +11,35 @@ namespace mixin
 {
 
 template <typename... T>
-struct base_t : public T...
+struct interface_t : public T...
 {
 };
 
 
 template <template <typename> typename... Ts>
-struct base
+struct interface
 {
     template <typename T>
-    using type = base_t<Ts<T>...>;
+    using type = interface_t<Ts<T>...>;
 };
 
 template <typename T>
-struct is_base : std::false_type
+struct is_interface : std::false_type
 {
 };
 
 template <typename T>
-struct is_base<base_t<T>> : std::true_type
+struct is_interface<interface_t<T>> : std::true_type
 {
 };
 
 template <typename T>
-struct is_not_base : std::true_type
+struct is_not_interface : std::true_type
 {
 };
 
 template <typename T>
-struct is_not_base<base_t<T>> : std::false_type
+struct is_not_interface<interface_t<T>> : std::false_type
 {
 };
 

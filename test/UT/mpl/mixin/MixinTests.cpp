@@ -6,7 +6,8 @@
 #include <catch.hpp>
 
 #include "eul/mpl/mixin/access.hpp"
-#include "eul/mpl/mixin/base.hpp"
+#include "eul/mpl/mixin/const_access.hpp"
+#include "eul/mpl/mixin/interface.hpp"
 #include "eul/mpl/mixin/data.hpp"
 #include "eul/mpl/mixin/object.hpp"
 
@@ -24,9 +25,9 @@ struct DataB;
 template <typename BaseType>
 struct InterfaceA
 {
-    int callA()
+    int callA() const
     {
-        auto data = access<BaseType>(this);
+        auto data = const_access<BaseType>(this);
         return data.template get<DataA>().a;
     }
 
@@ -153,7 +154,7 @@ struct Data2ForC
         a_ = a;
     }
 
-    int a_ = 5;
+    int a_;
 };
 
 TEST_CASE("Mixin should", "[Mixin]")
@@ -161,8 +162,7 @@ TEST_CASE("Mixin should", "[Mixin]")
     SECTION("Create object")
     {
         auto mixedObject
-            = compose<base<InterfaceA, InterfaceB>::type>::with_data(DataA{},
-                                                                     DataB{});
+            = object(interface<InterfaceA, InterfaceB>{}, DataA{}, DataB{});
         REQUIRE(mixedObject.callA() == 2);
         REQUIRE(mixedObject.callB() == 3);
 
@@ -173,8 +173,7 @@ TEST_CASE("Mixin should", "[Mixin]")
 
     SECTION("set for ability")
     {
-        auto mixedObject
-            = compose<base<InterfaceC>::type>::with_data(DataB{}, DataForC{});
+        auto mixedObject = object{interface<InterfaceC>{}, DataB{}, DataForC{}};
         REQUIRE(mixedObject.callA() == 2);
         mixedObject.setA(15);
         REQUIRE(mixedObject.callA() == 15);
@@ -183,8 +182,7 @@ TEST_CASE("Mixin should", "[Mixin]")
 
     SECTION("for each ability")
     {
-        auto mixedObject = compose<base<InterfaceC>::type>::with_data(
-            DataForC{}, Data2ForC{});
+        auto mixedObject = object(interface<InterfaceC>{}, DataForC{}, Data2ForC{5});
         REQUIRE(mixedObject.data1() == 2);
         REQUIRE(mixedObject.data2() == 5);
 
@@ -196,6 +194,12 @@ TEST_CASE("Mixin should", "[Mixin]")
 
         REQUIRE(mixedObject.data1() == 40);
         REQUIRE(mixedObject.data2() == 50);
+    }
+    
+    SECTION("const object")
+    {
+        const auto mixedObject = object(interface<InterfaceA>{}, DataA{});
+        REQUIRE(mixedObject.callA() == 2);
     }
 }
 

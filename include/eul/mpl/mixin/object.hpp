@@ -3,7 +3,7 @@
 #include <tuple>
 #include <type_traits>
 
-#include "eul/mpl/mixin/base.hpp"
+#include "eul/mpl/mixin/interface.hpp"
 #include "eul/mpl/mixin/filter.hpp"
 #include "eul/mpl/mixin/inherit_from.hpp"
 #include "eul/mpl/mixin/type.hpp"
@@ -15,12 +15,12 @@ namespace mpl
 namespace mixin
 {
 
-template <template <typename> typename Base, typename... Datas>
-struct object : public inherit_from<object<Base, Datas...>, Base>
+template <template <typename> typename Interface, typename... Datas>
+struct object : public inherit_from<object<Interface, Datas...>, Interface>
 {
 public:
-    template <typename... Args>
-    object(Args&&... args) : data_(std::forward<Args>(args)...)
+    template <template <typename> typename... Interfaces>
+    constexpr object(interface<Interfaces...>, Datas&&... args) : data_(std::forward<Datas>(args)...)
     {
     }
 
@@ -30,15 +30,8 @@ public:
     friend class access<object>;
 };
 
-template <template <typename> typename Base>
-struct compose
-{
-    template <typename... Args>
-    constexpr static object<Base, Args...> with_data(Args&&... args)
-    {
-        return object<Base, Args...>(std::forward<Args>(args)...);
-    }
-};
+template <template <typename> typename... Interfaces, typename... Datas>
+object(interface<Interfaces...>, Datas...) -> object<interface<Interfaces...>::template type, Datas...>;
 
 } // namespace mixin
 } // namespace mpl

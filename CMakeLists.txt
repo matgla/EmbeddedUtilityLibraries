@@ -11,7 +11,7 @@ target_sources(eul INTERFACE
     "${PROJECT_SOURCE_DIR}/include/eul/logger.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/ability.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/access.hpp"
-    "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/base.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/interface.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/data.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/filter.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/inherit_from.hpp"
