@@ -8,9 +8,17 @@ add_library(eul INTERFACE)
 target_sources(eul INTERFACE
     "${PROJECT_SOURCE_DIR}/include/eul/event_loop.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/function.hpp"
-    "${PROJECT_SOURCE_DIR}/include/eul/generics/for_each.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/logger.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/memory_pointer.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/ability.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/access.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/interface.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/data.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/filter.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/inherit_from.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/object.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/type.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/mpl/tuples/for_each.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/traits.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/utils.hpp"
 )
