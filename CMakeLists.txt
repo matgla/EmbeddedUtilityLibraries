@@ -9,7 +9,7 @@ target_sources(eul INTERFACE
     "${PROJECT_SOURCE_DIR}/include/eul/event_loop.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/function.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/logger.hpp"
-    "${PROJECT_SOURCE_DIR}/include/eul/memory_pointer.hpp"
+    "${PROJECT_SOURCE_DIR}/include/eul/memory_ptr.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/ability.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/access.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/interface.hpp"
