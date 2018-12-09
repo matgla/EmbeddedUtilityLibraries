@@ -5,11 +5,13 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 set (test_sources
     EventLoopTests.cpp
     FunctionTests.cpp
+    ObservingListTests.cpp
     MemoryPoolTests.cpp
-    Runner.cpp
     mpl/mixin/FilterTests.cpp
     mpl/mixin/InheritFromTests.cpp
     mpl/mixin/MixinTests.cpp
+    ObserverTests.cpp
+    Runner.cpp
 )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-result -std=c++17 -Wall -Wextra -fconcepts")

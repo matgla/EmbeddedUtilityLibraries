@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cassert>
+#include <new>
 #include <type_traits>
 #include <utility>
 
@@ -18,23 +19,21 @@ class function<ReturnType(Args...), Size>
         virtual ReturnType operator()(Args... args)       = 0;
         virtual ReturnType operator()(Args... args) const = 0;
         virtual void copy_to(void* new_place) const       = 0;
-        virtual void move_to(void* new_place)
-            const = 0;
+        virtual void move_to(void* new_place) const       = 0;
     };
 
 public:
-    constexpr static std::size_t size = Size + sizeof(IFunctionInvoker) + sizeof(void*);
+    constexpr static std::size_t size
+        = Size + sizeof(IFunctionInvoker) + sizeof(void*);
 
     using storage_type = typename std::aligned_storage<size, 8>::type;
     using this_type    = function<ReturnType(Args...), size>;
 
-    function() noexcept
-        : isCallable_(false)
+    function() noexcept : isCallable_(false)
     {
     }
 
-    explicit function(std::nullptr_t) noexcept
-        : isCallable_(false)
+    explicit function(std::nullptr_t) noexcept : isCallable_(false)
     {
     }
 
@@ -82,6 +81,13 @@ public:
     function(F&& f)
     {
         register_callback(std::forward<F>(f));
+    }
+
+    template <class F>
+    // cppcheck-suppress  noExplicitConstructor
+    function(std::reference_wrapper<F> f)
+    {
+        register_callback(f);
     }
 
     ~function()
@@ -197,8 +203,7 @@ private:
     {
         FunctionInvoker(const FunctionInvoker&) = default;
         FunctionInvoker(FunctionInvoker&&)      = default;
-        explicit FunctionInvoker(FunctionType&& function)
-            : function_(function)
+        explicit FunctionInvoker(FunctionType&& function) : function_(function)
         {
         }
         ~FunctionInvoker() = default;
@@ -242,10 +247,13 @@ private:
     {
         using decayed_function_type = typename std::decay<FunctionType>::type;
         using function_invoker_type = FunctionInvoker<decayed_function_type>;
-        static_assert(!std::is_same<decayed_function_type, this_type>::value, "Wrong function type declared");
-        static_assert(sizeof(function_invoker_type) <= size, "Buffer overflow. Increase size parameter!");
+        static_assert(!std::is_same<decayed_function_type, this_type>::value,
+                      "Wrong function type declared");
+        static_assert(sizeof(function_invoker_type) <= size,
+                      "Buffer overflow. Increase size parameter!");
 
-        new (&storage_) function_invoker_type(std::forward<FunctionType>(function));
+        new (&storage_)
+            function_invoker_type(std::forward<FunctionType>(function));
         isCallable_ = true;
     }
 

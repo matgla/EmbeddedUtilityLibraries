@@ -6,12 +6,11 @@ namespace eul
 {
 
 template <typename Type, std::size_t BufferSize>
-class StaticVector
+class static_vector
 {
 
 public:
-    StaticVector()
-        : firstFreePosition_(0)
+    static_vector() : firstFreePosition_(0)
     {
     }
 
