@@ -2,8 +2,8 @@
 
 #include <catch.hpp>
 
-#include "eul/observer/observing_list.hpp"
-#include "eul/observer/observing_node.hpp"
+#include "eul/container/observable/observing_list.hpp"
+#include "eul/container/observable/observing_node.hpp"
 
 struct TestingElement
 {
@@ -17,10 +17,12 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 {
     SECTION("push_back elements")
     {
-        eul::observer::observing_list<TestingElement> sut;
-        eul::observer::observing_node<TestingElement> a{10};
-        eul::observer::observing_node<TestingElement> b{20};
-        eul::observer::observing_node<TestingElement> c{30};
+        eul::container::observing_list<
+            eul::container::observing_node<TestingElement>>
+            sut;
+        eul::container::observing_node<TestingElement> a{10};
+        eul::container::observing_node<TestingElement> b{20};
+        eul::container::observing_node<TestingElement> c{30};
 
         sut.push_back(a);
         sut.push_back(b);
@@ -33,11 +35,13 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
     SECTION("auto remove element out of scope")
     {
-        eul::observer::observing_list<TestingElement> sut;
-        eul::observer::observing_node<TestingElement> a{10};
+        eul::container::observing_list<
+            eul::container::observing_node<TestingElement>>
+            sut;
+        eul::container::observing_node<TestingElement> a{10};
 
         {
-            eul::observer::observing_node<TestingElement> x{15};
+            eul::container::observing_node<TestingElement> x{15};
             sut.push_back(x);
             REQUIRE((*sut.at(0))->a == 15);
             REQUIRE(sut.size() == 1);
@@ -45,13 +49,13 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
         sut.push_back(a);
         {
-            eul::observer::observing_node<TestingElement> b{20};
+            eul::container::observing_node<TestingElement> b{20};
             sut.push_back(b);
 
             REQUIRE((*sut.at(1))->a == 20);
             REQUIRE(sut.size() == 2);
         }
-        eul::observer::observing_node<TestingElement> c{30};
+        eul::container::observing_node<TestingElement> c{30};
         sut.push_back(c);
 
         REQUIRE((*sut.at(0))->a == 10);
@@ -59,7 +63,7 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
         REQUIRE(sut.size() == 2);
         REQUIRE(sut.at(2).has_value() == false);
         {
-            eul::observer::observing_node<TestingElement> b{20};
+            eul::container::observing_node<TestingElement> b{20};
             sut.push_back(b);
 
             REQUIRE((*sut.at(0))->a == 10);
@@ -75,11 +79,13 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
     SECTION("Not insert observed node")
     {
-        eul::observer::observing_node<TestingElement> b{15};
+        eul::container::observing_node<TestingElement> b{15};
 
-        eul::observer::observing_list<TestingElement> sut;
+        eul::container::observing_list<
+            eul::container::observing_node<TestingElement>>
+            sut;
         {
-            eul::observer::observing_node<TestingElement> a{10};
+            eul::container::observing_node<TestingElement> a{10};
 
             REQUIRE(sut.push_back(a));
             REQUIRE(sut.at(0).has_value());
@@ -113,11 +119,15 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
     SECTION("Move node to other list")
     {
-        eul::observer::observing_list<TestingElement> sut;
-        eul::observer::observing_list<TestingElement> sut2;
+        eul::container::observing_list<
+            eul::container::observing_node<TestingElement>>
+            sut;
+        eul::container::observing_list<
+            eul::container::observing_node<TestingElement>>
+            sut2;
         {
-            eul::observer::observing_node<TestingElement> a{10};
-            eul::observer::observing_node<TestingElement> b{15};
+            eul::container::observing_node<TestingElement> a{10};
+            eul::container::observing_node<TestingElement> b{15};
 
             REQUIRE(sut.push_back(a));
             REQUIRE(sut.push_back(b));
@@ -141,12 +151,14 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
     SECTION("Not insert after if node not exists")
     {
-        eul::observer::observing_node<TestingElement> c{20};
+        eul::container::observing_node<TestingElement> c{20};
 
-        eul::observer::observing_list<TestingElement> sut;
+        eul::container::observing_list<
+            eul::container::observing_node<TestingElement>>
+            sut;
         {
-            eul::observer::observing_node<TestingElement> a{10};
-            eul::observer::observing_node<TestingElement> b{15};
+            eul::container::observing_node<TestingElement> a{10};
+            eul::container::observing_node<TestingElement> b{15};
 
             REQUIRE(sut.push_back(b));
             REQUIRE(sut.insert_after(a, c) == false);
@@ -159,13 +171,15 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
     SECTION("Insert after node")
     {
-        eul::observer::observing_node<TestingElement> c{20};
+        eul::container::observing_node<TestingElement> c{20};
 
-        eul::observer::observing_list<TestingElement> sut;
+        eul::container::observing_list<
+            eul::container::observing_node<TestingElement>>
+            sut;
         {
-            eul::observer::observing_node<TestingElement> a{10};
-            eul::observer::observing_node<TestingElement> b{15};
-            eul::observer::observing_node<TestingElement> d{30};
+            eul::container::observing_node<TestingElement> a{10};
+            eul::container::observing_node<TestingElement> b{15};
+            eul::container::observing_node<TestingElement> d{30};
 
             REQUIRE(sut.push_back(a));
             REQUIRE(sut.push_back(b));
@@ -194,12 +208,14 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
     SECTION("Not insert before if node not exists")
     {
-        eul::observer::observing_node<TestingElement> c{20};
+        eul::container::observing_node<TestingElement> c{20};
 
-        eul::observer::observing_list<TestingElement> sut;
+        eul::container::observing_list<
+            eul::container::observing_node<TestingElement>>
+            sut;
         {
-            eul::observer::observing_node<TestingElement> a{10};
-            eul::observer::observing_node<TestingElement> b{15};
+            eul::container::observing_node<TestingElement> a{10};
+            eul::container::observing_node<TestingElement> b{15};
 
             REQUIRE(sut.push_back(b));
             REQUIRE(sut.insert_before(a, c) == false);
@@ -213,13 +229,15 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
     SECTION("Insert before node")
     {
-        eul::observer::observing_node<TestingElement> c{20};
+        eul::container::observing_node<TestingElement> c{20};
 
-        eul::observer::observing_list<TestingElement> sut;
+        eul::container::observing_list<
+            eul::container::observing_node<TestingElement>>
+            sut;
         {
-            eul::observer::observing_node<TestingElement> a{10};
-            eul::observer::observing_node<TestingElement> b{15};
-            eul::observer::observing_node<TestingElement> d{30};
+            eul::container::observing_node<TestingElement> a{10};
+            eul::container::observing_node<TestingElement> b{15};
+            eul::container::observing_node<TestingElement> d{30};
 
             REQUIRE(sut.push_back(a));
             REQUIRE(sut.push_back(b));
@@ -246,7 +264,7 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
         REQUIRE((*sut.at(0))->a == 20);
         REQUIRE(sut.at(1).has_value() == false);
 
-        eul::observer::observing_node<TestingElement> b{15};
+        eul::container::observing_node<TestingElement> b{15};
         REQUIRE(sut.push_back(b));
         REQUIRE(sut.at(0).has_value());
         REQUIRE((*sut.at(0))->a == 20);
@@ -258,12 +276,14 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
     SECTION("Support for each")
     {
-        eul::observer::observing_list<TestingElement> sut;
+        eul::container::observing_list<
+            eul::container::observing_node<TestingElement>>
+            sut;
         {
-            eul::observer::observing_node<TestingElement> a{3};
-            eul::observer::observing_node<TestingElement> b{2};
-            eul::observer::observing_node<TestingElement> c{1};
-            eul::observer::observing_node<TestingElement> d{4};
+            eul::container::observing_node<TestingElement> a{3};
+            eul::container::observing_node<TestingElement> b{2};
+            eul::container::observing_node<TestingElement> c{1};
+            eul::container::observing_node<TestingElement> d{4};
 
             {
                 const std::vector<int> expectedData;

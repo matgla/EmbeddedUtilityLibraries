@@ -2,12 +2,13 @@
 
 #include <cstddef>
 
-#include "eul/observer/observing_node.hpp"
-
 namespace eul
 {
-namespace observer
+namespace container
 {
+
+template <typename T>
+struct observing_node;
 
 template <typename T>
 class observing_node_const_iterator
@@ -61,5 +62,5 @@ const observing_node<T>& observing_node_const_iterator<T>::operator*() const
     return *node_;
 }
 
-} // namespace observer
+} // namespace container
 } // namespace eul
