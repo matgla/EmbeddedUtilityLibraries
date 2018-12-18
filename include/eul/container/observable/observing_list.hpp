@@ -24,7 +24,8 @@ public:
     bool insert_before(NodeType& next, NodeType& node);
 
     std::optional<typename NodeType::data_type*> at(const std::size_t index);
-    NodeType* find(NodeType* node);
+    NodeType* find(const NodeType* node);
+    const NodeType* find(const NodeType* node) const;
 
     typename NodeType::iterator begin();
     typename NodeType::const_iterator begin() const;
@@ -62,15 +63,12 @@ observing_list<NodeType>::~observing_list()
     while (current)
     {
         auto* next = current->next();
-        std::cerr << "~observing_list(): Reset of node " << std::hex << current
-                  << std::endl;
 
         current->reset();
         current = next;
     }
     root_ = nullptr;
 }
-
 
 template <typename NodeType>
 bool observing_list<NodeType>::push_back(NodeType& node)
@@ -150,7 +148,28 @@ std::optional<typename NodeType::data_type*>
 }
 
 template <typename NodeType>
-NodeType* observing_list<NodeType>::find(NodeType* node)
+NodeType* observing_list<NodeType>::find(const NodeType* node)
+{
+    if (!root_)
+    {
+        return nullptr;
+    }
+
+    NodeType* current = root_;
+    while (current != nullptr)
+    {
+        if (current == node)
+        {
+            return current;
+        }
+
+        current = current->next();
+    }
+    return nullptr;
+}
+
+template <typename NodeType>
+const NodeType* observing_list<NodeType>::find(const NodeType* node) const
 {
     if (!root_)
     {

@@ -5,8 +5,6 @@
 #include "eul/container/observable/observing_node_const_iterator.hpp"
 #include "eul/container/observable/observing_node_iterator.hpp"
 
-#include <iostream>
-
 namespace eul
 {
 namespace container
@@ -71,15 +69,12 @@ observing_node<T>::observing_node(Args... args)
 template <typename T>
 observing_node<T>::~observing_node()
 {
-    std::cerr << "~observing_node()" << std::endl;
-
     reset();
 }
 
 template <typename T>
 void observing_node<T>::reset()
 {
-    std::cerr << "Reset of node " << std::hex << this << std::endl;
     if (prev_)
     {
         prev_->set_next(next_);
@@ -105,7 +100,6 @@ template <typename T>
 template <typename... Args>
 void observing_node<T>::reset(Args&&... args)
 {
-    std::cerr << "new data for: " << std::hex << this << std::endl;
     data_ = T{args...};
 }
 
@@ -154,14 +148,6 @@ void observing_node<T>::set_prev(observing_list<observing_node<T>>* list)
 template <typename T>
 bool observing_node<T>::is_subscribed() const
 {
-    std::cerr << "is subscriber: " << std::hex << this << std::endl;
-    std::cerr << "prev: " << std::hex << prev_ << std::endl;
-    std::cerr << "next: " << std::hex << next_ << std::endl;
-    std::cerr << "list: " << std::hex << list_ << std::endl;
-    std::cerr << "bool: " << std::boolalpha
-              << (prev_ != nullptr || next_ != nullptr || list_ != nullptr)
-              << std::endl;
-
     return prev_ != nullptr || next_ != nullptr || list_ != nullptr;
 }
 

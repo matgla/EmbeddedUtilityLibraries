@@ -6,7 +6,6 @@ set (test_sources
     EventLoopTests.cpp
     FunctionTests.cpp
     container/observable/ObservingListTests.cpp
-    memory/ObservableObjectTests.cpp
     MemoryPoolTests.cpp
     mpl/mixin/FilterTests.cpp
     mpl/mixin/InheritFromTests.cpp
