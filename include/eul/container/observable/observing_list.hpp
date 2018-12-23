@@ -39,6 +39,8 @@ public:
 
     bool is_observed(NodeType* node);
 
+    void erase(const NodeType& node);
+
 
 private:
     NodeType* get_end();
@@ -245,6 +247,16 @@ template <typename NodeType>
 bool observing_list<NodeType>::is_observed(NodeType* node)
 {
     return find(node) != nullptr;
+}
+
+template <typename NodeType>
+void observing_list<NodeType>::erase(const NodeType& node)
+{
+    auto* nodeInList = find(&node);
+    if (nodeInList != nullptr)
+    {
+        nodeInList.reset();
+    }
 }
 
 template <typename NodeType>
