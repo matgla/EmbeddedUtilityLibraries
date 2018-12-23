@@ -2,6 +2,7 @@
 
 #include <utility>
 
+#include "eul/container/observable/observing_list.hpp"
 #include "eul/container/observable/observing_node_const_iterator.hpp"
 #include "eul/container/observable/observing_node_iterator.hpp"
 
