@@ -33,3 +33,9 @@ target_include_directories(eul INTERFACE ${Eul_INCLUDE_DIR})
 if (BUILD_TESTS)
     add_subdirectory(test)
 endif (BUILD_TESTS)
+
+target_compile_options(eul
+    INTERFACE
+        $<$<COMPILE_LANGUAGE:C>:-std=gnu99>
+        $<$<COMPILE_LANGUAGE:CXX>:-std=c++1z>
+)
