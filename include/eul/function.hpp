@@ -85,7 +85,7 @@ public:
 
     template <class F>
     // cppcheck-suppress  noExplicitConstructor
-    function(std::reference_wrapper<F> f)
+    function(const F& f)
     {
         register_callback(f);
     }
@@ -152,7 +152,7 @@ public:
     }
 
     template <class F>
-    function& operator=(std::reference_wrapper<F> f)
+    function& operator=(const F& f)
     {
         destroy();
         register_callback(f);
@@ -206,6 +206,12 @@ private:
         explicit FunctionInvoker(FunctionType&& function) : function_(function)
         {
         }
+
+        explicit FunctionInvoker(const FunctionType& function)
+            : function_(function)
+        {
+        }
+
         ~FunctionInvoker() = default;
 
         virtual ReturnType operator()(Args... args) override
@@ -256,6 +262,21 @@ private:
             function_invoker_type(std::forward<FunctionType>(function));
         isCallable_ = true;
     }
+
+    template <class FunctionType>
+    void register_callback(const FunctionType& function)
+    {
+        using decayed_function_type = typename std::decay<FunctionType>::type;
+        using function_invoker_type = FunctionInvoker<decayed_function_type>;
+        static_assert(!std::is_same<decayed_function_type, this_type>::value,
+                      "Wrong function type declared");
+        static_assert(sizeof(function_invoker_type) <= size,
+                      "Buffer overflow. Increase size parameter!");
+
+        new (&storage_) function_invoker_type(function);
+        isCallable_ = true;
+    }
+
 
     storage_type storage_;
     bool isCallable_;

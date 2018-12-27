@@ -4,12 +4,17 @@
 
 namespace eul
 {
-
+namespace container
+{
 template <typename Type, std::size_t BufferSize>
 class static_vector
 {
+protected:
+    using DataContainerType = std::array<Type, BufferSize>;
 
 public:
+    using iterator       = typename DataContainerType::iterator;
+    using const_iterator = typename DataContainerType::const_iterator;
     static_vector() : firstFreePosition_(0)
     {
     }
@@ -23,6 +28,17 @@ public:
 
         data_[firstFreePosition_] = data;
         ++firstFreePosition_;
+    }
+
+    const Type& operator[](const std::size_t index) const
+    {
+        return data_[index];
+    }
+
+
+    Type& operator[](std::size_t index)
+    {
+        return data_[index];
     }
 
     std::size_t size() const
@@ -77,9 +93,30 @@ public:
         return data_.data();
     }
 
+    const_iterator begin() const
+    {
+        return data_.begin();
+    }
+
+    iterator begin()
+    {
+        return data_.begin();
+    }
+
+    const_iterator end() const
+    {
+        return data_.begin() + firstFreePosition_;
+    }
+
+    iterator end()
+    {
+        return data_.begin() + firstFreePosition_;
+    }
+
 private:
     std::size_t firstFreePosition_;
-    std::array<Type, BufferSize> data_;
+    DataContainerType data_;
 };
 
+} // namespace container
 } // namespace eul
