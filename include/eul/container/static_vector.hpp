@@ -15,6 +15,7 @@ protected:
 public:
     using iterator       = typename DataContainerType::iterator;
     using const_iterator = typename DataContainerType::const_iterator;
+    using value_type     = Type;
     static_vector() : firstFreePosition_(0)
     {
     }

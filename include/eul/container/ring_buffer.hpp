@@ -11,38 +11,71 @@ template <typename T, std::size_t ContainerSize>
 class ring_buffer
 {
 public:
-    ring_buffer() : first_element_index_(0), last_element_index_(0)
+    ring_buffer() : tail_(0), head_(0), full_(false)
     {
     }
 
-    void push_back(const T& element)
+    void push(const T& element)
     {
-        if (last_element_index_ < data_.max_size())
-        {
-            data_[++last_element_index_];
-        }
-        else
-        {
-        }
-    }
+        data_[head_] = element;
 
-    void push_front(const T& element)
-    {
+        if (full_)
+        {
+            increment_index(tail_);
+        }
+
+        increment_index(head_);
+        full_ = tail_ == head_;
     }
 
     std::size_t size() const
     {
-        return last_element_index_ - first_element_index_;
+        if (full_)
+        {
+            return ContainerSize;
+        }
+
+        if (head_ >= tail_)
+        {
+            return head_ - tail_;
+        }
+
+        return data_.max_size() + head_ - tail_;
     }
 
-    T& pop_back()
+    T& pop()
     {
-        return data_[last_element_index_--];
+        std::size_t old_tail = tail_;
+        increment_index(tail_);
+        full_ = false;
+        return data_[old_tail];
+    }
+
+    T& front()
+    {
+        return data_[tail_];
+    }
+
+    const T& front() const
+    {
+        return data_[tail_];
+    }
+
+    bool full() const
+    {
+        return full_;
     }
 
 private:
-    std::size_t first_element_index_;
-    std::size_t last_element_index_;
+    void increment_index(std::size_t& index)
+    {
+        ++index;
+        index = index % ContainerSize;
+    }
+
+    std::size_t tail_;
+    std::size_t head_;
+    bool full_;
     static_vector<T, ContainerSize> data_;
 };
 
