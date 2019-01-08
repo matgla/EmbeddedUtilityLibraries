@@ -48,9 +48,9 @@ namespace eul
 {
 
 /*
-** reverse string in place 
+** reverse string in place
 */
-void reverse(char* s)
+inline void reverse(char* s)
 {
     char* j;
     int c;
@@ -64,7 +64,7 @@ void reverse(char* s)
     }
 }
 
-char getNumber(int n)
+inline char getNumber(int n)
 {
     if (n > 9)
     {
@@ -78,7 +78,7 @@ char getNumber(int n)
 
 namespace utils
 {
-int pow(int base, int index)
+inline int pow(int base, int index)
 {
     int answer = base;
     for (int i = 1; i < index; ++i)
@@ -90,9 +90,10 @@ int pow(int base, int index)
 }
 
 template <typename T>
-T itoa(T n, char* s, int base_n = 10)
+inline T itoa(T n, char* s, int base_n = 10)
 {
-    static_assert(std::is_arithmetic<T>::value, "Type provided for serialize isn't arithmetic");
+    static_assert(std::is_arithmetic<T>::value,
+                  "Type provided for serialize isn't arithmetic");
     T i, sign;
 
     if ((sign = n) < 0) /* record sign */
@@ -109,7 +110,8 @@ T itoa(T n, char* s, int base_n = 10)
     return i;
 }
 
-std::pair<uint16_t, uint16_t> floatToInts(float number, const uint8_t precision)
+inline std::pair<uint16_t, uint16_t> floatToInts(float number,
+                                                 const uint8_t precision)
 {
     uint16_t high;
     uint16_t low;
@@ -129,7 +131,8 @@ std::pair<uint16_t, uint16_t> floatToInts(float number, const uint8_t precision)
     return std::pair<uint16_t, uint16_t>(high, low);
 }
 
-int writeToBufferAligned(char* buffer, int data, char suffix, uint8_t size = 2, char prefix = '0')
+inline int writeToBufferAligned(char* buffer, int data, char suffix,
+                                uint8_t size = 2, char prefix = '0')
 {
     int i = 0;
     for (int tmp = data == 0 ? 1 : data; tmp < pow(10, size - 1);)
@@ -143,7 +146,7 @@ int writeToBufferAligned(char* buffer, int data, char suffix, uint8_t size = 2, 
 }
 
 
-int formatTime(char* buffer, const uint8_t bufferSize, std::tm* t)
+inline int formatTime(char* buffer, const uint8_t bufferSize, std::tm* t)
 {
     int i = 0;
 
@@ -154,7 +157,7 @@ int formatTime(char* buffer, const uint8_t bufferSize, std::tm* t)
     return i;
 }
 
-int formatDate(char* buffer, const uint8_t bufferSize, std::tm* t)
+inline int formatDate(char* buffer, const uint8_t bufferSize, std::tm* t)
 {
     int i = 0;
 
@@ -166,7 +169,8 @@ int formatDate(char* buffer, const uint8_t bufferSize, std::tm* t)
     return i;
 }
 
-void formatDateAndTime(char* buffer, const uint8_t bufferSize, std::tm* t)
+inline void formatDateAndTime(char* buffer, const uint8_t bufferSize,
+                              std::tm* t)
 {
     int i = 0;
     i += formatDate(buffer + i, bufferSize - i, t);
