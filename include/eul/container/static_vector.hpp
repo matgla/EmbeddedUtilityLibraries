@@ -39,6 +39,10 @@ public:
 
     Type& operator[](std::size_t index)
     {
+        if (index + 1 > firstFreePosition_)
+        {
+            firstFreePosition_ = index + 1;
+        }
         return data_[index];
     }
 
