@@ -67,12 +67,26 @@ public:
         return data_[index];
     }
 
-    Type& operator[](std::size_t index)
+    Type& operator[](const std::size_t index)
     {
         if (index + 1 > firstFreePosition_)
         {
             firstFreePosition_ = index + 1;
         }
+        return data_[index];
+    }
+
+    template <std::size_t index>
+    Type& at()
+    {
+        static_assert(index < BufferSize, "Trying to access element outside vector");
+        return data_[index];
+    }
+
+    template <std::size_t index>
+    const Type& at() const
+    {
+        static_assert(index < BufferSize, "Trying to access element outside vector");
         return data_[index];
     }
 

@@ -141,6 +141,14 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
         REQUIRE(sut.size() == 0);
     }
 
+    SECTION("access elements via at")
+    {
+        eul::container::static_vector<int, 2> sut{1, 2};
+
+        REQUIRE(sut.at<0>() == 1);
+        REQUIRE(sut.at<1>() == 2);
+    }
+
     SECTION("clear")
     {
         eul::container::static_vector<int, 2> sut{1, 2};
