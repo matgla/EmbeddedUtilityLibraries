@@ -2,6 +2,8 @@
 
 #include <array>
 
+#include "eul/assert.hpp"
+
 namespace eul
 {
 namespace container
@@ -16,8 +18,37 @@ public:
     using iterator       = typename DataContainerType::iterator;
     using const_iterator = typename DataContainerType::const_iterator;
     using value_type     = Type;
-    static_vector() : firstFreePosition_(0)
+
+    static_vector()
+        : firstFreePosition_(0)
     {
+    }
+
+    static_vector(const std::initializer_list<Type>& arguments)
+        : firstFreePosition_(0)
+    {
+        std::copy(arguments.begin(), arguments.end(), std::back_inserter(*this));
+    }
+
+    template <std::size_t count>
+    void assign(const Type& data)
+    {
+        static_assert(count <= BufferSize, "Try to assign more values than container size");
+
+        clear();
+        for (std::size_t i = 0; i < count; ++i)
+        {
+            push_back(data);
+        }
+    }
+
+    template <std::size_t OtherContainerSize>
+    static_vector<Type, BufferSize>& operator=(const static_vector<Type, OtherContainerSize>& other)
+    {
+        static_assert(OtherContainerSize <= BufferSize, "Container to be copied can't fit");
+        clear();
+        std::copy(other.begin(), other.end(), std::back_inserter(*this));
+        return *this;
     }
 
     void push_back(const Type& data)
@@ -35,7 +66,6 @@ public:
     {
         return data_[index];
     }
-
 
     Type& operator[](std::size_t index)
     {
@@ -66,14 +96,32 @@ public:
         return data_[firstFreePosition_];
     }
 
-    Type get_last()
+    Type& back()
     {
-        if (0 == size())
-        {
-            return {};
-        }
+        EUL_ASSERT_MSG(size() != 0, "Vector is empty!");
 
         return data_[firstFreePosition_ - 1];
+    }
+
+    Type& front()
+    {
+        EUL_ASSERT_MSG(size() != 0, "Vector is empty!");
+
+        return data_[0];
+    }
+
+    const Type& back() const
+    {
+        EUL_ASSERT_MSG(size() != 0, "Vector is empty!");
+
+        return data_[firstFreePosition_ - 1];
+    }
+
+    const Type& front() const
+    {
+        EUL_ASSERT_MSG(size() != 0, "Vector is empty!");
+
+        return data_[0];
     }
 
     int find(int data) const
@@ -85,10 +133,11 @@ public:
                 return i;
             }
         }
+
         return -1;
     }
 
-    void flush()
+    void clear()
     {
         firstFreePosition_ = 0;
     }

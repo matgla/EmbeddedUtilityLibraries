@@ -15,12 +15,13 @@ concept bool Writable = requires(T a)
 };
 // clang-format on
 
-template <Writable Stream>
+template <Writable Stream, typename TimeType>
 class Logger
 {
 public:
-    Logger(std::string_view name)
+    Logger(std::string_view name, const TimeType& time)
         : name_(name)
+        , time_(time)
     {
     }
 
@@ -76,7 +77,7 @@ protected:
     {
         Stream::write("<");
         printTimeAndDate();
-        Stream::write(">");
+        Stream::write("> ");
         Stream::write(level);
         Stream::write("/");
         Stream::write(name_);
@@ -87,7 +88,7 @@ protected:
     {
         constexpr const int BufferSize = 20;
         char buffer[BufferSize];
-        auto t                 = std::time(nullptr);
+        std::time_t t          = time_.milliseconds();
         struct tm* currentTime = std::localtime(&t);
 
         utils::formatDateAndTime(buffer, BufferSize, currentTime);
@@ -95,6 +96,7 @@ protected:
     }
 
     std::string_view name_;
+    TimeType time_;
 };
 
 } // namespace eul

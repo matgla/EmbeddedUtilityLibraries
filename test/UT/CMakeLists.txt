@@ -3,10 +3,11 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
 set (test_sources
-    EventLoopTests.cpp
-    FunctionTests.cpp
     container/observable/ObservingListTests.cpp
     container/RingBufferTests.cpp
+    container/StaticVectorTests.cpp
+    EventLoopTests.cpp
+    FunctionTests.cpp
     MemoryPoolTests.cpp
     mpl/mixin/FilterTests.cpp
     mpl/mixin/InheritFromTests.cpp
