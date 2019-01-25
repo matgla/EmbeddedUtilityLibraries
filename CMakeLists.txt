@@ -8,7 +8,6 @@ add_library(eul INTERFACE)
 target_sources(eul INTERFACE
     "${PROJECT_SOURCE_DIR}/include/eul/event_loop.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/function.hpp"
-    "${PROJECT_SOURCE_DIR}/include/eul/logger.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/memory_ptr.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/ability.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/mpl/mixin/access.hpp"
@@ -28,7 +27,10 @@ target_sources(eul INTERFACE
     "${PROJECT_SOURCE_DIR}/include/eul/utils.hpp"
 )
 
+add_subdirectory(include/eul/logger)
+
 target_include_directories(eul INTERFACE ${Eul_INCLUDE_DIR})
+target_link_libraries(eul INTERFACE eul_logger)
 
 if (BUILD_TESTS)
     add_subdirectory(test)

@@ -92,8 +92,7 @@ inline int pow(int base, int index)
 template <typename T>
 inline T itoa(T n, char* s, int base_n = 10)
 {
-    static_assert(std::is_arithmetic<T>::value,
-                  "Type provided for serialize isn't arithmetic");
+    static_assert(std::is_arithmetic<T>::value, "Type provided for serialize isn't arithmetic");
     T i, sign;
 
     if ((sign = n) < 0) /* record sign */
@@ -110,8 +109,7 @@ inline T itoa(T n, char* s, int base_n = 10)
     return i;
 }
 
-inline std::pair<uint16_t, uint16_t> floatToInts(float number,
-                                                 const uint8_t precision)
+inline std::pair<uint16_t, uint16_t> floatToInts(float number, const uint8_t precision)
 {
     uint16_t high;
     uint16_t low;
@@ -131,8 +129,7 @@ inline std::pair<uint16_t, uint16_t> floatToInts(float number,
     return std::pair<uint16_t, uint16_t>(high, low);
 }
 
-inline int writeToBufferAligned(char* buffer, int data, char suffix,
-                                uint8_t size = 2, char prefix = '0')
+inline int writeToBufferAligned(char* buffer, int data, char suffix, uint8_t size = 2, char prefix = '0')
 {
     int i = 0;
     for (int tmp = data == 0 ? 1 : data; tmp < pow(10, size - 1);)
@@ -169,14 +166,27 @@ inline int formatDate(char* buffer, const uint8_t bufferSize, std::tm* t)
     return i;
 }
 
-inline void formatDateAndTime(char* buffer, const uint8_t bufferSize,
-                              std::tm* t)
+inline void formatDateAndTime(char* buffer, const uint8_t bufferSize, std::tm* t)
 {
     int i = 0;
     i += formatDate(buffer + i, bufferSize - i, t);
     buffer[i - 1] = ' ';
     i += formatTime(buffer + i, bufferSize - i, t);
     EUL_ASSERT_MSG(i <= bufferSize, "Buffer overflow");
+}
+
+template <typename T>
+inline int strlen(const gsl::span<T>& data)
+{
+    for (typename gsl::span<T>::index_type i = 0; i < data.length(); ++i)
+    {
+        if (data[i] == 0)
+        {
+            return static_cast<int>(i);
+        }
+    }
+
+    return -1;
 }
 
 } // namespace utils
