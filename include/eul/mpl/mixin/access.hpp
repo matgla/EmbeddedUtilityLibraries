@@ -23,16 +23,15 @@ namespace mixin
 template <typename MixedObject>
 struct access
 {
-    constexpr access(void* data) : object_(*static_cast<MixedObject*>(data))
+    constexpr access(void* data)
+        : object_(*static_cast<MixedObject*>(data))
     {
     }
 
     template <template <typename> typename Ability>
     auto& get_by_ability()
     {
-        return std::get<
-            ability_to_index<Ability, decltype(object_.data_)>::value>(
-            object_.data_);
+        return std::get<ability_to_index<Ability, decltype(object_.data_)>::value>(object_.data_);
     }
 
     template <template <typename> typename T>

@@ -1,15 +1,16 @@
 #pragma once
 
 #include <cmath>
+#include <cstdint>
 #include <cstring>
 #include <ctime>
-#include <stdint.h>
 #include <type_traits>
 #include <utility>
 
 #include <gsl/span>
 
 #include "eul/assert.hpp"
+
 
 // clang-format off
 #define UNUSED1(x) (void)(x)

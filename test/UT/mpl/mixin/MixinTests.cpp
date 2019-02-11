@@ -7,8 +7,8 @@
 
 #include "eul/mpl/mixin/access.hpp"
 #include "eul/mpl/mixin/const_access.hpp"
-#include "eul/mpl/mixin/interface.hpp"
 #include "eul/mpl/mixin/data.hpp"
+#include "eul/mpl/mixin/interface.hpp"
 #include "eul/mpl/mixin/object.hpp"
 #include "eul/mpl/types/bind_type.hpp"
 #include "eul/mpl/mixin/name.hpp"
@@ -128,8 +128,7 @@ struct InterfaceC : public InterfaceCMembers
     void setAllA(int a)
     {
         auto data = access<BaseType>(this);
-        data.for_each(ability<has_set_a_method>{},
-                      [a](auto& data) { data.setA(a); });
+        data.for_each(ability<has_set_a_method>{}, [a](auto& data) { data.setA(a); });
     }
 
     void setDifferentAllA(int a)
@@ -174,8 +173,7 @@ TEST_CASE("Mixin should", "[Mixin]")
 {
     SECTION("Create object")
     {
-        auto mixedObject
-            = object(interface<InterfaceA, InterfaceB>{}, DataA{}, DataB{});
+        auto mixedObject = object(interface<InterfaceA, InterfaceB>{}, DataA{}, DataB{});
         REQUIRE(mixedObject.callA() == 2);
         REQUIRE(mixedObject.callB() == 3);
 
