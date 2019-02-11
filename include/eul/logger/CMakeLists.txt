@@ -8,7 +8,7 @@ target_sources(eul_logger
         "${PROJECT_SOURCE_DIR}/include/eul/logger/logger_traits.hpp"
 )
 
-target_include_directories(eul INTERFACE "${PROJECT_SOURCE_DIR}/include")
+target_include_directories(eul_logger INTERFACE "${PROJECT_SOURCE_DIR}/include")
 
 if (LOG_LEVEL STREQUAL "Trace")
     set(logging_definition "LOG_LEVEL_TRACE")

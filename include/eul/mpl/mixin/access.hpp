@@ -6,7 +6,12 @@
 #include "eul/mpl/mixin/ability.hpp"
 #include "eul/mpl/mixin/access.hpp"
 #include "eul/mpl/mixin/data.hpp"
+#include "eul/mpl/mixin/name.hpp"
+#include "eul/mpl/tuples/filter.hpp"
 #include "eul/mpl/tuples/for_each.hpp"
+#include "eul/mpl/types/bind_type.hpp"
+#include "eul/mpl/types/binded_traits.hpp"
+#include "eul/mpl/types/get_index_of_binded_key.hpp"
 
 namespace eul
 {
@@ -20,12 +25,6 @@ struct access
 {
     constexpr access(void* data) : object_(*static_cast<MixedObject*>(data))
     {
-    }
-
-    template <typename DataType>
-    DataType& get()
-    {
-        return std::get<DataType>(object_.data_);
     }
 
     template <template <typename> typename Ability>
@@ -42,10 +41,31 @@ struct access
         return get_by_ability<T>();
     }
 
+    template <typename DataType>
+    DataType& get()
+    {
+        return std::get<DataType>(object_.data_);
+    }
+
     template <typename T>
     auto& operator[](type<T>)
     {
         return get<T>();
+    }
+
+    template <typename Name>
+    auto& get_by_name()
+    {
+        using TupleType = decltype(object_.data_);
+        constexpr std::size_t indexOfType
+            = types::tuple_index_getter<TupleType>::template by_key<Name>();
+        return std::get<indexOfType>(object_.data_);
+    }
+
+    template <typename Name>
+    auto& operator[](name<Name>)
+    {
+        return get_by_name<Name>().value;
     }
 
     template <template <typename> typename Predicate, typename Functor>

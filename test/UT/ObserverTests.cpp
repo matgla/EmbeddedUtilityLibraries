@@ -1,6 +1,7 @@
 #include "catch.hpp"
 
 #include "eul/observer.hpp"
+#include "eul/utils.hpp"
 
 TEST_CASE("Observer should", "[Observer]")
 {
@@ -17,7 +18,7 @@ TEST_CASE("Observer should", "[Observer]")
         eul::Observer observer{
             [&int_called_with](const int i) { int_called_with = i; },
             [&double_called_with](const double d) { double_called_with = d; },
-            [&custom_called](const Custom& c) { custom_called = true; }};
+            [&custom_called](const Custom& c) { UNUSED(c); custom_called = true; }};
 
         observer(123);
         observer(Custom{});

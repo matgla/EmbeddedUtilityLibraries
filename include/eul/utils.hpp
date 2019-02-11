@@ -7,6 +7,8 @@
 #include <type_traits>
 #include <utility>
 
+#include <gsl/span>
+
 #include "eul/assert.hpp"
 
 // clang-format off

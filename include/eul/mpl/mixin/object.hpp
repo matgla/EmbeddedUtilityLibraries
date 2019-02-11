@@ -3,10 +3,10 @@
 #include <tuple>
 #include <type_traits>
 
-#include "eul/mpl/mixin/interface.hpp"
-#include "eul/mpl/mixin/filter.hpp"
 #include "eul/mpl/mixin/inherit_from.hpp"
+#include "eul/mpl/mixin/interface.hpp"
 #include "eul/mpl/mixin/type.hpp"
+#include "eul/mpl/tuples/filter.hpp"
 
 namespace eul
 {

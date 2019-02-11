@@ -10,6 +10,8 @@
 #include "eul/mpl/mixin/interface.hpp"
 #include "eul/mpl/mixin/data.hpp"
 #include "eul/mpl/mixin/object.hpp"
+#include "eul/mpl/types/bind_type.hpp"
+#include "eul/mpl/mixin/name.hpp"
 
 namespace eul
 {
@@ -79,8 +81,13 @@ struct has_set_a_method<T> : std::true_type
 struct DataForC;
 struct Data2ForC;
 
+struct InterfaceCMembers
+{
+    class SomeData;
+};
+
 template <typename BaseType>
-struct InterfaceC
+struct InterfaceC : public InterfaceCMembers
 {
     void setA(int a)
     {
@@ -110,6 +117,12 @@ struct InterfaceC
     {
         auto data = access<BaseType>(this);
         return data[type<Data2ForC>{}].a_;
+    }
+
+    int data2ByName()
+    {
+        auto data = access<BaseType>(this);
+        return data[name<SomeData>{}].a_;
     }
 
     void setAllA(int a)
@@ -195,11 +208,28 @@ TEST_CASE("Mixin should", "[Mixin]")
         REQUIRE(mixedObject.data1() == 40);
         REQUIRE(mixedObject.data2() == 50);
     }
-    
+
     SECTION("const object")
     {
         const auto mixedObject = object(interface<InterfaceA>{}, DataA{});
         REQUIRE(mixedObject.callA() == 2);
+    }
+
+    SECTION("get by name")
+    {
+        auto mixedObject = object(interface<InterfaceC>{}, DataForC{},
+            types::bind_type<InterfaceCMembers::SomeData>::to(Data2ForC{5}));
+        REQUIRE(mixedObject.data1() == 2);
+        REQUIRE(mixedObject.data2ByName() == 5);
+
+        mixedObject.setAllA(11);
+        REQUIRE(mixedObject.data1() == 11);
+        REQUIRE(mixedObject.data2ByName() == 5);
+
+        mixedObject.setDifferentAllA(40);
+
+        REQUIRE(mixedObject.data1() == 40);
+        REQUIRE(mixedObject.data2ByName() == 5);
     }
 }
 

@@ -9,7 +9,10 @@ set (test_sources
     EventLoopTests.cpp
     FunctionTests.cpp
     MemoryPoolTests.cpp
-    mpl/mixin/FilterTests.cpp
+    mpl/types/BindTypeTests.cpp
+    mpl/types/GetIndexOfBindedKeyTests.cpp
+    mpl/tuples/ExtendTests.cpp
+    mpl/tuples/FilterTests.cpp
     mpl/mixin/InheritFromTests.cpp
     mpl/mixin/MixinTests.cpp
     ObserverTests.cpp

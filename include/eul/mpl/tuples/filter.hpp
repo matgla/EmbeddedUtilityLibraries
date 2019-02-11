@@ -6,7 +6,7 @@ namespace eul
 {
 namespace mpl
 {
-namespace mixin
+namespace tuples
 {
 namespace detail
 {
@@ -45,6 +45,6 @@ struct filter
     using type = typename detail::filter_impl<pred, Types...>::type;
 };
 
-} // namespace mixin
+} // namespace tuples
 } // namespace mpl
 } // namespace eul
