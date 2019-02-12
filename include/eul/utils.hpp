@@ -181,7 +181,7 @@ inline void formatDateAndTime(char* buffer, const uint8_t bufferSize, std::tm* t
 template <typename T>
 inline int strlen(const gsl::span<T>& data)
 {
-    for (typename gsl::span<T>::index_type i = 0; i < data.length(); ++i)
+    for (typename gsl::span<T>::index_type i = 0; i < data.size(); ++i)
     {
         if (data[i] == 0)
         {

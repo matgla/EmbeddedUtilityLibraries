@@ -55,9 +55,16 @@ struct access
     template <typename Name>
     auto& get_by_name()
     {
-        using TupleType = decltype(object_.data_);
-        constexpr std::size_t indexOfType
-            = types::tuple_index_getter<TupleType>::template by_key<Name>();
+        using TupleType                   = decltype(object_.data_);
+        constexpr std::size_t indexOfType = types::tuple_index_getter<TupleType>::template by_key<Name>();
+        return std::get<indexOfType>(object_.data_);
+    }
+
+    template <typename Name>
+    static auto constexpr get_binded()
+    {
+        using TupleType                   = decltype(object_.data_);
+        constexpr std::size_t indexOfType = types::tuple_index_getter<TupleType>::template by_key<Name>();
         return std::get<indexOfType>(object_.data_);
     }
 

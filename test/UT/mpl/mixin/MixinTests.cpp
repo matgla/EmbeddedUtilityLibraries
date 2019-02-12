@@ -9,9 +9,9 @@
 #include "eul/mpl/mixin/const_access.hpp"
 #include "eul/mpl/mixin/data.hpp"
 #include "eul/mpl/mixin/interface.hpp"
+#include "eul/mpl/mixin/name.hpp"
 #include "eul/mpl/mixin/object.hpp"
 #include "eul/mpl/types/bind_type.hpp"
-#include "eul/mpl/mixin/name.hpp"
 
 namespace eul
 {
@@ -216,7 +216,7 @@ TEST_CASE("Mixin should", "[Mixin]")
     SECTION("get by name")
     {
         auto mixedObject = object(interface<InterfaceC>{}, DataForC{},
-            types::bind_type<InterfaceCMembers::SomeData>::to(Data2ForC{5}));
+                                  types::bind_type<InterfaceCMembers::SomeData>::to(Data2ForC{5}));
         REQUIRE(mixedObject.data1() == 2);
         REQUIRE(mixedObject.data2ByName() == 5);
 
