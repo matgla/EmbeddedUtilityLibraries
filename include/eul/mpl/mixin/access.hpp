@@ -63,9 +63,10 @@ struct access
     template <typename Name>
     static auto constexpr get_binded()
     {
-        using TupleType                   = decltype(object_.data_);
+        using TupleType                   = typename MixedObject::DataType;
         constexpr std::size_t indexOfType = types::tuple_index_getter<TupleType>::template by_key<Name>();
-        return std::get<indexOfType>(object_.data_);
+        using ElementType                 = typename std::tuple_element<indexOfType, TupleType>::type;
+        return types::binded<Name, ElementType>{};
     }
 
     template <typename Name>

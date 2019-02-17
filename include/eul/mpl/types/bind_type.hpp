@@ -10,7 +10,7 @@ namespace types
 template <typename Key, typename Value>
 struct binded
 {
-    using KeyType = Key;
+    using KeyType   = Key;
     using ValueType = Value;
 
     ValueType value;
@@ -22,7 +22,7 @@ struct bind_type
     template <typename ValueType>
     constexpr static auto to(ValueType&& value)
     {
-        return binded<Key, ValueType>{std::move(value)};
+        return binded<Key, ValueType>{std::forward<ValueType>(value)};
     }
 };
 

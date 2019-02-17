@@ -155,7 +155,7 @@ protected:
 
     void printTimeAndDate() const
     {
-        constexpr const int BufferSize = 20;
+        constexpr const int BufferSize = 30;
         char buffer[BufferSize];
         std::time_t t          = time_.milliseconds().count();
         struct tm* currentTime = std::localtime(&t);
