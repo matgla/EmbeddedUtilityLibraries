@@ -7,7 +7,8 @@
 
 struct TestingElement
 {
-    TestingElement(int x) : a(x)
+    TestingElement(int x)
+        : a(x)
     {
     }
     int a;
@@ -17,9 +18,7 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 {
     SECTION("push_back elements")
     {
-        eul::container::observing_list<
-            eul::container::observing_node<TestingElement>>
-            sut;
+        eul::container::observing_list<eul::container::observing_node<TestingElement>> sut;
         eul::container::observing_node<TestingElement> a{10};
         eul::container::observing_node<TestingElement> b{20};
         eul::container::observing_node<TestingElement> c{30};
@@ -33,11 +32,25 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
         REQUIRE((*sut.at(2))->a == 30);
     }
 
+    SECTION("push_front elements")
+    {
+        eul::container::observing_list<eul::container::observing_node<TestingElement>> sut;
+        eul::container::observing_node<TestingElement> a{10};
+        eul::container::observing_node<TestingElement> b{20};
+        eul::container::observing_node<TestingElement> c{30};
+
+        sut.push_front(a);
+        sut.push_front(b);
+        sut.push_front(c);
+
+        REQUIRE((*sut.at(2))->a == 10);
+        REQUIRE((*sut.at(1))->a == 20);
+        REQUIRE((*sut.at(0))->a == 30);
+    }
+
     SECTION("auto remove element out of scope")
     {
-        eul::container::observing_list<
-            eul::container::observing_node<TestingElement>>
-            sut;
+        eul::container::observing_list<eul::container::observing_node<TestingElement>> sut;
         eul::container::observing_node<TestingElement> a{10};
 
         {
@@ -81,9 +94,7 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
     {
         eul::container::observing_node<TestingElement> b{15};
 
-        eul::container::observing_list<
-            eul::container::observing_node<TestingElement>>
-            sut;
+        eul::container::observing_list<eul::container::observing_node<TestingElement>> sut;
         {
             eul::container::observing_node<TestingElement> a{10};
 
@@ -119,12 +130,8 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
     SECTION("Move node to other list")
     {
-        eul::container::observing_list<
-            eul::container::observing_node<TestingElement>>
-            sut;
-        eul::container::observing_list<
-            eul::container::observing_node<TestingElement>>
-            sut2;
+        eul::container::observing_list<eul::container::observing_node<TestingElement>> sut;
+        eul::container::observing_list<eul::container::observing_node<TestingElement>> sut2;
         {
             eul::container::observing_node<TestingElement> a{10};
             eul::container::observing_node<TestingElement> b{15};
@@ -153,9 +160,7 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
     {
         eul::container::observing_node<TestingElement> c{20};
 
-        eul::container::observing_list<
-            eul::container::observing_node<TestingElement>>
-            sut;
+        eul::container::observing_list<eul::container::observing_node<TestingElement>> sut;
         {
             eul::container::observing_node<TestingElement> a{10};
             eul::container::observing_node<TestingElement> b{15};
@@ -173,9 +178,7 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
     {
         eul::container::observing_node<TestingElement> c{20};
 
-        eul::container::observing_list<
-            eul::container::observing_node<TestingElement>>
-            sut;
+        eul::container::observing_list<eul::container::observing_node<TestingElement>> sut;
         {
             eul::container::observing_node<TestingElement> a{10};
             eul::container::observing_node<TestingElement> b{15};
@@ -210,9 +213,7 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
     {
         eul::container::observing_node<TestingElement> c{20};
 
-        eul::container::observing_list<
-            eul::container::observing_node<TestingElement>>
-            sut;
+        eul::container::observing_list<eul::container::observing_node<TestingElement>> sut;
         {
             eul::container::observing_node<TestingElement> a{10};
             eul::container::observing_node<TestingElement> b{15};
@@ -231,9 +232,7 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
     {
         eul::container::observing_node<TestingElement> c{20};
 
-        eul::container::observing_list<
-            eul::container::observing_node<TestingElement>>
-            sut;
+        eul::container::observing_list<eul::container::observing_node<TestingElement>> sut;
         {
             eul::container::observing_node<TestingElement> a{10};
             eul::container::observing_node<TestingElement> b{15};
@@ -276,9 +275,7 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
     SECTION("Support for each")
     {
-        eul::container::observing_list<
-            eul::container::observing_node<TestingElement>>
-            sut;
+        eul::container::observing_list<eul::container::observing_node<TestingElement>> sut;
         {
             eul::container::observing_node<TestingElement> a{3};
             eul::container::observing_node<TestingElement> b{2};

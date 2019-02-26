@@ -20,6 +20,7 @@ public:
     ~observing_list();
 
     bool push_back(NodeType& node);
+    bool push_front(NodeType& node);
     bool insert_after(NodeType& prev, NodeType& node);
     bool insert_before(NodeType& next, NodeType& node);
 
@@ -54,7 +55,8 @@ private:
 };
 
 template <typename NodeType>
-observing_list<NodeType>::observing_list() : root_{nullptr}
+observing_list<NodeType>::observing_list()
+    : root_{nullptr}
 {
 }
 
@@ -92,6 +94,12 @@ bool observing_list<NodeType>::push_back(NodeType& node)
 }
 
 template <typename NodeType>
+bool observing_list<NodeType>::push_front(NodeType& node)
+{
+    return insert_before(*root_, node);
+}
+
+template <typename NodeType>
 bool observing_list<NodeType>::insert_after(NodeType& prev, NodeType& node)
 {
     auto* current = find(&prev);
@@ -109,6 +117,11 @@ bool observing_list<NodeType>::insert_after(NodeType& prev, NodeType& node)
 template <typename NodeType>
 bool observing_list<NodeType>::insert_before(NodeType& next, NodeType& node)
 {
+    if (root_ == nullptr)
+    {
+        link(node);
+    }
+
     auto* current = find(&next);
     if (!current)
     {
@@ -128,8 +141,7 @@ bool observing_list<NodeType>::insert_before(NodeType& next, NodeType& node)
 }
 
 template <typename NodeType>
-std::optional<typename NodeType::data_type*>
-    observing_list<NodeType>::at(const std::size_t index)
+std::optional<typename NodeType::data_type*> observing_list<NodeType>::at(const std::size_t index)
 {
     if (!root_)
     {
@@ -200,22 +212,19 @@ typename NodeType::iterator observing_list<NodeType>::begin()
 template <typename NodeType>
 typename NodeType::const_iterator observing_list<NodeType>::begin() const
 {
-    return observing_node_const_iterator<typename NodeType::data_type>(*root_,
-                                                                       0);
+    return observing_node_const_iterator<typename NodeType::data_type>(*root_, 0);
 }
 
 template <typename NodeType>
 typename NodeType::iterator observing_list<NodeType>::end()
 {
-    return observing_node_iterator<typename NodeType::data_type>(nullptr,
-                                                                 size());
+    return observing_node_iterator<typename NodeType::data_type>(nullptr, size());
 }
 
 template <typename NodeType>
 typename NodeType::const_iterator observing_list<NodeType>::end() const
 {
-    return observing_node_const_iterator<typename NodeType::data_type>(nullptr,
-                                                                       size());
+    return observing_node_const_iterator<typename NodeType::data_type>(nullptr, size());
 }
 
 

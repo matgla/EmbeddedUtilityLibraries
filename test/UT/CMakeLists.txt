@@ -6,6 +6,9 @@ set (test_sources
     container/observable/ObservingListTests.cpp
     container/RingBufferTests.cpp
     container/StaticVectorTests.cpp
+    container/StaticDequeTests.cpp
+    container/iterator/IndexConstIteratorTests.cpp
+    container/iterator/IndexIteratorTests.cpp
     EventLoopTests.cpp
     FunctionTests.cpp
     MemoryPoolTests.cpp
