@@ -4,20 +4,18 @@
 #include "eul/execution_queue.hpp"
 #include "eul/function.hpp"
 
-namespace eul
-{
 TEST_CASE("ExecutionQueue", "[EQ]")
 {
     using ExecutionQueueType = eul::ExecutionQueue<eul::function<void(), sizeof(void*)>>;
-    using ExecutorType       = typename ExecutionQueueType::ElementType;
+    using LifetimeNode       = typename ExecutionQueueType::LifetimeNodeType;
 
     SECTION("push task to front")
     {
         ExecutionQueueType sut;
-        bool a = false;
-        bool b = false;
-
-        ExecutorType sut.push_front([&a] { a })
+        Lifetime bool a = false;
+        bool b          = false;
+        ExecutorType executor_a{[&a] { a = true; }};
+        ExecutorType executor_b{[&b] { b = true; }};
+        ExecutorType sut.push_front(a);
     }
 }
-} // namespace eul

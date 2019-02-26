@@ -5,6 +5,7 @@
 
 #include "eul/container/observable/observing_list.hpp"
 #include "eul/container/observable/observing_node.hpp"
+#include "eul/container/static_deque.hpp"
 
 namespace eul
 {
@@ -25,21 +26,19 @@ public:
     void run();
 
 private:
-    bool add_to_buffer(LifetimeNodeType& lifetime, const Type& executor);
-
-    int get_first_free_slot() const;
     LifetimeObserver lifetimes_;
-    std::array<Type, MaximumNumberOfExecutors> executors_;
+    container::static_deque<Type, MaximumNumberOfExecutors> executors_;
 };
 
 template <typename Type, std::size_t MaximumNumberOfExecutors>
 bool ExecutionQueue<Type, MaximumNumberOfExecutors>::push_back(LifetimeNodeType& lifetime,
                                                                const Type& executor)
 {
-    if (!add_to_buffer(lifetime, executor))
+    if (executors_.size() == executors_.max_size())
     {
         return false;
     }
+    executors_.push_back(executor);
     lifetimes_.push_back(lifeTime);
     return true;
 }
@@ -48,42 +47,13 @@ template <typename Type, std::size_t MaximumNumberOfExecutors>
 bool ExecutionQueue<Type, MaximumNumberOfExecutors>::push_front(LifetimeNodeType& lifetime,
                                                                 const Type& executor)
 {
-    if (!add_to_buffer(lifetime, executor))
+    if (executors_.size() == executors_.max_size())
     {
         return false;
     }
+    executors_.push_front(executor);
     lifetimes_.push_front(lifeTime);
     return true;
-}
-
-
-template <typename Type, std::size_t MaximumNumberOfExecutors>
-bool ExecutionQueue<Type, MaximumNumberOfExecutors>::add_to_buffer(LifetimeNodeType& lifetime,
-                                                                   const Type& executor)
-{
-    const auto position = get_first_free_slot();
-    if (position < 0)
-    {
-        return false;
-    }
-    lifetime_            = position;
-    executors_[position] = executor;
-    return true;
-}
-
-
-template <typename Type, std::size_t MaximumNumberOfExecutors>
-int ExecutionQueue<Type, MaximumNumberOfExecutors>::get_first_free_slot() const
-{
-    int i = 0;
-    for (int i = 0; i < occupiedPositionsMap_.size(); ++i)
-    {
-        if (occupiedPositionsMap_[i] == 0)
-        {
-            return i;
-        }
-    }
-    return -1;
 }
 
 

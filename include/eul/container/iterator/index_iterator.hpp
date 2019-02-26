@@ -2,6 +2,8 @@
 
 #include <cstddef>
 
+namespace eul
+{
 namespace container
 {
 namespace iterator
@@ -80,3 +82,4 @@ typename index_iterator<ContainerType>::value_type* index_iterator<ContainerType
 
 } // namespace iterator
 } // namespace container
+} // namespace eul

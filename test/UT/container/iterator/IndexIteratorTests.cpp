@@ -22,7 +22,7 @@ struct TestingObject
 
 TEST_CASE("IndexIterator should", "[IndexIteratorTests]")
 {
-    using SutType = container::iterator::index_iterator<TestingObject>;
+    using SutType = eul::container::iterator::index_iterator<TestingObject>;
 
     SECTION("PostIncrement")
     {

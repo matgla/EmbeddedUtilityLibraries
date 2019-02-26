@@ -24,7 +24,7 @@ std::size_t TestingObject::index = 0;
 
 TEST_CASE("IndexConstIterator should", "[IndexConstIteratorTests]")
 {
-    using SutType = container::iterator::index_const_iterator<TestingObject>;
+    using SutType = eul::container::iterator::index_const_iterator<TestingObject>;
 
     SECTION("PostIncrement")
     {
