@@ -10,6 +10,7 @@ set (test_sources
     container/iterator/IndexConstIteratorTests.cpp
     container/iterator/IndexIteratorTests.cpp
     EventLoopTests.cpp
+    ExecutionQueueTests.cpp
     FunctionTests.cpp
     MemoryPoolTests.cpp
     mpl/types/BindTypeTests.cpp

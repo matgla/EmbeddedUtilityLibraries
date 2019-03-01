@@ -102,6 +102,10 @@ bool observing_list<NodeType>::push_front(NodeType& node)
 template <typename NodeType>
 bool observing_list<NodeType>::insert_after(NodeType& prev, NodeType& node)
 {
+    if (find(&node) != nullptr)
+    {
+        return false;
+    }
     auto* current = find(&prev);
     if (!current)
     {
@@ -117,6 +121,10 @@ bool observing_list<NodeType>::insert_after(NodeType& prev, NodeType& node)
 template <typename NodeType>
 bool observing_list<NodeType>::insert_before(NodeType& next, NodeType& node)
 {
+    if (find(&node) != nullptr)
+    {
+        return false;
+    }
     if (root_ == nullptr)
     {
         link(node);
@@ -264,7 +272,7 @@ void observing_list<NodeType>::erase(const NodeType& node)
     auto* nodeInList = find(&node);
     if (nodeInList != nullptr)
     {
-        nodeInList.reset();
+        nodeInList->reset();
     }
 }
 

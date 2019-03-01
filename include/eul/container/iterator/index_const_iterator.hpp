@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <iterator>
 
 namespace eul
 {
@@ -11,11 +12,11 @@ namespace iterator
 
 template <typename ContainerType>
 class index_const_iterator
+    : public std::iterator<std::output_iterator_tag, typename ContainerType::value_type>
 {
-public:
-    // TODO: add iterator tag
-    using value_type = typename ContainerType::value_type;
+    using Self = index_const_iterator<ContainerType>;
 
+public:
     index_const_iterator(const ContainerType& container, std::size_t index);
     ~index_const_iterator()                           = default;
     index_const_iterator(const index_const_iterator&) = default;
@@ -27,8 +28,8 @@ public:
     index_const_iterator& operator++();
     bool operator==(const index_const_iterator& it) const;
     bool operator!=(const index_const_iterator& it) const;
-    const value_type& operator*() const;
-    const value_type* operator->() const;
+    const typename std::iterator_traits<Self>::value_type& operator*() const;
+    const typename std::iterator_traits<Self>::value_type* operator->() const;
 
 private:
     const ContainerType& object_;
@@ -69,15 +70,15 @@ bool index_const_iterator<ContainerType>::operator!=(const index_const_iterator<
 }
 
 template <typename ContainerType>
-const typename index_const_iterator<ContainerType>::value_type& index_const_iterator<ContainerType>::
-    operator*() const
+const typename std::iterator_traits<index_const_iterator<ContainerType>>::value_type&
+    index_const_iterator<ContainerType>::operator*() const
 {
     return object_[index_];
 }
 
 template <typename ContainerType>
-const typename index_const_iterator<ContainerType>::value_type* index_const_iterator<ContainerType>::
-    operator->() const
+const typename std::iterator_traits<index_const_iterator<ContainerType>>::value_type*
+    index_const_iterator<ContainerType>::operator->() const
 {
     return &object_[index_];
 }
