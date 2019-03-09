@@ -102,7 +102,7 @@ TEST_CASE("ExecutionQueue", "[EQ]")
         REQUIRE(c == 3);
     }
 
-    SECTION("return false when buffor too small")
+    SECTION("return false when buffer too small")
     {
 
         ExecutionQueueType sut;

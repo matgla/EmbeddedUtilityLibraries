@@ -46,6 +46,8 @@ public:
     bool pop_back();
     bool pop_front();
 
+    bool empty() const;
+
 private:
     constexpr static void increment_index(std::size_t& index);
     constexpr static void decrement_index(std::size_t& index);
@@ -232,6 +234,16 @@ bool static_deque<T, Size>::pop_front()
         return true;
     }
     return false;
+}
+
+template <typename T, std::size_t Size>
+bool static_deque<T, Size>::empty() const
+{
+    if (size() > 0)
+    {
+        return false;
+    }
+    return true;
 }
 
 } // namespace container

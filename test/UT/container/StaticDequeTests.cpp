@@ -138,4 +138,12 @@ TEST_CASE("StaticDeque should", "[StaticDeque]")
         REQUIRE(sut.pop_back());
         REQUIRE(sut.pop_back() == false);
     }
+
+    SECTION("Return correct empty state")
+    {
+        eul::container::static_deque<int, 4> sut;
+        REQUIRE(sut.empty());
+        sut.push_back(1);
+        REQUIRE(sut.empty() == false);
+    }
 }
