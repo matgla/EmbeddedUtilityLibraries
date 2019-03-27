@@ -1,6 +1,7 @@
 include_directories(../lib)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR})
 
 set (test_sources
     container/observable/ObservingListTests.cpp
@@ -19,6 +20,9 @@ set (test_sources
     mpl/tuples/FilterTests.cpp
     mpl/mixin/InheritFromTests.cpp
     mpl/mixin/MixinTests.cpp
+    timer/TimeoutTimerTests.cpp
+    timer/TimerManagerTests.cpp
+    timer/TimerTests.cpp
     ObserverTests.cpp
     Runner.cpp
 )
@@ -38,8 +42,7 @@ else (DEBUG)
 endif (DEBUG)
 
 add_executable(eul_tests ${test_sources})
-target_link_libraries(eul_tests eul)
-enable_testing()
+target_link_libraries(eul_tests eul test_stubs)
 
 add_custom_target(run_eul_ut
   COMMAND "${CMAKE_BINARY_DIR}/test/UT/eul_tests"

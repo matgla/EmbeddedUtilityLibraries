@@ -48,8 +48,6 @@ public:
 
     bool empty() const;
 
-    std::array<T, Size>
-
 private:
     constexpr static void increment_index(std::size_t& index);
     constexpr static void decrement_index(std::size_t& index);

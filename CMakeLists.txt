@@ -24,10 +24,11 @@ target_sources(eul INTERFACE
 add_subdirectory(lib)
 
 add_subdirectory(include/eul/logger)
+add_subdirectory(include/eul/timer)
 add_subdirectory(include/eul/mpl)
 
 target_include_directories(eul INTERFACE ${Eul_INCLUDE_DIR})
-target_link_libraries(eul INTERFACE eul_logger eul_mpl gsl)
+target_link_libraries(eul INTERFACE eul_logger eul_mpl eul_timer gsl)
 
 if (BUILD_TESTS)
     add_subdirectory(test)
