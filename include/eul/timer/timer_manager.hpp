@@ -8,17 +8,18 @@ namespace eul
 {
 namespace timer
 {
-class TimerManager
+
+class timer_manager
 {
 public:
-    TimerManager() = default;
+    timer_manager() = default;
 
-    void register_timer(ObservedTimer& timer)
+    void register_timer(observed_timer& timer)
     {
         timers_.push_back(timer.observing_node());
     }
 
-    void deregister_timer(ObservedTimer& timer)
+    void deregister_timer(observed_timer& timer)
     {
         timer.observing_node().reset();
     }
@@ -32,7 +33,7 @@ public:
     }
 
 private:
-    eul::container::observing_list<eul::container::observing_node<ObservedTimer*>> timers_;
+    eul::container::observing_list<eul::container::observing_node<observed_timer*>> timers_;
 };
 
 } // namespace timer

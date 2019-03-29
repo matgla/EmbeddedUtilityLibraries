@@ -8,13 +8,12 @@ namespace eul
 namespace timer
 {
 
-template <typename TimeProviderType>
-class TimerStub : public Timer<TimeProviderType>
+class TimerStub : public timer
 {
 public:
-    using CallbackType = typename Timer<TimeProviderType>::CallbackType;
-    TimerStub(const CallbackType& callback, const TimeProviderType& time)
-        : Timer<TimeProviderType>::Timer(callback, time)
+    using CallbackType = typename timer::CallbackType;
+    TimerStub(const CallbackType& callback, const ITimeProvider& time)
+        : timer(callback, time)
     {
     }
 
@@ -28,7 +27,7 @@ public:
         return this->end_time_;
     }
 
-    const TimeProviderType& getTimeProvider() const
+    const ITimeProvider& getTimeProvider() const
     {
         return this->time_provider_;
     }

@@ -9,21 +9,21 @@ namespace eul
 namespace timer
 {
 
-class ObservedTimer : public ITimer
+class observed_timer : public ITimer
 {
 public:
-    ObservedTimer()
+    observed_timer()
         : observing_node_(this)
     {
     }
 
-    eul::container::observing_node<ObservedTimer*>& observing_node()
+    eul::container::observing_node<observed_timer*>& observing_node()
     {
         return observing_node_;
     }
 
 protected:
-    eul::container::observing_node<ObservedTimer*> observing_node_;
+    eul::container::observing_node<observed_timer*> observing_node_;
 };
 
 } // namespace timer

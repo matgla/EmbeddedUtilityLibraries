@@ -21,9 +21,9 @@ TEST_CASE("TimerManagerShould", "[TimerManagerTests]")
 
         int counter = 0;
         bool called = false;
-        TimerManager sut;
-        TimeoutTimer timer(time);
-        TimeoutTimer timer2(time);
+        timer_manager sut;
+        timeout_timer timer(time);
+        timeout_timer timer2(time);
 
         timer.start(
             [&counter]() {
@@ -59,8 +59,8 @@ TEST_CASE("TimerManagerShould", "[TimerManagerTests]")
 
         int counter = 0;
         bool called = false;
-        TimerManager sut;
-        TimeoutTimer timer(time);
+        timer_manager sut;
+        timeout_timer timer(time);
 
 
         timer.start(
@@ -72,7 +72,7 @@ TEST_CASE("TimerManagerShould", "[TimerManagerTests]")
         sut.register_timer(timer);
 
         {
-            TimeoutTimer timer2(time);
+            timeout_timer timer2(time);
             timer2.start(
                 [&called] { called = true; },
                 std::chrono::seconds(2));
@@ -93,8 +93,8 @@ TEST_CASE("TimerManagerShould", "[TimerManagerTests]")
 
         int counter = 0;
         bool called = false;
-        TimerManager sut;
-        TimeoutTimer timer(time);
+        timer_manager sut;
+        timeout_timer timer(time);
 
 
         timer.start(
@@ -105,7 +105,7 @@ TEST_CASE("TimerManagerShould", "[TimerManagerTests]")
 
         sut.register_timer(timer);
 
-        TimeoutTimer timer2(time);
+        timeout_timer timer2(time);
         timer2.start(
             [&called] { called = true; },
             std::chrono::seconds(2));

@@ -1,32 +1,29 @@
 #pragma once
 
 #include "eul/timer/timer.hpp"
+#include "eul/timer/ITimeProvider.hpp"
 
 namespace eul
 {
 namespace timer
 {
 
-template <typename TimeProviderType>
-class TimeoutTimer : public Timer<TimeProviderType>
+class timeout_timer : public timer
 {
-private:
-    using TimerBase = Timer<TimeProviderType>;
-
 public:
-    TimeoutTimer(const TimeProviderType& timeProvider)
-        : TimerBase::Timer(timeProvider)
+    timeout_timer(const ITimeProvider& timeProvider)
+        : timer(timeProvider)
     {
     }
 
     void run() override
     {
-        if (this->state_ == TimerBase::State::Running)
+        if (state_ == State::Running)
         {
-            if (this->time_provider_.milliseconds() >= this->end_time_)
+            if (time_provider_.milliseconds() >= end_time_)
             {
-                this->state_ = TimerBase::State::Idle;
-                this->fire();
+                state_ = State::Idle;
+                fire();
             }
         }
     }

@@ -15,7 +15,7 @@ TEST_CASE("TimeoutTimerShould", "[TimeoutTimerTests]")
         stubs::time::TimeStub time;
         time.setTime(std::chrono::milliseconds(10));
 
-        TimeoutTimer timer(time);
+        timeout_timer timer(time);
 
         int counter = 0;
         REQUIRE(timer.start([&counter] { counter += 15; }, std::chrono::milliseconds(161)));
