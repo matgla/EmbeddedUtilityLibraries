@@ -181,6 +181,11 @@ public:
         return data_.begin() + firstFreePosition_;
     }
 
+    bool empty() const
+    {
+        return size() == 0;
+    }
+
 private:
     std::size_t firstFreePosition_;
     DataContainerType data_;
