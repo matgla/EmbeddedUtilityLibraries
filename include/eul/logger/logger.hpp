@@ -68,6 +68,13 @@ public:
         return *this;
     }
 
+    template<typename T>
+    const Logger& operator<<(const gsl::span<T>& data) const
+    {
+        write_to_streams(data);
+        return *this;
+    }
+
     const Logger& operator<<(int data) const
     {
         char number[21];

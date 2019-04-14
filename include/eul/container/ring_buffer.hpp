@@ -15,9 +15,10 @@ public:
     {
     }
 
-    void push(const T& element)
+    T& push(const T& element)
     {
         data_[head_] = element;
+        auto& new_element = data_[head_];
 
         if (full_)
         {
@@ -26,6 +27,7 @@ public:
 
         increment_index(head_);
         full_ = tail_ == head_;
+        return new_element;
     }
 
     std::size_t size() const
