@@ -10,6 +10,8 @@ set (test_sources
     container/StaticDequeTests.cpp
     container/iterator/IndexConstIteratorTests.cpp
     container/iterator/IndexIteratorTests.cpp
+    mpl/types/BindTypeTests.cpp
+    kernel/KernelTests.cpp
     EventLoopTests.cpp
     ExecutionQueueTests.cpp
     FunctionTests.cpp
