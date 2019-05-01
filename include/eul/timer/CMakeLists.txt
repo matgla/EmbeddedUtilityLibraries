@@ -11,3 +11,8 @@ target_sources(eul_timer
 )
 
 target_include_directories(eul_timer INTERFACE "${PROJECT_SOURCE_DIR}/include")
+
+target_link_libraries(eul_timer
+    INTERFACE
+        eul_time
+)

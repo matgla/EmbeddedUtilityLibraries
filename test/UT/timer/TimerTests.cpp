@@ -12,7 +12,7 @@ class TimerStub : public timer
 {
 public:
     using CallbackType = typename timer::CallbackType;
-    TimerStub(const CallbackType& callback, const ITimeProvider& time)
+    TimerStub(const CallbackType& callback, const time::ITimeProvider& time)
         : timer(callback, time)
     {
     }
@@ -27,7 +27,7 @@ public:
         return this->end_time_;
     }
 
-    const ITimeProvider& getTimeProvider() const
+    const time::ITimeProvider& getTimeProvider() const
     {
         return this->time_provider_;
     }

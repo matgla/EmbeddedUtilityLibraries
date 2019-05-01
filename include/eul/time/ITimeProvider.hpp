@@ -4,7 +4,7 @@
 
 namespace eul
 {
-namespace timer
+namespace time
 {
 
 class ITimeProvider
@@ -15,5 +15,5 @@ public:
     virtual std::chrono::milliseconds milliseconds() const = 0;
 };
 
-} // namespace timer
+} // namespace time
 } // namespace eul

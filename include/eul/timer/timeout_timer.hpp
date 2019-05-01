@@ -1,7 +1,7 @@
 #pragma once
 
 #include "eul/timer/timer.hpp"
-#include "eul/timer/ITimeProvider.hpp"
+#include "eul/time/ITimeProvider.hpp"
 
 namespace eul
 {
@@ -11,7 +11,7 @@ namespace timer
 class timeout_timer : public timer
 {
 public:
-    timeout_timer(const ITimeProvider& timeProvider)
+    timeout_timer(const time::ITimeProvider& timeProvider)
         : timer(timeProvider)
     {
     }

@@ -3,7 +3,7 @@
 #include <chrono>
 
 #include "eul/timer/observed_timer.hpp"
-#include "eul/timer/ITimeProvider.hpp"
+#include "eul/time/ITimeProvider.hpp"
 #include "eul/function.hpp"
 
 namespace eul
@@ -22,13 +22,13 @@ public:
         Idle
     };
 
-    timer(const CallbackType& callback, const ITimeProvider& time_provider)
+    timer(const CallbackType& callback, const time::ITimeProvider& time_provider)
         : timer(time_provider)
     {
         callback_ = callback;
     }
 
-    timer(const ITimeProvider& time_provider)
+    timer(const time::ITimeProvider& time_provider)
         : time_provider_(time_provider),
           start_time_(0), end_time_(0), state_(State::Idle)
     {
@@ -82,7 +82,7 @@ protected:
         }
     }
 
-    const ITimeProvider& time_provider_;
+    const time::ITimeProvider& time_provider_;
 
     std::chrono::milliseconds start_time_;
     std::chrono::milliseconds end_time_;

@@ -2,7 +2,10 @@
 
 #include <string_view>
 
+#include "eul/container/observable/observing_list.hpp"
+#include "eul/logger/logger_stream_registry.hpp"
 #include "eul/logger/logger_traits.hpp"
+#include "eul/time/ITimeProvider.hpp"
 #include "eul/utils.hpp"
 
 namespace eul
@@ -21,134 +24,46 @@ public:
     }
 };
 
-
-template <Writable Stream, Writable... Rest>
-struct write_to_all
-{
-    constexpr static void write(const auto& data)
-    {
-        Stream::write(data);
-        write_to_all<Rest...>::write(data);
-    }
-};
-
-template <Writable Stream>
-struct write_to_all<Stream>
-{
-    constexpr static void write(const auto& data)
-    {
-        Stream::write(data);
-    }
-};
-
-
-template <typename LoggingPolicy, typename TimeType, Writable... Streams>
-class Logger
+class LoggerPrinter final
 {
 public:
-    using LoggerType = Logger<LoggingPolicy, TimeType, Streams...>;
-    Logger(const std::string_view& name, const TimeType& time)
-        : name_(name)
+    LoggerPrinter(
+        const std::string_view& prefix,
+        const std::string_view& name,
+        const time::ITimeProvider& time)
+        : prefix_(prefix)
+        , name_(name)
         , time_(time)
     {
     }
 
-    Logger(const Logger&) = default;
-    Logger(Logger&&)      = default;
-    Logger& operator=(const Logger&& other) = delete;
-    Logger& operator=(const Logger& other) = delete;
-    ~Logger()
+    ~LoggerPrinter()
     {
         write_to_streams("\n");
     }
 
-    const Logger& operator<<(const std::string_view& str) const
+    const LoggerPrinter& operator<<(const std::string_view& str) const
     {
         write_to_streams(str);
         return *this;
     }
 
     template<typename T>
-    const Logger& operator<<(const gsl::span<T>& data) const
+    const LoggerPrinter& operator<<(const gsl::span<T>& data) const
     {
         write_to_streams(data);
         return *this;
     }
 
-    const Logger& operator<<(int data) const
+    const LoggerPrinter& operator<<(int data) const
     {
         char number[21];
         utils::itoa(data, number);
         write_to_streams(number);
         return *this;
     }
-
-    template <typename Dummy = char, typename std::enable_if_t<LoggingPolicy::debug_enabled, Dummy> = 0>
-    auto debug() const
-    {
-        printHeader("DBG");
-        return LoggerType(name_, time_);
-    }
-
-    template <typename Dummy = char, typename std::enable_if_t<!LoggingPolicy::debug_enabled, Dummy> = 0>
-    auto debug() const
-    {
-        return SuppressingLogger();
-    }
-
-    template <typename Dummy = char, typename std::enable_if_t<LoggingPolicy::info_enabled, Dummy> = 0>
-    auto info() const
-    {
-        printHeader("INF");
-        return LoggerType(name_, time_);
-    }
-
-    template <typename Dummy = char, typename std::enable_if_t<!LoggingPolicy::info_enabled, Dummy> = 0>
-    auto info() const
-    {
-        return SuppressingLogger();
-    }
-
-    template <typename Dummy = char, typename std::enable_if_t<LoggingPolicy::warning_enabled, Dummy> = 0>
-    auto warning() const
-    {
-        printHeader("WRN");
-        return LoggerType(name_, time_);
-    }
-
-    template <typename Dummy = char, typename std::enable_if_t<!LoggingPolicy::warning_enabled, Dummy> = 0>
-    auto warning() const
-    {
-        return SuppressingLogger();
-    }
-
-    template <typename Dummy = char, typename std::enable_if_t<LoggingPolicy::error_enabled, Dummy> = 0>
-    auto error() const
-    {
-        printHeader("ERR");
-        return LoggerType(name_, time_);
-    }
-
-    template <typename Dummy = char, typename std::enable_if_t<!LoggingPolicy::error_enabled, Dummy> = 0>
-    auto error() const
-    {
-        return SuppressingLogger();
-    }
-
-    template <typename Dummy = char, typename std::enable_if_t<LoggingPolicy::trace_enabled, Dummy> = 0>
-    auto trace() const
-    {
-        printHeader("TRC");
-        return LoggerType(name_, time_);
-    }
-
-    template <typename Dummy = char, typename std::enable_if_t<!LoggingPolicy::trace_enabled, Dummy> = 0>
-    auto trace() const
-    {
-        return SuppressingLogger();
-    }
-
 protected:
+
     void printHeader(std::string_view level) const
     {
         write_to_streams("<");
@@ -171,13 +86,100 @@ protected:
         write_to_streams(buffer);
     }
 
-    void write_to_streams(const auto& data) const
+    void write_to_streams(const std::string_view& data) const
     {
-        write_to_all<Streams...>::write(data);
+        for (auto& stream : logger_stream_registry::get().get_streams())
+        {
+            stream.data()->write(data);
+        }
     }
 
+    const std::string_view prefix_;
     const std::string_view name_;
-    const TimeType time_;
+    const time::ITimeProvider& time_;
+};
+
+class Logger
+{
+public:
+    Logger(const std::string_view& name, const time::ITimeProvider& time)
+        : name_(name)
+        , time_(time)
+    {
+    }
+
+    Logger(const Logger&) = default;
+    Logger(Logger&&)      = default;
+    ~Logger() = default;
+
+    Logger& operator=(const Logger&& other) = delete;
+    Logger& operator=(const Logger& other) = delete;
+
+    template <typename Dummy = char, typename std::enable_if_t<CurrentLoggingPolicy::debug_enabled, Dummy> = 0>
+    auto debug() const
+    {
+        return LoggerPrinter("DBG", name_, time_);
+    }
+
+    template <typename Dummy = char, typename std::enable_if_t<!CurrentLoggingPolicy::debug_enabled, Dummy> = 0>
+    auto debug() const
+    {
+        return SuppressingLogger();
+    }
+
+    template <typename Dummy = char, typename std::enable_if_t<CurrentLoggingPolicy::info_enabled, Dummy> = 0>
+    auto info() const
+    {
+        return LoggerPrinter("INF", name_, time_);
+    }
+
+    template <typename Dummy = char, typename std::enable_if_t<!CurrentLoggingPolicy::info_enabled, Dummy> = 0>
+    auto info() const
+    {
+        return SuppressingLogger();
+    }
+
+    template <typename Dummy = char, typename std::enable_if_t<CurrentLoggingPolicy::warning_enabled, Dummy> = 0>
+    auto warning() const
+    {
+        return LoggerPrinter("WRN", name_, time_);
+    }
+
+    template <typename Dummy = char, typename std::enable_if_t<!CurrentLoggingPolicy::warning_enabled, Dummy> = 0>
+    auto warning() const
+    {
+        return SuppressingLogger();
+    }
+
+    template <typename Dummy = char, typename std::enable_if_t<CurrentLoggingPolicy::error_enabled, Dummy> = 0>
+    auto error() const
+    {
+        return LoggerPrinter("ERR", name_, time_);
+    }
+
+    template <typename Dummy = char, typename std::enable_if_t<!CurrentLoggingPolicy::error_enabled, Dummy> = 0>
+    auto error() const
+    {
+        return SuppressingLogger();
+    }
+
+    template <typename Dummy = char, typename std::enable_if_t<CurrentLoggingPolicy::trace_enabled, Dummy> = 0>
+    auto trace() const
+    {
+        printHeader("TRC");
+        return LoggerPrinter(name_, time_);
+    }
+
+    template <typename Dummy = char, typename std::enable_if_t<!CurrentLoggingPolicy::trace_enabled, Dummy> = 0>
+    auto trace() const
+    {
+        return SuppressingLogger();
+    }
+
+protected:
+
+    const std::string_view name_;
+    const time::ITimeProvider& time_;
 };
 
 } // namespace logger
