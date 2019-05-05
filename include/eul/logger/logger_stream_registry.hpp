@@ -13,12 +13,12 @@ namespace logger
 class logger_stream_registry
 {
 public:
-    using  stream_node = eul::container::observing_node<logger_stream*>;
+    using stream_node = eul::container::observing_node<logger_stream*>;
     using streams = eul::container::observing_list<stream_node>;
     static logger_stream_registry& get();
     void register_stream(logger_stream& stream);
 
-    streams& get_streams() const;
+    streams& get_streams();
 
 
 private:

@@ -1,33 +1,25 @@
 #pragma once
 
+#include <string_view>
+
+#include "eul/time/fwd.hpp"
 #include "eul/logger/logger.hpp"
-#include "eul/logger/logger_policy.hpp"
-#include "eul/logger/logger_traits.hpp"
 
 namespace eul
 {
 namespace logger
 {
 
-template <typename TimeType, typename LoggingPolicy, Writable... Streams>
-class LoggerFactory
+class logger_factory
 {
 public:
-    using LoggerType = Logger<LoggingPolicy, TimeType, Streams...>;
+    logger_factory(time::i_time_provider& time_provider);
 
-    LoggerFactory(const TimeType& time)
-        : time_(time)
-    {
-    }
+    logger create(const std::string_view& name);
 
-    constexpr auto create(const std::string_view& name) const
-    {
-        return LoggerType(name, time_);
-    }
-
-
-protected:
-    const TimeType& time_;
+    time::i_time_provider& get_time_provider();
+private:
+    time::i_time_provider& time_provider_;
 };
 
 } // namespace logger

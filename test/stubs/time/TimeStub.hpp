@@ -2,14 +2,14 @@
 
 #include <chrono>
 
- #include <eul/time/ITimeProvider.hpp>
+ #include <eul/time/i_time_provider.hpp>
 
 namespace stubs
 {
 namespace time
 {
 
-class TimeStub : public eul::time::ITimeProvider
+class TimeStub : public eul::time::i_time_provider
 {
 public:
     void setTime(const std::chrono::milliseconds& time)

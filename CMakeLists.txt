@@ -18,12 +18,12 @@ target_sources(eul INTERFACE
     "${PROJECT_SOURCE_DIR}/include/eul/container/observable/observing_list.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/container/observable/observing_node.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/traits.hpp"
-    "${PROJECT_SOURCE_DIR}/include/eul/utils.hpp"
 )
 
 add_subdirectory(lib)
 
-add_subdirectory(include/eul/logger)
+add_subdirectory(source/logger)
+add_subdirectory(source/utils)
 add_subdirectory(include/eul/time)
 add_subdirectory(include/eul/timer)
 add_subdirectory(include/eul/mpl)

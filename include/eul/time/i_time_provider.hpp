@@ -7,10 +7,10 @@ namespace eul
 namespace time
 {
 
-class ITimeProvider
+class i_time_provider
 {
 public:
-    virtual ~ITimeProvider() = default;
+    virtual ~i_time_provider() = default;
 
     virtual std::chrono::milliseconds milliseconds() const = 0;
 };
