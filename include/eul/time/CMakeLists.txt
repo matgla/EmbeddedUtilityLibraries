@@ -6,4 +6,3 @@ target_sources(eul_time
 )
 
 target_include_directories(eul_time INTERFACE "${PROJECT_SOURCE_DIR}/include")
-message("${PROJECT_SOURCE_DIR}/include")
