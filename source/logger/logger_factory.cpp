@@ -12,7 +12,7 @@ logger_factory::logger_factory(time::i_time_provider& time_provider)
 {
 }
 
-logger logger_factory::create(const std::string_view& name)
+logger logger_factory::create(const std::string_view& name) const
 {
     return logger(name, time_provider_);
 }

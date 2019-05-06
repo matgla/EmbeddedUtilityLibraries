@@ -15,7 +15,7 @@ class logger_factory
 public:
     logger_factory(time::i_time_provider& time_provider);
 
-    logger create(const std::string_view& name);
+    logger create(const std::string_view& name) const;
 
     time::i_time_provider& get_time_provider();
 private:

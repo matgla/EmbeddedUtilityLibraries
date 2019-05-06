@@ -55,7 +55,7 @@ void logger_printer::printTimeAndDate() const
 {
     constexpr const int BufferSize = 30;
     char buffer[BufferSize];
-    std::time_t t          = time_.milliseconds().count();
+    std::time_t t          = time_.milliseconds().count() / 1000;
     struct tm* currentTime = std::localtime(&t);
 
     utils::formatDateAndTime(buffer, BufferSize, currentTime);
