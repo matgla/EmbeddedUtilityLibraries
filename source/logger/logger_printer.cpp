@@ -26,17 +26,9 @@ logger_printer::~logger_printer()
     write_to_streams("\n");
 }
 
-const logger_printer& logger_printer::operator<<(const std::string_view& str) const
+logger_printer& logger_printer::operator<<(const std::string_view& str)
 {
     write_to_streams(str);
-    return *this;
-}
-
-const logger_printer& logger_printer::operator<<(int data) const
-{
-    char number[21];
-    utils::itoa(data, number);
-    write_to_streams(number);
     return *this;
 }
 
@@ -70,6 +62,29 @@ void logger_printer::write_to_streams(const std::string_view& data) const
     }
 }
 
+int logger_printer::get_base() const
+{
+    switch (flags_.get_base())
+    {
+        case logging_flags::base::dec:
+        {
+            return 10;
+        } break;
+        case logging_flags::base::hex:
+        {
+            return 16;
+        } break;
+        case logging_flags::base::oct:
+        {
+            return 8;
+        } break;
+        case logging_flags::base::bin:
+        {
+            return 2;
+        } break;
+    }
+    return 0;
+}
 
 } // namespace logger
 } // namespace eul
