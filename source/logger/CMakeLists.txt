@@ -29,6 +29,8 @@ else ()
     set(logging_definition "LOG_LEVEL_DISABLED")
 endif()
 
+message (STATUS "Logging level: ${logging_definition}")
+
 target_compile_definitions(eul_logger PUBLIC
     ${logging_definition}
 )

@@ -47,7 +47,8 @@ void logger_printer::printTimeAndDate() const
 {
     constexpr const int BufferSize = 30;
     char buffer[BufferSize];
-    std::time_t t          = time_.milliseconds().count() / 1000;
+
+    std::time_t t          = 0;//time_.milliseconds().count() / 1000;
     struct tm* currentTime = std::localtime(&t);
 
     utils::formatDateAndTime(buffer, BufferSize, currentTime);
@@ -58,7 +59,8 @@ void logger_printer::write_to_streams(const std::string_view& data) const
 {
     for (auto& stream : logger_stream_registry::get().get_streams())
     {
-        stream.data()->write(data);
+        std::cerr << data;
+        //stream.data()->write(data);
     }
 }
 

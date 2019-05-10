@@ -1,5 +1,7 @@
 #pragma once
 
+#include <eul/utils/unused.hpp>
+
 namespace eul
 {
 namespace logger
