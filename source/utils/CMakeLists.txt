@@ -1,4 +1,4 @@
-add_library(eul_utils)
+add_library(eul_utils OBJECT)
 
 target_sources(eul_utils
     PUBLIC

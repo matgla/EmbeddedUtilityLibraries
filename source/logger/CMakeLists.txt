@@ -1,4 +1,4 @@
-add_library(eul_logger)
+add_library(eul_logger OBJECT)
 
 target_sources(eul_logger
     PUBLIC

@@ -7,8 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(Eul_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include" CACHE STRING "path to EUL sources" FORCE)
 
-add_library(eul INTERFACE)
-target_sources(eul INTERFACE
+add_library(eul OBJECT)
+target_sources(eul PUBLIC
     "${PROJECT_SOURCE_DIR}/include/eul/event_loop.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/function.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/memory_ptr.hpp"
@@ -28,8 +28,15 @@ add_subdirectory(include/eul/time)
 add_subdirectory(include/eul/timer)
 add_subdirectory(include/eul/mpl)
 
-target_include_directories(eul INTERFACE ${Eul_INCLUDE_DIR})
-target_link_libraries(eul INTERFACE eul_logger eul_mpl eul_timer eul_time gsl)
+target_include_directories(eul PUBLIC ${Eul_INCLUDE_DIR})
+target_link_libraries(eul PUBLIC eul_logger eul_mpl eul_timer eul_time gsl)
+
+install (
+    TARGETS
+        eul
+    DESTINATION
+        ${CMAKE_BINARY_DIR}
+)
 
 if (BUILD_TESTS)
     add_subdirectory(test)
