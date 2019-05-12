@@ -8,5 +8,4 @@ message (STATUS "Added library: ${Gsl_INCLUDE_DIR}")
 
 add_library(gsl INTERFACE)
 target_sources(gsl INTERFACE ${gsl_srcs})
-message ("${gsl_srcs}")
 target_include_directories(gsl INTERFACE ${Gsl_INCLUDE_DIR})
