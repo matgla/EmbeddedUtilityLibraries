@@ -32,7 +32,13 @@ function (fetch_module_with_path module_name module_path working_directory)
         message (FATAL_ERROR "Can't find git")
     endif ()
 
-    if (NOT TARGET ${module_name})
+    string(FIND ${module_name} "/" module_name_last_slash REVERSE)
+    string(LENGTH ${module_name} module_length)
+    math(EXPR target_name_begin "${module_name_last_slash} + 1")
+    math(EXPR target_name_length "${module_length} - ${target_name_begin}")
+    string(SUBSTRING ${module_name} ${target_name_begin} ${target_name_length} target_name)
+
+    if (NOT TARGET ${target_name})
         execute_process(
             COMMAND
                 git submodule update --init -- ${module_name}
