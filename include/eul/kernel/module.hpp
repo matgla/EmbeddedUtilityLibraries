@@ -8,13 +8,13 @@ namespace eul
 namespace kernel
 {
 
-class Module
+class module
 {
 public:
-    using ModuleNode = eul::container::observing_node<Module*>;
+    using ModuleNode = eul::container::observing_node<module*>;
 
     template <typename ModuleType>
-    Module(typeid_t id, ModuleType& module)
+    module(typeid_t id, ModuleType& module)
         : observing_node_(this)
         , id_(id)
         , module_(&module)
@@ -22,14 +22,14 @@ public:
     }
 
     template <typename ModuleType>
-    Module(ModuleType* module)
+    module(ModuleType* module)
         : observing_node_(this)
         , id_(type_id<ModuleType>())
         , module_(this)
     {
     }
 
-    virtual ~Module() = default;
+    virtual ~module() = default;
 
     template <typename ModuleType>
     auto* get()

@@ -14,19 +14,19 @@ struct EventUpdateModuleA
     int a;
 };
 
-struct ModuleB : public eul::kernel::Module
+struct ModuleB : public eul::kernel::module
 {
-    ModuleB() : Module(this)
+    ModuleB() : module(this)
     {
     }
 
     int a;
 };
 
-struct ModuleC : public eul::kernel::Module,
-    public eul::kernel::EventListener<EventUpdateModuleC>
+struct ModuleC : public eul::kernel::module,
+    public eul::kernel::event_listener<EventUpdateModuleC>
 {
-    ModuleC() : Module(this)
+    ModuleC() : module(this)
     {
     }
 
@@ -38,11 +38,11 @@ struct ModuleC : public eul::kernel::Module,
     int a;
 };
 
-struct ModuleA : public eul::kernel::Module,
-    public eul::kernel::EventListener<EventUpdateModuleA>
+struct ModuleA : public eul::kernel::module,
+    public eul::kernel::event_listener<EventUpdateModuleA>
 {
     ModuleA(eul::kernel::Kernel& kernel)
-        : Module(this)
+        : module(this)
         , kernel_(kernel)
     {
     }
@@ -65,7 +65,7 @@ struct ModuleA : public eul::kernel::Module,
     }
 
     int a;
-    eul::kernel::Kernel& kernel_;
+    eul::kernel::kernel& kernel_;
 };
 
 
@@ -73,7 +73,7 @@ TEST_CASE("KernelShould", "[KernelTests]")
 {
     SECTION("Register and provide modules")
     {
-        eul::kernel::Kernel kernel;
+        eul::kernel::kernel kernel;
 
         ModuleA a(kernel);
         ModuleB b;
@@ -97,7 +97,7 @@ TEST_CASE("KernelShould", "[KernelTests]")
 
     SECTION("Handle events")
     {
-        eul::kernel::Kernel kernel;
+        eul::kernel::kernel kernel;
 
         ModuleA a(kernel);
         ModuleB b;

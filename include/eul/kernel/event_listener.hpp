@@ -6,20 +6,20 @@ namespace kernel
 {
 
 template <typename Event>
-struct EventListener
+struct event_listener
 {
-    using SelfType = EventListener<Event>;
-    constexpr EventListener(const EventListener& ev)
+    using SelfType = event_listener<Event>;
+    constexpr event_listener(const event_listener& ev)
     {
         listener = this;
     }
 
-    constexpr EventListener()
+    constexpr event_listener()
     {
         listener = this;
     }
 
-    ~EventListener()
+    ~event_listener()
     {
         listener = nullptr;
     }
@@ -30,7 +30,7 @@ struct EventListener
 };
 
 template <typename T>
-typename EventListener<T>::SelfType* EventListener<T>::listener = nullptr;
+typename event_listener<T>::SelfType* event_listener<T>::listener = nullptr;
 
 } // namespace kernel
 } // namespace eul

@@ -6,11 +6,11 @@ namespace kernel
 {
 
 template <typename Event>
-struct EventListener;
+struct event_listener;
 
-class Kernel;
+class kernel;
 
-class Module;
+class module;
 
 } // namespace kernel
 } // namespace eul

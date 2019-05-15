@@ -16,10 +16,10 @@ namespace eul
 namespace kernel
 {
 
-class Kernel
+class kernel
 {
 public:
-    void register_module(Module& module)
+    void register_module(module& module)
     {
         modules_.push_back(module.observing_node());
     }
@@ -59,14 +59,14 @@ public:
     template <typename EventType>
     constexpr void post_event(const EventType& event) const
     {
-        if (EventListener<EventType>::listener)
+        if (event_listener<EventType>::listener)
         {
-            EventListener<EventType>::listener->handle_event(event);
+            event_listener<EventType>::listener->handle_event(event);
         }
     }
 
 private:
-    eul::container::observing_list<eul::container::observing_node<Module*>> modules_;
+    eul::container::observing_list<eul::container::observing_node<module*>> modules_;
 };
 
 
