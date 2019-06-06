@@ -13,7 +13,7 @@ set (test_sources
     mpl/types/BindTypeTests.cpp
     kernel/KernelTests.cpp
     EventLoopTests.cpp
-    ExecutionQueueTests.cpp
+    execution/ExecutionQueueTests.cpp
     FunctionTests.cpp
     MemoryPoolTests.cpp
     mpl/types/BindTypeTests.cpp

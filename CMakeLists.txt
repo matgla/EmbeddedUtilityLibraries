@@ -24,6 +24,7 @@ add_subdirectory(lib)
 
 add_subdirectory(source/logger)
 add_subdirectory(source/utils)
+add_subdirectory(include/eul/execution)
 add_subdirectory(include/eul/time)
 add_subdirectory(include/eul/timer)
 add_subdirectory(include/eul/mpl)
@@ -31,9 +32,10 @@ add_subdirectory(include/eul/mpl)
 target_include_directories(eul PUBLIC ${Eul_INCLUDE_DIR})
 target_link_libraries(eul
     PUBLIC
-         eul_mpl
-         eul_timer
-         eul_time
+        eul_mpl
+        eul_timer
+        eul_time
+        eul_execution
         -Wl,--whole-archive
             eul_logger
             eul_utils
@@ -49,6 +51,6 @@ install (
         eul.cmake
 )
 
-if (BUILD_TESTS)
+if (NOT BUILD_PRODUCTION)
     add_subdirectory(test)
-endif (BUILD_TESTS)
+endif ()

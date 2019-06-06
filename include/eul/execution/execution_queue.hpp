@@ -5,35 +5,34 @@
 #include <cstdint>
 #include <utility>
 
-#include "eul/container/observable/observing_list.hpp"
-#include "eul/container/observable/observing_node.hpp"
+#include "eul/execution/i_execution_queue.hpp"
 #include "eul/container/static_deque.hpp"
+#include "eul/function.hpp"
 
 namespace eul
 {
+namespace execution
+{
 
-template <typename Type, std::size_t MaximumNumberOfExecutors>
-class execution_queue
+template <std::size_t MaximumNumberOfExecutors>
+class execution_queue : public i_execution_queue
 {
 public:
-    using LifetimeNodeType = eul::container::observing_node<bool>;
+    bool push_back(LifetimeNodeType& lifetime, const ExecutorType& executor) override;
+    bool push_front(LifetimeNodeType& lifetime, const ExecutorType& executor) override;
 
-public:
-    bool push_back(LifetimeNodeType& lifetime, const Type& executor);
-    bool push_front(LifetimeNodeType& lifetime, const Type& executor);
-
-    void run();
+    void run() override;
 
 private:
     using LifetimeObserver = eul::container::observing_list<LifetimeNodeType>;
     LifetimeObserver lifetimes_;
-    using Execution = std::pair<LifetimeNodeType*, Type>;
+    using Execution = std::pair<LifetimeNodeType*, ExecutorType>;
     container::static_deque<Execution, MaximumNumberOfExecutors> executors_;
 };
 
-template <typename Type, std::size_t MaximumNumberOfExecutors>
-bool execution_queue<Type, MaximumNumberOfExecutors>::push_back(LifetimeNodeType& lifetime,
-                                                                const Type& executor)
+template <std::size_t MaximumNumberOfExecutors>
+bool execution_queue<MaximumNumberOfExecutors>::push_back(LifetimeNodeType& lifetime,
+                                                                const ExecutorType& executor)
 {
     if (executors_.size() == executors_.max_size())
     {
@@ -45,9 +44,9 @@ bool execution_queue<Type, MaximumNumberOfExecutors>::push_back(LifetimeNodeType
     return true;
 }
 
-template <typename Type, std::size_t MaximumNumberOfExecutors>
-bool execution_queue<Type, MaximumNumberOfExecutors>::push_front(LifetimeNodeType& lifetime,
-                                                                 const Type& executor)
+template <std::size_t MaximumNumberOfExecutors>
+bool execution_queue<MaximumNumberOfExecutors>::push_front(LifetimeNodeType& lifetime,
+                                                                 const ExecutorType& executor)
 {
     if (executors_.size() == executors_.max_size())
     {
@@ -59,8 +58,8 @@ bool execution_queue<Type, MaximumNumberOfExecutors>::push_front(LifetimeNodeTyp
     return true;
 }
 
-template <typename Type, std::size_t MaximumNumberOfExecutors>
-void execution_queue<Type, MaximumNumberOfExecutors>::run()
+template <std::size_t MaximumNumberOfExecutors>
+void execution_queue<MaximumNumberOfExecutors>::run()
 {
     while (executors_.size())
     {
@@ -84,4 +83,5 @@ void execution_queue<Type, MaximumNumberOfExecutors>::run()
     }
 }
 
+} // namespace execution
 } // namespace eul
