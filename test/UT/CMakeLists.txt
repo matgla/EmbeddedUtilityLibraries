@@ -26,6 +26,7 @@ set (test_sources
     timer/TimerManagerTests.cpp
     timer/TimerTests.cpp
     ObserverTests.cpp
+    signals/SignalTests.cpp
     Runner.cpp
 )
 

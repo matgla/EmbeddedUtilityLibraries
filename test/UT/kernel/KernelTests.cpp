@@ -41,7 +41,7 @@ struct ModuleC : public eul::kernel::module,
 struct ModuleA : public eul::kernel::module,
     public eul::kernel::event_listener<EventUpdateModuleA>
 {
-    ModuleA(eul::kernel::Kernel& kernel)
+    ModuleA(eul::kernel::kernel& kernel)
         : module(this)
         , kernel_(kernel)
     {

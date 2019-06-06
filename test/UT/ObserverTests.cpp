@@ -1,7 +1,7 @@
 #include "catch.hpp"
 
 #include "eul/observer.hpp"
-#include "eul/utils.hpp"
+#include "eul/utils/unused.hpp"
 
 TEST_CASE("Observer should", "[Observer]")
 {

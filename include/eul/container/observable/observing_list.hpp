@@ -220,7 +220,7 @@ typename NodeType::iterator observing_list<NodeType>::begin()
 template <typename NodeType>
 typename NodeType::const_iterator observing_list<NodeType>::begin() const
 {
-    return observing_node_const_iterator<typename NodeType::data_type>(*root_, 0);
+    return observing_node_const_iterator<typename NodeType::data_type>(root_, 0);
 }
 
 template <typename NodeType>

@@ -14,7 +14,7 @@ template <typename T>
 class observing_node_const_iterator
 {
 public:
-    observing_node_const_iterator(const observing_node<T>* node,
+    observing_node_const_iterator(observing_node<T>* node,
                                   std::size_t position);
 
     const observing_node_const_iterator<T>& operator++();
@@ -30,7 +30,7 @@ private:
 
 template <typename T>
 observing_node_const_iterator<T>::observing_node_const_iterator(
-    const observing_node<T>* node, std::size_t position)
+    observing_node<T>* node, std::size_t position)
     : node_(node), position_(position)
 {
 }
