@@ -51,6 +51,6 @@ install (
         eul.cmake
 )
 
-if (NOT BUILD_PRODUCTION)
+if (NOT DISABLE_TESTS)
     add_subdirectory(test)
 endif ()
