@@ -59,7 +59,6 @@ function (fetch_module_with_path module_name module_path working_directory branc
 
         if (NOT ${module_path} STREQUAL "")
             execute_command("git checkout ${branch}" "${PROJECT_SOURCE_DIR}/${module_name}")
-            execute_command("git pull" "${PROJECT_SOURCE_DIR}/${module_name}")
             add_subdirectory(${module_path})
         endif ()
     endif ()
