@@ -14,7 +14,6 @@ namespace eul
 namespace logger
 {
 
-
 class logger
 {
 public:

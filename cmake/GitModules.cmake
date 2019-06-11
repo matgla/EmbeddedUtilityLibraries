@@ -21,7 +21,7 @@ function (execute_command command_to_execute working_directory)
 
     if (NOT result EQUAL "0")
         message ("Failure: ${output}")
-        message (FATAL_ERROR "Failure: ${result}")
+        message (FATAL_ERROR "Failure: ${error}")
     endif ()
 endfunction()
 
