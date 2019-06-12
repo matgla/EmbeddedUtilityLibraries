@@ -6,8 +6,6 @@
 
 #include "eul/time/fwd.hpp"
 
-#include <iostream>
-
 namespace eul
 {
 namespace logger
