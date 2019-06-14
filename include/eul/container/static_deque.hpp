@@ -38,6 +38,8 @@ public:
     iterator end();
     const_iterator end() const;
 
+    void clear();
+
     T& front();
     const T& front() const;
     T& back();
@@ -143,6 +145,14 @@ constexpr void static_deque<T, Size>::decrement_index(std::size_t& index)
         return;
     }
     --index;
+}
+
+template <typename T, std::size_t Size>
+void static_deque<T, Size>::clear()
+{
+    full_ = false;
+    head_ = 0;
+    tail_ = 0;
 }
 
 template <typename T, std::size_t Size>
