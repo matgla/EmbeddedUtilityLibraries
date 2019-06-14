@@ -9,7 +9,7 @@ target_sources(eul_execution
 
 target_include_directories(eul_execution
     INTERFACE
-        ${PROJECT_SOURCE_DIR}/include
+        ${PROJECT_SOURCE_DIR}/source
 )
 
 target_link_libraries(eul_execution
