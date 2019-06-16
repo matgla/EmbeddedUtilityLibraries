@@ -29,7 +29,10 @@ public:
         for (const auto& slot_observer : slots_)
         {
             const auto& slot = *(slot_observer.data());
-            slot(std::forward<Args>(args)...);
+            if (slot)
+            {
+                slot(std::forward<Args>(args)...);
+            }
         }
     }
 

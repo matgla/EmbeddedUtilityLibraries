@@ -4,6 +4,7 @@
 
 #include "eul/container/observable/observing_node.hpp"
 #include "eul/function.hpp"
+#include "eul/assert.hpp"
 
 namespace eul
 {
@@ -27,6 +28,11 @@ public:
     {
     }
 
+    slot()
+        : observing_node_(this)
+    {
+    }
+
     observed_type& observing_node()
     {
         return observing_node_;
@@ -39,16 +45,30 @@ public:
 
     ReturnType operator()(Args&&... args) const
     {
+        EUL_ASSERT_MSG(callback_, "Slot is not initialized");
         return callback_(std::forward<Args>(args)...);
     }
 
     ReturnType operator()(Args&&... args)
     {
+        EUL_ASSERT_MSG(callback_, "Slot is not initialized");
         return callback_(std::forward<Args>(args)...);
+    }
+
+    template <typename CallbackType>
+    self_type& operator=(const CallbackType& callback)
+    {
+        callback_ = callback;
+        return *this;
+    }
+
+    explicit operator bool() const noexcept
+    {
+        return callback_.operator bool();
     }
 private:
     observed_type observing_node_;
-    const callback_type callback_;
+    callback_type callback_;
 };
 
 } // namespace signals
