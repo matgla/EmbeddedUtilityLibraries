@@ -24,7 +24,7 @@ public:
         slots_.push_back(slot.observing_node());
     }
 
-    void emit(Args&&... args) const
+    void emit(Args... args) const
     {
         for (const auto& slot_observer : slots_)
         {
