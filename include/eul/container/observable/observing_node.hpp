@@ -52,6 +52,11 @@ public:
     T& data();
     const T& data() const;
 
+    const T& operator*() const;
+    const T* operator->() const noexcept;
+    T& operator*();
+    T* operator->()noexcept;
+
 protected:
     T data_;
     observing_node<T>* next_;
@@ -168,6 +173,30 @@ template <typename T>
 const T& observing_node<T>::data() const
 {
     return data_;
+}
+
+template <typename T>
+const T& observing_node<T>::operator*() const
+{
+    return data_;
+}
+
+template <typename T>
+const T* observing_node<T>::operator->() const noexcept
+{
+    return &data_;
+}
+
+template <typename T>
+T& observing_node<T>::operator*()
+{
+    return data_;
+}
+
+template <typename T>
+T* observing_node<T>::operator->() noexcept
+{
+    return &data_;
 }
 
 

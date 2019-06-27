@@ -95,7 +95,7 @@ public:
         return firstFreePosition_;
     }
 
-    constexpr std::size_t max_size() const
+    constexpr static std::size_t max_size()
     {
         return BufferSize;
     }
