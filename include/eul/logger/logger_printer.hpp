@@ -100,11 +100,18 @@ public:
     logger_printer& operator<<(const gsl::span<T>& data)
     {
         write_to_streams("{");
-        for (typename gsl::span<T>::index_type i = 0; i < data.size() - 1; ++i)
+        if (!data.empty())
         {
-            *this << data[i] << ", ";
+            for (typename gsl::span<T>::index_type i = 0; i < data.size() - 1; ++i)
+            {
+                *this << data[i] << ", ";
+            }
+            *this << data[data.size() - 1] << "}";
         }
-        *this << data[data.size() - 1] << "}";
+        else
+        {
+            *this << "}";
+        }
         return *this;
     }
 
