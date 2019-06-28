@@ -14,6 +14,17 @@ namespace logger
 logger_printer::logger_printer(
     const std::string_view& prefix,
     const std::string_view& name,
+    const std::string_view& user_prefix,
+    const time::i_time_provider& time)
+    : name_(name)
+    , time_(time)
+{
+    printHeader(prefix, user_prefix);
+}
+
+logger_printer::logger_printer(
+    const std::string_view& prefix,
+    const std::string_view& name,
     const time::i_time_provider& time)
     : name_(name)
     , time_(time)
@@ -38,6 +49,19 @@ void logger_printer::printHeader(std::string_view level) const
     printTimeAndDate();
     write_to_streams("> ");
     write_to_streams(level);
+    write_to_streams("/");
+    write_to_streams(name_);
+    write_to_streams(": ");
+}
+
+void logger_printer::printHeader(std::string_view level, std::string_view user_prefix) const
+{
+    write_to_streams("<");
+    printTimeAndDate();
+    write_to_streams("> ");
+    write_to_streams(level);
+    write_to_streams("/");
+    write_to_streams(user_prefix);
     write_to_streams("/");
     write_to_streams(name_);
     write_to_streams(": ");

@@ -73,6 +73,12 @@ public:
     logger_printer(
         const std::string_view& prefix,
         const std::string_view& name,
+        const std::string_view& user_prefix,
+        const time::i_time_provider& time);
+
+    logger_printer(
+        const std::string_view& prefix,
+        const std::string_view& name,
         const time::i_time_provider& time);
     ~logger_printer();
 
@@ -159,6 +165,7 @@ protected:
     int get_base() const;
 
     void printHeader(std::string_view level) const;
+    void printHeader(std::string_view level, std::string_view user_prefix) const;
     void printTimeAndDate() const;
     void write_to_streams(const std::string_view& data) const;
 
@@ -199,13 +206,17 @@ protected:
     {
         while (number != 0)
         {
-            char digit[1] = {"0123456789abcdef"[number%base]};
+            char digit[2];
+            digit[0] = {"0123456789abcdef"[number%base]};
+            digit[1] = 0;
             write_to_streams(digit);
             number /= base;
         }
         while (zeros_at_end)
         {
-            char digit[1] = {'0'};
+            char digit[2];
+            digit[0] = {'0'};
+            digit[1] = 0;
             write_to_streams(digit);
             --zeros_at_end;
         }
