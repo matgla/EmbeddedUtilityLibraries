@@ -42,7 +42,7 @@ target_link_libraries(eul
         -Wl,--no-whole-archive
         gsl)
 
-target_compile_options(${library_name} INTERFACE
+target_compile_options(${library_name} PUBLIC
     $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a>
     $<$<CONFIG:DEBUG>:-O0 -g>
     $<$<CONFIG:RELEASE>:-Os>
