@@ -15,3 +15,9 @@ target_link_libraries(eul_signals
     INTERFACE
         eul
 )
+
+target_compile_options(eul_signals INTERFACE
+    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a -fconcepts -Wall -Werror>
+    $<$<CONFIG:DEBUG>:-Og -g>
+    $<$<CONFIG:RELEASE>:-Os>
+)

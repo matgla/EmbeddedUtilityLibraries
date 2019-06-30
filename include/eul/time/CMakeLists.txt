@@ -6,3 +6,9 @@ target_sources(eul_time
 )
 
 target_include_directories(eul_time INTERFACE "${PROJECT_SOURCE_DIR}/include")
+
+target_compile_options(eul_time INTERFACE
+    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a -fconcepts -Wall -Werror>
+    $<$<CONFIG:DEBUG>:-Og -g>
+    $<$<CONFIG:RELEASE>:-Os>
+)

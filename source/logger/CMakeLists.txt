@@ -40,3 +40,9 @@ target_link_libraries(eul_logger
         eul_utils
         gsl
 )
+
+target_compile_options(eul_logger PUBLIC
+    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a -fconcepts -Wall -Werror>
+    $<$<CONFIG:DEBUG>:-Og -g>
+    $<$<CONFIG:RELEASE>:-Os>
+)
