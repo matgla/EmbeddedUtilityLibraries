@@ -2,9 +2,6 @@ cmake_minimum_required(VERSION 3.1)
 
 project(eul CXX)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 set(Eul_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include" CACHE STRING "path to EUL sources" FORCE)
 
 add_library(eul)
