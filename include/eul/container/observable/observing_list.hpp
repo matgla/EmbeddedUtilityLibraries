@@ -42,6 +42,7 @@ public:
 
     void erase(const NodeType& node);
 
+    void clear();
 
 private:
     NodeType* get_end();
@@ -63,15 +64,7 @@ observing_list<NodeType>::observing_list()
 template <typename NodeType>
 observing_list<NodeType>::~observing_list()
 {
-    auto* current = root_;
-    while (current)
-    {
-        auto* next = current->next();
-
-        current->reset();
-        current = next;
-    }
-    root_ = nullptr;
+    clear();
 }
 
 template <typename NodeType>
@@ -334,6 +327,20 @@ void observing_list<NodeType>::link(NodeType& node)
     node.set_next(root_);
     node.set_prev(this);
     root_ = &node;
+}
+
+template <typename NodeType>
+void observing_list<NodeType>::clear()
+{
+    auto* current = root_;
+    while (current)
+    {
+        auto* next = current->next();
+
+        current->reset();
+        current = next;
+    }
+    root_ = nullptr;
 }
 
 } // namespace container

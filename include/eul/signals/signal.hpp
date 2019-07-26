@@ -36,6 +36,11 @@ public:
         }
     }
 
+    void disconnect_all()
+    {
+        slots_.clear();
+    }
+
 private:
     using observing_list = eul::container::observing_list<typename slot_t::observed_type>;
     observing_list slots_;
