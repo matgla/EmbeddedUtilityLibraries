@@ -13,7 +13,7 @@ public:
     template <typename T>
     const suppressing_logger& operator<<(const T& str) const
     {
-        UNUSED(str);
+        UNUSED1(str);
         return *this;
     }
 };

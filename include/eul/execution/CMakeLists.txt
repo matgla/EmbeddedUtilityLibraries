@@ -18,7 +18,7 @@ target_link_libraries(eul_execution
 )
 
 target_compile_options(eul_execution INTERFACE
-    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a -fconcepts -Wall -Werror>
+    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a -Wall -Werror>
     $<$<CONFIG:DEBUG>:-Og -g>
     $<$<CONFIG:RELEASE>:-Os>
 )

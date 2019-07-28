@@ -8,7 +8,7 @@ namespace container
 {
 
 template <typename T>
-struct observing_node;
+class observing_node;
 
 template <typename T>
 class observing_node_const_iterator

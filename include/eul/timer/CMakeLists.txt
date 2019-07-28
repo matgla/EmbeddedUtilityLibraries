@@ -18,7 +18,7 @@ target_link_libraries(eul_timer
 )
 
 target_compile_options(eul_timer INTERFACE
-    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a -fconcepts -Wall -Werror>
+    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a -Wall -Werror>
     $<$<CONFIG:DEBUG>:-Og -g>
     $<$<CONFIG:RELEASE>:-Os>
 )

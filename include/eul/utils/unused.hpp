@@ -27,10 +27,4 @@
     UNUSED6(y, z, e, f, g, h);       \
     UNUSED1(x)
 
-#define VA_NUM_ARGS_IMPL(_1, _2, _3, _4, _5, _6, _7, N, ...) N
-#define VA_NUM_ARGS(...) VA_NUM_ARGS_IMPL(__VA_ARGS__, 7, 6, 5, 4, 3, 2, 1)
-
-#define ALL_UNUSED_IMPL_(nargs) UNUSED##nargs
-#define ALL_UNUSED_IMPL(nargs) ALL_UNUSED_IMPL_(nargs)
-#define UNUSED(...) ALL_UNUSED_IMPL(VA_NUM_ARGS(__VA_ARGS__)) (__VA_ARGS__)
 // clang-format on
