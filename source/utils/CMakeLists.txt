@@ -19,7 +19,7 @@ target_link_libraries(eul_utils
 )
 
 target_compile_options(eul_utils PUBLIC
-    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a -Wall -Werror>
+    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a -Wall -Werror -fPIC>
     $<$<CONFIG:DEBUG>:-Og -g>
     $<$<CONFIG:RELEASE>:-Os>
 )
