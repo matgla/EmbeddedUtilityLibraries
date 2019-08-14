@@ -11,6 +11,7 @@ struct event_listener
     using SelfType = event_listener<Event>;
     constexpr event_listener(const event_listener& ev)
     {
+        static_cast<void>(ev);
         listener = this;
     }
 

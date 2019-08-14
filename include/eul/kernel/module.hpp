@@ -25,7 +25,7 @@ public:
     module(ModuleType* module)
         : observing_node_(this)
         , id_(type_id<ModuleType>())
-        , module_(this)
+        , module_(module)
     {
     }
 
