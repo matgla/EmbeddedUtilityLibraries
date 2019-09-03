@@ -1,7 +1,6 @@
 #include "eul/utils/math.hpp"
 
 #include <cmath>
-#include <utility>
 
 namespace eul
 {

@@ -1,0 +1,18 @@
+#pragma once
+
+#include <ostream>
+
+namespace std
+{
+int endl = 0;
+
+class StreamStub
+{
+public:
+    template <typename T>
+    StreamStub operator<<(const T&) { return {};}
+};
+
+StreamStub cerr;
+
+}

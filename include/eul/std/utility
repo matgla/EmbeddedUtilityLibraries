@@ -1,0 +1,26 @@
+#pragma once
+
+namespace std
+{
+
+template <typename A, typename B>
+class pair
+{
+public:
+    pair(const A& a, const B& b)
+    {
+
+    }
+
+private:
+
+};
+
+template <typename A, typename B>
+pair<A, B> make_pair(const A& a, const B& b)
+{
+    return pair<A, B>(a, b);
+}
+
+}
+

@@ -1,0 +1,8 @@
+#pragma once
+
+namespace std
+{
+
+#include <time.h>
+
+}
