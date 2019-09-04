@@ -25,7 +25,6 @@ add_subdirectory(include/eul/execution)
 add_subdirectory(include/eul/time)
 add_subdirectory(include/eul/timer)
 add_subdirectory(include/eul/mpl)
-add_subdirectory(include/eul/std)
 
 target_include_directories(eul PUBLIC ${Eul_INCLUDE_DIR})
 target_link_libraries(eul

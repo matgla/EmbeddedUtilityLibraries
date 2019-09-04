@@ -27,10 +27,12 @@ endfunction()
 
 function (fetch_module_via_tag_or_branch module_name module_path working_directory tag branch)
     message (STATUS "Update module: ${module_name}, with path: ${module_path}, inside: ${working_directory}")
+
     find_package(Git QUIET)
     if (NOT GIT_FOUND)
         message (FATAL_ERROR "Can't find git")
     endif ()
+
 
     string(FIND ${module_name} "/" module_name_last_slash REVERSE)
     string(LENGTH ${module_name} module_length)
@@ -39,6 +41,13 @@ function (fetch_module_via_tag_or_branch module_name module_path working_directo
     string(SUBSTRING ${module_name} ${target_name_begin} ${target_name_length} target_name)
 
     if (NOT TARGET ${target_name})
+        if (DEFINED ENV{NO_DEPS_UPDATE})
+            message (STATUS "Updating dependencies disabled!")
+            add_subdirectory(${module_path})
+            return()
+        endif()
+
+
         execute_process(
             COMMAND
                 git submodule update --init -- ${module_name}
@@ -59,19 +68,11 @@ function (fetch_module_via_tag_or_branch module_name module_path working_directo
 
         if (NOT ${module_path} STREQUAL "")
             if (NOT ${branch} STREQUAL "")
-                if (NOT $ENV{PREVENT_DEPENDENCIES_UPDATE})
-                    execute_command("git checkout ${branch}" "${PROJECT_SOURCE_DIR}/${module_name}")
-                    execute_command("git pull" "${PROJECT_SOURCE_DIR}/${module_name}")
-                else ()
-                     message (STATUS "Updating modules disabled")
-                endif()
+                execute_command("git checkout ${branch}" "${module_path}")
+                execute_command("git pull" "${module_path}")
                 add_subdirectory(${module_path})
             elseif (NOT ${tag} STREQUAL "")
-                if (NOT $ENV{PREVENT_DEPENDENCIES_UPDATE})
-                    execute_command("git checkout ${tag}" "${PROJECT_SOURCE_DIR}/${module_name}")
-                else ()
-                    message (STATUS "Updating modules disabled")
-                endif()
+                execute_command("git checkout ${tag}" "${module_path}")
                 add_subdirectory(${module_path})
             endif ()
         endif ()

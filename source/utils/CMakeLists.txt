@@ -16,7 +16,6 @@ target_include_directories(eul_utils PUBLIC "${PROJECT_SOURCE_DIR}/include")
 target_link_libraries(eul_utils
     PUBLIC
         gsl
-        eul_std
 )
 
 target_compile_options(eul_utils PUBLIC
