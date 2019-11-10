@@ -4,7 +4,7 @@ project(eul CXX)
 
 set(Eul_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include" CACHE STRING "path to EUL sources" FORCE)
 
-add_library(eul)
+add_library(eul OBJECT)
 target_sources(eul PUBLIC
     "${PROJECT_SOURCE_DIR}/include/eul/event_loop.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/function.hpp"

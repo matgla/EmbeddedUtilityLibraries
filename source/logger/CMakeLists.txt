@@ -1,19 +1,18 @@
-add_library(eul_logger OBJECT)
+add_library(eul_logger INTERFACE)
 
 target_sources(eul_logger
-    PUBLIC
+    INTERFACE 
         ${PROJECT_SOURCE_DIR}/include/eul/logger/logger_policy.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/logger/logger_stream_registry.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/logger/logger_stream.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/logger/logger.hpp
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/logger_factory.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/logger_printer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/logger_stream_registry.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/logger_stream.cpp
+        #${CMAKE_CURRENT_SOURCE_DIR}/logger_factory.cpp
+        #${CMAKE_CURRENT_SOURCE_DIR}/logger_printer.cpp
+        #${CMAKE_CURRENT_SOURCE_DIR}/logger_stream_registry.cpp
+        #${CMAKE_CURRENT_SOURCE_DIR}/logger_stream.cpp
 )
 
-target_include_directories(eul_logger PUBLIC "${PROJECT_SOURCE_DIR}/include")
+target_include_directories(eul_logger INTERFACE  "${PROJECT_SOURCE_DIR}/include")
 
 if (LOG_LEVEL STREQUAL "Trace")
     set(logging_definition "LOG_LEVEL_TRACE")
@@ -31,17 +30,17 @@ endif()
 
 message (STATUS "Logging level: ${logging_definition}")
 
-target_compile_definitions(eul_logger PUBLIC
+target_compile_definitions(eul_logger INTERFACE
     ${logging_definition}
 )
 
 target_link_libraries(eul_logger
-    PRIVATE
+    INTERFACE  
         eul_utils
         gsl
 )
 
-target_compile_options(eul_logger PUBLIC
+target_compile_options(eul_logger INTERFACE 
     $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a -Wall -Werror ${cxx_flags_shared_library}>
     $<$<CONFIG:DEBUG>:-Og -g>
     $<$<CONFIG:RELEASE>:-Os>
