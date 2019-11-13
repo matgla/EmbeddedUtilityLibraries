@@ -14,14 +14,14 @@ public:
     {
     }
 
-    operator T*() const
+    operator volatile T*() const
     {
         return reinterpret_cast<T*>(address_);
     }
 
-    T* operator->() const
+    volatile T* operator->() const
     {
-        return operator T*();
+        return reinterpret_cast<T*>(address_);
     }
 
 private:
