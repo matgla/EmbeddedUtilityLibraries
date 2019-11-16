@@ -12,32 +12,9 @@ namespace eul
 namespace utils
 {
 
-inline void reverse(char* s)
-{
-    char* j = s + std::strlen(s) - 1;
-    int c;
+void reverse(char* s);
 
-    j = s + std::strlen(s) - 1;
-    while (s < j)
-    {
-        c    = *s;
-        *s++ = *j;
-        *j-- = c;
-    }
-}
-
-inline char int_to_char(int n)
-{
-    if (n > 9)
-    {
-        return n - 10 + 'a';
-    }
-    else
-    {
-        return n + '0';
-    }
-}
-
+char int_to_char(int n);
 
 template <typename T>
 inline T itoa(T n, char* s, int base_n = 10)

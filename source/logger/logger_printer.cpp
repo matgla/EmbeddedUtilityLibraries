@@ -4,8 +4,6 @@
 #include "eul/time/i_time_provider.hpp"
 #include "eul/utils/string.hpp"
 
-#include <iostream>
-
 namespace eul
 {
 namespace logger

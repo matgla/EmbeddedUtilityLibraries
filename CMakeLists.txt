@@ -33,17 +33,18 @@ target_link_libraries(eul
         eul_timer
         eul_time
         eul_execution
-        -Wl,--whole-archive
-            eul_logger
-            eul_utils
-        -Wl,--no-whole-archive
+        eul_logger
+        eul_utils
         gsl)
 
 target_compile_options(eul PUBLIC
-    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a>
+    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${eul_cxx_compilation_flags}>
     $<$<CONFIG:DEBUG>:-O0 -g>
     $<$<CONFIG:RELEASE>:-Os>
 )
+
+target_link_options(eul PUBLIC 
+    ${eul_cxx_linking_flags})
 
 install (
     TARGETS

@@ -10,31 +10,31 @@ namespace eul
 namespace utils
 {
 
-// void reverse(char* s)
-// {
-//     char* j = s + std::strlen(s) - 1;
-//     int c;
-// 
-//     j = s + std::strlen(s) - 1;
-//     while (s < j)
-//     {
-//         c    = *s;
-//         *s++ = *j;
-//         *j-- = c;
-//     }
-// }
-// 
-// char int_to_char(int n)
-// {
-//     if (n > 9)
-//     {
-//         return n - 10 + 'a';
-//     }
-//     else
-//     {
-//         return n + '0';
-//     }
-// }
+void reverse(char* s)
+{
+    char* j = s + std::strlen(s) - 1;
+    int c;
+
+    j = s + std::strlen(s) - 1;
+    while (s < j)
+    {
+        c    = *s;
+        *s++ = *j;
+        *j-- = c;
+    }
+}
+
+char int_to_char(int n)
+{
+    if (n > 9)
+    {
+        return n - 10 + 'a';
+    }
+    else
+    {
+        return n + '0';
+    }
+}
 
 int writeToBufferAligned(char* buffer, int data, char suffix, uint8_t size, char prefix)
 {
