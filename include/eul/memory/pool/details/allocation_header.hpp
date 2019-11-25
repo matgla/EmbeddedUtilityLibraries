@@ -11,7 +11,6 @@ namespace pool
 namespace details
 {
 
-template <typename SizeType>
 class allocation_header
 {
 public:
@@ -21,44 +20,31 @@ public:
         Free     = 0x00
     };
 
-    allocation_header(const State state, const SizeType size);
-    const auto state() const;
-    const SizeType size() const;
+    allocation_header(const State state, const std::size_t size);
+    State state() const;
+    std::size_t size() const;
 
 private:
     const State state_;
-    uint8_t size_[sizeof(SizeType)];
+    const std::size_t size_;
 };
 
 // implementation
 
-template <typename SizeType>
-allocation_header<SizeType>::allocation_header(const State state, const SizeType size)
+allocation_header::allocation_header(const State state, const std::size_t size)
     : state_(state)
+    , size_(size)
 {
-    const uint8_t* sizePtr = reinterpret_cast<const uint8_t*>(&size);
-    for (auto& byte : size_)
-    {
-        byte = *sizePtr;
-        ++sizePtr;
-    }
 }
-template <typename SizeType>
-const auto allocation_header<SizeType>::state() const
+
+allocation_header::State allocation_header::state() const
 {
     return state_;
 }
 
-template <typename SizeType>
-const SizeType allocation_header<SizeType>::size() const
+std::size_t allocation_header::size() const
 {
-    SizeType size;
-    uint8_t* ptr = reinterpret_cast<uint8_t*>(&size);
-    for (std::size_t i = 0; i < sizeof(SizeType); i++)
-    {
-        ptr[i] = size_[i];
-    }
-    return size;
+    return size_;
 }
 
 } // namespace details

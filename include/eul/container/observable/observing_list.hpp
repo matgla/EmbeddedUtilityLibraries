@@ -24,7 +24,7 @@ public:
     bool insert_after(NodeType& prev, NodeType& node);
     bool insert_before(NodeType& next, NodeType& node);
 
-    std::optional<typename NodeType::data_type*> at(const std::size_t index);
+    typename NodeType::data_type* at(const std::size_t index);
     NodeType* find(const NodeType* node);
     const NodeType* find(const NodeType* node) const;
 
@@ -142,11 +142,11 @@ bool observing_list<NodeType>::insert_before(NodeType& next, NodeType& node)
 }
 
 template <typename NodeType>
-std::optional<typename NodeType::data_type*> observing_list<NodeType>::at(const std::size_t index)
+typename NodeType::data_type* observing_list<NodeType>::at(const std::size_t index)
 {
     if (!root_)
     {
-        return {};
+        return nullptr;
     }
 
     NodeType* node = root_;
@@ -154,7 +154,7 @@ std::optional<typename NodeType::data_type*> observing_list<NodeType>::at(const 
     {
         if (!node->next())
         {
-            return {};
+            return nullptr;
         }
 
         node = node->next();

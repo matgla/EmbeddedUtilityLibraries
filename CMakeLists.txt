@@ -28,7 +28,7 @@ add_subdirectory(include/eul/mpl)
 
 target_include_directories(eul PUBLIC ${Eul_INCLUDE_DIR})
 target_link_libraries(eul
-    PUBLIC
+    PRIVATE 
         eul_mpl
         eul_timer
         eul_time

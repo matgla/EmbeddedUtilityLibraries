@@ -27,9 +27,9 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
         sut.push_back(b);
         sut.push_back(c);
 
-        REQUIRE((*sut.at(0))->a == 10);
-        REQUIRE((*sut.at(1))->a == 20);
-        REQUIRE((*sut.at(2))->a == 30);
+        REQUIRE(sut.at(0)->a == 10);
+        REQUIRE(sut.at(1)->a == 20);
+        REQUIRE(sut.at(2)->a == 30);
     }
 
     SECTION("push_front elements")
@@ -43,9 +43,9 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
         sut.push_front(b);
         sut.push_front(c);
 
-        REQUIRE((*sut.at(2))->a == 10);
-        REQUIRE((*sut.at(1))->a == 20);
-        REQUIRE((*sut.at(0))->a == 30);
+        REQUIRE(sut.at(2)->a == 10);
+        REQUIRE(sut.at(1)->a == 20);
+        REQUIRE(sut.at(0)->a == 30);
     }
 
     SECTION("auto remove element out of scope")
@@ -56,7 +56,7 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
         {
             eul::container::observing_node<TestingElement> x{15};
             sut.push_back(x);
-            REQUIRE((*sut.at(0))->a == 15);
+            REQUIRE(sut.at(0)->a == 15);
             REQUIRE(sut.size() == 1);
         }
 
@@ -65,29 +65,29 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
             eul::container::observing_node<TestingElement> b{20};
             sut.push_back(b);
 
-            REQUIRE((*sut.at(1))->a == 20);
+            REQUIRE(sut.at(1)->a == 20);
             REQUIRE(sut.size() == 2);
         }
         eul::container::observing_node<TestingElement> c{30};
         sut.push_back(c);
 
-        REQUIRE((*sut.at(0))->a == 10);
-        REQUIRE((*sut.at(1))->a == 30);
+        REQUIRE(sut.at(0)->a == 10);
+        REQUIRE(sut.at(1)->a == 30);
         REQUIRE(sut.size() == 2);
-        REQUIRE(sut.at(2).has_value() == false);
+        REQUIRE(sut.at(2) == nullptr);
         {
             eul::container::observing_node<TestingElement> b{20};
             sut.push_back(b);
 
-            REQUIRE((*sut.at(0))->a == 10);
-            REQUIRE((*sut.at(1))->a == 30);
-            REQUIRE((*sut.at(2))->a == 20);
+            REQUIRE(sut.at(0)->a == 10);
+            REQUIRE(sut.at(1)->a == 30);
+            REQUIRE(sut.at(2)->a == 20);
             REQUIRE(sut.size() == 3);
         }
-        REQUIRE((*sut.at(0))->a == 10);
-        REQUIRE(sut.at(1).has_value() == true);
+        REQUIRE(sut.at(0)->a == 10);
+        REQUIRE(sut.at(1) != nullptr);
         REQUIRE(sut.size() == 2);
-        REQUIRE(sut.at(2).has_value() == false);
+        REQUIRE(sut.at(2) == nullptr);
     }
 
     SECTION("Not insert observed node")
@@ -99,33 +99,33 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
             eul::container::observing_node<TestingElement> a{10};
 
             REQUIRE(sut.push_back(a));
-            REQUIRE(sut.at(0).has_value());
-            REQUIRE((*sut.at(0))->a == 10);
-            REQUIRE(sut.at(1).has_value() == false);
+            REQUIRE(sut.at(0));
+            REQUIRE(sut.at(0)->a == 10);
+            REQUIRE(sut.at(1) == nullptr);
 
             REQUIRE(sut.push_back(a) == false);
-            REQUIRE(sut.at(0).has_value());
-            REQUIRE((*sut.at(0))->a == 10);
-            REQUIRE(sut.at(1).has_value() == false);
+            REQUIRE(sut.at(0));
+            REQUIRE(sut.at(0)->a == 10);
+            REQUIRE(sut.at(1) == nullptr);
 
             sut.push_back(b);
-            REQUIRE(sut.at(0).has_value());
-            REQUIRE((*sut.at(0))->a == 10);
-            REQUIRE(sut.at(1).has_value());
-            REQUIRE((*sut.at(1))->a == 15);
-            REQUIRE(sut.at(2).has_value() == false);
+            REQUIRE(sut.at(0));
+            REQUIRE(sut.at(0)->a == 10);
+            REQUIRE(sut.at(1));
+            REQUIRE(sut.at(1)->a == 15);
+            REQUIRE(sut.at(2) == nullptr);
 
             REQUIRE(sut.push_back(a) == false);
-            REQUIRE(sut.at(0).has_value());
-            REQUIRE((*sut.at(0))->a == 10);
-            REQUIRE(sut.at(1).has_value());
-            REQUIRE((*sut.at(1))->a == 15);
-            REQUIRE(sut.at(2).has_value() == false);
+            REQUIRE(sut.at(0));
+            REQUIRE(sut.at(0)->a == 10);
+            REQUIRE(sut.at(1));
+            REQUIRE(sut.at(1)->a == 15);
+            REQUIRE(sut.at(2) == nullptr);
         }
-        REQUIRE(sut.at(0).has_value() == true);
-        REQUIRE((*sut.at(0))->a == 15);
+        REQUIRE(sut.at(0));
+        REQUIRE(sut.at(0)->a == 15);
 
-        REQUIRE(sut.at(1).has_value() == false);
+        REQUIRE(sut.at(1) == nullptr);
     }
 
     SECTION("Move node to other list")
@@ -138,22 +138,22 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
             REQUIRE(sut.push_back(a));
             REQUIRE(sut.push_back(b));
-            REQUIRE(sut.at(0).has_value());
-            REQUIRE((*sut.at(0))->a == 10);
-            REQUIRE(sut.at(1).has_value());
-            REQUIRE((*sut.at(1))->a == 15);
+            REQUIRE(sut.at(0));
+            REQUIRE(sut.at(0)->a == 10);
+            REQUIRE(sut.at(1));
+            REQUIRE(sut.at(1)->a == 15);
 
             sut2.push_back(a);
-            REQUIRE(sut2.at(0).has_value());
-            REQUIRE((*sut2.at(0))->a == 10);
-            REQUIRE(sut2.at(1).has_value() == false);
+            REQUIRE(sut2.at(0));
+            REQUIRE(sut2.at(0)->a == 10);
+            REQUIRE(sut2.at(1) == nullptr);
 
-            REQUIRE(sut.at(0).has_value());
-            REQUIRE((*sut.at(0))->a == 15);
-            REQUIRE(sut.at(1).has_value() == false);
+            REQUIRE(sut.at(0));
+            REQUIRE(sut.at(0)->a == 15);
+            REQUIRE(sut.at(1) == nullptr);
         }
-        REQUIRE(sut.at(0).has_value() == false);
-        REQUIRE(sut2.at(0).has_value() == false);
+        REQUIRE(sut.at(0) == nullptr);
+        REQUIRE(sut2.at(0) == nullptr);
     }
 
     SECTION("Not insert after if node not exists")
@@ -167,11 +167,11 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
             REQUIRE(sut.push_back(b));
             REQUIRE(sut.insert_after(a, c) == false);
-            REQUIRE(sut.at(0).has_value());
-            REQUIRE((*sut.at(0))->a == 15);
-            REQUIRE(sut.at(1).has_value() == false);
+            REQUIRE(sut.at(0));
+            REQUIRE(sut.at(0)->a == 15);
+            REQUIRE(sut.at(1) == nullptr);
         }
-        REQUIRE(sut.at(0).has_value() == false);
+        REQUIRE(sut.at(0) == nullptr);
     }
 
     SECTION("Insert after node")
@@ -187,26 +187,26 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
             REQUIRE(sut.push_back(a));
             REQUIRE(sut.push_back(b));
             REQUIRE(sut.insert_after(a, c));
-            REQUIRE(sut.at(0).has_value());
-            REQUIRE((*sut.at(0))->a == 10);
-            REQUIRE(sut.at(1).has_value());
-            REQUIRE((*sut.at(1))->a == 20);
-            REQUIRE(sut.at(2).has_value());
-            REQUIRE((*sut.at(2))->a == 15);
+            REQUIRE(sut.at(0));
+            REQUIRE(sut.at(0)->a == 10);
+            REQUIRE(sut.at(1));
+            REQUIRE(sut.at(1)->a == 20);
+            REQUIRE(sut.at(2));
+            REQUIRE(sut.at(2)->a == 15);
 
             REQUIRE(sut.insert_after(b, d));
-            REQUIRE(sut.at(0).has_value());
-            REQUIRE((*sut.at(0))->a == 10);
-            REQUIRE(sut.at(1).has_value());
-            REQUIRE((*sut.at(1))->a == 20);
-            REQUIRE(sut.at(2).has_value());
-            REQUIRE((*sut.at(2))->a == 15);
-            REQUIRE(sut.at(3).has_value());
-            REQUIRE((*sut.at(3))->a == 30);
+            REQUIRE(sut.at(0));
+            REQUIRE(sut.at(0)->a == 10);
+            REQUIRE(sut.at(1));
+            REQUIRE(sut.at(1)->a == 20);
+            REQUIRE(sut.at(2));
+            REQUIRE(sut.at(2)->a == 15);
+            REQUIRE(sut.at(3));
+            REQUIRE(sut.at(3)->a == 30);
         }
-        REQUIRE(sut.at(0).has_value());
-        REQUIRE((*sut.at(0))->a == 20);
-        REQUIRE(sut.at(1).has_value() == false);
+        REQUIRE(sut.at(0));
+        REQUIRE(sut.at(0)->a == 20);
+        REQUIRE(sut.at(1) == nullptr);
     }
 
     SECTION("Not insert before if node not exists")
@@ -220,11 +220,11 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
 
             REQUIRE(sut.push_back(b));
             REQUIRE(sut.insert_before(a, c) == false);
-            REQUIRE(sut.at(0).has_value());
-            REQUIRE((*sut.at(0))->a == 15);
-            REQUIRE(sut.at(1).has_value() == false);
+            REQUIRE(sut.at(0));
+            REQUIRE(sut.at(0)->a == 15);
+            REQUIRE(sut.at(1) == nullptr);
         }
-        REQUIRE(sut.at(0).has_value() == false);
+        REQUIRE(sut.at(0) == nullptr);
     }
 
 
@@ -241,35 +241,35 @@ TEST_CASE("Observing list should", "[ObservingListTests]")
             REQUIRE(sut.push_back(a));
             REQUIRE(sut.push_back(b));
             REQUIRE(sut.insert_before(a, c));
-            REQUIRE(sut.at(0).has_value());
-            REQUIRE((*sut.at(0))->a == 20);
-            REQUIRE(sut.at(1).has_value());
-            REQUIRE((*sut.at(1))->a == 10);
-            REQUIRE(sut.at(2).has_value());
-            REQUIRE((*sut.at(2))->a == 15);
+            REQUIRE(sut.at(0));
+            REQUIRE(sut.at(0)->a == 20);
+            REQUIRE(sut.at(1));
+            REQUIRE(sut.at(1)->a == 10);
+            REQUIRE(sut.at(2));
+            REQUIRE(sut.at(2)->a == 15);
 
             REQUIRE(sut.insert_before(b, d));
-            REQUIRE(sut.at(0).has_value());
-            REQUIRE((*sut.at(0))->a == 20);
-            REQUIRE(sut.at(1).has_value());
-            REQUIRE((*sut.at(1))->a == 10);
-            REQUIRE(sut.at(2).has_value());
-            REQUIRE((*sut.at(2))->a == 30);
-            REQUIRE(sut.at(3).has_value());
-            REQUIRE((*sut.at(3))->a == 15);
+            REQUIRE(sut.at(0));
+            REQUIRE(sut.at(0)->a == 20);
+            REQUIRE(sut.at(1));
+            REQUIRE(sut.at(1)->a == 10);
+            REQUIRE(sut.at(2));
+            REQUIRE(sut.at(2)->a == 30);
+            REQUIRE(sut.at(3));
+            REQUIRE(sut.at(3)->a == 15);
             REQUIRE(sut.size() == 4);
         }
-        REQUIRE(sut.at(0).has_value());
-        REQUIRE((*sut.at(0))->a == 20);
-        REQUIRE(sut.at(1).has_value() == false);
+        REQUIRE(sut.at(0));
+        REQUIRE(sut.at(0)->a == 20);
+        REQUIRE(sut.at(1) == nullptr);
 
         eul::container::observing_node<TestingElement> b{15};
         REQUIRE(sut.push_back(b));
-        REQUIRE(sut.at(0).has_value());
-        REQUIRE((*sut.at(0))->a == 20);
-        REQUIRE(sut.at(1).has_value());
-        REQUIRE((*sut.at(1))->a == 15);
-        REQUIRE(sut.at(2).has_value() == false);
+        REQUIRE(sut.at(0));
+        REQUIRE(sut.at(0)->a == 20);
+        REQUIRE(sut.at(1));
+        REQUIRE(sut.at(1)->a == 15);
+        REQUIRE(sut.at(2) == nullptr);
         REQUIRE(sut.size() == 2);
     }
 
