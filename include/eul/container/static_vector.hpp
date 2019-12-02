@@ -13,7 +13,7 @@ class static_vector
 {
 protected:
     using DataContainerType = std::array<Type, BufferSize>;
-
+    using self_type = static_vector<Type, BufferSize>;
 public:
     using iterator       = typename DataContainerType::iterator;
     using const_iterator = typename DataContainerType::const_iterator;
@@ -21,11 +21,13 @@ public:
 
     static_vector()
         : firstFreePosition_(0)
+        , data_()
     {
     }
 
     static_vector(const std::initializer_list<Type>& arguments)
         : firstFreePosition_(0)
+        , data_()
     {
         std::copy(arguments.begin(), arguments.end(), std::back_inserter(*this));
     }
@@ -60,6 +62,32 @@ public:
 
         data_[firstFreePosition_] = data;
         ++firstFreePosition_;
+    }
+
+    template <typename... Args>
+    void emplace_back(Args&&... args)
+    {
+        if (firstFreePosition_ >= BufferSize)
+        {
+            return;
+        }
+
+        new (&data_[firstFreePosition_]) Type(args...);
+        ++firstFreePosition_;
+    }
+
+    void erase(iterator it)
+    {
+        if (it == end())
+        {
+            return;
+        }
+        while(it != end())
+        {
+            *(it) = *(it + 1);
+            ++it;
+        }
+        --firstFreePosition_;
     }
 
     const Type& operator[](const std::size_t index) const
@@ -186,6 +214,22 @@ public:
         return size() == 0;
     }
 
+    bool operator==(const self_type& other) const
+    {
+        if (other.size() != size())
+        {
+            return false;
+        }
+
+        for (std::size_t i = 0; i < size(); ++i)
+        {
+            if ((*this)[i] != other[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 private:
     std::size_t firstFreePosition_;
     DataContainerType data_;

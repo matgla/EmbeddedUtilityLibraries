@@ -202,4 +202,23 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
         REQUIRE(*(--it) == 2);
         REQUIRE(*(--it) == 1);
     }
+    SECTION("erase elements")
+    {
+        using Container = eul::container::static_vector<int, 4>;
+        Container sut{1, 2, 3, 4};
+        
+        REQUIRE(sut == Container{1, 2, 3, 4});
+        sut.erase(sut.begin() + 2);
+        REQUIRE(sut == Container{1, 2, 4});
+        sut.erase(sut.end());
+        REQUIRE(sut == Container{1, 2, 4});
+        sut.erase(sut.end() - 1);
+        REQUIRE(sut == Container{1, 2});
+        sut.erase(sut.begin());
+        REQUIRE(sut == Container{2});
+        sut.erase(sut.begin());
+        REQUIRE(sut == Container{});
+        sut.erase(sut.begin());
+        REQUIRE(sut == Container{});
+    }
 }
