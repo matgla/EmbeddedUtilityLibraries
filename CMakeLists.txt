@@ -28,22 +28,24 @@ add_subdirectory(include/eul/mpl)
 
 target_include_directories(eul PUBLIC ${Eul_INCLUDE_DIR})
 target_link_libraries(eul
-    PRIVATE 
+    PRIVATE
         eul_mpl
         eul_timer
         eul_time
         eul_execution
         eul_logger
         eul_utils
-        gsl)
+    PUBLIC
+        gsl
+    )
 
 target_compile_options(eul PUBLIC
     $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${eul_cxx_compilation_flags}>
-    $<$<CONFIG:DEBUG>:-O0 -g>
+    $<$<CONFIG:DEBUG>:-Og -g>
     $<$<CONFIG:RELEASE>:-Os>
 )
 
-target_link_options(eul PUBLIC 
+target_link_options(eul PUBLIC
     ${eul_cxx_linking_flags})
 
 install (
