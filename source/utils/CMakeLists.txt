@@ -1,7 +1,7 @@
-add_library(eul_utils OBJECT)
+add_library(eul_utils STATIC)
 
 target_sources(eul_utils
-    PUBLIC 
+    PUBLIC
         ${PROJECT_SOURCE_DIR}/include/eul/utils/math.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/utils/string.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/utils/unused.hpp
@@ -17,12 +17,12 @@ target_link_libraries(eul_utils
         gsl
 )
 
-target_compile_options(eul_utils PUBLIC 
+target_compile_options(eul_utils PUBLIC
     $<$<COMPILE_LANGUAGE:CXX>:${eul_cxx_compilation_flags} -std=c++2a -Wall -Werror ${cxx_flags_shared_library}>
     $<$<CONFIG:DEBUG>:-Og -g>
     $<$<CONFIG:RELEASE>:-Os>
 )
 
-target_link_options(eul_utils PUBLIC 
+target_link_options(eul_utils PUBLIC
     ${eul_cxx_linking_flags}
 )

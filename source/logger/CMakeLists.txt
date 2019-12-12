@@ -1,7 +1,7 @@
-add_library(eul_logger OBJECT)
+add_library(eul_logger STATIC)
 
 target_sources(eul_logger
-    PUBLIC 
+    PUBLIC
         ${PROJECT_SOURCE_DIR}/include/eul/logger/logger_policy.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/logger/logger_stream_registry.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/logger/logger_stream.hpp
@@ -30,22 +30,22 @@ endif()
 
 message (STATUS "Logging level: ${logging_definition}")
 
-target_compile_definitions(eul_logger PUBLIC 
+target_compile_definitions(eul_logger PUBLIC
     ${logging_definition}
 )
 
 target_link_libraries(eul_logger
-    PUBLIC 
+    PUBLIC
         eul_utils
         gsl
 )
 
 
-target_compile_options(eul_logger PUBLIC 
+target_compile_options(eul_logger PUBLIC
     $<$<COMPILE_LANGUAGE:CXX>:${eul_cxx_compilation_flags} -std=c++2a -Wall -Werror ${cxx_flags_shared_library}>
     $<$<CONFIG:DEBUG>:-Og -g>
     $<$<CONFIG:RELEASE>:-Os>
 )
 
-target_link_options(eul_logger PUBLIC 
+target_link_options(eul_logger PUBLIC
    ${eul_cxx_linking_flags})
