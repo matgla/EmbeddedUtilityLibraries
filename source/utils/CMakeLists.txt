@@ -5,6 +5,7 @@ target_sources(eul_utils
         ${PROJECT_SOURCE_DIR}/include/eul/utils/math.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/utils/string.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/utils/unused.hpp
+        ${PROJECT_SOURCE_DIR}/include/eul/utils/noncopyable.hpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/math.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/string.cpp
