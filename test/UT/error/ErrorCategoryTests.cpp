@@ -58,7 +58,7 @@ public:
     }
 };
 
-TEST_CASE("ErrorCondition tests", "[ErrorConditionTests]")
+TEST_CASE("ErrorCategory tests", "[ErrorCategoryTests]")
 {
     SECTION("Should return category name")
     {

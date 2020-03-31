@@ -5,27 +5,39 @@ namespace eul
 namespace error
 {
 
-std::string_view system_category::name() const noexcept
+class system_category_impl : public error_category
+{
+public:
+    std::string_view name() const noexcept override;
+    std::string_view message(int condition) const override;
+};
+
+std::string_view system_category_impl::name() const noexcept
 {
     return "system";
 }
 
-std::string_view system_category::message(int condition) const
+std::string_view system_category_impl::message(int condition) const
 {
     switch (static_cast<errc>(condition))
     {
         case errc::argument_list_to_long: return "Argument list to big";
-        case errc::permision_denied: return "Permission denied";
+        case errc::permission_denied: return "Permission denied";
         default: return "Unknown error";
     }
 }
 
-system_category system_category_;
+system_category_impl system_category_;
 
 template <>
 error_code make_error_code<errc>(errc e)
 {
     return error_code(static_cast<int>(e), system_category_);
+}
+
+const error_category& system_category() noexcept
+{
+    return system_category_;
 }
 
 } // namespace error

@@ -8,6 +8,10 @@ namespace error
 {
 
 class error_category;
+class error_condition;
+
+template <typename ErrorConditionEnum>
+error_condition make_error_condition(ErrorConditionEnum e);
 
 class error_condition
 {
@@ -19,7 +23,7 @@ public:
     template <typename ErrorConditionEnum>
     error_condition(ErrorConditionEnum e) noexcept
     {
-
+        *this = make_error_condition(e);
     }
 
     error_condition& operator=(const error_condition& other) noexcept;
@@ -27,6 +31,7 @@ public:
     template <typename ErrorConditionEnum>
     error_condition& operator=(ErrorConditionEnum e) noexcept
     {
+        *this = make_error_condition(e);
         return *this;
     }
 
@@ -45,7 +50,8 @@ public:
     bool operator!=(const error_condition& rhs) const noexcept;
     bool operator<(const error_condition& rhs) const noexcept;
 private:
-    error_category* error_category_;
+    int value_;
+    const error_category* category_;
 };
 
 } // namespace error

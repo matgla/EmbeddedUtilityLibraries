@@ -6,11 +6,13 @@ target_sources(eul_error
         ${PROJECT_SOURCE_DIR}/include/eul/error/error_category.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/error/error_condition.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/error/system_category.hpp
+        ${PROJECT_SOURCE_DIR}/include/eul/error/generic_category.hpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/error_code.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/error_condition.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/error_category.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/system_category.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/generic_category.cpp
 )
 
 target_include_directories(eul_error PUBLIC "${PROJECT_SOURCE_DIR}/include")

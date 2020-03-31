@@ -31,6 +31,7 @@ public:
     template <typename ErrorCodeEnum>
     error_code& operator=(ErrorCodeEnum e) noexcept
     {
+        *this = make_error_code(e);
         return *this;
     }
 

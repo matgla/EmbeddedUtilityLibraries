@@ -1,4 +1,5 @@
 #include "eul/error/error_condition.hpp"
+#include "eul/error/generic_category.hpp"
 
 namespace eul
 {
@@ -6,68 +7,74 @@ namespace error
 {
 
 error_condition::error_condition() noexcept
+    : error_condition(0, generic_category())
 {
-
 }
 
 error_condition::error_condition(const error_condition& other) noexcept
+    : value_(other.value_)
+    , category_(other.category_)
 {
-
 }
-error_condition::error_condition(int val, const error_category& cat) noexcept
-{
 
+error_condition::error_condition(int val, const error_category& cat) noexcept
+    : value_(val)
+    , category_(&cat)
+{
 }
 
 error_condition& error_condition::operator=(const error_condition& other) noexcept
 {
+    value_ = other.value_;
+    category_ = other.category_;
     return *this;
 }
 
 void error_condition::assign(int val, const error_category& cat) noexcept
 {
-
+    value_ = val;
+    category_ = &cat;
 }
 
 void error_condition::clear() noexcept
 {
-
+    value_ = 0;
 }
 
 int error_condition::value() const noexcept
 {
-    return 0;
+    return value_;
 }
 
 const error_category& error_condition::category() const noexcept
 {
-    return *error_category_;
+    return *category_;
 }
 
 std::string_view error_condition::message() const
 {
-    return "";
+    return category_->message(value_);
 }
 
 error_condition::operator bool() const noexcept
 {
-    return true;
+    return value_ != 0;
 }
 
 bool error_condition::operator==(const error_condition& rhs) const noexcept
 {
-    return true;
+    return (*category_ == *rhs.category_) && value_ == rhs.value_;
 }
 
 bool error_condition::operator!=(const error_condition& rhs) const noexcept
 {
-    return true;
+    return !operator==(rhs);
 }
 
 bool error_condition::operator<(const error_condition& rhs) const noexcept
 {
-    return true;
-}
+    return (*this->category_ < *rhs.category_)
+        || ((*this->category_ == *rhs.category_) && value_ < rhs.value_);}
 
 } // namespace error
 } // namespace eul
