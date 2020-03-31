@@ -37,6 +37,7 @@ add_subdirectory(lib)
 
 add_subdirectory(source/logger)
 add_subdirectory(source/utils)
+add_subdirectory(source/error)
 add_subdirectory(include/eul/execution)
 add_subdirectory(include/eul/time)
 add_subdirectory(include/eul/timer)
@@ -51,6 +52,7 @@ target_link_libraries(eul
         eul_execution
         eul_logger
         eul_utils
+        eul_error
     PUBLIC
         gsl
     )
