@@ -29,6 +29,8 @@ set (test_sources
     error/ErrorCategoryTests.cpp
     error/ErrorCodeTests.cpp
     error/ErrorConditionTests.cpp
+    filesystem/PathTests.cpp
+    filesystem/PathConstIteratorTests.cpp
     mpl/types/BindTypeTests.cpp
     kernel/KernelTests.cpp
     EventLoopTests.cpp
