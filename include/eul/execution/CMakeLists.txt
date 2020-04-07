@@ -34,7 +34,7 @@ target_link_libraries(eul_execution
 )
 
 target_compile_options(eul_execution INTERFACE
-    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a -Wall -Werror ${cxx_flags_shared_library}>
+    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${cxx_flags_shared_library}>
     $<$<CONFIG:DEBUG>:-Og -g>
     $<$<CONFIG:RELEASE>:-Os>
 )

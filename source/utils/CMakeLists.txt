@@ -18,7 +18,7 @@ target_link_libraries(eul_utils
         gsl
 )
 
-target_compile_options(eul_utils PUBLIC
+target_compile_options(eul_utils PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:${eul_cxx_compilation_flags} -std=c++2a -Wall -Werror ${cxx_flags_shared_library}>
     $<$<CONFIG:DEBUG>:-Og -g>
     $<$<CONFIG:RELEASE>:-Os>
