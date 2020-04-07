@@ -17,7 +17,7 @@ target_sources(eul_error
 
 target_include_directories(eul_error PUBLIC "${PROJECT_SOURCE_DIR}/include")
 
-target_compile_options(eul_error PUBLIC
+target_compile_options(eul_error PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:${eul_cxx_compilation_flags} -std=c++2a -Wall -Werror ${cxx_flags_shared_library}>
     $<$<CONFIG:DEBUG>:-Og -g>
     $<$<CONFIG:RELEASE>:-Os>

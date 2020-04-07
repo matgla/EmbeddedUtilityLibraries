@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -265,7 +265,7 @@ private:
     }
 
     template <class FunctionType>
-    void register_callback(FunctionType&& function)
+    void register_callback(FunctionType&& f)
     {
         using decayed_function_type = typename std::decay<FunctionType>::type;
         using function_invoker_type = FunctionInvoker<decayed_function_type>;
@@ -275,12 +275,12 @@ private:
                       "Buffer overflow. Increase size parameter!");
 
         new (&storage_)
-            function_invoker_type(std::forward<FunctionType>(function));
+            function_invoker_type(std::forward<FunctionType>(f));
         isCallable_ = true;
     }
 
     template <class FunctionType>
-    void register_callback(const FunctionType& function)
+    void register_callback(const FunctionType& f)
     {
         using decayed_function_type = typename std::decay<FunctionType>::type;
         using function_invoker_type = FunctionInvoker<decayed_function_type>;
@@ -289,7 +289,7 @@ private:
         static_assert(sizeof(function_invoker_type) <= size,
                       "Buffer overflow. Increase size parameter!");
 
-        new (&storage_) function_invoker_type(function);
+        new (&storage_) function_invoker_type(f);
         isCallable_ = true;
     }
 

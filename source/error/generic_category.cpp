@@ -1,5 +1,7 @@
 #include "eul/error/generic_category.hpp"
 
+#include "eul/utils/unused.hpp"
+
 namespace eul
 {
 namespace error
@@ -19,6 +21,7 @@ std::string_view generic_category_impl::name() const noexcept
 
 std::string_view generic_category_impl::message(int condition) const
 {
+    UNUSED1(condition);
     return "generic";
 }
 
