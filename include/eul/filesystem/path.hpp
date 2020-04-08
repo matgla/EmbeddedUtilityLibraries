@@ -18,6 +18,7 @@ public:
     static path create(const std::string_view& p);
 
     path(const std::string_view& p);
+    path(const path& p);
 
     path lexically_normal();
     const char* c_str() const;
@@ -28,6 +29,9 @@ public:
 
     iterator begin() const;
     iterator end() const;
+
+    path parent_path() const;
+    std::string filename() const;
 
     path& operator+=(const std::string_view& next);
     path& operator+=(const path& next);

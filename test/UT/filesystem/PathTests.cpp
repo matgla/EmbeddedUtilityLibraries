@@ -111,6 +111,52 @@ TEST_CASE("Path should", "[FilesystemTests]")
         REQUIRE(path("/test").is_absolute());
         REQUIRE(!path("est").is_absolute());
     }
+
+    SECTION("Return filename for empty")
+    {
+        REQUIRE(path("").filename() == "");
+    }
+
+    SECTION("Return filename when path is filename")
+    {
+        REQUIRE(path("test").filename() == "test");
+    }
+
+    SECTION("Return filename from root")
+    {
+        REQUIRE(path("//test").filename() == "test");
+    }
+
+    SECTION("Return filename from directory")
+    {
+        REQUIRE(path("/test_dir/aa").filename() == "aa");
+    }
+
+    SECTION("Return empty filename for directory")
+    {
+        REQUIRE(path("/test_dir/aa/").filename() == "");
+    }
+
+    SECTION("Return parent path from directory")
+    {
+        REQUIRE(path("/test_dir/aa").parent_path().native() == "/test_dir");
+    }
+
+    SECTION("Return parent path from root")
+    {
+        REQUIRE(path("/test_dir").parent_path().native() == "/");
+        REQUIRE(path("/").parent_path().native() == "/");
+    }
+
+    SECTION("Return parent path from empty")
+    {
+        REQUIRE(path("").parent_path().native() == "");
+    }
+
+    SECTION("Return parent path from relative")
+    {
+        REQUIRE(path("a/b").parent_path().native() == "a");
+    }
 }
 
 } // namespace filesystem

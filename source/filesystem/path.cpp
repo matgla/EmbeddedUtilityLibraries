@@ -10,6 +10,11 @@ path::path(const std::string_view& p)
 {
 }
 
+path::path(const path& p)
+    : path_(p.path_)
+{
+}
+
 path path::create(const std::string_view& p)
 {
     return path(p);
@@ -90,6 +95,32 @@ path path::lexically_normal()
 
     converted_path.shrink_to_fit();
     return path{converted_path};
+}
+
+path path::parent_path() const
+{
+    std::size_t last_slash = path_.find_last_of("/");
+    if (last_slash == std::string::npos)
+    {
+        return path("");
+    }
+
+    if (last_slash == 0)
+    {
+        return path("/");
+    }
+
+    return path(path_.substr(0, last_slash));
+}
+
+std::string path::filename() const
+{
+    std::size_t last_slash = path_.find_last_of("/");
+    if (last_slash == std::string::npos || last_slash == path_.length())
+    {
+        return path_;
+    }
+    return path_.substr(last_slash + 1, path_.length());
 }
 
 const std::string& path::native() const
