@@ -37,25 +37,20 @@ int pow(int base, int index)
 
 std::pair<uint16_t, uint16_t> floatToInts(float number, const uint8_t precision)
 {
-    uint16_t high = std::floor(number);
+    uint16_t high = static_cast<uint16_t>(std::floor(number));
     uint16_t low;
     float floatingPoint = number - high;
-    int multiplier      = pow(10, precision);
+    float multiplier    = static_cast<float>(pow(10, precision));
     if (floatingPoint < 0.1)
     {
-        low = std::round(floatingPoint * 10) / 10 * 10;
+        low = static_cast<uint16_t>(std::round(floatingPoint * 10) / 10 * 10);
     }
     else
     {
-        low = std::round(floatingPoint * multiplier);
+        low = static_cast<uint16_t>(std::round(floatingPoint * multiplier));
     }
 
     return std::make_pair(high, low);
-}
-
-int atoi(const char* data)
-{
-    return 0;
 }
 
 } // namespace utils

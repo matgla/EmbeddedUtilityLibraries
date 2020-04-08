@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -67,9 +67,9 @@ inline int strlen(const gsl::span<T>& data)
 }
 
 int writeToBufferAligned(char* buffer, int data, char suffix, uint8_t size = 2, char prefix = '0');
-int formatTime(char* buffer, const uint8_t bufferSize, std::tm* t);
-int formatDate(char* buffer, const uint8_t bufferSize, std::tm* t);
-void formatDateAndTime(char* buffer, const uint8_t bufferSize, std::tm* t);
+int formatTime(char* buffer, int bufferSize, std::tm* t);
+int formatDate(char* buffer, int bufferSize, std::tm* t);
+void formatDateAndTime(char* buffer, int bufferSize, std::tm* t);
 
 } // namespace utils
 } // namespace eul

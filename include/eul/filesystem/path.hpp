@@ -15,12 +15,14 @@ class path
 public:
     using const_iterator = path_const_iterator;
     using iterator = const_iterator;
-    static path create(const std::string_view& p);
 
-    path(const std::string_view& p);
-    path(const path& p);
+    path(std::string_view p);
+    path(const char* p);
+    path& operator=(const std::string_view& p);
 
-    path lexically_normal();
+    path lexically_normal() const;
+    path lexically_relative(const path& base) const;
+
     const char* c_str() const;
     const std::string& native() const;
     path root_path();

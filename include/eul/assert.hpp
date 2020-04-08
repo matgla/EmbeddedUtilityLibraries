@@ -20,6 +20,8 @@
 
 #include <cstdlib>
 
+#include "utils/unused.hpp"
+
 #define EUL_ASSERT_MSG(expr, msg)                                                                            \
     ((expr) ? (void)0 : eul::assertFailed(#expr, __FILE__, __LINE__, __FUNCTION__, msg))
 
@@ -29,6 +31,7 @@ namespace eul
 
 inline void assertFailed(const char* expr, const char* file, int line, const char* function, const char* msg)
 {
+    UNUSED5(expr, file, line, function, msg);
 }
 
 } // namespace eul

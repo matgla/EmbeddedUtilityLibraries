@@ -26,7 +26,6 @@ namespace utils
 
 int pow(int base, int index);
 std::pair<uint16_t, uint16_t> floatToInts(float number, const uint8_t precision);
-int atoi(const char* str);
 
 } // namespace utils
 } // namespace eul

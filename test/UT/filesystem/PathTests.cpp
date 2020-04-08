@@ -157,6 +157,14 @@ TEST_CASE("Path should", "[FilesystemTests]")
     {
         REQUIRE(path("a/b").parent_path().native() == "a");
     }
+
+    SECTION("Return relative path to base")
+    {
+        REQUIRE(path("a/b/c").lexically_relative("a").native() == "b/c");
+        // REQUIRE(path("a/b/c").lexically_relative("b").native() == "../a/b/c");
+        // REQUIRE(path("a/b/c").lexically_relative("c").native() == "../a/b/c");
+        REQUIRE(path("a/b/c").lexically_relative("/").native() == "");
+    }
 }
 
 } // namespace filesystem

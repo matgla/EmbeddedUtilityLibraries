@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -29,7 +29,7 @@ namespace utils
 void reverse(char* s)
 {
     char* j = s + std::strlen(s) - 1;
-    int c;
+    char c;
 
     j = s + std::strlen(s) - 1;
     while (s < j)
@@ -44,11 +44,11 @@ char int_to_char(int n)
 {
     if (n > 9)
     {
-        return n - 10 + 'a';
+        return static_cast<char>(n - 10 + 'a');
     }
     else
     {
-        return n + '0';
+        return static_cast<char>(n + '0');
     }
 }
 
@@ -66,7 +66,7 @@ int writeToBufferAligned(char* buffer, int data, char suffix, uint8_t size, char
 }
 
 
-int formatTime(char* buffer, const uint8_t bufferSize, std::tm* t)
+int formatTime(char* buffer, int bufferSize, std::tm* t)
 {
     int i = 0;
 
@@ -77,7 +77,7 @@ int formatTime(char* buffer, const uint8_t bufferSize, std::tm* t)
     return i;
 }
 
-int formatDate(char* buffer, const uint8_t bufferSize, std::tm* t)
+int formatDate(char* buffer, int bufferSize, std::tm* t)
 {
     int i = 0;
 
@@ -89,7 +89,7 @@ int formatDate(char* buffer, const uint8_t bufferSize, std::tm* t)
     return i;
 }
 
-void formatDateAndTime(char* buffer, const uint8_t bufferSize, std::tm* t)
+void formatDateAndTime(char* buffer, int bufferSize, std::tm* t)
 {
     int i = 0;
     i += formatDate(buffer + i, bufferSize - i, t);
