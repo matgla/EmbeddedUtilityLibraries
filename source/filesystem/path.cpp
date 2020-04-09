@@ -11,16 +11,35 @@ path::path(std::string_view p)
 {
 }
 
+path::path(const path& p)
+    : path_(p.path_)
+{
+}
+
 path::path(const char* p)
     : path_(p)
 {
 }
+
+path& path::operator=(const path& p)
+{
+    path_ = p.path_;
+    return *this;
+}
+
 
 path& path::operator=(const std::string_view& p)
 {
     path_ = p;
     return *this;
 }
+
+path& path::operator=(const char* p)
+{
+    path_ = p;
+    return *this;
+}
+
 
 
 bool path::is_absolute() const

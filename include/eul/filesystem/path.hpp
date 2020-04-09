@@ -17,8 +17,11 @@ public:
     using iterator = const_iterator;
 
     path(std::string_view p);
+    path(const path& p);
     path(const char* p);
     path& operator=(const std::string_view& p);
+    path& operator=(const path& p);
+    path& operator=(const char* p);
 
     path lexically_normal() const;
     path lexically_relative(const path& base) const;
