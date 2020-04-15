@@ -40,6 +40,11 @@ public:
         return reinterpret_cast<T*>(address_);
     }
 
+    volatile T* operator->() const volatile
+    {
+        return reinterpret_cast<volatile T*>(address_);
+    }
+
 private:
     std::intptr_t address_;
 };

@@ -182,14 +182,20 @@ path::iterator path::end() const
 
 path& path::operator+=(const std::string_view& next)
 {
-    path_ += "/";
+    if (path_ != "/")
+    {
+        path_ += "/";
+    }
     path_ += next;
     return *this;
 }
 
 path& path::operator+=(const path& next)
 {
-    path_ += "/";
+    if (path_ != "/")
+    {
+        path_ += "/";
+    }
     path_ += next.path_;
     return *this;
 }
