@@ -7,7 +7,7 @@ target_sources(eul_error
         ${PROJECT_SOURCE_DIR}/include/eul/error/error_condition.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/error/system_category.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/error/generic_category.hpp
-
+    PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/error_code.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/error_condition.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/error_category.cpp
