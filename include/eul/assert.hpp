@@ -19,17 +19,19 @@
 #ifndef NDEBUG
 
 #include <cstdlib>
+#include <string_view>
 
 #include "utils/unused.hpp"
 
+// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define EUL_ASSERT_MSG(expr, msg)                                                                            \
-    ((expr) ? (void)0 : eul::assertFailed(#expr, __FILE__, __LINE__, __FUNCTION__, msg))
+    ((expr) ? (void)0 : eul::assertFailed(#expr, std::string_view(__FILE__), __LINE__, std::string_view(&__FUNCTION__[0], sizeof(__FUNCTION__)), std::string_view(msg)))
 
 namespace eul
 {
 
 
-inline void assertFailed(const char* expr, const char* file, int line, const char* function, const char* msg)
+inline void assertFailed(const char* expr, std::string_view file, int line, std::string_view function, std::string_view msg)
 {
     UNUSED5(expr, file, line, function, msg);
 }

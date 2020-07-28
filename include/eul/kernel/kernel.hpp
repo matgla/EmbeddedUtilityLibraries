@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,34 +18,32 @@
 
 #include <memory>
 #include <string_view>
-#include <type_traits>
 #include <tuple>
+#include <type_traits>
 
 #include "eul/assert.hpp"
-#include "eul/kernel/typeid.hpp"
-#include "eul/kernel/module.hpp"
-#include "eul/kernel/event_listener.hpp"
 #include "eul/container/observable/observing_list.hpp"
+#include "eul/kernel/event_listener.hpp"
+#include "eul/kernel/module.hpp"
+#include "eul/kernel/typeid.hpp"
 
-namespace eul
-{
-namespace kernel
+namespace eul::kernel
 {
 
 class kernel
 {
 public:
-    void register_module(module& module)
+    void register_module(module* module)
     {
-        modules_.push_back(module.observing_node());
+        modules_.push_back(module->observing_node());
     }
 
     template <typename ModuleType>
-    const ModuleType* get_module() const
+    [[nodiscard]] const ModuleType* get_module() const
     {
         const auto module_id = type_id<ModuleType>();
 
-        for (auto& module : modules_)
+        for (const auto & module : modules_)
         {
             if (module.data()->get_id() == module_id)
             {
@@ -85,6 +83,4 @@ private:
     eul::container::observing_list<eul::container::observing_node<module*>> modules_;
 };
 
-
-} // namespace kernel
-} // namespace eul
+} // namespace eul::kernel

@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,26 +18,23 @@
 
 #include <string_view>
 
-#include "eul/time/fwd.hpp"
 #include "eul/logger/logger.hpp"
+#include "eul/time/fwd.hpp"
 
-namespace eul
-{
-namespace logger
+namespace eul::logger
 {
 
 class logger_factory
 {
 public:
-    logger_factory(time::i_time_provider& time_provider);
+    explicit logger_factory(const time::i_time_provider& time_provider);
 
-    logger create(const std::string_view& name) const;
-    logger create(const std::string_view& name, const std::string_view& prefix) const;
+    [[nodiscard]] logger create(const std::string_view& name) const;
+    [[nodiscard]] logger create(const std::string_view& name, const std::string_view& prefix) const;
 
-    time::i_time_provider& get_time_provider();
+    [[nodiscard]] const time::i_time_provider& get_time_provider() const;
 private:
-    time::i_time_provider& time_provider_;
+    const time::i_time_provider& time_provider_;
 };
 
-} // namespace logger
-} // namespace eul
+} // namespace eul::logger

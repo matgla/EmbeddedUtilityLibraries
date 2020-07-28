@@ -1,15 +1,18 @@
 #include "eul/error/system_category.hpp"
 
-namespace eul
-{
-namespace error
+namespace eul::error
 {
 
 class system_category_impl : public error_category
 {
 public:
-    std::string_view name() const noexcept override;
-    std::string_view message(int condition) const override;
+    static const system_category_impl& get()
+    {
+        static system_category_impl impl;
+        return impl;
+    }
+    [[nodiscard]] std::string_view name() const noexcept override;
+    [[nodiscard]] std::string_view message(int condition) const override;
 };
 
 std::string_view system_category_impl::name() const noexcept
@@ -27,18 +30,15 @@ std::string_view system_category_impl::message(int condition) const
     }
 }
 
-system_category_impl system_category_;
-
 template <>
 error_code make_error_code<errc>(errc e)
 {
-    return error_code(static_cast<int>(e), system_category_);
+    return error_code(static_cast<int>(e), system_category_impl::get());
 }
 
 const error_category& system_category() noexcept
 {
-    return system_category_;
+    return system_category_impl::get();
 }
 
-} // namespace error
-} // namespace eul
+} // namespace eul::error

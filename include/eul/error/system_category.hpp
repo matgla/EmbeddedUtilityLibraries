@@ -1,10 +1,10 @@
+#pragma once
+
 #include "eul/error/error_category.hpp"
 
 #include "eul/error/error_code.hpp"
 
-namespace eul
-{
-namespace error
+namespace eul::error
 {
 
 enum class errc
@@ -18,5 +18,4 @@ error_code make_error_code<errc>(errc e);
 
 const error_category& system_category() noexcept;
 
-} // namespace error
-} // namespace eul
+} // namespace eul::error

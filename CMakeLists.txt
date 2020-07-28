@@ -18,7 +18,33 @@ cmake_minimum_required(VERSION 3.1)
 
 project(eul CXX)
 
+if (CLANG_TIDY)
+    set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+    find_program(${clang_tidy} NAMES "run-clang-tidy.py" PATH "/usr/share/clang")
+    # if (NOT clang_tidy)
+    #     message (FATAL_ERROR "Can't find clang tidy executable")
+    # endif ()
+endif()
+
 set(Eul_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include" CACHE STRING "path to EUL sources" FORCE)
+
+include(FetchContent)
+
+FetchContent_Declare(
+  mspkg
+  GIT_REPOSITORY https://github.com/matgla/mspkg.git
+  GIT_TAG        master
+)
+
+FetchContent_MakeAvailable(mspkg)
+
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${mspkg_SOURCE_DIR}/cmake)
+include (mspkg)
+
+setup_mspkg(${mspkg_SOURCE_DIR})
+
+find_package(GSL)
 
 add_library(eul STATIC)
 target_sources(eul PUBLIC
@@ -33,8 +59,6 @@ target_sources(eul PUBLIC
     "${PROJECT_SOURCE_DIR}/include/eul/traits.hpp"
 )
 
-add_subdirectory(lib)
-
 add_subdirectory(source/logger)
 add_subdirectory(source/utils)
 add_subdirectory(source/error)
@@ -43,6 +67,7 @@ add_subdirectory(include/eul/execution)
 add_subdirectory(include/eul/time)
 add_subdirectory(include/eul/timer)
 add_subdirectory(include/eul/mpl)
+add_subdirectory(include/eul/memory)
 
 target_include_directories(eul PUBLIC ${Eul_INCLUDE_DIR})
 target_link_libraries(eul
@@ -56,8 +81,48 @@ target_link_libraries(eul
         eul_error
         eul_filesystem
     PUBLIC
-        gsl
+        GSL
     )
+
+set (CMAKE_C_FLAGS_ASAN
+    "-fsanitize=address -fno-optimize-sibling-calls -fsanitize-address-use-after-scope -fno-omit-frame-pointer -g -O1"
+    CACHE STRING "Flags used by the C compiler during AddressSanitizer builds."
+    FORCE
+)
+
+set(CMAKE_CXX_FLAGS_ASAN
+    "-fsanitize=address -fno-optimize-sibling-calls -fsanitize-address-use-after-scope -fno-omit-frame-pointer -g -O1"
+    CACHE STRING "Flags used by the C++ compiler during AddressSanitizer builds."
+    FORCE)
+
+    set(CMAKE_C_FLAGS_LSAN
+    "-fsanitize=leak -fno-omit-frame-pointer -g -O1"
+    CACHE STRING "Flags used by the C compiler during LeakSanitizer builds."
+    FORCE)
+set(CMAKE_CXX_FLAGS_LSAN
+    "-fsanitize=leak -fno-omit-frame-pointer -g -O1"
+    CACHE STRING "Flags used by the C++ compiler during LeakSanitizer builds."
+    FORCE)
+
+# MemorySanitizer
+set(CMAKE_C_FLAGS_MSAN
+    "-fsanitize=memory -fno-optimize-sibling-calls -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer -g -O2"
+    CACHE STRING "Flags used by the C compiler during MemorySanitizer builds."
+    FORCE)
+set(CMAKE_CXX_FLAGS_MSAN
+    "-fsanitize=memory -fno-optimize-sibling-calls -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer -g -O2"
+    CACHE STRING "Flags used by the C++ compiler during MemorySanitizer builds."
+    FORCE)
+
+# UndefinedBehaviour
+set(CMAKE_C_FLAGS_UBSAN
+    "-fsanitize=undefined"
+    CACHE STRING "Flags used by the C compiler during UndefinedBehaviourSanitizer builds."
+    FORCE)
+set(CMAKE_CXX_FLAGS_UBSAN
+    "-fsanitize=undefined"
+    CACHE STRING "Flags used by the C++ compiler during UndefinedBehaviourSanitizer builds."
+    FORCE)
 
 target_compile_options(eul PUBLIC
     $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${eul_cxx_compilation_flags}>

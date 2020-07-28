@@ -16,7 +16,5 @@
 
 #pragma once
 
-namespace eul
-{
 
-}
+

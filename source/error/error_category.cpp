@@ -2,12 +2,10 @@
 
 #include <functional>
 
-#include "eul/error/error_condition.hpp"
 #include "eul/error/error_code.hpp"
+#include "eul/error/error_condition.hpp"
 
-namespace eul
-{
-namespace error
+namespace eul::error
 {
 
 error_condition error_category::default_error_condition(int code) const noexcept
@@ -37,8 +35,7 @@ bool error_category::operator!=(const error_category& rhs) const noexcept
 
 bool error_category::operator<(const error_category& rhs) const noexcept
 {
-    return std::less<const error_category*>()(this, &rhs);
+    return std::less<>()(this, &rhs);
 }
 
-} // namespace error
-} // namespace eul
+} // namespace eul::error

@@ -2,16 +2,14 @@
 
 #include "eul/utils/unused.hpp"
 
-namespace eul
-{
-namespace error
+namespace eul::error
 {
 
 class generic_category_impl : public error_category
 {
 public:
-    std::string_view name() const noexcept override;
-    std::string_view message(int condition) const override;
+    [[nodiscard]] std::string_view name() const noexcept override;
+    [[nodiscard]] std::string_view message(int condition) const override;
 };
 
 std::string_view generic_category_impl::name() const noexcept
@@ -25,12 +23,10 @@ std::string_view generic_category_impl::message(int condition) const
     return "generic";
 }
 
-generic_category_impl generic_category_;
-
 const error_category& generic_category() noexcept
 {
-    return generic_category_;
+    static generic_category_impl impl{};
+    return impl;
 }
 
-} // namespace error
-} // namespace eul
+} // namespace eul::error

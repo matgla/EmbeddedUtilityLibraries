@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -22,11 +22,7 @@
 #include "eul/mpl/types/bind_type.hpp"
 #include "eul/mpl/types/get_index_of_binded_key.hpp"
 
-namespace eul
-{
-namespace mpl
-{
-namespace types
+namespace eul::mpl::types
 {
 
 TEST_CASE("GetIndexOfBindedKey should", "[GetIndexOfBindedKey]")
@@ -67,6 +63,4 @@ TEST_CASE("GetIndexOfBindedKey should", "[GetIndexOfBindedKey]")
     }
 }
 
-} // namespace types
-} // namespace mpl
-} // namespace eul
+} // namespace eul::mpl::types

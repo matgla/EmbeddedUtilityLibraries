@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -28,7 +28,7 @@ struct TestingObject
     using value_type = Data;
     const Data& operator[](std::size_t index) const
     {
-        this->index = index;
+        TestingObject::index = index;
         return value;
     }
 
@@ -72,18 +72,21 @@ TEST_CASE("IndexConstIterator should", "[IndexConstIteratorTests]")
 
     SECTION("Access value")
     {
-        TestingObject stub{15};
-        stub.index = 10;
+        constexpr int test_value = 15;
+        constexpr int other_test_value = 10;
+        TestingObject stub{test_value};
+        TestingObject::index = other_test_value;
         SutType sut(stub, 0);
-        REQUIRE(stub.index == 10);
+        REQUIRE(stub.index == other_test_value);
 
-        REQUIRE((*sut).value == 15);
-        REQUIRE(sut->value == 15);
+        REQUIRE((*sut).value == test_value);
+        REQUIRE(sut->value == test_value);
     }
 
     SECTION("compare iterators")
     {
-        TestingObject stub{15};
+        constexpr int test_value = 15;
+        TestingObject stub{test_value};
         SutType sut(stub, 0);
         SutType sut2(stub, 0);
         SutType sut3(stub, 3);

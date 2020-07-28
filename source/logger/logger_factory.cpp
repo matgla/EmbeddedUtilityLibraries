@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,12 +18,10 @@
 
 #include "eul/time/i_time_provider.hpp"
 
-namespace eul
-{
-namespace logger
+namespace eul::logger
 {
 
-logger_factory::logger_factory(time::i_time_provider& time_provider)
+logger_factory::logger_factory(const time::i_time_provider& time_provider)
     : time_provider_(time_provider)
 {
 }
@@ -38,11 +36,9 @@ logger logger_factory::create(const std::string_view& name, const std::string_vi
     return logger(name, prefix, time_provider_);
 }
 
-time::i_time_provider& logger_factory::get_time_provider()
+const time::i_time_provider& logger_factory::get_time_provider() const
 {
     return time_provider_;
 }
 
-
-} // namespace logger
-} // namespace eul
+} // namespace eul::logger

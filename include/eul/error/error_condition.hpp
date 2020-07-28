@@ -2,9 +2,7 @@
 
 #include <string_view>
 
-namespace eul
-{
-namespace error
+namespace eul::error
 {
 
 class error_category;
@@ -17,16 +15,21 @@ class error_condition
 {
 public:
     error_condition() noexcept;
-    error_condition(const error_condition& other) noexcept;
+    ~error_condition() = default;
+
     error_condition(int val, const error_category& cat) noexcept;
 
+    error_condition(const error_condition& other) noexcept;
+    error_condition& operator=(const error_condition& other) noexcept;
+    error_condition(error_condition&& other) noexcept = default;
+    error_condition& operator=(error_condition&& other) noexcept = default;
+
     template <typename ErrorConditionEnum>
-    error_condition(ErrorConditionEnum e) noexcept
+    error_condition(ErrorConditionEnum e) noexcept // NOLINT(google-explicit-constructor)
     {
         *this = make_error_condition(e);
     }
 
-    error_condition& operator=(const error_condition& other) noexcept;
 
     template <typename ErrorConditionEnum>
     error_condition& operator=(ErrorConditionEnum e) noexcept
@@ -39,20 +42,19 @@ public:
 
     void clear() noexcept;
 
-    int value() const noexcept;
+    [[nodiscard]] int value() const noexcept;
 
-    const error_category& category() const noexcept;
+    [[nodiscard]] const error_category& category() const noexcept;
 
-    std::string_view message() const;
+    [[nodiscard]] std::string_view message() const;
 
     explicit operator bool() const noexcept;
     bool operator==(const error_condition& rhs) const noexcept;
     bool operator!=(const error_condition& rhs) const noexcept;
     bool operator<(const error_condition& rhs) const noexcept;
 private:
-    int value_;
-    const error_category* category_;
+    int value_{0};
+    const error_category* category_{nullptr};
 };
 
-} // namespace error
-} // namespace eul
+} // namespace eul::error

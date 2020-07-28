@@ -1,20 +1,14 @@
 #include "eul/filesystem/path.hpp"
 
-namespace eul
+namespace eul::filesystem
 {
-namespace filesystem
-{
-
 
 path::path(std::string_view p)
     : path_(p)
 {
 }
 
-path::path(const path& p)
-    : path_(p.path_)
-{
-}
+path::path(const path& p) = default;
 
 path::path(const char* p)
     : path_(p)
@@ -23,7 +17,10 @@ path::path(const char* p)
 
 path& path::operator=(const path& p)
 {
-    path_ = p.path_;
+    if (this != &p)
+    {
+        this->path_ = p.path_;
+    }
     return *this;
 }
 
@@ -47,20 +44,21 @@ bool path::is_absolute() const
     return path_.empty() ? false : path_[0] == '/';
 }
 
+// TODO(mateusz): rewrite this, it's quite complex
 path path::lexically_normal() const
 {
     std::string converted_path;
-    for (const auto& part : *this)
+    for (const auto& part : *this) // NOLINT(readability-static-accessed-through-instance)
     {
         if (part == ".")
         {
             continue;
         }
-        else if (part == "..")
+        if (part == "..")
         {
             if (!converted_path.empty())
             {
-                std::size_t last_slash = converted_path.find_last_of("/");
+                std::size_t last_slash = converted_path.find_last_of('/');
                 if (last_slash != std::string::npos)
                 {
                     converted_path = converted_path.substr(0, last_slash);
@@ -121,10 +119,10 @@ path path::lexically_normal() const
 
 path path::lexically_relative(const path& base) const
 {
-    if (path_.find(base.path_) == 0)
+    if (path_.starts_with(base.path_))
     {
         std::string relative = path_.substr(base.path_.length(), path_.length());
-        std::size_t first_not_slash = relative.find_first_not_of("/");
+        std::size_t first_not_slash = relative.find_first_not_of('/');
         if (first_not_slash != std::string_view::npos)
         {
             relative = relative.substr(first_not_slash, relative.length());
@@ -136,7 +134,7 @@ path path::lexically_relative(const path& base) const
 
 path path::parent_path() const
 {
-    std::size_t last_slash = path_.find_last_of("/");
+    std::size_t last_slash = path_.find_last_of('/');
     if (last_slash == std::string::npos)
     {
         return path("");
@@ -152,7 +150,7 @@ path path::parent_path() const
 
 std::string path::filename() const
 {
-    std::size_t last_slash = path_.find_last_of("/");
+    std::size_t last_slash = path_.find_last_of('/');
     if (last_slash == std::string::npos || last_slash == path_.length())
     {
         return path_;
@@ -175,7 +173,7 @@ path::iterator path::begin() const
     return path_const_iterator(path_);
 }
 
-path::iterator path::end() const
+path::iterator path::end()
 {
     return path_const_iterator("");
 }
@@ -200,7 +198,4 @@ path& path::operator+=(const path& next)
     return *this;
 }
 
-
-
-} // namespace filesystem
-} // namespace eul
+} // namespace eul::filesystem

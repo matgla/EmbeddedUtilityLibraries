@@ -37,7 +37,7 @@ target_compile_definitions(eul_logger PUBLIC
 target_link_libraries(eul_logger
     PUBLIC
         eul_utils
-        gsl
+        GSL
 )
 
 

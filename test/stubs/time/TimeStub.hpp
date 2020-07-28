@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,11 +18,9 @@
 
 #include <chrono>
 
- #include <eul/time/i_time_provider.hpp>
+#include <eul/time/i_time_provider.hpp>
 
-namespace stubs
-{
-namespace time
+namespace stubs::time
 {
 
 class TimeStub : public eul::time::i_time_provider
@@ -43,14 +41,14 @@ public:
         --time_;
     }
 
-    std::chrono::milliseconds milliseconds() const
+    [[nodiscard]]
+    std::chrono::milliseconds milliseconds() const override
     {
         return time_;
     }
 
 private:
-    std::chrono::milliseconds time_;
+    std::chrono::milliseconds time_{};
 };
 
-} // namespace time
-} // namespace stubs
+} // namespace stubs::time

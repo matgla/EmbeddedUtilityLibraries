@@ -4,9 +4,7 @@
 
 #include <catch.hpp>
 
-namespace eul
-{
-namespace error
+namespace eul::error
 {
 
 enum class MyErrors
@@ -18,12 +16,14 @@ enum class MyErrors
 class MyCategory : public error_category
 {
 public:
+    [[nodiscard]]
     std::string_view name() const noexcept override
     {
         return "MyCategory";
     }
 
-    std::string_view message(int id) const noexcept
+    [[nodiscard]]
+    std::string_view message(int id) const noexcept override
     {
         switch (static_cast<MyErrors>(id))
         {
@@ -34,7 +34,7 @@ public:
     }
 };
 
-MyCategory category;
+static MyCategory category; // NOLINT(fuchsia-statically-constructed-objects)
 
 template <>
 error_condition make_error_condition(MyErrors e)
@@ -60,13 +60,13 @@ TEST_CASE("ErrorCondition tests", "[ErrorConditionTests]")
 
     SECTION("Should construct from copy")
     {
-        error_condition ec(static_cast<int>(MyErrors::Error2), category);
+        const error_condition ec(static_cast<int>(MyErrors::Error2), category);
         REQUIRE(ec);
         REQUIRE(ec.message() == "Error 2");
 
-        error_condition ec2(ec);
-        REQUIRE(ec);
-        REQUIRE(ec.message() == "Error 2");
+        const error_condition ec2(ec); // NOLINT(performance-unnecessary-copy-initialization)
+        REQUIRE(ec2);
+        REQUIRE(ec2.message() == "Error 2");
     }
 
     SECTION("Should return false when empty")
@@ -107,5 +107,4 @@ TEST_CASE("ErrorCondition tests", "[ErrorConditionTests]")
     }
 }
 
-} // namespace error
-} // namespace eul
+} // namespace eul::error

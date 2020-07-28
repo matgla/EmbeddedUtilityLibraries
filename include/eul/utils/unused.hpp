@@ -1,3 +1,5 @@
+#pragma once
+
 // This file is part of EUL project. This project is set of libraries useful for embedded development.
 // Copyright (C) 2019 Mateusz Stadnik
 //
@@ -10,37 +12,46 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#pragma once
-
 // clang-format off
-#define UNUSED1(x) (void)(x)
+template <typename... T>
+constexpr void UNUSED(T.../*unused*/)
+{
+};
 
-#define UNUSED2(x, y) \
-    UNUSED1(x);       \
-    UNUSED1(y)
+template <typename A>
+constexpr void UNUSED1(A a)
+{
+    UNUSED(a);
+}
 
-#define UNUSED3(x, y, z) \
-    UNUSED2(y, z);       \
-    UNUSED1(x)
+template <typename A, typename B>
+constexpr void UNUSED2(A a, B b)
+{
+    UNUSED(a, b);
+}
 
-#define UNUSED4(x, y, z, e) \
-    UNUSED3(y, z, e);       \
-    UNUSED1(x)
+template <typename A, typename B, typename C>
+constexpr void UNUSED3(A a, B b, C c)
+{
+    UNUSED(a, b, c);
+}
 
-#define UNUSED5(x, y, z, e, f) \
-    UNUSED4(y, z, e, f);       \
-    UNUSED1(x)
+template <typename A, typename B, typename C, typename D>
+constexpr void UNUSED4(A a, B b, C c, D d)
+{
+    UNUSED(a, b, c, d);
+}
 
-#define UNUSED6(x, y, z, e, f, g) \
-    UNUSED5(y, z, e, f, g);       \
-    UNUSED1(x)
+template <typename A, typename B, typename C, typename D, typename E>
+constexpr void UNUSED5(A a, B b, C c, D d, E e)
+{
+    UNUSED(a, b, c, d, e);
+}
 
-#define UNUSED7(x, y, z, e, f, g, h) \
-    UNUSED6(y, z, e, f, g, h);       \
-    UNUSED1(x)
+
 
 // clang-format on

@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -19,24 +19,20 @@
 #include <cstddef>
 #include <type_traits>
 
-namespace eul
-{
-namespace memory
-{
-namespace pool
+namespace eul::memory::pool
 {
 
 template <typename Type, typename OnDestroyCallbackType>
 struct unique_ptr
 {
-    unique_ptr(const OnDestroyCallbackType& on_destroy) 
+    explicit unique_ptr(const OnDestroyCallbackType& on_destroy)
         : ptr_(nullptr)
         , on_destroy_(on_destroy)
         , position_in_buffer_(0)
     {
     }
-   
-    unique_ptr(Type* ptr, const OnDestroyCallbackType& on_destroy, const std::size_t position_in_buffer)
+
+    unique_ptr(Type* ptr, const OnDestroyCallbackType& on_destroy, std::size_t position_in_buffer)
         : ptr_(ptr), on_destroy_(on_destroy), position_in_buffer_(position_in_buffer)
     {
     }
@@ -45,6 +41,12 @@ struct unique_ptr
     {
         reset();
     }
+
+    unique_ptr(unique_ptr&&) noexcept = default;
+    unique_ptr(const unique_ptr&) = delete;
+
+    unique_ptr& operator=(unique_ptr&&) noexcept = default;
+    unique_ptr& operator=(const unique_ptr&) = delete;
 
     Type* operator->() const noexcept
     {
@@ -79,7 +81,7 @@ struct unique_ptr
         ptr_ = nullptr;
     }
 
-    std::size_t position() const
+    [[nodiscard]] std::size_t position() const
     {
         return position_in_buffer_;
     }
@@ -103,6 +105,4 @@ constexpr auto make_unique_ptr(std::nullptr_t, const OnDestroyCallbackType& on_d
     return unique_ptr<Type, OnDestroyCallbackType>(on_destroy);
 }
 
-} // namespace pool
-} // namespace memory
-} // namespace eul
+} // namespace eul::memory::pool

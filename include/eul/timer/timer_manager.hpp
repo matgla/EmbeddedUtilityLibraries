@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -20,9 +20,7 @@
 
 #include "eul/container/observable/observing_list.hpp"
 
-namespace eul
-{
-namespace timer
+namespace eul::timer
 {
 
 class timer_manager
@@ -30,14 +28,14 @@ class timer_manager
 public:
     timer_manager() = default;
 
-    void register_timer(observed_timer& timer)
+    void register_timer(observed_timer* timer)
     {
-        timers_.push_back(timer.observing_node());
+        timers_.push_back(timer->observing_node());
     }
 
-    void deregister_timer(observed_timer& timer)
+    static void deregister_timer(observed_timer* timer)
     {
-        timer.observing_node().reset();
+        timer->observing_node().reset();
     }
 
     void run()
@@ -52,5 +50,4 @@ private:
     eul::container::observing_list<eul::container::observing_node<observed_timer*>> timers_;
 };
 
-} // namespace timer
-} // namespace eul
+} // namespace eul::timer

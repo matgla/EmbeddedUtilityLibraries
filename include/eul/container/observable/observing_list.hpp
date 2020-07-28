@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -23,9 +23,9 @@
 #include "eul/container/observable/observing_node_const_iterator.hpp"
 #include "eul/container/observable/observing_node_iterator.hpp"
 
-namespace eul
-{
-namespace container
+#include "eul/utils/noncopyable.hpp"
+
+namespace eul::container
 {
 
 template <typename NodeType>
@@ -35,24 +35,30 @@ public:
     observing_list();
     ~observing_list();
 
+    observing_list(const observing_list& other) = delete;
+    observing_list(observing_list&& other) = delete;
+
+    observing_list& operator=(const observing_list& other) = delete;
+    observing_list& operator=(observing_list&& other) = delete;
+
     bool push_back(NodeType& node);
     bool push_front(NodeType& node);
     bool insert_after(NodeType& prev, NodeType& node);
-    bool insert_before(NodeType& next, NodeType& node);
+    bool insert_before(NodeType* next, NodeType& node);
 
-    typename NodeType::data_type* at(const std::size_t index);
+    typename NodeType::data_type* at(std::size_t index);
     NodeType* find(const NodeType* node);
     const NodeType* find(const NodeType* node) const;
 
     typename NodeType::iterator begin();
-    typename NodeType::const_iterator begin() const;
+    [[nodiscard]] typename NodeType::const_iterator begin() const;
 
     typename NodeType::iterator end();
-    typename NodeType::const_iterator end() const;
+    [[nodiscard]] typename NodeType::const_iterator end() const;
 
     void set_root(NodeType* root);
 
-    std::size_t size() const;
+    [[nodiscard]] std::size_t size() const;
 
     bool is_observed(NodeType* node);
 
@@ -63,19 +69,18 @@ public:
 private:
     NodeType* get_end();
 
-    const NodeType* get_end() const;
+    [[nodiscard]] const NodeType* get_end() const;
 
     void link(NodeType& prev, NodeType& node);
     void link(NodeType& node);
 
-    NodeType* root_;
+    NodeType* root_{nullptr};
 };
 
 template <typename NodeType>
 observing_list<NodeType>::observing_list()
-    : root_{nullptr}
-{
-}
+
+= default;
 
 template <typename NodeType>
 observing_list<NodeType>::~observing_list()
@@ -105,7 +110,7 @@ bool observing_list<NodeType>::push_back(NodeType& node)
 template <typename NodeType>
 bool observing_list<NodeType>::push_front(NodeType& node)
 {
-    return insert_before(*root_, node);
+    return insert_before(root_, node);
 }
 
 template <typename NodeType>
@@ -128,7 +133,7 @@ bool observing_list<NodeType>::insert_after(NodeType& prev, NodeType& node)
 }
 
 template <typename NodeType>
-bool observing_list<NodeType>::insert_before(NodeType& next, NodeType& node)
+bool observing_list<NodeType>::insert_before(NodeType* next, NodeType& node)
 {
     if (find(&node) != nullptr)
     {
@@ -139,7 +144,7 @@ bool observing_list<NodeType>::insert_before(NodeType& next, NodeType& node)
         link(node);
     }
 
-    auto* current = find(&next);
+    auto* current = find(next);
     if (!current)
     {
         return false;
@@ -359,5 +364,4 @@ void observing_list<NodeType>::clear()
     root_ = nullptr;
 }
 
-} // namespace container
-} // namespace eul
+} // namespace eul::container

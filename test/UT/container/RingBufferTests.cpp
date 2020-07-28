@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -25,7 +25,7 @@ TEST_CASE("Ring buffer should", "[RingBufferTests]")
     {
         eul::container::ring_buffer<int, 4> sut;
 
-        REQUIRE(sut.size() == 0);
+        REQUIRE(sut.empty());
         sut.push(1);
         sut.push(2);
         sut.push(3);
@@ -37,50 +37,64 @@ TEST_CASE("Ring buffer should", "[RingBufferTests]")
         REQUIRE(sut.pop() == 2);
         REQUIRE(sut.pop() == 3);
         REQUIRE(sut.pop() == 4);
-        REQUIRE(sut.size() == 0);
+        REQUIRE(sut.empty());
     }
 
     SECTION("push override elements")
     {
         eul::container::ring_buffer<int, 3> sut;
 
-        REQUIRE(sut.size() == 0);
-        sut.push(1);
-        sut.push(2);
-        sut.push(3);
-        sut.push(4);
-        sut.push(5);
+        constexpr int value_1 = 1;
+        constexpr int value_2 = 2;
+        constexpr int value_3 = 3;
+        constexpr int value_4 = 4;
+        constexpr int value_5 = 5;
+        constexpr int value_6 = 7;
+        constexpr int value_7 = 8;
+        constexpr int value_8 = 9;
+        constexpr int value_9 = 10;
+        constexpr int value_10 = 11;
+        constexpr int value_11 = 12;
+        constexpr int value_12 = 13;
+        constexpr int value_13 = 14;
+
+        REQUIRE(sut.empty());
+        sut.push(value_1);
+        sut.push(value_2);
+        sut.push(value_3);
+        sut.push(value_4);
+        sut.push(value_5);
 
         REQUIRE(sut.size() == 3);
-        REQUIRE(sut.pop() == 3);
+        REQUIRE(sut.pop() == value_3);
         REQUIRE(sut.size() == 2);
-        REQUIRE(sut.pop() == 4);
-        REQUIRE(sut.pop() == 5);
-        REQUIRE(sut.size() == 0);
+        REQUIRE(sut.pop() == value_4);
+        REQUIRE(sut.pop() == value_5);
+        REQUIRE(sut.empty());
 
-        sut.push(5);
-        sut.push(7);
+        sut.push(value_5);
+        sut.push(value_6);
         REQUIRE(sut.size() == 2);
-        REQUIRE(sut.pop() == 5);
+        REQUIRE(sut.pop() == value_5);
         REQUIRE(sut.size() == 1);
 
-        sut.push(8);
-        sut.push(9);
+        sut.push(value_7);
+        sut.push(value_8);
         REQUIRE(sut.size() == 3);
-        REQUIRE(sut.pop() == 7);
+        REQUIRE(sut.pop() == value_6);
         REQUIRE(sut.size() == 2);
 
-        sut.push(10);
-        sut.push(11);
+        sut.push(value_9);
+        sut.push(value_10);
         REQUIRE(sut.size() == 3);
-        REQUIRE(sut.pop() == 9);
+        REQUIRE(sut.pop() == value_8);
         REQUIRE(sut.size() == 2);
 
-        sut.push(12);
-        sut.push(13);
-        sut.push(14);
+        sut.push(value_11);
+        sut.push(value_12);
+        sut.push(value_13);
         REQUIRE(sut.size() == 3);
-        REQUIRE(sut.pop() == 12);
+        REQUIRE(sut.pop() == value_11);
         REQUIRE(sut.size() == 2);
     }
 
@@ -88,21 +102,27 @@ TEST_CASE("Ring buffer should", "[RingBufferTests]")
     {
         eul::container::ring_buffer<int, 3> sut;
 
-        REQUIRE(sut.size() == 0);
-        sut.push(1);
-        sut.push(2);
-        sut.push(3);
-        sut.push(4);
-        sut.push(5);
+        constexpr int value_1 = 1;
+        constexpr int value_2 = 2;
+        constexpr int value_3 = 3;
+        constexpr int value_4 = 4;
+        constexpr int value_5 = 5;
+
+        REQUIRE(sut.empty());
+        sut.push(value_1);
+        sut.push(value_2);
+        sut.push(value_3);
+        sut.push(value_4);
+        sut.push(value_5);
 
         REQUIRE(sut.size() == 3);
-        REQUIRE(sut.front() == 3);
+        REQUIRE(sut.front() == value_3);
         REQUIRE(sut.size() == 3);
-        REQUIRE(sut.front() == 3);
+        REQUIRE(sut.front() == value_3);
 
-        REQUIRE(sut.pop() == 3);
+        REQUIRE(sut.pop() == value_3);
         REQUIRE(sut.size() == 2);
-        REQUIRE(sut.front() == 4);
+        REQUIRE(sut.front() == value_4);
         REQUIRE(sut.size() == 2);
     }
 }

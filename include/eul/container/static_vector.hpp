@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -20,10 +20,9 @@
 
 #include "eul/assert.hpp"
 
-namespace eul
+namespace eul::container
 {
-namespace container
-{
+
 template <typename Type, std::size_t BufferSize>
 class static_vector
 {
@@ -36,14 +35,12 @@ public:
     using value_type     = Type;
 
     static_vector()
-        : firstFreePosition_(0)
-        , data_()
+        : data_()
     {
     }
 
     static_vector(const std::initializer_list<Type>& arguments)
-        : firstFreePosition_(0)
-        , data_()
+        : data_()
     {
         std::copy(arguments.begin(), arguments.end(), std::back_inserter(*this));
     }
@@ -98,7 +95,7 @@ public:
         {
             return;
         }
-        while(it != end())
+        while(it != end() && (it + 1) != end())
         {
             *(it) = *(it + 1);
             ++it;
@@ -128,13 +125,13 @@ public:
     }
 
     template <std::size_t index>
-    const Type& at() const
+    [[nodiscard]] const Type& at() const
     {
         static_assert(index < BufferSize, "Trying to access element outside vector");
         return data_[index];
     }
 
-    std::size_t size() const
+    [[nodiscard]] std::size_t size() const
     {
         return firstFreePosition_;
     }
@@ -168,21 +165,21 @@ public:
         return data_[0];
     }
 
-    const Type& back() const
+    [[nodiscard]] const Type& back() const
     {
         EUL_ASSERT_MSG(size() != 0, "Vector is empty!");
 
         return data_[firstFreePosition_ - 1];
     }
 
-    const Type& front() const
+    [[nodiscard]] const Type& front() const
     {
         EUL_ASSERT_MSG(size() != 0, "Vector is empty!");
 
         return data_[0];
     }
 
-    int find(int data) const
+    [[nodiscard]] int find(int data) const
     {
         for (std::size_t i = 0; i < data_.size(); i++)
         {
@@ -200,12 +197,12 @@ public:
         firstFreePosition_ = 0;
     }
 
-    constexpr const Type* data() const noexcept
+    [[nodiscard]] constexpr const Type* data() const noexcept
     {
         return data_.data();
     }
 
-    const_iterator begin() const
+    [[nodiscard]] const_iterator begin() const
     {
         return data_.begin();
     }
@@ -215,7 +212,7 @@ public:
         return data_.begin();
     }
 
-    const_iterator end() const
+    [[nodiscard]] const_iterator end() const
     {
         return data_.begin() + firstFreePosition_;
     }
@@ -225,7 +222,7 @@ public:
         return data_.begin() + firstFreePosition_;
     }
 
-    bool empty() const
+    [[nodiscard]] bool empty() const
     {
         return size() == 0;
     }
@@ -247,9 +244,8 @@ public:
         return true;
     }
 private:
-    std::size_t firstFreePosition_;
+    std::size_t firstFreePosition_{0};
     DataContainerType data_;
 };
 
-} // namespace container
-} // namespace eul
+} // namespace eul::container

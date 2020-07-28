@@ -1,8 +1,6 @@
 #include "eul/filesystem/path_const_iterator.hpp"
 
-namespace eul
-{
-namespace filesystem
+namespace eul::filesystem
 {
 
 path_const_iterator::path_const_iterator(std::string_view path)
@@ -71,5 +69,4 @@ void path_const_iterator::set_next_part()
     part_ = {};
 }
 
-} // namespace filesystem
-} // namespace eul
+} // namespace eul::filesystem

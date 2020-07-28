@@ -1,9 +1,7 @@
 #include "eul/error/error_condition.hpp"
 #include "eul/error/generic_category.hpp"
 
-namespace eul
-{
-namespace error
+namespace eul::error
 {
 
 error_condition::error_condition() noexcept
@@ -11,11 +9,7 @@ error_condition::error_condition() noexcept
 {
 }
 
-error_condition::error_condition(const error_condition& other) noexcept
-    : value_(other.value_)
-    , category_(other.category_)
-{
-}
+error_condition::error_condition(const error_condition& other) noexcept = default;
 
 error_condition::error_condition(int val, const error_category& cat) noexcept
     : value_(val)
@@ -23,12 +17,7 @@ error_condition::error_condition(int val, const error_category& cat) noexcept
 {
 }
 
-error_condition& error_condition::operator=(const error_condition& other) noexcept
-{
-    value_ = other.value_;
-    category_ = other.category_;
-    return *this;
-}
+error_condition& error_condition::operator=(const error_condition& other) noexcept = default;
 
 void error_condition::assign(int val, const error_category& cat) noexcept
 {
@@ -76,5 +65,4 @@ bool error_condition::operator<(const error_condition& rhs) const noexcept
     return (*this->category_ < *rhs.category_)
         || ((*this->category_ == *rhs.category_) && value_ < rhs.value_);}
 
-} // namespace error
-} // namespace eul
+} // namespace eul::error

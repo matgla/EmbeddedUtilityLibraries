@@ -25,7 +25,7 @@ namespace utils
 {
 
 int pow(int base, int index);
-std::pair<uint16_t, uint16_t> floatToInts(float number, const uint8_t precision);
+std::pair<uint16_t, uint16_t> floatToInts(float number, uint8_t precision);
 
 } // namespace utils
 } // namespace eul

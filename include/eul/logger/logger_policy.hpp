@@ -10,15 +10,13 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #pragma once
 
-namespace eul
-{
-namespace logger
+namespace eul::logger
 {
 
 struct DisabledPolicy
@@ -90,5 +88,4 @@ using CurrentLoggingPolicy = DisabledPolicy;
 #endif // LOG_LEVEL_TRACE
 
 
-} // namespace logger
-} // namespace eul
+} // namespace eul::logger

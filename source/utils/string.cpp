@@ -21,58 +21,61 @@
 #include "eul/assert.hpp"
 #include "eul/utils/math.hpp"
 
-namespace eul
-{
-namespace utils
+namespace eul::utils
 {
 
 void reverse(char* s)
 {
-    char* j = s + std::strlen(s) - 1;
-    char c;
+    char* j = s + std::strlen(s) - 1; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    char c = '\0';
 
-    j = s + std::strlen(s) - 1;
     while (s < j)
     {
         c    = *s;
-        *s++ = *j;
-        *j-- = c;
+        *s++ = *j; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+        *j-- = c; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     }
 }
 
 char int_to_char(int n)
 {
-    if (n > 9)
+    constexpr int is_not_single_digit_check = 9;
+    if (n > is_not_single_digit_check)
     {
-        return static_cast<char>(n - 10 + 'a');
+        constexpr int dec_base = 10;
+        return static_cast<char>(n - dec_base + 'a');
     }
-    else
-    {
-        return static_cast<char>(n + '0');
-    }
+
+    return static_cast<char>(n + '0');
 }
 
 int writeToBufferAligned(char* buffer, int data, char suffix, uint8_t size, char prefix)
 {
     int i = 0;
-    for (int tmp = data == 0 ? 1 : data; tmp < pow(10, size - 1);)
+    constexpr int dec_base = 10;
+
+    for (int tmp = data == 0 ? 1 : data; tmp < pow(dec_base, size - 1);)
     {
-        tmp *= 10;
-        buffer[i++] = prefix;
+        tmp *= dec_base;
+        buffer[i++] = prefix; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     }
-    i += utils::itoa(data, buffer + i);
-    buffer[i++] = suffix;
+    i += utils::itoa(data, buffer + i); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    buffer[i++] = suffix; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     return i;
 }
 
+int writeToBufferAligned(char* buffer, int data, char suffix)
+{
+    return writeToBufferAligned(buffer, data, suffix, 2, '0');
+}
 
 int formatTime(char* buffer, int bufferSize, std::tm* t)
 {
     int i = 0;
 
-    i += writeToBufferAligned(&buffer[i], t->tm_hour, ':');
-    i += writeToBufferAligned(&buffer[i], t->tm_min, ':');
-    i += writeToBufferAligned(&buffer[i], t->tm_sec, '\0');
+    i += writeToBufferAligned(&buffer[i], t->tm_hour, ':'); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    i += writeToBufferAligned(&buffer[i], t->tm_min, ':'); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    i += writeToBufferAligned(&buffer[i], t->tm_sec, '\0'); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     EUL_ASSERT_MSG(i <= bufferSize, "Buffer overflow");
     return i;
 }
@@ -80,10 +83,10 @@ int formatTime(char* buffer, int bufferSize, std::tm* t)
 int formatDate(char* buffer, int bufferSize, std::tm* t)
 {
     int i = 0;
-
-    i += writeToBufferAligned(&buffer[i], t->tm_mday, '/');
-    i += writeToBufferAligned(&buffer[i], t->tm_mon + 1, '/');
-    i += writeToBufferAligned(&buffer[i], t->tm_year + 1900, '\0');
+    constexpr int year_offset = 1900;
+    i += writeToBufferAligned(&buffer[i], t->tm_mday, '/'); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    i += writeToBufferAligned(&buffer[i], t->tm_mon + 1, '/'); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    i += writeToBufferAligned(&buffer[i], t->tm_year + year_offset, '\0'); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
     EUL_ASSERT_MSG(i <= bufferSize, "Buffer overflow");
     return i;
@@ -92,11 +95,10 @@ int formatDate(char* buffer, int bufferSize, std::tm* t)
 void formatDateAndTime(char* buffer, int bufferSize, std::tm* t)
 {
     int i = 0;
-    i += formatDate(buffer + i, bufferSize - i, t);
-    buffer[i - 1] = ' ';
-    i += formatTime(buffer + i, bufferSize - i, t);
+    i += formatDate(buffer + i, bufferSize - i, t); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    buffer[i - 1] = ' '; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    i += formatTime(buffer + i, bufferSize - i, t); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     EUL_ASSERT_MSG(i <= bufferSize, "Buffer overflow");
 }
 
-} // namespace utils
-} // namespace eul
+} // namespace eul::utils

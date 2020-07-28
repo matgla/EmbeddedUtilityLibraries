@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -26,7 +26,7 @@ public:
     {
     }
 
-    constexpr bool constructed() const
+    [[nodiscard]] constexpr bool constructed() const
     {
         return constructed_;
     }
@@ -44,28 +44,29 @@ struct AllocationTestObject
 };
 
 
-class DestructorTester
+class DestructorTester // NOLINT(cppcoreguidelines-special-member-functions)
 {
 public:
-    DestructorTester(bool& destructed) : destructed_(destructed)
+    explicit DestructorTester(bool* destructed) : destructed_(destructed)
     {
-        destructed = false;
+        (*destructed) = false;
     }
 
     ~DestructorTester()
     {
-        destructed_ = true;
+        (*destructed_) = true;
     }
 
 private:
-    bool& destructed_;
+    bool* destructed_;
 };
 
 TEST_CASE("MemoryPool should", "[MemoryPool]")
 {
     SECTION("call constructor")
     {
-        eul::memory::pool::memory_pool<128, uint8_t> sut;
+        constexpr std::size_t memory_pool_size = 128;
+        eul::memory::pool::memory_pool<memory_pool_size, uint8_t> sut;
         auto test = sut.allocate<ConstructorTester>();
         REQUIRE(test->constructed());
     }
@@ -83,7 +84,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
 //         constexpr double double2 = 123512.1235325;
 //         constexpr char char2 = 'c';
 //         constexpr long double ldouble2 = -1234566788.865432;
-// 
+//
 //         test->a = integer1;
 //         test->b = double1;
 //         test->c = char1;
@@ -92,7 +93,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
 //         REQUIRE(test->b == double1);
 //         REQUIRE(test->c == char1);
 //         REQUIRE(test->d == ldouble1);
-//         
+//
 //         auto test2 = sut.allocate<AllocationTestObject>();
 //         REQUIRE(test2 != nullptr);
 //         test2->a = integer2;
@@ -103,20 +104,20 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
 //         REQUIRE(test->b == double1);
 //         REQUIRE(test->c == char1);
 //         REQUIRE(test->d == ldouble1);
-// 
+//
 //         REQUIRE(test2->a == integer2);
 //         REQUIRE(test2->b == double2);
 //         REQUIRE(test2->c == char2);
 //         REQUIRE(test2->d == ldouble2);
-// 
+//
 //         sut.deallocate(test);
 //         REQUIRE(test2->a == integer2);
 //         REQUIRE(test2->b == double2);
 //         REQUIRE(test2->c == char2);
 //         REQUIRE(test2->d == ldouble2);
-// 
+//
 //     }
-// 
+//
 //    SECTION("don't overflow buffer")
 //    {
 //        eul::memory::pool::memory_pool<65> sut;
@@ -126,7 +127,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
 //        constexpr double double1 = -223.123;
 //        constexpr char char1 = 'a';
 //        constexpr long double ldouble1 = 1231231234412.123123123;
-// 
+//
 //        test->a = integer1;
 //        test->b = double1;
 //        test->c = char1;
@@ -135,7 +136,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
 //        REQUIRE(test->b == double1);
 //        REQUIRE(test->c == char1);
 //        REQUIRE(test->d == ldouble1);
-// 
+//
 //        auto test2 = sut.allocate<AllocationTestObject>();
 //        REQUIRE(test2 == nullptr);
 //        REQUIRE(test->a == integer1);
@@ -143,7 +144,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
 //        REQUIRE(test->c == char1);
 //        REQUIRE(test->d == ldouble1);
 //    }
-// 
+//
 //    SECTION("Destroys object while deallocation")
 //    {
 //        // eul::memory_pool<uint8_t, 128> sut;
@@ -158,7 +159,7 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
 //        // REQUIRE(isObject1Destroyed);
 //        // REQUIRE(isObject2Destroyed);
 //    }
-// 
+//
 //    SECTION("Best fit new object")
 //    {
 //        // b - free block ( sizeof(std::max_align_t), i.e 32bytes)
@@ -177,9 +178,9 @@ TEST_CASE("MemoryPool should", "[MemoryPool]")
 //        // [r r b r r r r r r r]
 //        // step 6: allocation of 1 block (a5)
 //        // -> fail
-// 
-// 
-// 
-// 
+//
+//
+//
+//
 //    }
 }

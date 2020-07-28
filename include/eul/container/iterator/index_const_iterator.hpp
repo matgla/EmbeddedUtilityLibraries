@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -19,11 +19,7 @@
 #include <cstddef>
 #include <iterator>
 
-namespace eul
-{
-namespace container
-{
-namespace iterator
+namespace eul::container::iterator
 {
 
 template <typename ContainerType>
@@ -33,11 +29,11 @@ class index_const_iterator
     using Self = index_const_iterator<ContainerType>;
 
 public:
-    index_const_iterator(const ContainerType& container, std::size_t index);
+    index_const_iterator(const ContainerType& object, std::size_t index);
     ~index_const_iterator()                           = default;
     index_const_iterator(const index_const_iterator&) = default;
-    index_const_iterator(index_const_iterator&&)      = default;
-    index_const_iterator& operator=(index_const_iterator&&) = default;
+    index_const_iterator(index_const_iterator&&)       noexcept = default;
+    index_const_iterator& operator=(index_const_iterator&&)  noexcept = default;
     index_const_iterator& operator=(const index_const_iterator&) = default;
 
     index_const_iterator operator++(int);
@@ -99,6 +95,4 @@ const typename std::iterator_traits<index_const_iterator<ContainerType>>::value_
     return &object_[index_];
 }
 
-} // namespace iterator
-} // namespace container
-} // namespace eul
+} // namespace eul::container::iterator

@@ -25,12 +25,12 @@ template <typename T>
 class memory_ptr
 {
 public:
-    constexpr memory_ptr(std::intptr_t address)
+    constexpr explicit memory_ptr(std::intptr_t address)
         : address_(address)
     {
     }
 
-    operator volatile T*() const
+    explicit operator volatile T*() const
     {
         return reinterpret_cast<T*>(address_);
     }

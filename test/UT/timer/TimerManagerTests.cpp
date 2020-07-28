@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -23,9 +23,7 @@
 
 #include "test/stubs/time/TimeStub.hpp"
 
-namespace eul
-{
-namespace timer
+namespace eul::timer
 {
 
 TEST_CASE("TimerManagerShould", "[TimerManagerTests]")
@@ -45,14 +43,14 @@ TEST_CASE("TimerManagerShould", "[TimerManagerTests]")
             [&counter]() {
                 counter++;
             },
-            std::chrono::milliseconds(10));
+            std::chrono::milliseconds(10)); // NOLINT(cppcoreguidelines-avoid-magic-numbers)
 
         timer2.start(
             [&called] { called = true; },
             std::chrono::seconds(2));
 
-        sut.register_timer(timer);
-        sut.register_timer(timer2);
+        sut.register_timer(&timer);
+        sut.register_timer(&timer2);
 
         REQUIRE(counter == 0);
         sut.run();
@@ -83,9 +81,9 @@ TEST_CASE("TimerManagerShould", "[TimerManagerTests]")
             [&counter]() {
                 counter++;
             },
-            std::chrono::milliseconds(10));
+            std::chrono::milliseconds(10)); // NOLINT(cppcoreguidelines-avoid-magic-numbers)
 
-        sut.register_timer(timer);
+        sut.register_timer(&timer);
 
         {
             timeout_timer timer2(time);
@@ -93,7 +91,7 @@ TEST_CASE("TimerManagerShould", "[TimerManagerTests]")
                 [&called] { called = true; },
                 std::chrono::seconds(2));
 
-            sut.register_timer(timer2);
+            sut.register_timer(&timer2);
         }
         time.setTime(std::chrono::seconds(3));
 
@@ -117,25 +115,24 @@ TEST_CASE("TimerManagerShould", "[TimerManagerTests]")
             [&counter]() {
                 counter++;
             },
-            std::chrono::milliseconds(10));
+            std::chrono::milliseconds(10)); // NOLINT(cppcoreguidelines-avoid-magic-numbers)
 
-        sut.register_timer(timer);
+        sut.register_timer(&timer);
 
         timeout_timer timer2(time);
         timer2.start(
             [&called] { called = true; },
             std::chrono::seconds(2));
 
-        sut.register_timer(timer2);
+        sut.register_timer(&timer2);
 
         time.setTime(std::chrono::seconds(3));
 
-        sut.deregister_timer(timer);
+        timer_manager::deregister_timer(&timer);
         sut.run();
         REQUIRE(counter == 0);
         REQUIRE(called);
     }
 }
 
-} // namespace timer
-} // namespace eul
+} // namespace eul::timer

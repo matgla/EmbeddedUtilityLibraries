@@ -2,9 +2,7 @@
 
 #include <catch.hpp>
 
-namespace eul
-{
-namespace error
+namespace eul::error
 {
 
 enum class MyErrors
@@ -23,11 +21,13 @@ enum class MyErrors2
 class MyErrorCategory1 : public error_category
 {
 public:
+    [[nodiscard]]
     std::string_view name() const noexcept override
     {
         return "MyErrorCategory1";
     }
 
+    [[nodiscard]]
     std::string_view message(int condition) const override
     {
         switch (static_cast<MyErrors>(condition))
@@ -42,11 +42,13 @@ public:
 class MyErrorCategory2 : public error_category
 {
 public:
+    [[nodiscard]]
     std::string_view name() const noexcept override
     {
         return "MyErrorCategory2";
     }
 
+    [[nodiscard]]
     std::string_view message(int condition) const override
     {
         switch (static_cast<MyErrors2>(condition))
@@ -103,7 +105,7 @@ TEST_CASE("ErrorCategory tests", "[ErrorCategoryTests]")
         REQUIRE(sut_2 == base_2);
         REQUIRE(sut_1 != sut_2);
         /* depends of architecture addressing */
-        if (std::less<const error_category*>()(&base_1, &sut_2))
+        if (std::less<>()(&base_1, &sut_2))
         {
             REQUIRE(base_1 < sut_2);
         }
@@ -114,5 +116,4 @@ TEST_CASE("ErrorCategory tests", "[ErrorCategoryTests]")
     }
 }
 
-} // namespace error
-} // namespace eul
+} // namespace eul::error

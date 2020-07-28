@@ -18,9 +18,7 @@
 
 #include <cmath>
 
-namespace eul
-{
-namespace utils
+namespace eul::utils
 {
 
 int pow(int base, int index)
@@ -35,15 +33,17 @@ int pow(int base, int index)
 }
 
 
-std::pair<uint16_t, uint16_t> floatToInts(float number, const uint8_t precision)
+std::pair<uint16_t, uint16_t> floatToInts(float number, uint8_t precision)
 {
-    uint16_t high = static_cast<uint16_t>(std::floor(number));
-    uint16_t low;
-    float floatingPoint = number - high;
-    float multiplier    = static_cast<float>(pow(10, precision));
-    if (floatingPoint < 0.1)
+    auto high = static_cast<uint16_t>(std::floor(number));
+    uint16_t low = 0;
+    auto floatingPoint = number - static_cast<float>(high);
+    constexpr int base = 10;
+    auto multiplier    = static_cast<float>(pow(base, precision));\
+    constexpr float epsilion = 0.1;
+    if (floatingPoint < epsilion)
     {
-        low = static_cast<uint16_t>(std::round(floatingPoint * 10) / 10 * 10);
+        low = static_cast<uint16_t>(std::round(floatingPoint * base) / base * base);
     }
     else
     {
@@ -53,5 +53,4 @@ std::pair<uint16_t, uint16_t> floatToInts(float number, const uint8_t precision)
     return std::make_pair(high, low);
 }
 
-} // namespace utils
-} // namespace eul
+} // namespace eul::utils

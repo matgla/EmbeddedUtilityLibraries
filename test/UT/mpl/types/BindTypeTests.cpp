@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,14 +18,11 @@
 #include <type_traits>
 
 #include <catch.hpp>
+#include <utility>
 
 #include "eul/mpl/types/bind_type.hpp"
 
-namespace eul
-{
-namespace mpl
-{
-namespace types
+namespace eul::mpl::types
 {
 
 TEST_CASE("BindType should", "[BindType]")
@@ -36,10 +33,10 @@ TEST_CASE("BindType should", "[BindType]")
         class LoggerImplementation
         {
         public:
-            LoggerImplementation(const std::string& name) : name_(name)
+            explicit LoggerImplementation(std::string name) : name_(std::move(name))
             {
             }
-            const std::string& get_name() const { return name_; }
+            [[nodiscard]] const std::string& get_name() const { return name_; }
         private:
             std::string name_;
         };
@@ -53,6 +50,4 @@ TEST_CASE("BindType should", "[BindType]")
     }
 }
 
-} // namespace types
-} // namespace mpl
-} // namespace eul
+} // namespace eul::mpl::types

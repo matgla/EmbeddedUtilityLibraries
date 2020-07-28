@@ -3,9 +3,7 @@
 
 #include <catch.hpp>
 
-namespace eul
-{
-namespace error
+namespace eul::error
 {
 
 TEST_CASE("ErrorCode tests", "[ErrorCodeTests]")
@@ -62,5 +60,4 @@ TEST_CASE("ErrorCode tests", "[ErrorCodeTests]")
     }
 }
 
-} // namespace error
-} // namespace eul
+} // namespace eul::error

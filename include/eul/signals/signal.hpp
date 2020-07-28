@@ -10,20 +10,17 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "eul/function.hpp"
 #include "eul/container/observable/observing_list.hpp"
-
+#include "eul/function.hpp"
 #include "eul/signals/slot.hpp"
 
-namespace eul
-{
-namespace signals
+namespace eul::signals
 {
 
 template <class, std::size_t Size = 1>
@@ -33,6 +30,13 @@ template <std::size_t Size, class ReturnType, class... Args>
 class signal<ReturnType(Args...), Size>
 {
 public:
+    signal() = default;
+    signal(const signal& other) = delete;
+    signal& operator=(const signal& other) = delete;
+    signal(signal&& other) noexcept = default;
+    signal& operator=(signal&& other) noexcept = default;
+    ~signal() = default;
+
     using slot_t = slot<ReturnType(Args...), Size>;
 
     void connect(slot_t& slot)
@@ -62,5 +66,5 @@ private:
     observing_list slots_;
 };
 
-} // namespace signals
-} // namespace eul
+} // namespace eul::signals
+

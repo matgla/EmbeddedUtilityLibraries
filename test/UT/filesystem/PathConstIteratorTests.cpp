@@ -2,9 +2,7 @@
 
 #include <catch.hpp>
 
-namespace eul
-{
-namespace filesystem
+namespace eul::filesystem
 {
 
 TEST_CASE("PathConstIteratorShould", "[PathConstTests]")
@@ -51,5 +49,4 @@ TEST_CASE("PathConstIteratorShould", "[PathConstTests]")
     }
 }
 
-} // namespace filesystem
-} // namespace eul
+} // namespace eul::filesystem

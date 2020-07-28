@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,13 +18,10 @@
 
 #include <cstddef>
 
-namespace eul
-{
-namespace execution
+namespace eul::execution
 {
 
 template <std::size_t NumberOfExecutors>
 class execution_queue;
 
-} // namespace execution
-} // namespace eul
+} // namespace eul::execution

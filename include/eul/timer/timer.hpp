@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,13 +18,11 @@
 
 #include <chrono>
 
-#include "eul/timer/observed_timer.hpp"
-#include "eul/time/i_time_provider.hpp"
 #include "eul/function.hpp"
+#include "eul/time/i_time_provider.hpp"
+#include "eul/timer/observed_timer.hpp"
 
-namespace eul
-{
-namespace timer
+namespace eul::timer
 {
 
 class timer : public observed_timer
@@ -44,7 +42,7 @@ public:
         callback_ = callback;
     }
 
-    timer(const time::i_time_provider& time_provider)
+    explicit timer(const time::i_time_provider& time_provider)
         : time_provider_(time_provider),
           start_time_(0), end_time_(0), state_(State::Idle)
     {
@@ -98,7 +96,37 @@ protected:
         }
     }
 
-    const time::i_time_provider& time_provider_;
+    [[nodiscard]] State get_state() const
+    {
+        return state_;
+    }
+
+    void set_state(State state)
+    {
+        state_ = state;
+    }
+
+    [[nodiscard]] const std::chrono::milliseconds& get_endtime() const
+    {
+        return end_time_;
+    }
+
+    [[nodiscard]] const time::i_time_provider& get_time_provider() const
+    {
+        return time_provider_;
+    }
+
+    [[nodiscard]] const std::chrono::milliseconds& get_starttime() const
+    {
+        return start_time_;
+    }
+
+    [[nodiscard]] const CallbackType& get_callback() const
+    {
+        return callback_;
+    }
+private:
+    const time::i_time_provider& time_provider_; //NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
     std::chrono::milliseconds start_time_;
     std::chrono::milliseconds end_time_;
@@ -107,5 +135,4 @@ protected:
     State state_;
 };
 
-} // namespace timer
-} // namespace eul
+} // namespace eul::timer

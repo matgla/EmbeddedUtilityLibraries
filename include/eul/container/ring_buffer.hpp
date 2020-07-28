@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,18 +18,13 @@
 
 #include "eul/container/static_vector.hpp"
 
-namespace eul
-{
-namespace container
+namespace eul::container
 {
 
 template <typename T, std::size_t ContainerSize>
 class ring_buffer
 {
 public:
-    ring_buffer() : tail_(0), head_(0), full_(false)
-    {
-    }
 
     T& push(const T& element)
     {
@@ -38,14 +33,15 @@ public:
 
         if (full_)
         {
-            increment_index(tail_);
+            increment_index(&tail_);
         }
 
-        increment_index(head_);
+        increment_index(&head_);
         full_ = tail_ == head_;
         return new_element;
     }
 
+    [[nodiscard]]
     std::size_t size() const
     {
         if (full_)
@@ -64,7 +60,7 @@ public:
     T& pop()
     {
         std::size_t old_tail = tail_;
-        increment_index(tail_);
+        increment_index(&tail_);
         full_ = false;
         return data_[old_tail];
     }
@@ -74,28 +70,34 @@ public:
         return data_[tail_];
     }
 
-    const T& front() const
+    [[nodiscard]] const T& front() const
     {
         return data_[tail_];
     }
 
+    [[nodiscard]]
     bool full() const
     {
         return full_;
     }
 
-private:
-    void increment_index(std::size_t& index)
+    [[nodiscard]]
+    bool empty() const
     {
-        ++index;
-        index = index % ContainerSize;
+        return size() == 0;
     }
 
-    std::size_t tail_;
-    std::size_t head_;
-    bool full_;
+private:
+    void increment_index(std::size_t* index)
+    {
+        ++(*index);
+        (*index) = (*index) % ContainerSize;
+    }
+
+    std::size_t tail_{0};
+    std::size_t head_{0};
+    bool full_{false};
     static_vector<T, ContainerSize> data_;
 };
 
-} // namespace container
-} // namespace eul
+} // namespace eul::container

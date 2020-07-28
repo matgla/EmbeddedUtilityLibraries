@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,9 +18,7 @@
 
 #include <chrono>
 
-namespace eul
-{
-namespace time
+namespace eul::time
 {
 
 class i_time_provider
@@ -28,8 +26,7 @@ class i_time_provider
 public:
     virtual ~i_time_provider() = default;
 
-    virtual std::chrono::milliseconds milliseconds() const = 0;
+    [[nodiscard]] virtual std::chrono::milliseconds milliseconds() const = 0;
 };
 
-} // namespace time
-} // namespace eul
+} // namespace eul::time

@@ -2,12 +2,10 @@
 
 #include "eul/error/system_category.hpp"
 
-#include "eul/error/error_condition.hpp"
 #include "eul/error/error_category.hpp"
+#include "eul/error/error_condition.hpp"
 
-namespace eul
-{
-namespace error
+namespace eul::error
 {
 
 error_code::error_code() noexcept
@@ -16,8 +14,10 @@ error_code::error_code() noexcept
 }
 
 error_code::error_code(int ec, const error_category& ecat) noexcept
-    : category_(&ecat)
+    : condition_(nullptr)
+    , category_(&ecat)
     , value_(ec)
+
 
 {
 }
@@ -74,5 +74,4 @@ bool error_code::operator<(const error_code& rhs) const noexcept
         || ((*this->category_ == *rhs.category_) && value_ < rhs.value_);
 }
 
-} // namespace error
-} // namespace eul
+} // namespace eul::error

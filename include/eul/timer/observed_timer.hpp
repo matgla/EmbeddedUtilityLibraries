@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -20,9 +20,7 @@
 
 #include "eul/container/observable/observing_node.hpp"
 
-namespace eul
-{
-namespace timer
+namespace eul::timer
 {
 
 class observed_timer : public ITimer
@@ -38,9 +36,8 @@ public:
         return observing_node_;
     }
 
-protected:
+private:
     eul::container::observing_node<observed_timer*> observing_node_;
 };
 
-} // namespace timer
-} // namespace eul
+} // namespace eul::timer

@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -70,17 +70,21 @@ TEST_CASE("IndexIterator should", "[IndexIteratorTests]")
 
     SECTION("Access value")
     {
-        TestingObject stub{15, 10};
+        constexpr int test_value = 15;
+        constexpr int test_index = 10;
+        TestingObject stub{{test_value}, test_index};
         SutType sut(stub, 0);
-        REQUIRE(stub.index == 10);
+        REQUIRE(stub.index == test_index);
 
-        REQUIRE((*sut).value == 15);
-        REQUIRE(sut->value == 15);
+        REQUIRE((*sut).value == test_value);
+        REQUIRE(sut->value == test_value);
     }
 
     SECTION("compare iterators")
     {
-        TestingObject stub{15, 10};
+        constexpr int test_value = 15;
+        constexpr int test_index = 10;
+        TestingObject stub{{test_value}, test_index};
         SutType sut(stub, 0);
         SutType sut2(stub, 0);
         SutType sut3(stub, 3);

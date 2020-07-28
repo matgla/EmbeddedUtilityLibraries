@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -22,9 +22,7 @@
 #include "eul/container/observable/observing_node_const_iterator.hpp"
 #include "eul/container/observable/observing_node_iterator.hpp"
 
-namespace eul
-{
-namespace container
+namespace eul::container
 {
 
 template <typename T>
@@ -38,42 +36,42 @@ public:
     using const_iterator = observing_node_const_iterator<T>;
     using data_type      = T;
     template <typename... Args>
-    observing_node(Args... args);
+    explicit observing_node(Args... args);
     ~observing_node();
 
     observing_node(const observing_node<T>& node) = delete;
     observing_node<T>& operator=(const observing_node<T>& node) = delete;
 
-    observing_node(observing_node<T>&& node) = default;
-    observing_node<T>& operator=(observing_node<T>&& node) = default;
+    observing_node(observing_node<T>&& node)  noexcept = default;
+    observing_node<T>& operator=(observing_node<T>&& node)  noexcept = default;
 
     void reset();
 
     template <typename... Args>
     void reset(Args&&... args);
 
-    const observing_node<T>* next() const;
+    [[nodiscard]] const observing_node<T>* next() const;
     observing_node<T>* next();
-    const observing_node<T>* prev() const;
+    [[nodiscard]] const observing_node<T>* prev() const;
     observing_node<T>* prev();
 
     void set_next(observing_node<T>* node);
     void set_prev(observing_node<T>* node);
     void set_prev(observing_list<observing_node<T>>* list);
 
-    bool is_subscribed() const;
+    [[nodiscard]] bool is_subscribed() const;
 
     void reset_list();
 
     T& data();
-    const T& data() const;
+    [[nodiscard]] const T& data() const;
 
     const T& operator*() const;
     const T* operator->() const noexcept;
     T& operator*();
     T* operator->()noexcept;
 
-protected:
+private:
     T data_;
     observing_node<T>* next_;
     observing_node<T>* prev_;
@@ -215,6 +213,4 @@ T* observing_node<T>::operator->() noexcept
     return &data_;
 }
 
-
-} // namespace container
-} // namespace eul
+} // namespace eul::container

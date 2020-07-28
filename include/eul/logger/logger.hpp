@@ -10,37 +10,35 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <string_view>
 #include <optional>
+#include <string_view>
 
 #include "eul/container/observable/observing_list.hpp"
-#include "eul/logger/logger_stream_registry.hpp"
 #include "eul/logger/logger_policy.hpp"
-#include "eul/logger/suppressing_logger.hpp"
 #include "eul/logger/logger_printer.hpp"
+#include "eul/logger/logger_stream_registry.hpp"
+#include "eul/logger/suppressing_logger.hpp"
 #include "eul/time/i_time_provider.hpp"
 
-namespace eul
-{
-namespace logger
+namespace eul::logger
 {
 
 class logger
 {
 public:
-    logger(const std::string_view& name, time::i_time_provider& time)
+    logger(const std::string_view& name, const time::i_time_provider& time)
         : name_(name)
         , time_(&time)
     {
     }
 
-    logger(const std::string_view& name, const std::string_view& prefix, time::i_time_provider& time)
+    logger(const std::string_view& name, const std::string_view& prefix, const time::i_time_provider& time)
         : name_(name)
         , prefix_(prefix)
         , time_(&time)
@@ -54,7 +52,7 @@ public:
     logger& operator=(const logger&& other) = delete;
     logger& operator=(const logger& other) = delete;
 
-    void set_time_provider(time::i_time_provider& time)
+    void set_time_provider(const time::i_time_provider& time)
     {
         time_ = &time;
     }
@@ -139,12 +137,10 @@ public:
         return suppressing_logger();
     }
 
-protected:
-
+private:
     const std::string_view name_;
     const std::optional<std::string_view> prefix_;
-    time::i_time_provider* time_;
+    const time::i_time_provider* time_;
 };
 
-} // namespace logger
-} // namespace eul
+} // namespace eul::logger

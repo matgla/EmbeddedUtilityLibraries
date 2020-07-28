@@ -21,6 +21,8 @@
 #include <type_traits>
 #include <utility>
 
+#include "eul/assert.hpp"
+
 namespace eul
 {
 template <class, std::size_t>
@@ -29,7 +31,7 @@ class function;
 template <std::size_t Size, class ReturnType, class... Args>
 class function<ReturnType(Args...), Size>
 {
-    struct IFunctionInvoker
+    struct IFunctionInvoker // NOLINT(cppcoreguidelines-special-member-functions)
     {
         virtual ~IFunctionInvoker()                       = default;
         virtual ReturnType operator()(Args... args)       = 0;
@@ -42,14 +44,13 @@ public:
     constexpr static std::size_t size
         = Size + sizeof(IFunctionInvoker) + sizeof(void*);
 
-    using storage_type = typename std::aligned_storage<size, 8>::type;
+    using storage_type = typename std::aligned_storage<size, alignof(void*)>::type;
     using this_type    = function<ReturnType(Args...), size>;
 
-    function() noexcept : isCallable_(false)
-    {
-    }
+    function() noexcept
+    = default;
 
-    explicit function(std::nullptr_t) noexcept : isCallable_(false)
+    explicit function(std::nullptr_t) noexcept
     {
     }
 
@@ -94,14 +95,14 @@ public:
 
     template <class F>
     // cppcheck-suppress  noExplicitConstructor
-    function(F&& f)
+    function(F&& f) // NOLINT(google-explicit-constructor, bugprone-forwarding-reference-overload)
     {
         register_callback(std::forward<F>(f));
     }
 
     template <class F>
     // cppcheck-suppress  noExplicitConstructor
-    function(const F& f)
+    function(const F& f) // NOLINT(google-explicit-constructor)
     {
         register_callback(f);
     }
@@ -122,6 +123,11 @@ public:
 
     function& operator=(const function& other)
     {
+        if (this == &other)
+        {
+            return *this;
+        }
+
         destroy();
         if (other)
         {
@@ -163,7 +169,7 @@ public:
     function& operator=(F&& f)
     {
         destroy();
-        register_callback(std::move(f));
+        register_callback(std::forward<F>(f));
         return *this;
     }
 
@@ -189,14 +195,14 @@ public:
 
     ReturnType operator()(Args... args)
     {
-        assert(isCallable_ != false && "Function not initialized!");
+        EUL_ASSERT_MSG(isCallable_ != false, "Function not initialized!");
         auto& invoker = get_invoker();
         return invoker(std::forward<Args>(args)...);
     }
 
     ReturnType operator()(Args... args) const
     {
-        assert(isCallable_ != false && "Function not initialized!");
+        EUL_ASSERT_MSG(isCallable_ != false, "Function not initialized!");
         const auto& invoker = get_invoker();
         return invoker(std::forward<Args>(args)...);
     }
@@ -217,9 +223,14 @@ private:
     template <typename FunctionType>
     struct FunctionInvoker : IFunctionInvoker
     {
+        FunctionInvoker() = default;
+        ~FunctionInvoker() override = default;
         FunctionInvoker(const FunctionInvoker&) = default;
-        FunctionInvoker(FunctionInvoker&&)      = default;
-        explicit FunctionInvoker(FunctionType&& function) : function_(function)
+        FunctionInvoker(FunctionInvoker&&) noexcept = default;
+        FunctionInvoker<FunctionType>& operator=(FunctionInvoker&&)  noexcept = default;
+        FunctionInvoker<FunctionType>& operator=(const FunctionInvoker&) = default;
+
+        explicit FunctionInvoker(FunctionType&& function) noexcept : function_(function)
         {
         }
 
@@ -228,37 +239,37 @@ private:
         {
         }
 
-        ~FunctionInvoker() = default;
-
-        virtual ReturnType operator()(Args... args) override
+        ReturnType operator()(Args... args) override
         {
             return function_(args...);
         }
 
-        virtual ReturnType operator()(Args... args) const override
+        ReturnType operator()(Args... args) const override
         {
             return function_(args...);
         }
 
-        virtual void copy_to(void* new_place) const override
+        void copy_to(void* new_place) const override
         {
             new (new_place) FunctionInvoker(*this);
         }
 
-        virtual void move_to(void* new_place) const override
+        void move_to(void* new_place) const override
         {
             new (new_place) FunctionInvoker(std::move(*this));
         }
-
+    private:
         FunctionType function_;
     };
 
 
+    [[nodiscard]]
     IFunctionInvoker& get_invoker()
     {
         return *reinterpret_cast<IFunctionInvoker*>(&storage_);
     }
 
+    [[nodiscard]]
     const IFunctionInvoker& get_invoker() const
     {
         return *reinterpret_cast<const IFunctionInvoker*>(&storage_);
@@ -294,8 +305,8 @@ private:
     }
 
 
-    storage_type storage_;
-    bool isCallable_;
+    storage_type storage_{};
+    bool isCallable_{false};
 };
 
 } // namespace eul

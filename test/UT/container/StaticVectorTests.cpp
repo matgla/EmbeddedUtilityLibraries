@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -28,7 +28,7 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
     {
         eul::container::static_vector<int, 4> sut;
 
-        REQUIRE(sut.size() == 0);
+        REQUIRE(sut.empty());
         sut.push_back(1);
         sut.push_back(2);
         sut.push_back(3);
@@ -44,7 +44,8 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
     SECTION("copy elements using std algorithm")
     {
         std::vector<uint8_t> data{0, 1, 2};
-        eul::container::static_vector<uint8_t, 8> sut;
+        constexpr std::size_t size = 8;
+        eul::container::static_vector<uint8_t, size> sut;
 
         std::copy(data.begin(), data.end(), std::back_inserter(sut));
 
@@ -67,10 +68,11 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
     SECTION("returns maximal size")
     {
         eul::container::static_vector<uint8_t, 4> sut;
-        eul::container::static_vector<uint8_t, 8> sut2;
+        constexpr std::size_t changed_size = 8;
+        eul::container::static_vector<uint8_t, changed_size> sut2;
 
         REQUIRE(sut.max_size() == 4);
-        REQUIRE(sut2.max_size() == 8);
+        REQUIRE(sut2.max_size() == changed_size);
     }
 
     SECTION("copy vectors")
@@ -128,8 +130,9 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
         REQUIRE(sut.back() == 1);
         REQUIRE(sut.size() == 1);
 
-        sut.push_back(15);
-        REQUIRE(sut.back() == 15);
+        constexpr int test_value = 15;
+        sut.push_back(test_value);
+        REQUIRE(sut.back() == test_value);
         REQUIRE(sut.size() == 2);
     }
 
@@ -140,7 +143,8 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
         REQUIRE(sut.front() == 1);
         REQUIRE(sut.size() == 1);
 
-        sut.push_back(15);
+        constexpr int test_value = 15;
+        sut.push_back(test_value);
         REQUIRE(sut.front() == 1);
         REQUIRE(sut.size() == 2);
     }
@@ -150,11 +154,12 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
         eul::container::static_vector<int, 2> sut{1};
 
         REQUIRE(sut.pop_back() == 1);
-        REQUIRE(sut.size() == 0);
+        REQUIRE(sut.empty());
 
-        sut.push_back(15);
-        REQUIRE(sut.pop_back() == 15);
-        REQUIRE(sut.size() == 0);
+        constexpr int test_value = 15;
+        sut.push_back(test_value);
+        REQUIRE(sut.pop_back() == test_value);
+        REQUIRE(sut.empty());
     }
 
     SECTION("access elements via at")
@@ -172,26 +177,28 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
         REQUIRE(sut.size() == 2);
 
         sut.clear();
-        REQUIRE(sut.size() == 0);
+        REQUIRE(sut.empty());
     }
 
     SECTION("return iterator to begin")
     {
         eul::container::static_vector<int, 2> sut{1, 2};
-        auto it = sut.begin();
+        auto* it = sut.begin();
 
         REQUIRE(*it == 1);
-        REQUIRE(*(++it) == 2);
+        ++it; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+        REQUIRE(*it == 2);
 
-        *it = 15;
-        REQUIRE(sut.back() == 15);
+        constexpr int test_value = 15;
+        *it = test_value;
+        REQUIRE(sut.back() == test_value);
     }
 
     SECTION("return const iterator to begin")
     {
         using Container = eul::container::static_vector<int, 2>;
         Container sut{1, 2};
-        Container::const_iterator it = sut.begin();
+        Container::const_iterator it = sut.begin(); // NOLINT(modernize-use-auto)
 
         REQUIRE(*it == 1);
         REQUIRE(*(++it) == 2);
@@ -200,20 +207,21 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
     SECTION("return iterator to end")
     {
         eul::container::static_vector<int, 2> sut{1, 2};
-        auto it = sut.end();
+        auto it = sut.end(); // NOLINT(readability-qualified-auto)
 
         REQUIRE(*(--it) == 2);
         REQUIRE(*(--it) == 1);
 
-        *it = 15;
-        REQUIRE(sut.front() == 15);
+        constexpr int test_value = 15;
+        *it = test_value;
+        REQUIRE(sut.front() == test_value);
     }
 
     SECTION("return const iterator to end")
     {
         using Container = eul::container::static_vector<int, 2>;
         Container sut{1, 2};
-        Container::const_iterator it = sut.end();
+        Container::const_iterator it = sut.end(); // NOLINT(modernize-use-auto)
 
         REQUIRE(*(--it) == 2);
         REQUIRE(*(--it) == 1);
@@ -222,7 +230,7 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
     {
         using Container = eul::container::static_vector<int, 4>;
         Container sut{1, 2, 3, 4};
-        
+
         REQUIRE(sut == Container{1, 2, 3, 4});
         sut.erase(sut.begin() + 2);
         REQUIRE(sut == Container{1, 2, 4});
@@ -233,8 +241,8 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
         sut.erase(sut.begin());
         REQUIRE(sut == Container{2});
         sut.erase(sut.begin());
-        REQUIRE(sut == Container{});
+        REQUIRE(sut.empty());
         sut.erase(sut.begin());
-        REQUIRE(sut == Container{});
+        REQUIRE(sut.empty());
     }
 }

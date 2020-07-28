@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -36,10 +36,10 @@ struct ModuleB : public eul::kernel::module
     {
     }
 
-    int a;
+    int a{0};
 };
 
-struct ModuleC : public eul::kernel::module,
+struct ModuleC : public eul::kernel::module, // NOLINT(fuchsia-multiple-inheritance)
     public eul::kernel::event_listener<EventUpdateModuleC>
 {
     ModuleC() : module(this)
@@ -51,15 +51,15 @@ struct ModuleC : public eul::kernel::module,
         a = ev.a;
     }
 
-    int a;
+    int a{0};
 };
 
-struct ModuleA : public eul::kernel::module,
+struct ModuleA : public eul::kernel::module,  // NOLINT(fuchsia-multiple-inheritance)
     public eul::kernel::event_listener<EventUpdateModuleA>
 {
-    ModuleA(eul::kernel::kernel& kernel)
+    explicit ModuleA(eul::kernel::kernel* kernel)
         : module(this)
-        , kernel_(kernel)
+        , kernel_(*kernel)
     {
     }
 
@@ -75,12 +75,12 @@ struct ModuleA : public eul::kernel::module,
         b->a= value;
     }
 
-    void update_module_c(int value)
+    void update_module_c(int value) const
     {
         kernel_.post_event(EventUpdateModuleC{value});
     }
 
-    int a;
+    int a{0};
     eul::kernel::kernel& kernel_;
 };
 
@@ -91,31 +91,32 @@ TEST_CASE("KernelShould", "[KernelTests]")
     {
         eul::kernel::kernel kernel;
 
-        ModuleA a(kernel);
+        ModuleA a(&kernel);
         ModuleB b;
 
         a.a = 1;
         b.a = 2;
 
-        kernel.register_module(a);
-        kernel.register_module(b);
+        kernel.register_module(&a);
+        kernel.register_module(&b);
 
         auto* moduleA = kernel.get_module<ModuleA>();
-        moduleA->update_module_b(14);
+        constexpr int test_value = 14;
+        moduleA->update_module_b(test_value);
 
         REQUIRE(a.a == 1);
-        REQUIRE(b.a == 14);
+        REQUIRE(b.a == test_value);
 
         moduleA->a = 2;
         REQUIRE(a.a == 2);
-        REQUIRE(b.a == 14);
+        REQUIRE(b.a == test_value);
     }
 
     SECTION("Handle events")
     {
         eul::kernel::kernel kernel;
 
-        ModuleA a(kernel);
+        ModuleA a(&kernel);
         ModuleB b;
         ModuleC c;
 
@@ -123,14 +124,15 @@ TEST_CASE("KernelShould", "[KernelTests]")
         b.a = 2;
         c.a = 3;
 
-        kernel.register_module(a);
-        kernel.register_module(b);
-        kernel.register_module(c);
+        kernel.register_module(&a);
+        kernel.register_module(&b);
+        kernel.register_module(&c);
 
-        kernel.post_event(EventUpdateModuleA{11});
+        constexpr int test_value = 11;
+        kernel.post_event(EventUpdateModuleA{test_value});
 
-        REQUIRE(a.a == 11);
+        REQUIRE(a.a == test_value);
         REQUIRE(b.a == 2);
-        REQUIRE(c.a == 11);
+        REQUIRE(c.a == test_value);
     }
 }

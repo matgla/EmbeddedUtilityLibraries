@@ -2,9 +2,7 @@
 
 #include <string_view>
 
-namespace eul
-{
-namespace error
+namespace eul::error
 {
 
 class error_condition;
@@ -23,7 +21,7 @@ public:
     error_code(int ec, const error_category& ecat) noexcept;
 
     template <typename ErrorCodeEnum>
-    error_code(ErrorCodeEnum e) noexcept
+    error_code(ErrorCodeEnum e) noexcept // NOLINT(google-explicit-constructor, cppcoreguidelines-pro-type-member-init)
     {
         *this = make_error_code(e);
     }
@@ -37,15 +35,15 @@ public:
 
     void assign(int ec, const error_category& ecat) noexcept;
 
-    int value() const noexcept;
+    [[nodiscard]] int value() const noexcept;
 
     void clear() noexcept;
 
-    const error_category& category() const noexcept;
+    [[nodiscard]] const error_category& category() const noexcept;
 
-    error_condition default_error_condition() const noexcept;
+    [[nodiscard]] error_condition default_error_condition() const noexcept;
 
-    std::string_view message() const;
+    [[nodiscard]] std::string_view message() const;
 
     explicit operator bool() const noexcept;
     bool operator==(const error_code& rhs) const noexcept;
@@ -54,8 +52,7 @@ public:
 private:
     const error_condition* condition_;
     const error_category* category_;
-    int value_;
+    int value_{-1};
 };
 
-} // namespace error
-} // namespace eul
+} // namespace eul::error

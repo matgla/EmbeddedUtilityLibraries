@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -21,21 +21,19 @@
 #include <cstdint>
 #include <utility>
 
-#include "eul/execution/i_execution_queue.hpp"
 #include "eul/container/static_deque.hpp"
+#include "eul/execution/i_execution_queue.hpp"
 #include "eul/function.hpp"
 
-namespace eul
-{
-namespace execution
+namespace eul::execution
 {
 
 template <std::size_t MaximumNumberOfExecutors>
 class execution_queue : public i_execution_queue
 {
 public:
-    bool push_back(LifetimeNodeType& lifetime, const ExecutorType& executor) override;
-    bool push_front(LifetimeNodeType& lifetime, const ExecutorType& executor) override;
+    bool push_back(LifetimeNodeType* lifetime, const ExecutorType& executor) override;
+    bool push_front(LifetimeNodeType* lifetime, const ExecutorType& executor) override;
 
     void run() override;
 
@@ -47,7 +45,7 @@ private:
 };
 
 template <std::size_t MaximumNumberOfExecutors>
-bool execution_queue<MaximumNumberOfExecutors>::push_back(LifetimeNodeType& lifetime,
+bool execution_queue<MaximumNumberOfExecutors>::push_back(LifetimeNodeType* lifetime,
                                                                 const ExecutorType& executor)
 {
     if (executors_.size() == executors_.max_size())
@@ -55,13 +53,13 @@ bool execution_queue<MaximumNumberOfExecutors>::push_back(LifetimeNodeType& life
         return false;
     }
 
-    executors_.push_back(std::make_pair(&lifetime, executor));
-    lifetimes_.push_back(lifetime);
+    executors_.push_back(std::make_pair(lifetime, executor));
+    lifetimes_.push_back(*lifetime);
     return true;
 }
 
 template <std::size_t MaximumNumberOfExecutors>
-bool execution_queue<MaximumNumberOfExecutors>::push_front(LifetimeNodeType& lifetime,
+bool execution_queue<MaximumNumberOfExecutors>::push_front(LifetimeNodeType* lifetime,
                                                                  const ExecutorType& executor)
 {
     if (executors_.size() == executors_.max_size())
@@ -69,15 +67,15 @@ bool execution_queue<MaximumNumberOfExecutors>::push_front(LifetimeNodeType& lif
         return false;
     }
 
-    executors_.push_front(std::make_pair(&lifetime, executor));
-    lifetimes_.push_front(lifetime);
+    executors_.push_front(std::make_pair(lifetime, executor));
+    lifetimes_.push_front(*lifetime);
     return true;
 }
 
 template <std::size_t MaximumNumberOfExecutors>
 void execution_queue<MaximumNumberOfExecutors>::run()
 {
-    while (executors_.size())
+    while (!executors_.empty())
     {
         if (lifetimes_.find(executors_.front().first) == nullptr)
         {
@@ -99,5 +97,4 @@ void execution_queue<MaximumNumberOfExecutors>::run()
     }
 }
 
-} // namespace execution
-} // namespace eul
+} // namespace eul::execution

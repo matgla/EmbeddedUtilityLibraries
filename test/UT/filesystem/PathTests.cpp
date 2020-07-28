@@ -2,9 +2,7 @@
 
 #include <catch.hpp>
 
-namespace eul
-{
-namespace filesystem
+namespace eul::filesystem
 {
 
 TEST_CASE("Path should", "[FilesystemTests]")
@@ -17,7 +15,7 @@ TEST_CASE("Path should", "[FilesystemTests]")
     SECTION("Return lexically normal path for empty")
     {
         path test_path("");
-        REQUIRE(test_path.lexically_normal().native() == "");
+        REQUIRE(test_path.lexically_normal().native().empty());
     }
     SECTION("Return lexically normal path for root")
     {
@@ -114,7 +112,7 @@ TEST_CASE("Path should", "[FilesystemTests]")
 
     SECTION("Return filename for empty")
     {
-        REQUIRE(path("").filename() == "");
+        REQUIRE(path("").filename().empty());
     }
 
     SECTION("Return filename when path is filename")
@@ -134,7 +132,7 @@ TEST_CASE("Path should", "[FilesystemTests]")
 
     SECTION("Return empty filename for directory")
     {
-        REQUIRE(path("/test_dir/aa/").filename() == "");
+        REQUIRE(path("/test_dir/aa/").filename().empty());
     }
 
     SECTION("Return parent path from directory")
@@ -150,7 +148,7 @@ TEST_CASE("Path should", "[FilesystemTests]")
 
     SECTION("Return parent path from empty")
     {
-        REQUIRE(path("").parent_path().native() == "");
+        REQUIRE(path("").parent_path().native().empty());
     }
 
     SECTION("Return parent path from relative")
@@ -161,11 +159,8 @@ TEST_CASE("Path should", "[FilesystemTests]")
     SECTION("Return relative path to base")
     {
         REQUIRE(path("a/b/c").lexically_relative("a").native() == "b/c");
-        // REQUIRE(path("a/b/c").lexically_relative("b").native() == "../a/b/c");
-        // REQUIRE(path("a/b/c").lexically_relative("c").native() == "../a/b/c");
-        REQUIRE(path("a/b/c").lexically_relative("/").native() == "");
+        REQUIRE(path("a/b/c").lexically_relative("/").native().empty());
     }
 }
 
-} // namespace filesystem
-} // namespace eul
+} // namespace eul::filesystem

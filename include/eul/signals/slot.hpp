@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,9 +18,9 @@
 
 #include <cstddef>
 
+#include "eul/assert.hpp"
 #include "eul/container/observable/observing_node.hpp"
 #include "eul/function.hpp"
-#include "eul/assert.hpp"
 
 namespace eul
 {
@@ -38,9 +38,9 @@ public:
     using observed_type = eul::container::observing_node<self_type*>;
     using callback_type = eul::function<ReturnType(Args...), Size>;
 
-    slot(const callback_type& callback)
+    explicit slot(callback_type callback)
         : observing_node_(this)
-        , callback_(callback)
+        , callback_(std::move(callback))
     {
     }
 
@@ -72,7 +72,7 @@ public:
     }
 
     template <typename CallbackType>
-    self_type& operator=(const CallbackType& callback)
+    auto& operator=(const CallbackType& callback)
     {
         callback_ = callback;
         return *this;

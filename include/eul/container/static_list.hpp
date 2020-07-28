@@ -10,15 +10,13 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#pragma once 
+#pragma once
 
-namespace eul
-{
-namespace container
+namespace eul::container
 {
 
 template <typename T>
@@ -31,14 +29,9 @@ private:
 };
 
 template <typename T>
-class list 
+class list
 {
-public:
-    
-private:
-    list_node<T>
 };
 
-} // namespace container
-} // namespace eul
+} // namespace eul::container
 

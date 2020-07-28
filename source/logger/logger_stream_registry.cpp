@@ -10,15 +10,13 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "eul/logger/logger_stream_registry.hpp"
 
-namespace eul
-{
-namespace logger
+namespace eul::logger
 {
 
 logger_stream_registry& logger_stream_registry::get()
@@ -37,5 +35,4 @@ logger_stream_registry::streams& logger_stream_registry::get_streams()
     return streams_;
 }
 
-} // namespace logger
-} // namespace eul
+} // namespace eul::logger

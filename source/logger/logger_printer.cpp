@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -20,9 +20,7 @@
 #include "eul/time/i_time_provider.hpp"
 #include "eul/utils/string.hpp"
 
-namespace eul
-{
-namespace logger
+namespace eul::logger
 {
 
 logger_printer::logger_printer(
@@ -83,17 +81,18 @@ void logger_printer::printHeader(std::string_view level, std::string_view user_p
 
 void logger_printer::printTimeAndDate() const
 {
-    constexpr const int BufferSize = 30;
-    char buffer[BufferSize];
+    constexpr int BufferSize = 30;
+    std::array<char, BufferSize> buffer{};
 
-    std::time_t t          = time_.milliseconds().count() / 1000;
+    std::time_t t          = std::chrono::duration_cast<std::chrono::seconds>(
+        std::chrono::milliseconds(time_.milliseconds().count())).count();
     struct tm* currentTime = std::localtime(&t);
 
-    utils::formatDateAndTime(buffer, BufferSize, currentTime);
-    write_to_streams(buffer);
+    utils::formatDateAndTime(buffer.data(), BufferSize, currentTime);
+    write_to_streams(buffer.data());
 }
 
-void logger_printer::write_to_streams(const std::string_view& data) const
+void logger_printer::write_to_streams(const std::string_view& data)
 {
     for (auto& stream : logger_stream_registry::get().get_streams())
     {
@@ -107,23 +106,26 @@ int logger_printer::get_base() const
     {
         case logging_flags::base::dec:
         {
-            return 10;
+            constexpr int dec_base = 10;
+            return dec_base;
         } break;
         case logging_flags::base::hex:
         {
-            return 16;
+            constexpr int hex_base = 16;
+            return hex_base;
         } break;
         case logging_flags::base::oct:
         {
-            return 8;
+            constexpr int oct_base = 8;
+            return oct_base;
         } break;
         case logging_flags::base::bin:
         {
-            return 2;
+            constexpr int bin_base = 2;
+            return bin_base;
         } break;
     }
     return 0;
 }
 
-} // namespace logger
-} // namespace eul
+} // namespace eul::logger

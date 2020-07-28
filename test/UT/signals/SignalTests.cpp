@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -19,9 +19,7 @@
 #include "eul/signals/signal.hpp"
 #include "eul/signals/slot.hpp"
 
-namespace eul
-{
-namespace signals
+namespace eul::signals
 {
 
 TEST_CASE("SignalShould", "[SignalsTests]")
@@ -46,25 +44,27 @@ TEST_CASE("SignalShould", "[SignalsTests]")
         REQUIRE(0 == value1);
         REQUIRE(0 == value2);
 
-        sut.emit(15);
-        REQUIRE(15 == value1);
-        REQUIRE(15 == value2);
+        constexpr int test_value_1 = 15;
+        sut.emit(test_value_1);
+        REQUIRE(test_value_1 == value1);
+        REQUIRE(test_value_1 == value2);
 
-        sut.emit(-1);
-        REQUIRE(-1 == value1);
-        REQUIRE(-1 == value2);
-
+        constexpr int negative_value = -1;
+        sut.emit(negative_value);
+        REQUIRE(negative_value == value1);
+        REQUIRE(negative_value == value2);
     }
 
     SECTION("Deregister dead slot")
     {
         using SignalType = eul::signals::signal<void(int)>;
-        SignalType sut;
+        SignalType sut{};
 
         int value1 = 0;
         SignalType::slot_t slot1([&value1] (int a) {
             value1 = a;
         });
+        constexpr int test_value_1 = 15;
 
         int value2 = 0;
         {
@@ -77,19 +77,20 @@ TEST_CASE("SignalShould", "[SignalsTests]")
             REQUIRE(0 == value1);
             REQUIRE(0 == value2);
 
-            sut.emit(15);
-            REQUIRE(15 == value1);
-            REQUIRE(15 == value2);
+            sut.emit(test_value_1);
+            REQUIRE(test_value_1 == value1);
+            REQUIRE(test_value_1 == value2);
         }
-        sut.emit(-1);
-        REQUIRE(-1 == value1);
-        REQUIRE(15 == value2);
+        constexpr int negative_value = -1;
+        sut.emit(negative_value);
+        REQUIRE(negative_value == value1);
+        REQUIRE(test_value_1 == value2);
     }
 
     SECTION("Disconnect slot")
     {
         using SignalType = eul::signals::signal<void(int)>;
-        SignalType sut;
+        SignalType sut{};
 
         int value1 = 0;
         SignalType::slot_t slot1([&value1] (int a) {
@@ -107,21 +108,23 @@ TEST_CASE("SignalShould", "[SignalsTests]")
         REQUIRE(0 == value1);
         REQUIRE(0 == value2);
 
-        sut.emit(15);
-        REQUIRE(15 == value1);
-        REQUIRE(15 == value2);
+        constexpr int test_value_1 = 15;
+        sut.emit(test_value_1);
+        REQUIRE(test_value_1 == value1);
+        REQUIRE(test_value_1 == value2);
 
         slot2.disconnect();
-        sut.emit(-1);
-        REQUIRE(-1 == value1);
-        REQUIRE(15 == value2);
+        constexpr int negative_value = -1;
+        sut.emit(negative_value);
+        REQUIRE(negative_value == value1);
+        REQUIRE(test_value_1 == value2);
 
         sut.connect(slot2);
-        sut.emit(150);
-        REQUIRE(150 == value1);
-        REQUIRE(150 == value2);
+        constexpr int test_value_2 = 150;
+        sut.emit(test_value_2);
+        REQUIRE(test_value_2 == value1);
+        REQUIRE(test_value_2 == value2);
     }
 }
 
-} // namespace signals
-} // namespace eul
+} // namespace eul::signals

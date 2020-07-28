@@ -10,10 +10,11 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+#include <cstdint>
 #include <tuple>
 #include <type_traits>
 
@@ -21,11 +22,7 @@
 
 #include "eul/mpl/tuples/filter.hpp"
 
-namespace eul
-{
-namespace mpl
-{
-namespace tuples
+namespace eul::mpl::tuples
 {
 
 template <typename... T>
@@ -63,11 +60,11 @@ TEST_CASE("Filter should", "[Filter]")
     SECTION("filter integers")
     {
         using IntegerTuple = typename filter<std::is_integral, int, long double,
-                                             std::string, long int>::type;
+                                             std::string, std::int64_t>::type;
 
         REQUIRE(std::tuple_size<IntegerTuple>::value == 2);
         REQUIRE(typeid(IntegerTuple).name()
-                == typeid(std::tuple<int, long int>).name());
+                == typeid(std::tuple<int, std::int64_t>).name());
     }
 
     SECTION("filter by own predicate")
@@ -85,6 +82,4 @@ TEST_CASE("Filter should", "[Filter]")
     }
 }
 
-} // namespace tuples
-} // namespace mpl
-} // namespace eul
+} // namespace eul::mpl::tuples

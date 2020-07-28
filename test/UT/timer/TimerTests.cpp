@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -19,9 +19,7 @@
 #include "eul/timer/timer.hpp"
 #include "test/stubs/time/TimeStub.hpp"
 
-namespace eul
-{
-namespace timer
+namespace eul::timer
 {
 
 class TimerStub : public timer
@@ -33,24 +31,24 @@ public:
     {
     }
 
-    const std::chrono::milliseconds& getStartTime() const
+    [[nodiscard]] const std::chrono::milliseconds& getStartTime() const
     {
-        return this->start_time_;
+        return this->get_starttime();
     }
 
-    const std::chrono::milliseconds& getEndTime() const
+    [[nodiscard]] const std::chrono::milliseconds& getEndTime() const
     {
-        return this->end_time_;
+        return this->get_endtime();
     }
 
-    const time::i_time_provider& getTimeProvider() const
+    [[nodiscard]] const time::i_time_provider& getTimeProvider() const
     {
-        return this->time_provider_;
+        return this->get_time_provider();
     }
 
-    const CallbackType& getCallback() const
+    [[nodiscard]] const CallbackType& getCallback() const
     {
-        return this->callback_;
+        return this->get_callback();
     }
 
     void run() override
@@ -81,7 +79,8 @@ TEST_CASE("TimerShould", "[TimerTests]")
     {
         int counter = 0;
         stubs::time::TimeStub time;
-        time.setTime(std::chrono::milliseconds(10));
+        constexpr int some_time = 10;
+        time.setTime(std::chrono::milliseconds(some_time));
 
         TimerStub timer([&counter]() { counter++; }, time);
 
@@ -99,7 +98,8 @@ TEST_CASE("TimerShould", "[TimerTests]")
     {
         int counter = 0;
         stubs::time::TimeStub time;
-        time.setTime(std::chrono::milliseconds(10));
+        constexpr int some_time = 10;
+        time.setTime(std::chrono::milliseconds{some_time});
 
         TimerStub timer([&counter]() { counter++; }, time);
 
@@ -123,7 +123,8 @@ TEST_CASE("TimerShould", "[TimerTests]")
     {
         int counter = 0;
         stubs::time::TimeStub time;
-        time.setTime(std::chrono::milliseconds(10));
+        constexpr int some_time = 10;
+        time.setTime(std::chrono::milliseconds(some_time));
 
         TimerStub timer([&counter]() { counter++; }, time);
 
@@ -144,7 +145,8 @@ TEST_CASE("TimerShould", "[TimerTests]")
     {
         int counter = 0;
         stubs::time::TimeStub time;
-        time.setTime(std::chrono::milliseconds(10));
+        constexpr int some_time = 10;
+        time.setTime(std::chrono::milliseconds(some_time));
 
         TimerStub timer([&counter]() { counter++; }, time);
 
@@ -170,7 +172,9 @@ TEST_CASE("TimerShould", "[TimerTests]")
     {
         int counter = 0;
         stubs::time::TimeStub time;
-        time.setTime(std::chrono::milliseconds(10));
+        constexpr int some_time = 10;
+
+        time.setTime(std::chrono::milliseconds{some_time});
 
         TimerStub timer([&counter]() { counter++; }, time);
 
@@ -181,5 +185,4 @@ TEST_CASE("TimerShould", "[TimerTests]")
 }
 
 
-} // namespace timer
-} // namespace eul
+} // namespace eul::timer

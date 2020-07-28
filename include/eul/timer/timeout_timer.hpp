@@ -10,40 +10,37 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "eul/timer/timer.hpp"
 #include "eul/time/i_time_provider.hpp"
+#include "eul/timer/timer.hpp"
 
-namespace eul
-{
-namespace timer
+namespace eul::timer
 {
 
 class timeout_timer : public timer
 {
 public:
-    timeout_timer(const time::i_time_provider& timeProvider)
+    explicit timeout_timer(const time::i_time_provider& timeProvider)
         : timer(timeProvider)
     {
     }
 
     void run() override
     {
-        if (state_ == State::Running)
+        if (get_state() == State::Running)
         {
-            if (time_provider_.milliseconds() >= end_time_)
+            if (get_time_provider().milliseconds() >= get_endtime()) // NOLINT(modernize-use-nullptr)
             {
-                state_ = State::Idle;
+                set_state(State::Idle);
                 fire();
             }
         }
     }
 };
 
-} // namespace timer
-} // namespace eul
+} // namespace eul::timer

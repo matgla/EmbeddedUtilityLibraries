@@ -1,4 +1,4 @@
-// This file is part of EUL project. 
+// This file is part of EUL project.
 // Copyright (C) 2020 Mateusz Stadnik
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,14 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#pragma once 
+#pragma once
 
-namespace eul
-{
-namespace utils
+namespace eul::utils
 {
 
-class noncopyable
+class noncopyable // NOLINT(cppcoreguidelines-special-member-functions)
 {
 public:
     noncopyable() = default;
@@ -29,6 +27,5 @@ public:
     noncopyable& operator=(const noncopyable&) = delete;
 };
 
-} // namespace utils     
-} // namespace eul 
+} // namespace eul::utils
 

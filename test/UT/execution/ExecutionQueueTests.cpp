@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -31,8 +31,8 @@ TEST_CASE("ExecutionQueue", "[EQ]")
         LifetimeNode lifetime;
         bool a = false;
         bool b = false;
-        sut.push_front(lifetime, [&a] { a = true; });
-        sut.push_front(lifetime, [&b] { b = true; });
+        sut.push_front(&lifetime, [&a] { a = true; });
+        sut.push_front(&lifetime, [&b] { b = true; });
         sut.run();
 
         REQUIRE(a == true);
@@ -47,9 +47,9 @@ TEST_CASE("ExecutionQueue", "[EQ]")
         ExecutionQueueType sut;
         {
             LifetimeNode lifetime;
-            sut.push_front(lifetime, [&a] { a = true; });
+            sut.push_front(&lifetime, [&a] { a = true; });
             sut.run();
-            sut.push_front(lifetime, [&b] { b = true; });
+            sut.push_front(&lifetime, [&b] { b = true; });
         }
         sut.run();
 
@@ -65,8 +65,8 @@ TEST_CASE("ExecutionQueue", "[EQ]")
         ExecutionQueueType sut;
         {
             LifetimeNode lifetime;
-            sut.push_front(lifetime, [&a] { a = true; });
-            sut.push_front(lifetime, [&b] { b = true; });
+            sut.push_front(&lifetime, [&a] { a = true; });
+            sut.push_front(&lifetime, [&b] { b = true; });
         }
         sut.run();
 
@@ -81,7 +81,7 @@ TEST_CASE("ExecutionQueue", "[EQ]")
             int a              = 0;
             int b              = 0;
             int c              = 0;
-            LifetimeNode lifetime;
+            LifetimeNode lifetime{};
             ExecutionQueueType sut;
         };
 
@@ -89,9 +89,9 @@ TEST_CASE("ExecutionQueue", "[EQ]")
         Data data;
         auto& sut = data.sut;
 
-        sut.push_front(data.lifetime, [&data] { data.a = ++counter; });
-        sut.push_front(data.lifetime, [&data] {
-            data.sut.push_front(data.lifetime, [&data] { data.c = ++counter; });
+        sut.push_front(&data.lifetime, [&data] { data.a = ++counter; });
+        sut.push_front(&data.lifetime, [&data] {
+            data.sut.push_front(&data.lifetime, [&data] { data.c = ++counter; });
             data.b = ++counter;
         });
 
@@ -109,7 +109,7 @@ TEST_CASE("ExecutionQueue", "[EQ]")
             int a              = 0;
             int b              = 0;
             int c              = 0;
-            LifetimeNode lifetime;
+            LifetimeNode lifetime{};
             ExecutionQueueType sut;
         };
 
@@ -117,9 +117,9 @@ TEST_CASE("ExecutionQueue", "[EQ]")
         Data data;
         auto& sut = data.sut;
 
-        sut.push_front(data.lifetime, [&data] { data.a = ++counter; });
-        sut.push_front(data.lifetime, [&data] {
-            data.sut.push_back(data.lifetime, [&data] { data.c = ++counter; });
+        sut.push_front(&data.lifetime, [&data] { data.a = ++counter; });
+        sut.push_front(&data.lifetime, [&data] {
+            data.sut.push_back(&data.lifetime, [&data] { data.c = ++counter; });
             data.b = ++counter;
         });
 
@@ -134,10 +134,10 @@ TEST_CASE("ExecutionQueue", "[EQ]")
     {
         ExecutionQueueType sut;
         LifetimeNode lifetime;
-        REQUIRE(sut.push_front(lifetime, [] {}));
-        REQUIRE(sut.push_front(lifetime, [] {}));
-        REQUIRE(sut.push_front(lifetime, [] {}));
-        REQUIRE(sut.push_front(lifetime, [] {}) == false);
-        REQUIRE(sut.push_back(lifetime, [] {}) == false);
+        REQUIRE(sut.push_front(&lifetime, [] {}));
+        REQUIRE(sut.push_front(&lifetime, [] {}));
+        REQUIRE(sut.push_front(&lifetime, [] {}));
+        REQUIRE(sut.push_front(&lifetime, [] {}) == false);
+        REQUIRE(sut.push_back(&lifetime, [] {}) == false);
     }
 }

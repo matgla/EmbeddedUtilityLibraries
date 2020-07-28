@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -22,11 +22,8 @@
 
 #include "eul/time/fwd.hpp"
 
-namespace eul
+namespace eul::logger
 {
-namespace logger
-{
-
 
 struct logging_flags
 {
@@ -45,17 +42,12 @@ public:
         disabled
     };
 
-    logging_flags()
-        : base_(base::dec)
-        , boolalpha_(boolalpha::disabled)
-    {
-    }
-
     void set_base(const base new_base)
     {
         base_ = new_base;
     }
 
+    [[nodiscard]]
     base get_base() const
     {
         return base_;
@@ -66,14 +58,15 @@ public:
         boolalpha_ = new_boolalpha;
     }
 
+    [[nodiscard]]
     boolalpha get_boolalpha() const
     {
         return boolalpha_;
     }
 
 private:
-    base base_;
-    boolalpha boolalpha_;
+    base base_{base::dec};
+    boolalpha boolalpha_{boolalpha::disabled};
 };
 
 constexpr logging_flags::base dec = logging_flags::base::dec;
@@ -97,6 +90,11 @@ public:
         const std::string_view& name,
         const time::i_time_provider& time);
     ~logger_printer();
+
+    logger_printer(const logger_printer& other) = delete;
+    logger_printer(logger_printer&& other) = delete;
+    logger_printer& operator=(const logger_printer& other) = delete;
+    logger_printer& operator=(logger_printer&& other) = delete;
 
     logger_printer& operator<<(const std::string_view& str);
 
@@ -142,7 +140,7 @@ public:
                 write_to_streams("false");
                 return *this;
             }
-            else if (data == 1)
+            if (data == 1)
             {
                 write_to_streams("true");
                 return *this;
@@ -160,8 +158,9 @@ public:
 
         if (data < 0)
         {
-            char digit[1] = {'-'};
-            write_to_streams(digit);
+            constexpr std::size_t buffer_size = 1;
+            std::array<char, buffer_size> digit{'-'};
+            write_to_streams(digit.data());
             data *= -1;
         }
 
@@ -185,12 +184,13 @@ public:
 
 protected:
 
+    [[nodiscard]]
     int get_base() const;
 
     void printHeader(std::string_view level) const;
     void printHeader(std::string_view level, std::string_view user_prefix) const;
     void printTimeAndDate() const;
-    void write_to_streams(const std::string_view& data) const;
+    static void write_to_streams(const std::string_view& data);
 
 
     template <typename T>
@@ -229,27 +229,30 @@ protected:
     {
         while (number != 0)
         {
-            char digit[2];
-            digit[0] = {"0123456789abcdef"[number%base]};
-            digit[1] = 0;
-            write_to_streams(digit);
+            constexpr std::size_t buffer_size = 2;
+            std::array<char, buffer_size> digit{
+                 {"0123456789abcdef"[number%base]},
+                 0
+            };
+            write_to_streams(digit.data());
             number /= base;
         }
         while (zeros_at_end)
         {
-            char digit[2];
-            digit[0] = {'0'};
-            digit[1] = 0;
-            write_to_streams(digit);
+            constexpr std::size_t buffer_size = 2;
+            std::array<char, buffer_size> digit{
+                '0',
+                0
+            };
+            write_to_streams(digit.data());
             --zeros_at_end;
         }
     }
 
-
+private:
     const std::string_view name_;
     const time::i_time_provider& time_;
     logging_flags flags_;
 };
 
-} // namespace logger
-} // namespace eul
+} // namespace eul::logger

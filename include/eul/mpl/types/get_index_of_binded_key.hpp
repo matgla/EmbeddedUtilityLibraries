@@ -74,7 +74,7 @@ struct tuple_index_getter<std::tuple<TupleArgs...>>
 };
 
 template <typename Key, typename... TupleArgs>
-constexpr static std::size_t get_index_from_tuple_by_key(const std::tuple<TupleArgs...>&)
+constexpr static std::size_t get_index_from_tuple_by_key(const std::tuple<TupleArgs...>& /*unused*/)
 {
     return details::get_index_of_binded_key<Key, 0, TupleArgs...>::value;
 }

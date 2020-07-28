@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -21,11 +21,7 @@
 
 #include "eul/mpl/mixin/inherit_from.hpp"
 
-namespace eul
-{
-namespace mpl
-{
-namespace mixin
+namespace eul::mpl::mixin
 {
 
 template <typename ParentType>
@@ -44,7 +40,8 @@ struct ChildTwo
 public:
     static constexpr int someNumber()
     {
-        return 10;
+        constexpr int some_number = 10;
+        return some_number;
     }
 };
 
@@ -85,6 +82,4 @@ TEST_CASE("InheritFrom should", "[InheritFrom]")
     }
 }
 
-} // namespace mixin
-} // namespace mpl
-} // namespace eul
+} // namespace eul::mpl::mixin

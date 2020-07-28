@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,9 +18,7 @@
 
 #include <cstddef>
 
-namespace eul
-{
-namespace container
+namespace eul::container
 {
 
 template <typename T>
@@ -76,5 +74,4 @@ observing_node<T>& observing_node_iterator<T>::operator*()
     return *node_;
 }
 
-} // namespace container
-} // namespace eul
+} // namespace eul::container

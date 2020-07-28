@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -19,11 +19,7 @@
 #include <cstddef>
 #include <iterator>
 
-namespace eul
-{
-namespace container
-{
-namespace iterator
+namespace eul::container::iterator
 {
 
 template <typename ContainerType>
@@ -32,11 +28,11 @@ class index_iterator : public std::iterator<std::forward_iterator_tag, typename 
     using Self = index_iterator<ContainerType>;
 
 public:
-    index_iterator(ContainerType& container, std::size_t index);
+    index_iterator(ContainerType& object, std::size_t index);
     ~index_iterator()                     = default;
     index_iterator(const index_iterator&) = default;
-    index_iterator(index_iterator&&)      = default;
-    index_iterator& operator=(index_iterator&&) = default;
+    index_iterator(index_iterator&&)       noexcept = default;
+    index_iterator& operator=(index_iterator&&)  noexcept = default;
     index_iterator& operator=(const index_iterator&) = default;
 
     index_iterator operator++(int);
@@ -98,6 +94,4 @@ typename std::iterator_traits<index_iterator<ContainerType>>::value_type* index_
     return &object_[index_];
 }
 
-} // namespace iterator
-} // namespace container
-} // namespace eul
+} // namespace eul::container::iterator

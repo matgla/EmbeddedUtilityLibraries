@@ -10,18 +10,16 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "eul/kernel/typeid.hpp"
 #include "eul/container/observable/observing_node.hpp"
+#include "eul/kernel/typeid.hpp"
 
-namespace eul
-{
-namespace kernel
+namespace eul::kernel
 {
 
 class module
@@ -38,7 +36,7 @@ public:
     }
 
     template <typename ModuleType>
-    module(ModuleType* module)
+    explicit module(ModuleType* module)
         : observing_node_(this)
         , id_(type_id<ModuleType>())
         , module_(module)
@@ -54,7 +52,7 @@ public:
     }
 
     template <typename ModuleType>
-    const auto* get() const
+    [[nodiscard]] const auto* get() const
     {
         return static_cast<const ModuleType*>(module_);
     }
@@ -65,7 +63,7 @@ public:
     }
 
 
-    typeid_t get_id() const
+    [[nodiscard]] typeid_t get_id() const
     {
         return id_;
     }
@@ -75,5 +73,4 @@ private:
     void* module_;
 };
 
-} // namespace kernel
-} // namespace eul
+} // namespace eul::kernel

@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -21,8 +21,10 @@
 class TestFunctor
 {
 public:
-    TestFunctor(int& constructorCalled, int& destructorCalled, int& functionCalled)
-        : constructorCalled_(constructorCalled), destructorCalled_(destructorCalled), functionCalled_(functionCalled)
+    TestFunctor(int* constructorCalled, int* destructorCalled, int* functionCalled) // NOLINT(readability-non-const-parameter)
+        : constructorCalled_(*constructorCalled)
+        , destructorCalled_(*destructorCalled)
+        , functionCalled_(*functionCalled)
     {
         constructorCalled_++;
     }
@@ -31,6 +33,11 @@ public:
     {
         destructorCalled_++;
     }
+
+    TestFunctor(TestFunctor&&) = default;
+    TestFunctor(const TestFunctor&) = default;
+    TestFunctor& operator=(TestFunctor&&) = delete;
+    TestFunctor& operator=(const TestFunctor&) = delete;
 
     void operator()(const int a) const
     {
@@ -59,27 +66,36 @@ TEST_CASE("Function test", "[FunctionTests]")
 
     SECTION("capture arguments")
     {
-        int expectedValue        = 15;
+        constexpr int initial_expected_value = 15;
+        int expectedValue        = initial_expected_value;
         constexpr int otherValue = -9999999;
 
-        eul::function<void(int), 8> f1([&expectedValue, otherValue](int a) { expectedValue = otherValue + a; });
-        f1(10);
-        REQUIRE(expectedValue == (otherValue + 10));
-        f1(-100);
-        REQUIRE(expectedValue == (otherValue - 100));
+        constexpr std::size_t function_size = 8;
+        eul::function<void(int), function_size> f1([&expectedValue](int a) { expectedValue = otherValue + a; });
+        constexpr int number_to_add_1 = 10;
+        f1(number_to_add_1);
+        REQUIRE(expectedValue == (otherValue + number_to_add_1));
+        constexpr int number_to_add_2 = -100;
+        f1(number_to_add_2);
+        REQUIRE(expectedValue == (otherValue + number_to_add_2));
     }
 
     SECTION("change to another function")
     {
-        int expectedValue = 15;
-        int otherValue    = -9999999;
+        constexpr int initial_expected_value = 15;
+        int expectedValue = initial_expected_value;
+        constexpr int otherValue    = -9999999;
 
-        eul::function<int(int), 8> f1([&expectedValue, otherValue](int a) { expectedValue = otherValue + a; return expectedValue; });
-        f1(10);
-        REQUIRE(expectedValue == (otherValue + 10));
+        constexpr std::size_t function_size = 8;
+        eul::function<int(int), function_size> f1([&expectedValue](int a) { expectedValue = otherValue + a; return expectedValue; });
+        constexpr int number_to_add = 10;
+        f1(number_to_add);
+        REQUIRE(expectedValue == (otherValue + number_to_add));
         f1 = [](int a) { return a; };
-        REQUIRE(f1(15) == 15);
-        REQUIRE(f1(-5) == -5);
+        constexpr int test_number_1 = 15;
+        constexpr int test_number_2 = -5;
+        REQUIRE(f1(test_number_1) == test_number_1);
+        REQUIRE(f1(test_number_2) == test_number_2);
     }
 
     SECTION("Functor")
@@ -87,16 +103,17 @@ TEST_CASE("Function test", "[FunctionTests]")
         int constructorCalled = 0;
         int destructorCalled  = 0;
         int value             = 0;
+        constexpr int test_value = 1234567;
         {
-            eul::function<void(int), 16> f1(TestFunctor(constructorCalled, destructorCalled, value));
+            eul::function<void(int), sizeof(void*) * 2> f1(TestFunctor(&constructorCalled, &destructorCalled, &value));
 
-            f1(1234567);
+            f1(test_value);
 
-            REQUIRE(value == 1234567);
+            REQUIRE(value == test_value);
             REQUIRE(constructorCalled == 1);
             REQUIRE(destructorCalled == 1);
         }
-        REQUIRE(value == 1234567);
+        REQUIRE(value == test_value);
         REQUIRE(constructorCalled == 1);
         REQUIRE(destructorCalled == 2);
     }
@@ -106,18 +123,22 @@ TEST_CASE("Function test", "[FunctionTests]")
         int constructorCalled = 0;
         int destructorCalled  = 0;
         int value             = 0;
-        {
-            eul::function<void(int), 16> f1(TestFunctor(constructorCalled, destructorCalled, value));
-            eul::function<void(int), 16> f2(f1);
-            f1(1234567);
+        constexpr int test_number = 1234567;
+        constexpr int test_number_2 = 11;
 
-            REQUIRE(value == 1234567);
+        {
+            eul::function<void(int), sizeof(void*)*2> f1(TestFunctor(&constructorCalled, &destructorCalled, &value));
+            eul::function<void(int), sizeof(void*)*2> f2(f1);
+            f1(test_number);
+
+            REQUIRE(value == test_number);
             REQUIRE(constructorCalled == 1);
             REQUIRE(destructorCalled == 1);
 
-            f2(11);
+
+            f2(test_number_2);
         }
-        REQUIRE(value == 11);
+        REQUIRE(value == test_number_2);
         REQUIRE(constructorCalled == 1);
         REQUIRE(destructorCalled == 3);
     }
@@ -127,18 +148,22 @@ TEST_CASE("Function test", "[FunctionTests]")
         int constructorCalled = 0;
         int destructorCalled  = 0;
         int value             = 0;
-        {
-            eul::function<void(int), 16> f1(TestFunctor(constructorCalled, destructorCalled, value));
-            eul::function<void(int), 16> f2 = f1;
-            f1(1234567);
+        constexpr int test_number = 1234567;
+        constexpr int test_number_2 = 11;
 
-            REQUIRE(value == 1234567);
+        {
+            eul::function<void(int), sizeof(void*)*2> f1(TestFunctor(&constructorCalled, &destructorCalled, &value));
+            eul::function<void(int), sizeof(void*)*2> f2 = f1;
+
+            f1(test_number);
+
+            REQUIRE(value == test_number);
             REQUIRE(constructorCalled == 1);
             REQUIRE(destructorCalled == 1);
 
-            f2(11);
+            f2(test_number_2);
         }
-        REQUIRE(value == 11);
+        REQUIRE(value == test_number_2);
         REQUIRE(constructorCalled == 1);
         REQUIRE(destructorCalled == 3);
     }
@@ -151,28 +176,31 @@ TEST_CASE("Function test", "[FunctionTests]")
         int constructorCalled2 = 0;
         int destructorCalled2  = 0;
         int value2             = 0;
+        constexpr int test_number = 1234567;
+        constexpr int test_number_2 = 1112;
+
         {
-            eul::function<void(int), 16> f1(TestFunctor(constructorCalled, destructorCalled, value));
+            eul::function<void(int), sizeof(void*)*2> f1(TestFunctor(&constructorCalled, &destructorCalled, &value));
 
             {
-                f1(1234567);
+                f1(test_number);
 
-                REQUIRE(value == 1234567);
+                REQUIRE(value == test_number);
                 REQUIRE(constructorCalled == 1);
                 REQUIRE(destructorCalled == 1);
             }
             {
-                f1 = TestFunctor(constructorCalled2, destructorCalled2, value2);
-                f1(1112);
-                REQUIRE(value2 == 1112);
+                f1 = TestFunctor(&constructorCalled2, &destructorCalled2, &value2);
+                f1(test_number_2);
+                REQUIRE(value2 == test_number_2);
                 REQUIRE(constructorCalled2 == 1);
                 REQUIRE(destructorCalled2 == 1);
             }
         }
-        REQUIRE(value == 1234567);
+        REQUIRE(value == test_number);
         REQUIRE(constructorCalled == 1);
         REQUIRE(destructorCalled == 2);
-        REQUIRE(value2 == 1112);
+        REQUIRE(value2 == test_number_2);
         REQUIRE(constructorCalled2 == 1);
         REQUIRE(destructorCalled2 == 2);
     }

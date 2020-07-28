@@ -11,7 +11,7 @@ namespace filesystem
 class path_const_iterator
 {
 public:
-    path_const_iterator(std::string_view path);
+    explicit path_const_iterator(std::string_view path);
 
     path_const_iterator operator++(int);
     path_const_iterator& operator++();
