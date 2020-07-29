@@ -1,0 +1,22 @@
+name: EmbeddedUtilityLibraries Unit Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+    steps:
+    - name: install dependencies
+      run: |
+        apt update
+        apt install -y cmake g++-10 gcc-10 make ninja
+    - uses: actions/checkout@v2
+    - name: configure
+      run: rm -rf bin && mkdir bin && cd bin && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
+    - name: ninja unit tests
+      run: ninja run_eul_ut
