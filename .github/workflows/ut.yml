@@ -14,7 +14,7 @@ jobs:
     - name: install dependencies
       run: |
         sudo apt update
-        sudo apt install -y cmake g++-10 gcc-10 make ninja
+        sudo apt install -y cmake g++-10 gcc-10 make ninja-build
     - uses: actions/checkout@v2
     - name: configure
       run: rm -rf bin && mkdir bin && cd bin && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
