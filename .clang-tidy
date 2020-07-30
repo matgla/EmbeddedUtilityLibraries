@@ -1,6 +1,6 @@
 ---
 Checks:          'clang-diagnostic-*,clang-analyzer-*,*,-fuchsia-default-arguments-calls,-modernize-use-trailing-return-type,-fuchsia-overloaded-operator,-llvm-header-guard,-cppcoreguidelines-pro-type-reinterpret-cast,-hicpp-*,-google-readability-namespace-comments,-cert-dcl21-cpp,-misc-non-private-member-variables-in-classes,-readability-magic-numbers,-google-readability-function-size,-llvm-qualified-auto,-fuchsia-trailing-return,-fuchsia-multiple-inheritance'
-WarningsAsErrors: ''
+WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
 AnalyzeTemporaryDtors: false
 FormatStyle:     none

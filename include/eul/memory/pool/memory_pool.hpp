@@ -65,8 +65,7 @@ public:
         const auto header_position_in_buffer = current_;
 
         current_ += header_size;
-        gsl::owner<T*> object = nullptr;
-        object = new (&data_.at(current_)) T{std::forward<Args>(args)...};
+        gsl::owner<T*> object = new (&data_.at(current_)) T{std::forward<Args>(args)...}; // NOLINT(modernize-use-auto)
         current_ += allocation_size;
 
         return make_unique_ptr(object, deallocation_callback, header_position_in_buffer);
