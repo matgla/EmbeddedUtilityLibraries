@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  clang-tidy:
+  ut:
     runs-on: ubuntu-20.04
     steps:
     - name: install dependencies
