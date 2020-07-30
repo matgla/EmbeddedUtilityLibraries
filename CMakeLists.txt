@@ -20,11 +20,6 @@ project(eul CXX)
 
 if (CLANG_TIDY)
     set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-    find_program(${clang_tidy} NAMES "run-clang-tidy.py" PATH "/usr/share/clang")
-    # if (NOT clang_tidy)
-    #     message (FATAL_ERROR "Can't find clang tidy executable")
-    # endif ()
 endif()
 
 set(Eul_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include" CACHE STRING "path to EUL sources" FORCE)
