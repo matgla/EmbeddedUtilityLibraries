@@ -1,4 +1,4 @@
-name: EmbeddedUtilityLibraries Unit Tests
+name: ClangTidy
 
 on:
   push:
@@ -20,6 +20,5 @@ jobs:
     - name: configure & execute tests
       run: |
         rm -rf bin && mkdir bin && cd bin && cmake .. -DCLANG_TIDY=ON -DCMAKE_BUILD_TYPE=Release -GNinja
-        find / -iname run-clang-tidy.py
-        /usr/share/clang/run-clang-tidy.py -p bin
+        run-clang-tidy -p bin
 

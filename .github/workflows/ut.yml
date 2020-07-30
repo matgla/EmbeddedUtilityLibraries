@@ -1,4 +1,4 @@
-name: EmbeddedUtilityLibraries clang-tidy
+name: ContinousIntegration
 
 on:
   push:
