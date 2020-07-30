@@ -19,6 +19,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: configure & execute tests
       run: |
-        rm -rf bin && mkdir bin && cd bin && cmake .. -DCLANG_TIDY=ON -DCMAKE_BUILD_TYPE=Release
+        rm -rf bin && mkdir bin && cd bin && cmake .. -DCLANG_TIDY=ON -DCMAKE_BUILD_TYPE=debug
         run-clang-tidy
 

@@ -16,8 +16,29 @@ jobs:
         sudo apt install -y cmake g++-10 gcc-10 ninja-build python3 python3-pip
         sudo pip3 install virtualenv
     - uses: actions/checkout@v2
-    - name: configure & execute tests
+    - name: execute tests
       run: |
         rm -rf bin && mkdir bin && cd bin && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
+        ninja run_eul_ut
+    - name: execute asan
+      run: |
+        rm -rf bin_asan
+        mkdir bin_asan
+        cd bin_asan 
+        cmake .. -DCMAKE_BUILD_TYPE=asan -GNinja
+        ninja run_eul_ut
+    - name: execute lsan
+      run: |
+        rm -rf bin_lsan
+        mkdir bin_lsan
+        cd bin_lsan 
+        cmake .. -DCMAKE_BUILD_TYPE=lsan -GNinja
+        ninja run_eul_ut
+    - name: execute ubsan
+      run: |
+        rm -rf bin_ubsan
+        mkdir bin_ubsan
+        cd bin_ubsan 
+        cmake .. -DCMAKE_BUILD_TYPE=ubsan -GNinja
         ninja run_eul_ut
 
