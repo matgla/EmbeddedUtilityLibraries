@@ -6,6 +6,7 @@ target_sources(eul_logger
         ${PROJECT_SOURCE_DIR}/include/eul/logger/logger_stream_registry.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/logger/logger_stream.hpp
         ${PROJECT_SOURCE_DIR}/include/eul/logger/logger.hpp
+    PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/logger_factory.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/logger_printer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/logger_stream_registry.cpp

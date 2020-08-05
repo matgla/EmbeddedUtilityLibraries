@@ -18,9 +18,7 @@ cmake_minimum_required(VERSION 3.1)
 
 project(eul CXX)
 
-if (CLANG_TIDY)
-    set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
-endif()
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(Eul_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include" CACHE STRING "path to EUL sources" FORCE)
 
@@ -39,7 +37,8 @@ include (mspkg)
 
 setup_mspkg(${mspkg_SOURCE_DIR})
 
-find_package(GSL)
+find_package(GSL REQUIRED)
+find_package(CMakeUtils REQUIRED)
 
 add_library(eul STATIC)
 target_sources(eul PUBLIC
@@ -79,45 +78,11 @@ target_link_libraries(eul
         GSL
     )
 
-set (CMAKE_C_FLAGS_ASAN
-    "-fsanitize=address -fno-optimize-sibling-calls -fsanitize-address-use-after-scope -fno-omit-frame-pointer -g -O1"
-    CACHE STRING "Flags used by the C compiler during AddressSanitizer builds."
-    FORCE
-)
-
-set(CMAKE_CXX_FLAGS_ASAN
-    "-fsanitize=address -fno-optimize-sibling-calls -fsanitize-address-use-after-scope -fno-omit-frame-pointer -g -O1"
-    CACHE STRING "Flags used by the C++ compiler during AddressSanitizer builds."
-    FORCE)
-
-    set(CMAKE_C_FLAGS_LSAN
-    "-fsanitize=leak -fno-omit-frame-pointer -g -O1"
-    CACHE STRING "Flags used by the C compiler during LeakSanitizer builds."
-    FORCE)
-set(CMAKE_CXX_FLAGS_LSAN
-    "-fsanitize=leak -fno-omit-frame-pointer -g -O1"
-    CACHE STRING "Flags used by the C++ compiler during LeakSanitizer builds."
-    FORCE)
-
-# MemorySanitizer
-set(CMAKE_C_FLAGS_MSAN
-    "-fsanitize=memory -fno-optimize-sibling-calls -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer -g -O2"
-    CACHE STRING "Flags used by the C compiler during MemorySanitizer builds."
-    FORCE)
-set(CMAKE_CXX_FLAGS_MSAN
-    "-fsanitize=memory -fno-optimize-sibling-calls -fsanitize-memory-track-origins=2 -fno-omit-frame-pointer -g -O2"
-    CACHE STRING "Flags used by the C++ compiler during MemorySanitizer builds."
-    FORCE)
-
-# UndefinedBehaviour
-set(CMAKE_C_FLAGS_UBSAN
-    "-fsanitize=undefined"
-    CACHE STRING "Flags used by the C compiler during UndefinedBehaviourSanitizer builds."
-    FORCE)
-set(CMAKE_CXX_FLAGS_UBSAN
-    "-fsanitize=undefined"
-    CACHE STRING "Flags used by the C++ compiler during UndefinedBehaviourSanitizer builds."
-    FORCE)
+include (sanitizers)
+add_asan_build_type()
+add_lsan_build_type()
+add_msan_build_type()
+add_ubsan_build_type()
 
 target_compile_options(eul PUBLIC
     $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${eul_cxx_compilation_flags}>
