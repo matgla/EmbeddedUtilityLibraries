@@ -30,23 +30,28 @@ public:
     {
     }
 
-    explicit operator volatile T*() const
+    operator const T*() const // NOLINT (google-explicit-constructor)
+    {
+        return reinterpret_cast<const T*>(address_);
+    }
+
+    operator T*() // NOLINT (google-explicit-constructor)
     {
         return reinterpret_cast<T*>(address_);
     }
 
-    volatile T* operator->() const
+    T* operator->()
     {
         return reinterpret_cast<T*>(address_);
     }
 
-    volatile T* operator->() const volatile
+    const T* operator->() const
     {
-        return reinterpret_cast<volatile T*>(address_);
+        return reinterpret_cast<const T*>(address_);
     }
 
 private:
-    std::intptr_t address_;
+    std::intptr_t address_{nullptr};
 };
 
 } // namespace eul
