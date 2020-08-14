@@ -18,36 +18,36 @@
 
 // clang-format off
 template <typename... T>
-constexpr void UNUSED(T.../*unused*/)
+constexpr void UNUSED(const T&.../*unused*/)
 {
-};
+}
 
 template <typename A>
-constexpr void UNUSED1(A a)
+constexpr void UNUSED1(const A& a)
 {
     UNUSED(a);
 }
 
 template <typename A, typename B>
-constexpr void UNUSED2(A a, B b)
+constexpr void UNUSED2(const A& a, const B& b)
 {
     UNUSED(a, b);
 }
 
 template <typename A, typename B, typename C>
-constexpr void UNUSED3(A a, B b, C c)
+constexpr void UNUSED3(const A& a, const B& b, const C& c)
 {
     UNUSED(a, b, c);
 }
 
 template <typename A, typename B, typename C, typename D>
-constexpr void UNUSED4(A a, B b, C c, D d)
+constexpr void UNUSED4(const A& a, const B& b, const C& c, const D& d)
 {
     UNUSED(a, b, c, d);
 }
 
 template <typename A, typename B, typename C, typename D, typename E>
-constexpr void UNUSED5(A a, B b, C c, D d, E e)
+constexpr void UNUSED5(const A& a, const B& b, const C& c, const D& d, const E& e)
 {
     UNUSED(a, b, c, d, e);
 }
