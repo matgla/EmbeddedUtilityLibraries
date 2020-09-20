@@ -50,6 +50,10 @@ public:
         return reinterpret_cast<const T*>(address_);
     }
 
+    std::intptr_t address() const
+    {
+        return address_;
+    }
 private:
     std::intptr_t address_{nullptr};
 };
