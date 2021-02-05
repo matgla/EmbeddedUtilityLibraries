@@ -37,7 +37,6 @@ include (mspkg)
 
 setup_mspkg(${mspkg_SOURCE_DIR})
 
-find_package(GSL REQUIRED)
 find_package(CMakeUtils REQUIRED)
 
 add_library(eul STATIC)
@@ -77,7 +76,6 @@ target_link_libraries(eul
         eul_filesystem
     PUBLIC
         eul_crc
-        GSL
     )
 
 include (sanitizers)

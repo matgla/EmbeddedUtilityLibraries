@@ -18,7 +18,7 @@
 
 #include <string_view>
 
-#include <gsl/span>
+#include <span>
 
 #include "eul/time/fwd.hpp"
 
@@ -111,12 +111,12 @@ public:
     }
 
     template<typename T>
-    logger_printer& operator<<(const gsl::span<T>& data)
+    logger_printer& operator<<(const std::span<T>& data)
     {
         write_to_streams("{");
         if (!data.empty())
         {
-            for (typename gsl::span<T>::index_type i = 0; i < data.size() - 1; ++i)
+            for (typename std::span<T>::index_type i = 0; i < data.size() - 1; ++i)
             {
                 *this << data[i] << ", ";
             }

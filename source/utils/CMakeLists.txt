@@ -13,11 +13,6 @@ target_sources(eul_utils
 
 target_include_directories(eul_utils PUBLIC "${PROJECT_SOURCE_DIR}/include")
 
-target_link_libraries(eul_utils
-    PUBLIC
-        GSL
-)
-
 target_compile_options(eul_utils PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:${eul_cxx_compilation_flags} -std=c++2a -Wall -Werror ${cxx_flags_shared_library}>
     $<$<CONFIG:DEBUG>:-Og -g>

@@ -21,7 +21,7 @@
 #include <ctime>
 #include <type_traits>
 
-#include <gsl/span>
+#include <span>
 
 namespace eul::utils
 {
@@ -64,9 +64,9 @@ inline T itoa(T n, char* s)
 }
 
 template <typename T>
-inline int strlen(const gsl::span<T>& data)
+inline int strlen(const std::span<T>& data)
 {
-    for (typename gsl::span<T>::index_type i = 0; i < data.size(); ++i)
+    for (typename std::span<T>::index_type i = 0; i < data.size(); ++i)
     {
         if (data[i] == 0)
         {

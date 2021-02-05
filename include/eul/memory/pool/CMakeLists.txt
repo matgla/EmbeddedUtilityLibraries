@@ -21,8 +21,3 @@ target_sources(eul_memory_pool
         ${CMAKE_CURRENT_SOURCE_DIR}/memory_pool.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/unique_ptr.hpp
 )
-
-target_link_libraries(eul_memory_pool
-    INTERFACE
-        GSL.owner
-)
