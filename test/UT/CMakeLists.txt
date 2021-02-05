@@ -26,6 +26,7 @@ set (test_sources
     container/StaticDequeTests.cpp
     container/iterator/IndexConstIteratorTests.cpp
     container/iterator/IndexIteratorTests.cpp
+    crc/Crc32Tests.cpp
     error/ErrorCategoryTests.cpp
     error/ErrorCodeTests.cpp
     error/ErrorConditionTests.cpp

@@ -62,6 +62,7 @@ add_subdirectory(include/eul/time)
 add_subdirectory(include/eul/timer)
 add_subdirectory(include/eul/mpl)
 add_subdirectory(include/eul/memory)
+add_subdirectory(include/eul/crc)
 
 target_include_directories(eul PUBLIC ${Eul_INCLUDE_DIR})
 target_link_libraries(eul
@@ -75,6 +76,7 @@ target_link_libraries(eul
         eul_error
         eul_filesystem
     PUBLIC
+        eul_crc
         GSL
     )
 
