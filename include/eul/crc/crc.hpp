@@ -29,7 +29,7 @@ constexpr static uint8_t reverse_lookup[16] = {
     0b0011, 0b1011, 0b0111, 0b1111
 };
 
-constexpr uint8_t reverse(const uint8_t byte)
+constexpr uint8_t reverse_u8(const uint8_t byte)
 {
     return reverse_lookup[(byte >> 4) & 0xf] 
         | (reverse_lookup[byte & 0xf] << 4);
@@ -53,18 +53,18 @@ constexpr std::array<uint32_t, 256> generate_table()
     return table;
 }
 
-constexpr uint32_t reverse(uint32_t data)
+constexpr uint32_t reverse_u32(const uint32_t data)
 {
-    return reverse(static_cast<uint8_t>(data)) << 24
-            | reverse(static_cast<uint8_t>(data >> 8)) << 16
-            | reverse(static_cast<uint8_t>(data >> 16)) << 8
-            | reverse(static_cast<uint8_t>(data >> 24)) << 0;
+    return reverse_u8(static_cast<uint8_t>(data)) << 24
+            | reverse_u8(static_cast<uint8_t>(data >> 8)) << 16
+            | reverse_u8(static_cast<uint8_t>(data >> 16)) << 8
+            | reverse_u8(static_cast<uint8_t>(data >> 24)) << 0;
 }
 
 template <uint32_t crc_size, uint32_t polynomial>
 uint32_t calculate_crc(const std::span<const uint8_t>& data)
 {
-    constexpr static auto table = generate_table<reverse(0x04C11DB7u), 32>();
+    constexpr static auto table = generate_table<reverse_u32(0x04C11DB7u), 32>();
     uint32_t crc = 0xffffffffu;
     for (const auto byte : data)
     {
