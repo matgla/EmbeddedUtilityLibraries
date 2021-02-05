@@ -23,7 +23,7 @@ target_sources(eul_crc
 
 target_include_directories(eul_crc
     INTERFACE
-        ${PROJECT_SOURCE_DIR}/source
+        ${PROJECT_SOURCE_DIR}/include
 )
 
 target_compile_options(eul_execution INTERFACE
