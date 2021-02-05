@@ -62,7 +62,7 @@ constexpr uint32_t reverse(uint32_t data)
 }
 
 template <uint32_t crc_size, uint32_t polynomial>
-uint32_t calculate_crc(const std::span<uint8_t>& data)
+uint32_t calculate_crc(const std::span<const uint8_t>& data)
 {
     constexpr static auto table = generate_table<reverse(0x04C11DB7u), 32>();
     uint32_t crc = 0xffffffffu;
@@ -74,7 +74,15 @@ uint32_t calculate_crc(const std::span<uint8_t>& data)
 }
 
 template <uint32_t polynomial = 0x04c11db7>
-uint32_t calculate_crc32(const std::span<uint8_t>& data)
+uint32_t calculate_crc32(const std::span<const uint8_t>& data)
 {
     return calculate_crc<32, polynomial>(data);
+}
+
+template <typename T> 
+uint32_t calculate_crc32(T* data)
+{
+    return calculate_crc32(std::span<const uint8_t>(
+        reinterpret_cast<const uint8_t*>(data), sizeof(T)
+    ));
 }
