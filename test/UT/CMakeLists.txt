@@ -38,6 +38,7 @@ set (test_sources
     execution/ExecutionQueueTests.cpp
     FunctionTests.cpp
     MemoryPoolTests.cpp
+    math/VectorTests.cpp
     mpl/types/BindTypeTests.cpp
     mpl/types/GetIndexOfBindedKeyTests.cpp
     mpl/tuples/ExtendTests.cpp
