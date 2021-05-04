@@ -76,9 +76,26 @@ TEST_CASE("VectorTests", "[MATH_TESTS]")
         Vector2 y = {3, -5};
 
         REQUIRE(x.dot(y) == -7); 
- 
+    
     }
+    
+    SECTION("Multiply vector and matrix")
+    {
+        using Vector2 = eul::math::vector<int, 2>;
+        using Vector3 = eul::math::vector<int, 3>;
+        using Matrix_2x3 = eul::math::matrix<int, 3, 2>;
 
+        const auto m = Matrix_2x3 {
+            { 1, 2, 4 },
+            { 3, 4, 5 }
+        };
+
+        const auto v = Vector2 {1, 2};
+
+        const Vector3 ans = v * m;
+
+        REQUIRE(ans == Vector3{7, 10, 14});
+    }
 }
 
 } // namespace eul::math

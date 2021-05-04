@@ -19,22 +19,24 @@
 #include <array>
 #include <cstddef>
 
-#include <iostream>
-
 #include "eul/math/matrix.hpp"
 
 namespace eul::math 
 {
 
 template <typename T, std::size_t N>
-class vector : public matrix<T, N, 1>
+class vector
 {
 public:
-    vector() : matrix<T, N, 1>()
+    vector() : data_()
     {
     }
 
-    vector(std::initializer_list<T> l) : matrix<T, N, 1>({l})
+    vector(std::initializer_list<T> l) : data_({l})
+    {
+    }
+
+    vector(const matrix<T, N, 1>& o) : data_(o)
     {
     }
 
@@ -46,7 +48,6 @@ public:
 
         for (std::size_t i = 0; i < N; ++i)
         {
-            std::cout << this->data_[0][i] << " * " << other[i] << std::endl;
             ans += this->data_[0][i] * other[i];
         }
         return ans;
@@ -64,13 +65,47 @@ public:
 
     bool operator==(const self_type& other) const 
     {
-        return this->data_[0] == other[0];
+        return this->data_ == other.data_;
+    }
+
+    self_type operator+(self_type other) const 
+    {
+        other.data_ += data_;
+        return other;
+    }
+
+    self_type operator-(const self_type& other) const 
+    {
+        self_type n = data_;
+        n.data_ -= other.data_;
+        return n;
     }
 
     constexpr static std::size_t size() 
     {
         return N;
     }
+
+    template <std::size_t OtherColumns>
+    vector<T, OtherColumns> operator*(const matrix<T, OtherColumns, N>& other) const 
+    {
+        vector<T, OtherColumns> ans;
+        ans.data() = data_ * other;
+        return ans;
+    }
+
+    matrix<T, N, 1>& data()
+    {
+        return data_;
+    }
+
+    const matrix<T, N, 1>& data() const 
+    {
+        return data_;
+    }
+
+private:
+    matrix<T, N, 1> data_;
 };
 
 } // namespace eul::math
