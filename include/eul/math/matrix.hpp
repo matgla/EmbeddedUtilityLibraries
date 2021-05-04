@@ -169,10 +169,9 @@ public:
         return Columns;
     }
 
-private:
+protected:
     std::array<std::array<T, Columns>, Rows> data_;
 };
-
 
 } // namespace eul::math
 

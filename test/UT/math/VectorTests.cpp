@@ -56,14 +56,26 @@ TEST_CASE("VectorTests", "[MATH_TESTS]")
  
     }
 
-    SECTION("Scalar multiplication")
+    SECTION("Access elements")
     {
-        using Vector2 = eul::math::vector<int, 3>;
+        using Vector3 = eul::math::vector<int, 3>;
+
+        Vector3 v{1, 2, 3};
+
+        REQUIRE(v.size() == 3);
+        REQUIRE(v[0] == 1);
+        REQUIRE(v[1] == 2);
+        REQUIRE(v[2] == 3);
+    }
+
+    SECTION("Dot product")
+    {
+        using Vector2 = eul::math::vector<int, 2>;
 
         Vector2 x = {1, 2};
         Vector2 y = {3, -5};
 
-        REQUIRE(x.scalar_mul(y) == -7); 
+        REQUIRE(x.dot(y) == -7); 
  
     }
 

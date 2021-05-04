@@ -19,68 +19,58 @@
 #include <array>
 #include <cstddef>
 
+#include <iostream>
+
+#include "eul/math/matrix.hpp"
+
 namespace eul::math 
 {
 
 template <typename T, std::size_t N>
-class vector
+class vector : public matrix<T, N, 1>
 {
 public:
+    vector() : matrix<T, N, 1>()
+    {
+    }
+
+    vector(std::initializer_list<T> l) : matrix<T, N, 1>({l})
+    {
+    }
+
     using self_type = vector<T, N>;
-    
-    template <typename ...Args>
-    vector(Args&&...args) : data_{{std::forward<Args>(args)...}}
-    {
-    }
 
-    self_type& operator+(const self_type& other)
-    {
-        for (std::size_t i = 0; i < N; ++i)
-        {
-            data_[i] += other[i]; 
-        }
-
-        return *this;
-    }
-   
-    self_type& operator-(const self_type& other) 
-    {
-        for (std::size_t i = 0; i < N; ++i)
-        {
-            data_[i] -= other[i];
-        }
-        return *this;
-    }
-
-    bool operator==(const self_type& other) const 
-    {
-        return data_ == other.data_;
-    }
-
-    const T& operator[](std::size_t i) const 
-    {
-        return data_[i];
-    }
-
-    T& operator[](std::size_t i) 
-    {
-        return data_[i];
-    }
-
-    T scalar_mul(const self_type& other)
+    T dot(const self_type& other) const
     {
         T ans = 0;
 
         for (std::size_t i = 0; i < N; ++i)
         {
-            ans += data_[i] * other[i];
+            std::cout << this->data_[0][i] << " * " << other[i] << std::endl;
+            ans += this->data_[0][i] * other[i];
         }
         return ans;
     }
 
+    T& operator[](std::size_t index) 
+    {
+        return this->data_[0][index];
+    }
 
-private:
-    std::array<T, N> data_;
+    const T& operator[](std::size_t index) const 
+    {
+        return this->data_[0][index];
+    }
+
+    bool operator==(const self_type& other) const 
+    {
+        return this->data_[0] == other[0];
+    }
+
+    constexpr static std::size_t size() 
+    {
+        return N;
+    }
 };
 
 } // namespace eul::math
