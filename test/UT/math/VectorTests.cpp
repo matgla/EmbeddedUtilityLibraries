@@ -83,9 +83,9 @@ TEST_CASE("VectorTests", "[MATH_TESTS]")
     {
         using Vector2 = eul::math::vector<int, 2>;
         using Vector3 = eul::math::vector<int, 3>;
-        using Matrix_2x3 = eul::math::matrix<int, 3, 2>;
+        using Matrix_3x2 = eul::math::matrix<int, 3, 2>;
 
-        const auto m = Matrix_2x3 {
+        const auto m = Matrix_3x2 {
             { 1, 2, 4 },
             { 3, 4, 5 }
         };
@@ -95,6 +95,19 @@ TEST_CASE("VectorTests", "[MATH_TESTS]")
         const Vector3 ans = v * m;
 
         REQUIRE(ans == Vector3{7, 10, 14});
+
+        using Vector4 = eul::math::vector<int, 4>;
+        using Matrix_4x4 = eul::math::matrix<int, 4, 4>;
+
+        const Vector4 v2 = { 1, 2, 3, 1 };
+        const Matrix_4x4 m2 = { 
+            { 2, 0, 0, 0 },
+            { 0, 4, 0, 0 },
+            { 0, 0, 2, 8 },
+            { 0, 0, -1, 0}
+        };
+
+        REQUIRE((v2 * m2) == Vector4{2, 8, 5, 24});
     }
 }
 
