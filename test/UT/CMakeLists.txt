@@ -39,6 +39,7 @@ set (test_sources
     FunctionTests.cpp
     MemoryPoolTests.cpp
     math/VectorTests.cpp
+    math/MatrixTests.cpp
     mpl/types/BindTypeTests.cpp
     mpl/types/GetIndexOfBindedKeyTests.cpp
     mpl/tuples/ExtendTests.cpp
