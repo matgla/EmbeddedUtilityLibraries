@@ -104,9 +104,9 @@ public:
         return *this;
     }
 
-    logger_printer& operator<<(const logging_flags::boolalpha boolalpha)
+    logger_printer& operator<<(const logging_flags::boolalpha b)
     {
-        flags_.set_boolalpha(boolalpha);
+        flags_.set_boolalpha(b);
         return *this;
     }
 

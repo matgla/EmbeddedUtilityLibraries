@@ -54,7 +54,11 @@ set (test_sources
     Runner.cpp
 )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-result -std=c++2a -Wall -Wextra")
+if (MSVC) 
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /std:c++latest")
+else () 
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-result -std=c++2a -Wall -Wextra")
+endif ()
 
 if (TEST_COVERAGE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
@@ -63,9 +67,15 @@ if (TEST_COVERAGE)
 endif (TEST_COVERAGE)
 
 if (DEBUG)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Og -g")
+    if (MSVC) 
+    else () 
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Og -g")
+    endif ()
 else (DEBUG)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+    if (MSVC) 
+    else () 
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+    endif ()
 endif (DEBUG)
 
 add_executable(eul_tests ${test_sources})

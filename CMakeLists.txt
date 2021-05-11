@@ -20,8 +20,6 @@ project(eul CXX)
 
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(Eul_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include" CACHE STRING "path to EUL sources" FORCE)
-
 include(FetchContent)
 
 FetchContent_Declare(
@@ -39,8 +37,8 @@ setup_mspkg(${mspkg_SOURCE_DIR})
 
 find_package(CMakeUtils REQUIRED)
 
-add_library(eul STATIC)
-target_sources(eul PUBLIC
+add_library(eul INTERFACE)
+target_sources(eul INTERFACE
     "${PROJECT_SOURCE_DIR}/include/eul/event_loop.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/function.hpp"
     "${PROJECT_SOURCE_DIR}/include/eul/memory_ptr.hpp"
@@ -65,9 +63,9 @@ add_subdirectory(include/eul/mpl)
 add_subdirectory(include/eul/memory)
 add_subdirectory(include/eul/crc)
 
-target_include_directories(eul PUBLIC ${Eul_INCLUDE_DIR})
+target_include_directories(eul INTERFACE ${Eul_INCLUDE_DIR})
 target_link_libraries(eul
-    PRIVATE
+    INTERFACE
         eul_mpl
         eul_timer
         eul_time
@@ -77,7 +75,6 @@ target_link_libraries(eul
         eul_error
         eul_filesystem
         eul_math
-    PUBLIC
         eul_crc
     )
 
@@ -87,13 +84,18 @@ add_lsan_build_type()
 add_msan_build_type()
 add_ubsan_build_type()
 
-target_compile_options(eul PUBLIC
-    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${eul_cxx_compilation_flags}>
-    $<$<CONFIG:DEBUG>:-Og -g>
-    $<$<CONFIG:RELEASE>:-Os>
-)
-
-target_link_options(eul PUBLIC
+if (MSVC)
+    target_compile_options(eul INTERFACE
+        $<$<COMPILE_LANGUAGE:CXX>:/W4 /WX /std:c++latest ${eul_cxx_compilation_flags}>
+    )
+else ()
+    target_compile_options(eul INTERFACE
+        $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${eul_cxx_compilation_flags}>
+        $<$<CONFIG:DEBUG>:-Og -g>
+        $<$<CONFIG:RELEASE>:-Os>
+    )
+endif ()
+target_link_options(eul INTERFACE
     ${eul_cxx_linking_flags})
 
 install (

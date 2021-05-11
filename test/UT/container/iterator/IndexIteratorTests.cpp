@@ -26,9 +26,9 @@ struct Data
 struct TestingObject
 {
     using value_type = Data;
-    Data& operator[](std::size_t index)
+    Data& operator[](std::size_t i)
     {
-        this->index = index;
+        this->index = i;
         return value;
     }
 

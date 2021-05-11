@@ -29,60 +29,105 @@ constexpr static uint8_t reverse_lookup[16] = {
     0b0011, 0b1011, 0b0111, 0b1111
 };
 
-constexpr uint8_t reverse_u8(const uint8_t byte)
+constexpr uint8_t reverse(const uint8_t byte)
 {
     return reverse_lookup[(byte >> 4) & 0xf] 
         | (reverse_lookup[byte & 0xf] << 4);
 }
 
-template <uint32_t polynomial, uint32_t crc_size>
-constexpr std::array<uint32_t, 256> generate_table()
+template <typename T>
+constexpr T get_mask()
+{
+    if constexpr (sizeof(T) == 1)
+    {
+        return 0x80;
+    }
+    if constexpr (sizeof(T) == 2)
+    {
+        return 0x8000;
+    }
+    if constexpr (sizeof(T) == 4)
+    {
+        return 0x80000000;
+    }
+}
+
+template <typename T>
+constexpr T get_bits()
+{
+    return sizeof(T) * 8;
+}
+
+constexpr std::array<uint32_t, 256> generate_table(uint32_t polynomial)
 {
     std::array<uint32_t, 256> table;
     for (uint32_t i = 0; i < 256; ++i)
     {
-        uint32_t remainder = i;
+        uint32_t crc = i;
         for (uint32_t bit = 0; bit < 8; ++bit)
         {
-            remainder = (remainder & 1) == 1  
-                ? (remainder >> 1) ^ polynomial
-                : remainder >> 1;
+            crc = (crc >> 1) ^ ((crc & 0x1u) ? polynomial : 0);
         }
-        table[i] = remainder;
+        table[i] = crc;
     }
     return table;
 }
 
-constexpr uint32_t reverse_u32(const uint32_t data)
+constexpr std::array<uint8_t, 256> generate_table(uint8_t polynomial)
 {
-    return reverse_u8(static_cast<uint8_t>(data)) << 24
-            | reverse_u8(static_cast<uint8_t>(data >> 8)) << 16
-            | reverse_u8(static_cast<uint8_t>(data >> 16)) << 8
-            | reverse_u8(static_cast<uint8_t>(data >> 24)) << 0;
+    std::array<uint8_t, 256> table;
+    for (uint32_t i = 0; i < 256; ++i)
+    {
+        uint8_t crc = static_cast<uint8_t>(i);
+        for (uint32_t bit = 0; bit < 8; ++bit)
+        {
+            crc = ((crc & 0x80) ? (crc << 1) ^ polynomial : crc << 1);
+        }
+        table[i] = crc;
+    }
+    return table;
 }
 
-template <uint32_t crc_size, uint32_t polynomial>
-uint32_t calculate_crc(const std::span<const uint8_t>& data)
+constexpr uint32_t reverse(const uint32_t data)
 {
-    constexpr static auto table = generate_table<reverse_u32(0x04C11DB7u), 32>();
-    uint32_t crc = 0xffffffffu;
+    return reverse(static_cast<uint8_t>(data)) << 24
+            | reverse(static_cast<uint8_t>(data >> 8)) << 16
+            | reverse(static_cast<uint8_t>(data >> 16)) << 8
+            | reverse(static_cast<uint8_t>(data >> 24)) << 0;
+}
+
+inline uint8_t calculate_part(uint8_t crc, uint8_t val)
+{
+    static_cast<void>(crc);
+    return val;
+}
+
+inline uint32_t calculate_part(uint32_t crc, uint32_t val)
+{
+    return val ^ (crc >> 8);
+}
+
+template <typename T, T polynomial, T init, T xor_out, bool reflected>
+T calculate_crc(const std::span<const uint8_t>& data)
+{
+    constexpr static T target_polynomial = reflected ? reverse(polynomial) : polynomial;
+    constexpr static std::array<T, 256> table = generate_table(target_polynomial);
+    T crc                       = init;
     for (const auto byte : data)
     {
-        crc = table[(crc ^ byte) & 0xff] ^ (crc >> 8);
+        crc = calculate_part(crc, table[(crc ^ byte) & 0xff]);
     }
-    return ~crc;
+    return crc ^ xor_out;
 }
 
 template <uint32_t polynomial = 0x04c11db7>
-uint32_t calculate_crc32(const std::span<const uint8_t>& data)
+uint32_t calculate_crc32(const std::span<const uint8_t> data)
 {
-    return calculate_crc<32, polynomial>(data);
+    return calculate_crc<uint32_t, polynomial, std::numeric_limits<uint32_t>::max(), std::numeric_limits<uint32_t>::max(), true>(data);
 }
 
-template <typename T> 
-uint32_t calculate_crc32(T* data)
+template <uint8_t polynomial = 0x07>
+uint8_t calculate_crc8(const std::span<const uint8_t> data)
 {
-    return calculate_crc32(std::span<const uint8_t>(
-        reinterpret_cast<const uint8_t*>(data), sizeof(T)
-    ));
+    return calculate_crc<uint8_t, polynomial, 0, 0, false>(data);
 }

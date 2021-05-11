@@ -183,7 +183,7 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
     SECTION("return iterator to begin")
     {
         eul::container::static_vector<int, 2> sut{1, 2};
-        auto* it = sut.begin();
+        auto it = sut.begin();
 
         REQUIRE(*it == 1);
         ++it; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)

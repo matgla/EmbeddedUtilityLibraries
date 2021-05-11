@@ -16,6 +16,10 @@
 
 #include "eul/logger/logger_printer.hpp"
 
+#include <array>
+
+#include <ctime>
+
 #include "eul/logger/logger_stream_registry.hpp"
 #include "eul/time/i_time_provider.hpp"
 #include "eul/utils/string.hpp"
@@ -86,9 +90,14 @@ void logger_printer::printTimeAndDate() const
 
     std::time_t t          = std::chrono::duration_cast<std::chrono::seconds>(
         std::chrono::milliseconds(time_.milliseconds().count())).count();
-    struct tm* currentTime = std::localtime(&t);
+    struct tm currentTime;
+#if defined(__unix__)
+    localtime_s(&t, &currentTime);
+#elif defined(_MSC_VER)
+    localtime_s(&currentTime, &t);
+#endif
 
-    utils::formatDateAndTime(buffer.data(), BufferSize, currentTime);
+    utils::formatDateAndTime(buffer.data(), BufferSize, &currentTime);
     write_to_streams(buffer.data());
 }
 

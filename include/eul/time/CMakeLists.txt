@@ -23,8 +23,14 @@ target_sources(eul_time
 
 target_include_directories(eul_time INTERFACE "${PROJECT_SOURCE_DIR}/include")
 
-target_compile_options(eul_time INTERFACE
-    $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${cxx_flags_shared_library}>
-    $<$<CONFIG:DEBUG>:-Og -g>
-    $<$<CONFIG:RELEASE>:-Os>
-)
+if (MSVC)
+    target_compile_options(eul_time INTERFACE
+        $<$<COMPILE_LANGUAGE:CXX>:/W4 /WX /std:c++latest ${eul_cxx_compilation_flags}>
+    )
+else ()
+    target_compile_options(eul_time INTERFACE
+        $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${eul_cxx_compilation_flags}>
+        $<$<CONFIG:DEBUG>:-Og -g>
+        $<$<CONFIG:RELEASE>:-Os>
+    )
+endif ()

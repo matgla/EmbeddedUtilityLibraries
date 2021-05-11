@@ -18,17 +18,27 @@
 
 #include <eul/crc/crc.hpp>
 
-//TEST_CASE("Crc32Tests", "[CRC_TESTS]")
-//{
-//    SECTION("Calculate correctly CRC32 for default polynomial")
-//    {
-//        uint8_t data[] = {0x00, 0x12, 0x00};
-//        REQUIRE(0x87b5a9c1 == calculate_crc32(data));
+TEST_CASE("Crc32Tests", "[CRC_TESTS]")
+{
+    SECTION("Calculate correctly CRC32 for default polynomial")
+    {
+        uint8_t data[] = {0x00, 0x12, 0x00};
+        REQUIRE(0x87b5a9c1 == calculate_crc32(data));
 
-//        data[1] = 0x00;
-//        REQUIRE(0xff41d912 == calculate_crc32(data));
+        data[1] = 0x00;
+        REQUIRE(0xff41d912 == calculate_crc32(data));
 
-//        uint8_t data2[] = {0xff, 0xff, 0xff, 0xff, 0xff};
-//        REQUIRE(0xd2fd1072 == calculate_crc32(data2));
-//    }
-//}
+        uint8_t data2[] = {0xff, 0xff, 0xff, 0xff, 0xff};
+        REQUIRE(0xd2fd1072 == calculate_crc32(data2));
+    }
+    SECTION("Calculate correctly CRC8 for default polynomial")
+    {
+        uint8_t data[] = {0x2, 0x3, 0xff};
+        REQUIRE(0x1a == calculate_crc8(data));
+
+        data[1] = 0xff;
+        REQUIRE(0xf2 == calculate_crc8(data));
+        uint8_t data2[] = {0xff, 0xff, 0xff, 0xff};
+        REQUIRE(0xde == calculate_crc8(data2));
+    }
+}

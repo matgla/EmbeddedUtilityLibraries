@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <cstddef>
+#include <limits>
 #include <tuple>
 
 #include "eul/mpl/types/binded_traits.hpp"
@@ -54,7 +55,7 @@ struct get_index_of_binded_key<T, Index>
 {
     constexpr static std::size_t get_index()
     {
-        return -1;
+        return std::numeric_limits<std::size_t>::max();
     }
     constexpr static std::size_t value = get_index();
 };

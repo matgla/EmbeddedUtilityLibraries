@@ -10,12 +10,17 @@ target_sources(eul_filesystem
 
 target_include_directories(eul_filesystem PUBLIC "${PROJECT_SOURCE_DIR}/include")
 
-target_compile_options(eul_filesystem
-    PRIVATE
-        $<$<COMPILE_LANGUAGE:CXX>:${eul_cxx_compilation_flags} -std=c++2a -Wall -Werror ${cxx_flags_shared_library}>
+if (MSVC)
+    target_compile_options(eul_filesystem PRIVATE
+        $<$<COMPILE_LANGUAGE:CXX>:/W4 /WX /std:c++latest ${eul_cxx_compilation_flags}>
+    )
+else ()
+    target_compile_options(eul_filesystem PRIVATE
+        $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${eul_cxx_compilation_flags}>
         $<$<CONFIG:DEBUG>:-Og -g>
         $<$<CONFIG:RELEASE>:-Os>
-)
+    )
+endif ()
 
 target_link_options(eul_filesystem PRIVATE
     ${eul_cxx_linking_flags}
