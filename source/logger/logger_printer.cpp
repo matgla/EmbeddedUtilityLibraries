@@ -92,7 +92,7 @@ void logger_printer::printTimeAndDate() const
         std::chrono::milliseconds(time_.milliseconds().count())).count();
     struct tm currentTime;
 #if defined(__unix__)
-    localtime_s(&t, &currentTime);
+    localtime_r(&t, &currentTime);
 #elif defined(_MSC_VER)
     localtime_s(&currentTime, &t);
 #endif

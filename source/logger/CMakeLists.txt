@@ -48,6 +48,7 @@ if (MSVC)
 else ()
     target_compile_options(eul_logger PRIVATE
         $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${eul_cxx_compilation_flags}>
+        $<$<COMPILE_LANGUAGE:C>:-std=c20>
         $<$<CONFIG:DEBUG>:-Og -g>
         $<$<CONFIG:RELEASE>:-Os>
     )

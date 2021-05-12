@@ -29,6 +29,11 @@ class index_iterator
 
 public:
     using value_type = typename ContainerType::value_type;
+    using iterator_category = std::forward_iterator_tag;
+    using difference_type = std::size_t;
+    using pointer = value_type*;
+    using reference = value_type&;
+
     index_iterator(ContainerType& object, std::size_t index);
     ~index_iterator()                     = default;
     index_iterator(const index_iterator&) = default;
@@ -40,8 +45,8 @@ public:
     index_iterator& operator++();
     bool operator==(const index_iterator& it) const;
     bool operator!=(const index_iterator& it) const;
-    typename value_type& operator*();
-    typename value_type* operator->();
+    value_type& operator*();
+    value_type* operator->();
 
 private:
     ContainerType* object_;

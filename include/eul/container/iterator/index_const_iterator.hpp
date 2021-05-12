@@ -28,7 +28,9 @@ class index_const_iterator
     using Self = index_const_iterator<ContainerType>;
 
 public:
-    using value_type = ContainerType::value_type;
+    using iterator_category = std::forward_iterator_tag;
+    using value_type = typename ContainerType::value_type;
+
     index_const_iterator(const ContainerType& object, std::size_t index);
     ~index_const_iterator()                           = default;
     index_const_iterator(const index_const_iterator&) = default;
