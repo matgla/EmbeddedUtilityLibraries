@@ -18,7 +18,7 @@
 
 #include <cstring>
 
-#include "eul/assert.hpp"
+#include "eul/utils/assert.hpp"
 #include "eul/utils/math.hpp"
 
 namespace eul::utils

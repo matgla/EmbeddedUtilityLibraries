@@ -37,76 +37,56 @@ setup_mspkg(${mspkg_SOURCE_DIR})
 
 find_package(CMakeUtils REQUIRED)
 
-add_library(eul INTERFACE)
-target_sources(eul INTERFACE
-    "${PROJECT_SOURCE_DIR}/include/eul/event_loop.hpp"
-    "${PROJECT_SOURCE_DIR}/include/eul/function.hpp"
-    "${PROJECT_SOURCE_DIR}/include/eul/memory_ptr.hpp"
-    "${PROJECT_SOURCE_DIR}/include/eul/observer.hpp"
-    "${PROJECT_SOURCE_DIR}/include/eul/container/observable/observing_node_const_iterator.hpp"
-    "${PROJECT_SOURCE_DIR}/include/eul/container/observable/observing_node_iterator.hpp"
-    "${PROJECT_SOURCE_DIR}/include/eul/container/observable/observing_list.hpp"
-    "${PROJECT_SOURCE_DIR}/include/eul/container/observable/observing_node.hpp"
-    "${PROJECT_SOURCE_DIR}/include/eul/traits.hpp"
-)
-
-add_subdirectory(source/logger)
-add_subdirectory(source/utils)
-add_subdirectory(source/error)
-add_subdirectory(source/filesystem)
-add_subdirectory(source/math)
-
-add_subdirectory(include/eul/execution)
-add_subdirectory(include/eul/time)
-add_subdirectory(include/eul/timer)
-add_subdirectory(include/eul/mpl)
-add_subdirectory(include/eul/memory)
-add_subdirectory(include/eul/crc)
-
-target_include_directories(eul INTERFACE ${Eul_INCLUDE_DIR})
-target_link_libraries(eul
-    INTERFACE
-        eul_mpl
-        eul_timer
-        eul_time
-        eul_execution
-        eul_logger
-        eul_utils
-        eul_error
-        eul_filesystem
-        eul_math
-        eul_crc
-    )
-
 include (sanitizers)
-add_asan_build_type()
-add_lsan_build_type()
-add_msan_build_type()
-add_ubsan_build_type()
+add_sanitizers()
+
+add_library(eul_public_flags INTERFACE)
+add_library(eul_private_flags INTERFACE)
 
 if (MSVC)
-    target_compile_options(eul INTERFACE
-        $<$<COMPILE_LANGUAGE:CXX>:/W4 /WX /std:c++latest ${eul_cxx_compilation_flags}>
+    target_compile_options(eul_public_flags INTERFACE
+        $<$<COMPILE_LANGUAGE:CXX>:/std:c++latest ${eul_cxx_compilation_flags}>
+    )
+    target_compile_options(eul_private_flags INTERFACE
+        /W4 /WX 
+        $<$<CONFIG:DEBUG>:/Od> 
+        $<$<CONFIG:RELEASE>:/O2>
     )
 else ()
-    target_compile_options(eul INTERFACE
+    target_compile_options(eul_public_flags INTERFACE
         $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${eul_cxx_compilation_flags}>
+    )
+    target_compile_options(eul_private_flags INTERFACE
+        -Wall -Wpedantic -Werror -Wextra -pedantic-errors -Wconversion -Wsign-conversion
         $<$<CONFIG:DEBUG>:-Og -g>
-        $<$<CONFIG:RELEASE>:-Os>
+        $<$<CONFIG:RELEASE>:-O2>
     )
 endif ()
-target_link_options(eul INTERFACE
-    ${eul_cxx_linking_flags})
 
-install (
-    TARGETS
-        eul
-    DESTINATION
-        ${CMAKE_BINARY_DIR}
-    EXPORT
-        eul.cmake
-)
+target_link_libraries(eul_public_flags INTERFACE enable_sanitizers)
+target_link_libraries(eul_private_flags INTERFACE enable_sanitizers)
+
+target_link_options(eul_private_flags INTERFACE ${eul_cxx_linking_flags})
+
+
+add_subdirectory (source/container)
+add_subdirectory (source/crc)
+add_subdirectory (source/error)
+add_subdirectory (source/execution)
+add_subdirectory (source/filesystem)
+add_subdirectory (source/functional)
+add_subdirectory (source/iterator)
+add_subdirectory (source/kernel)
+add_subdirectory (source/logger)
+add_subdirectory (source/memory)
+add_subdirectory (source/math)
+add_subdirectory (source/mpl)
+add_subdirectory (source/signals)
+add_subdirectory (source/time)
+add_subdirectory (source/timer)
+add_subdirectory (source/utils)
 
 if (NOT DISABLE_TESTS)
+    include (CTest)
     add_subdirectory(test)
 endif ()

@@ -19,69 +19,28 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR})
 
-set (test_sources
-    container/observable/ObservingListTests.cpp
-    container/RingBufferTests.cpp
-    container/StaticVectorTests.cpp
-    container/StaticDequeTests.cpp
-    container/iterator/IndexConstIteratorTests.cpp
-    container/iterator/IndexIteratorTests.cpp
-    crc/Crc32Tests.cpp
-    error/ErrorCategoryTests.cpp
-    error/ErrorCodeTests.cpp
-    error/ErrorConditionTests.cpp
-    filesystem/PathTests.cpp
-    filesystem/PathConstIteratorTests.cpp
-    mpl/types/BindTypeTests.cpp
-    kernel/KernelTests.cpp
-    EventLoopTests.cpp
-    execution/ExecutionQueueTests.cpp
-    FunctionTests.cpp
-    MemoryPoolTests.cpp
-    math/VectorTests.cpp
-    math/MatrixTests.cpp
-    mpl/types/BindTypeTests.cpp
-    mpl/types/GetIndexOfBindedKeyTests.cpp
-    mpl/tuples/ExtendTests.cpp
-    mpl/tuples/FilterTests.cpp
-    mpl/mixin/InheritFromTests.cpp
-    mpl/mixin/MixinTests.cpp
-    timer/TimeoutTimerTests.cpp
-    timer/TimerManagerTests.cpp
-    timer/TimerTests.cpp
-    ObserverTests.cpp
-    signals/SignalTests.cpp
-    Runner.cpp
+add_library (catch INTERFACE)
+
+target_sources (catch INTERFACE 
+    ${CMAKE_CURRENT_SOURCE_DIR}/Runner.cpp
 )
 
-if (MSVC) 
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /std:c++latest")
-else () 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-result -std=c++2a -Wall -Wextra")
-endif ()
-
-if (TEST_COVERAGE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
-    set(DEBUG 1)
-endif (TEST_COVERAGE)
-
-if (DEBUG)
-    if (MSVC) 
-    else () 
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Og -g")
-    endif ()
-else (DEBUG)
-    if (MSVC) 
-    else () 
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-    endif ()
-endif (DEBUG)
-
-add_executable(eul_tests ${test_sources})
-target_link_libraries(eul_tests eul test_stubs)
-
-add_custom_target(run_eul_ut
-  COMMAND "${CMAKE_BINARY_DIR}/test/UT/eul_tests"
-  DEPENDS eul_tests
+target_include_directories (catch INTERFACE 
+    SYSTEM ${PROJECT_SOURCE_DIR}/test/lib
 )
+
+add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} -V)
+
+add_subdirectory (container)
+add_subdirectory (crc)
+add_subdirectory (error)
+add_subdirectory (execution)
+add_subdirectory (filesystem)
+add_subdirectory (functional)
+add_subdirectory (kernel)
+add_subdirectory (math)
+add_subdirectory (memory)
+add_subdirectory (mpl)
+add_subdirectory (signals)
+add_subdirectory (timer)
+

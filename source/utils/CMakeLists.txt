@@ -1,30 +1,25 @@
 add_library(eul_utils STATIC)
 
+set (include_dir ${PROJECT_SOURCE_DIR}/include/utils/eul/utils)
+
 target_sources(eul_utils
     PUBLIC
-        ${PROJECT_SOURCE_DIR}/include/eul/utils/math.hpp
-        ${PROJECT_SOURCE_DIR}/include/eul/utils/string.hpp
-        ${PROJECT_SOURCE_DIR}/include/eul/utils/unused.hpp
-        ${PROJECT_SOURCE_DIR}/include/eul/utils/noncopyable.hpp
+        ${include_dir}/assert.hpp
+        ${include_dir}/call.hpp
+        ${include_dir}/math.hpp
+        ${include_dir}/noncopyable.hpp
+        ${include_dir}/string.hpp
+        ${include_dir}/unused.hpp
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/math.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/string.cpp
 )
 
-target_include_directories(eul_utils PUBLIC "${PROJECT_SOURCE_DIR}/include")
+target_include_directories(eul_utils PUBLIC ${PROJECT_SOURCE_DIR}/include/utils)
 
-if (MSVC)
-    target_compile_options(eul_utils PRIVATE
-        $<$<COMPILE_LANGUAGE:CXX>:/W4 /WX /std:c++latest ${eul_cxx_compilation_flags}>
-    )
-else ()
-    target_compile_options(eul_utils PRIVATE
-        $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${eul_cxx_compilation_flags}>
-        $<$<CONFIG:DEBUG>:-Og -g>
-        $<$<CONFIG:RELEASE>:-Os>
-    )
-endif ()
-
-target_link_options(eul_utils PUBLIC
-    ${eul_cxx_linking_flags}
+target_link_libraries(eul_utils 
+    PUBLIC 
+        eul_public_flags
+    PRIVATE 
+        eul_private_flags
 )

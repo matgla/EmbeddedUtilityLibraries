@@ -18,7 +18,7 @@
 
 #include "eul/container/observable/observing_node.hpp"
 #include "eul/execution/execution_queue.hpp"
-#include "eul/function.hpp"
+#include "eul/functional/function.hpp"
 
 TEST_CASE("ExecutionQueue", "[EQ]")
 {

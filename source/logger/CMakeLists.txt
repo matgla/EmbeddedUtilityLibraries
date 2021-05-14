@@ -1,11 +1,16 @@
 add_library(eul_logger STATIC)
 
+set (include_dir ${PROJECT_SOURCE_DIR}/include/logger/eul/logger)
+
 target_sources(eul_logger
     PUBLIC
-        ${PROJECT_SOURCE_DIR}/include/eul/logger/logger_policy.hpp
-        ${PROJECT_SOURCE_DIR}/include/eul/logger/logger_stream_registry.hpp
-        ${PROJECT_SOURCE_DIR}/include/eul/logger/logger_stream.hpp
-        ${PROJECT_SOURCE_DIR}/include/eul/logger/logger.hpp
+        ${include_dir}/logger.hpp
+        ${include_dir}/logger_factory.hpp 
+        ${include_dir}/logger_policy.hpp 
+        ${include_dir}/logger_printer.hpp 
+        ${include_dir}/logger_stream.hpp 
+        ${include_dir}/logger_stream_registry.hpp
+        ${include_dir}/suppressing_logger.hpp
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/logger_factory.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/logger_printer.cpp
@@ -13,7 +18,7 @@ target_sources(eul_logger
         ${CMAKE_CURRENT_SOURCE_DIR}/logger_stream.cpp
 )
 
-target_include_directories(eul_logger PUBLIC "${PROJECT_SOURCE_DIR}/include")
+target_include_directories(eul_logger PUBLIC ${PROJECT_SOURCE_DIR}/include/logger)
 
 if (LOG_LEVEL STREQUAL "Trace")
     set(logging_definition "LOG_LEVEL_TRACE")
@@ -38,22 +43,10 @@ target_compile_definitions(eul_logger PUBLIC
 target_link_libraries(eul_logger
     PUBLIC
         eul_utils
+        eul_container
+        eul_time
+        eul_public_flags 
+    PRIVATE 
+        eul_private_flags
 )
 
-
-if (MSVC)
-    target_compile_options(eul_logger PRIVATE
-        $<$<COMPILE_LANGUAGE:CXX>:/W4 /WX /std:c++latest ${eul_cxx_compilation_flags}>
-    )
-else ()
-    target_compile_options(eul_logger PRIVATE
-        $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${eul_cxx_compilation_flags}>
-        $<$<COMPILE_LANGUAGE:C>:-std=c20>
-        $<$<CONFIG:DEBUG>:-Og -g>
-        $<$<CONFIG:RELEASE>:-Os>
-    )
-endif ()
-
-
-target_link_options(eul_logger PUBLIC
-   ${eul_cxx_linking_flags})

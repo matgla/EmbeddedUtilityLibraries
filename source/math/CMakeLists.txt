@@ -16,7 +16,7 @@
 
 add_library(eul_math INTERFACE)
 
-set(include_dir ${PROJECT_SOURCE_DIR}/include/eul/math)
+set(include_dir ${PROJECT_SOURCE_DIR}/include/math/eul/math)
 
 target_sources(eul_math 
     INTERFACE 
@@ -24,5 +24,10 @@ target_sources(eul_math
         ${include_dir}/vector.hpp 
 )
 
-target_include_directories(eul_math INTERFACE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(eul_math INTERFACE ${PROJECT_SOURCE_DIR}/include/math)
+
+target_link_libraries(eul_math 
+    INTERFACE 
+        eul_public_flags
+)
 

@@ -1,12 +1,14 @@
 add_library(eul_error STATIC)
 
+set (include_dir ${PROJECT_SOURCE_DIR}/include/error/eul/error)
+
 target_sources(eul_error
     PUBLIC
-        ${PROJECT_SOURCE_DIR}/include/eul/error/error_code.hpp
-        ${PROJECT_SOURCE_DIR}/include/eul/error/error_category.hpp
-        ${PROJECT_SOURCE_DIR}/include/eul/error/error_condition.hpp
-        ${PROJECT_SOURCE_DIR}/include/eul/error/system_category.hpp
-        ${PROJECT_SOURCE_DIR}/include/eul/error/generic_category.hpp
+        ${include_dir}/error_code.hpp
+        ${include_dir}/error_category.hpp
+        ${include_dir}/error_condition.hpp
+        ${include_dir}/system_category.hpp
+        ${include_dir}/generic_category.hpp
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/error_code.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/error_condition.cpp
@@ -15,21 +17,12 @@ target_sources(eul_error
         ${CMAKE_CURRENT_SOURCE_DIR}/generic_category.cpp
 )
 
-target_include_directories(eul_error PUBLIC "${PROJECT_SOURCE_DIR}/include")
+target_include_directories(eul_error PUBLIC ${PROJECT_SOURCE_DIR}/include/error)
 
-
-if (MSVC)
-    target_compile_options(eul_error PRIVATE
-        $<$<COMPILE_LANGUAGE:CXX>:/W4 /WX /std:c++latest ${eul_cxx_compilation_flags}>
-    )
-else ()
-    target_compile_options(eul_error PRIVATE
-        $<$<COMPILE_LANGUAGE:CXX>:-std=c++2a ${eul_cxx_compilation_flags}>
-        $<$<CONFIG:DEBUG>:-Og -g>
-        $<$<CONFIG:RELEASE>:-Os>
-    )
-endif ()
-
-target_link_options(eul_error PUBLIC
-    ${eul_cxx_linking_flags}
+target_link_libraries(eul_error 
+    PUBLIC 
+        eul_public_flags 
+    PRIVATE 
+        eul_utils
+        eul_private_flags
 )
