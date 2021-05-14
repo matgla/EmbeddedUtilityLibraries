@@ -18,27 +18,27 @@ jobs:
     - uses: actions/checkout@v2
     - name: execute tests
       run: |
-        rm -rf bin && mkdir bin && cd bin && cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
+        rm -rf bin && mkdir bin && cd bin && cmake .. -DCMAKE_CXX_COMPILER="g++-10" -DCMAKE_BUILD_TYPE=Release -GNinja
         ninja run_eul_ut
     - name: execute asan
       run: |
         rm -rf bin_asan
         mkdir bin_asan
         cd bin_asan 
-        cmake .. -DCMAKE_BUILD_TYPE=asan -GNinja
+        cmake .. -DCMAKE_BUILD_TYPE=asan -DCMAKE_CXX_COMPILER="g++-10" -GNinja
         ninja run_eul_ut
     - name: execute lsan
       run: |
         rm -rf bin_lsan
         mkdir bin_lsan
         cd bin_lsan 
-        cmake .. -DCMAKE_BUILD_TYPE=lsan -GNinja
+        cmake .. -DCMAKE_BUILD_TYPE=lsan -DCMAKE_CXX_COMPILER="g++-10" -GNinja
         ninja run_eul_ut
     - name: execute ubsan
       run: |
         rm -rf bin_ubsan
         mkdir bin_ubsan
         cd bin_ubsan 
-        cmake .. -DCMAKE_BUILD_TYPE=ubsan -GNinja
+        cmake .. -DCMAKE_CXX_COMPILER="g++-10" -DCMAKE_BUILD_TYPE=ubsan -GNinja
         ninja run_eul_ut
 
