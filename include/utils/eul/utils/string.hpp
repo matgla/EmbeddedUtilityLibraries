@@ -79,8 +79,8 @@ inline int strlen(const std::span<T>& data)
 
 int writeToBufferAligned(char* buffer, int data, char suffix, uint8_t size, char prefix);
 int writeToBufferAligned(char* buffer, int data, char suffix);
-int formatTime(char* buffer, int bufferSize, std::tm* t);
-int formatDate(char* buffer, int bufferSize, std::tm* t);
-void formatDateAndTime(char* buffer, int bufferSize, std::tm* t);
+int formatTime(char* buffer, std::tm* t);
+int formatDate(char* buffer, std::tm* t);
+void formatDateAndTime(char* buffer, std::tm* t);
 
 } // namespace eul::utils

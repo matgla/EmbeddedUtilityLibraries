@@ -45,7 +45,7 @@ jobs:
             build_type: "Release",
             cc: "clang",
             cxx: "clang++",
-            packages: "clang",
+            packages: "clang ninja-build python3 python3-pip",
             generator: "Ninja"
           }
         - {
@@ -93,7 +93,7 @@ jobs:
         shell: bash 
         run: |
           mkdir build 
-          cd build && cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_CC_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.generator }}"
+          cd build && cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.generator }}"
       - name: Build & Execute 
         shell: bash 
         working-directory: build

@@ -48,7 +48,7 @@ bool path::is_absolute() const
 path path::lexically_normal() const
 {
     std::string converted_path;
-    for (const auto& part : *this) // NOLINT(readability-static-accessed-through-instance)
+    for (const auto part : *this) // NOLINT(readability-static-accessed-through-instance)
     {
         if (part == ".")
         {

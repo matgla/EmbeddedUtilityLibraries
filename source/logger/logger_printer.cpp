@@ -91,10 +91,10 @@ void logger_printer::printTimeAndDate() const
     std::time_t t          = std::chrono::duration_cast<std::chrono::seconds>(
         std::chrono::milliseconds(time_.milliseconds().count())).count();
     struct tm currentTime;
-#if defined(__unix__)
-    localtime_r(&t, &currentTime);
-#elif defined(_MSC_VER)
+#if defined(_MSC_VER)
     localtime_s(&currentTime, &t);
+#else 
+    localtime_r(&t, &currentTime);
 #endif
 
     utils::formatDateAndTime(buffer.data(), BufferSize, &currentTime);

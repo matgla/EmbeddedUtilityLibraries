@@ -69,18 +69,17 @@ int writeToBufferAligned(char* buffer, int data, char suffix)
     return writeToBufferAligned(buffer, data, suffix, 2, '0');
 }
 
-int formatTime(char* buffer, int bufferSize, std::tm* t)
+int formatTime(char* buffer, std::tm* t)
 {
     int i = 0;
 
     i += writeToBufferAligned(&buffer[i], t->tm_hour, ':'); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     i += writeToBufferAligned(&buffer[i], t->tm_min, ':'); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     i += writeToBufferAligned(&buffer[i], t->tm_sec, '\0'); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-    EUL_ASSERT_MSG(i <= bufferSize, "Buffer overflow");
     return i;
 }
 
-int formatDate(char* buffer, int bufferSize, std::tm* t)
+int formatDate(char* buffer, std::tm* t)
 {
     int i = 0;
     constexpr int year_offset = 1900;
@@ -88,17 +87,15 @@ int formatDate(char* buffer, int bufferSize, std::tm* t)
     i += writeToBufferAligned(&buffer[i], t->tm_mon + 1, '/'); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     i += writeToBufferAligned(&buffer[i], t->tm_year + year_offset, '\0'); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
-    EUL_ASSERT_MSG(i <= bufferSize, "Buffer overflow");
     return i;
 }
 
-void formatDateAndTime(char* buffer, int bufferSize, std::tm* t)
+void formatDateAndTime(char* buffer, std::tm* t)
 {
     int i = 0;
-    i += formatDate(buffer + i, bufferSize - i, t); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    i += formatDate(buffer + i, t); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     buffer[i - 1] = ' '; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-    i += formatTime(buffer + i, bufferSize - i, t); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-    EUL_ASSERT_MSG(i <= bufferSize, "Buffer overflow");
+    i += formatTime(buffer + i, t); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 }
 
 } // namespace eul::utils
