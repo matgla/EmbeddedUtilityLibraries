@@ -16,7 +16,7 @@
 
 add_subdirectory(pool)
 
-add_executable (eul_memory_tests EXCLUDE_FROM_ALL)
+add_executable (eul_memory_tests)
 
 target_sources (eul_memory_tests
     PRIVATE 
