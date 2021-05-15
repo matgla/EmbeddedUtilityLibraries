@@ -94,6 +94,9 @@ jobs:
           ninja --version 
           cmake --version 
           clang --version
+      - name: Install VirtualEnv 
+        run: | 
+          sudo pip3 install virtualenv
       - name: Configure Tests
         shell: bash 
         run: |
