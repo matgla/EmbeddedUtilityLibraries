@@ -69,7 +69,10 @@ jobs:
           choco install ninja cmake python3 pip
           ninja --version 
           cmake --version
-        
+      - name: Install GCC on Windows 
+        if: startsWith(matrix.config.os, 'windows') && startsWith(matrix.config.cc, 'gcc')
+        run: |
+          choco install mingw
       - name: Install dependencies on Ubuntu 
         if: startsWith(matrix.config.os, 'ubuntu')
         run: | 
