@@ -1,4 +1,4 @@
-name: UnitTests
+name: UnitTestsSanitizers
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   ut:
-    name: ${{ matrix.config.name }} 
+    name: ${{ matrix.config.name }} - ${{ matrix.sanitizers.name }} 
     runs-on: ${{ matrix.config.os }} 
     strategy:
       fail-fast: false
@@ -40,8 +40,26 @@ jobs:
             cxx: "clang++", 
             generator: "Ninja" 
           }
-        sanitizers: ["ENABLE_ASAN", "ENABLE_LSAN", "ENABLE_UBSAN", "ENABLE_TSAN"]
-
+        sanitizers: 
+        - {
+            flag: "ENABLE_ASAN",
+            name: "AddressSanitizer"
+          }
+        - {
+            flag: "ENABLE_LSAN", 
+            name: "LeakSanitizer"
+          }
+        - {
+            flag: "ENABLE_UBSAN",
+            name: "UndefinedBehaviourSanitizer"
+          }
+        - {
+            flag: "ENABLE_TSAN",
+            name: "ThreadSanitizer"
+          }
+        exclude: 
+          - sanitizers.name: "LeakSanitizer" 
+            config.os: macos_latest
     steps:
       - uses: actions/checkout@v2
       - name: Print Environment
@@ -72,7 +90,7 @@ jobs:
         shell: bash 
         run: |
           mkdir build 
-          cd build && cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -D${{ matrix.sanitizers }}=ON -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.generator }}"
+          cd build && cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -D${{ matrix.sanitizers.flag }}=ON -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.generator }}"
       - name: Build UT 
         shell: bash 
         working-directory: build
