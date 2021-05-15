@@ -1,4 +1,4 @@
-name: UnitTestsSanitizers
+name: UnitTests
 
 on:
   push:
@@ -14,22 +14,6 @@ jobs:
       fail-fast: false
       matrix:
         config: 
-        - {
-            name: "Windows MSVC",
-            os: windows-latest,
-            build_type: "Release",
-            cc: "cl",
-            cxx: "cl",
-            generator: "Visual Studio 16 2019"
-          }
-        - {
-            name: "Windows MinGW",
-            os: windows-latest,
-            build_type: "Release",
-            cc: "gcc",
-            cxx: "g++",
-            generator: "Ninja"
-          }
         - { 
             name: "Ubuntu 20.04 GCC",
             os: ubuntu-20.04,
@@ -38,7 +22,7 @@ jobs:
             cxx: "g++-10",
             packages: "g++-10 gcc-10 ninja-build python3 python3-pip",
             generator: "Ninja"
-          }
+            }
         - {
             name: "Ubuntu 20.04 Clang",
             os: ubuntu-20.04,
@@ -56,6 +40,7 @@ jobs:
             cxx: "clang++", 
             generator: "Ninja" 
           }
+        sanitizers: ["ENABLE_ASAN", "ENABLE_LSAN", "ENABLE_UBSAN", "ENABLE_TSAN"]
 
     steps:
       - uses: actions/checkout@v2
@@ -63,16 +48,6 @@ jobs:
         run: |
           echo github.event.action: ${{ github.event.action }}
           echo github.event_name: ${{ github.event_name }}
-      - name: Install dependencies on Windows 
-        if: startsWith(matrix.config.os, 'windows')
-        run: | 
-          choco install ninja cmake python3 pip
-          ninja --version 
-          cmake --version
-      - name: Install GCC on Windows 
-        if: startsWith(matrix.config.os, 'windows') && startsWith(matrix.config.cc, 'gcc')
-        run: |
-          choco install mingw
       - name: Install dependencies on Ubuntu 
         if: startsWith(matrix.config.os, 'ubuntu')
         run: | 
@@ -93,15 +68,11 @@ jobs:
         if: startsWith(matrix.config.os, 'macos') || startsWith(matrix.config.os, 'ubuntu')
         run: | 
           sudo pip3 install virtualenv
-      - name: Install VirtualEnv Windows 
-        if: startsWith(matrix.config.os, 'windows')
-        run: |
-            pip3.exe install virtualenv
       - name: Configure Tests
         shell: bash 
         run: |
           mkdir build 
-          cd build && cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.generator }}"
+          cd build && cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -D${{ matrix.sanitizers }}=ON -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.generator }}"
       - name: Build UT 
         shell: bash 
         working-directory: build

@@ -1,4 +1,4 @@
-name: UnitTests 
+name: UnitTests
 
 on:
   push:
@@ -8,39 +8,98 @@ on:
 
 jobs:
   ut:
-    runs-on: ubuntu-20.04
+    name: ${{ matrix.config.name }} 
+    runs-on: ${{ matrix.config.os }} 
+    strategy:
+      fail-fast: false
+      matrix:
+        config: 
+        - {
+            name: "Windows MSVC",
+            os: windows-latest,
+            build_type: "Release",
+            cc: "cl",
+            cxx: "cl",
+            generator: "Visual Studio 16 2019"
+          }
+        - { 
+            name: "Ubuntu 20.04 GCC",
+            os: ubuntu-20.04,
+            build_type: "Release",
+            cc: "gcc-10",
+            cxx: "g++-10",
+            packages: "g++-10 gcc-10 ninja-build python3 python3-pip",
+            generator: "Ninja"
+          }
+        - {
+            name: "Ubuntu 20.04 Clang",
+            os: ubuntu-20.04,
+            build_type: "Release",
+            cc: "clang",
+            cxx: "clang++",
+            packages: "clang ninja-build python3 python3-pip",
+            generator: "Ninja"
+          }
+        - {
+            name: "MacOS Clang",
+            os: macos-latest, 
+            build_type: "Release",
+            cc: "clang",
+            cxx: "clang++", 
+            generator: "Ninja" 
+          }
+
     steps:
-    - name: install dependencies
-      run: |
-        sudo apt update
-        sudo apt install -y snapd g++-10 gcc-10 ninja-build python3 python3-pip
-        sudo pip3 install virtualenv
-        sudo snap install cmake --classic
-    - uses: actions/checkout@v2
-    - name: execute tests
-      run: |
-        cmake --version
-        rm -rf bin && mkdir bin && cd bin && cmake .. -DCMAKE_CXX_COMPILER="g++-10" -DCMAKE_BUILD_TYPE=Release -GNinja
-        ninja run_eul_ut
-    - name: execute asan
-      run: |
-        rm -rf bin_asan
-        mkdir bin_asan
-        cd bin_asan 
-        cmake .. -DCMAKE_BUILD_TYPE=asan -DCMAKE_CXX_COMPILER="g++-10" -GNinja
-        ninja run_eul_ut
-    - name: execute lsan
-      run: |
-        rm -rf bin_lsan
-        mkdir bin_lsan
-        cd bin_lsan 
-        cmake .. -DCMAKE_BUILD_TYPE=lsan -DCMAKE_CXX_COMPILER="g++-10" -GNinja
-        ninja run_eul_ut
-    - name: execute ubsan
-      run: |
-        rm -rf bin_ubsan
-        mkdir bin_ubsan
-        cd bin_ubsan 
-        cmake .. -DCMAKE_CXX_COMPILER="g++-10" -DCMAKE_BUILD_TYPE=ubsan -GNinja
-        ninja run_eul_ut
+      - uses: actions/checkout@v2
+      - name: Print Environment
+        run: |
+          echo github.event.action: ${{ github.event.action }}
+          echo github.event_name: ${{ github.event_name }}
+      - name: Install dependencies on Windows 
+        if: startsWith(matrix.config.os, 'windows')
+        run: | 
+          choco install ninja cmake python3 pip
+          ninja --version 
+          cmake --version
+      - name: Install GCC on Windows 
+        if: startsWith(matrix.config.os, 'windows') && startsWith(matrix.config.cc, 'gcc')
+        run: |
+          choco install mingw
+      - name: Install dependencies on Ubuntu 
+        if: startsWith(matrix.config.os, 'ubuntu')
+        run: | 
+          sudo apt update
+          sudo apt install -y ${{ matrix.config.packages }} 
+          sudo pip3 install virtualenv
+          ninja --version 
+          cmake --version
+
+      - name: Install dependencies on MacOS 
+        if: startsWith(matrix.config.os, 'macos')
+        run: |
+          brew install cmake ninja
+          ninja --version 
+          cmake --version 
+          clang --version
+      - name: Install VirtualEnv Mac/Ubuntu 
+        if: startsWith(matrix.config.os, 'macos') || startsWith(matrix.config.os, 'ubuntu')
+        run: | 
+          sudo pip3 install virtualenv
+      - name: Install VirtualEnv Windows 
+        if: startsWith(matrix.config.os, 'windows')
+        run: |
+            pip3.exe install virtualenv
+      - name: Configure Tests
+        shell: bash 
+        run: |
+          mkdir build 
+          cd build && cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.generator }}"
+      - name: Build UT 
+        shell: bash 
+        working-directory: build
+        run: cmake --build . --config ${{ matrix.config.build_type }}
+      - name: Run UT
+        shell: bash 
+        working-directory: build 
+        run: ctest
 
