@@ -86,9 +86,14 @@ jobs:
           ninja --version 
           cmake --version 
           clang --version
-      - name: Install VirtualEnv 
+      - name: Install VirtualEnv Mac/Ubuntu 
+        if: startsWith(matrix.config.os, 'macos') || startsWith(matrix.config.os, 'ubuntu')
         run: | 
           sudo pip3 install virtualenv
+      - name: Install VirtualEnv Windows 
+        if: startsWith(matrix.config.os, 'windows')
+        run: |
+            pip333.exe install virtualenv
       - name: Configure Tests
         shell: bash 
         run: |
