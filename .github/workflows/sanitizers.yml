@@ -93,7 +93,7 @@ jobs:
       - name: Install VirtualEnv Windows 
         if: startsWith(matrix.config.os, 'windows')
         run: |
-            pip333.exe install virtualenv
+            pip3.exe install virtualenv
       - name: Configure Tests
         shell: bash 
         run: |
