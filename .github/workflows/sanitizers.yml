@@ -75,11 +75,12 @@ jobs:
           sudo pip3 install virtualenv
           ninja --version 
           cmake --version
-      - name: Setup compiler 
+      - name: Setup GCC compiler 
         if: startsWith(matrix.config.cc, 'gcc')
         run: |
           export CC=gcc-10
           export CXX=g++-10
+      - name: Setup Clang compiler 
         if: startsWith(matrix.config.cc, 'clang')
         run: |
           export CC=clang 
