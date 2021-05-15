@@ -11,6 +11,7 @@ jobs:
     name: ${{ matrix.config.name }} 
     runs-on: ${{ matrix.config.os }} 
     strategy:
+      fail-fast: false
       matrix:
         config: 
         - {
@@ -98,7 +99,7 @@ jobs:
         run: |
           mkdir build 
           echo "Compiler: ${CC}"
-          cd bin && cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.generator }}"
+          cd build && cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.generator }}"
       - name: Build & Execute 
         shell: bash 
         run: cmake --build . --config ${{ matrix.config.build_type }}
