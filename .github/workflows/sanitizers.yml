@@ -26,8 +26,8 @@ jobs:
             name: "Windows MinGW",
             os: windows-latest,
             build_type: "Release",
-            cc: "gcc-10",
-            cxx: "g++-10",
+            cc: "gcc",
+            cxx: "g++",
             generator: "Ninja"
           }
         - { 
