@@ -97,7 +97,7 @@ void logger_printer::printTimeAndDate() const
     localtime_r(&t, &currentTime);
 #endif
 
-    utils::formatDateAndTime(buffer.data(), BufferSize, &currentTime);
+    utils::formatDateAndTime(buffer.data(), &currentTime);
     write_to_streams(buffer.data());
 }
 
