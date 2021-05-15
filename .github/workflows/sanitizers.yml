@@ -78,16 +78,6 @@ jobs:
           sudo pip3 install virtualenv
           ninja --version 
           cmake --version
-      - name: Setup GCC compiler 
-        if: startsWith(matrix.config.cc, 'gcc')
-        run: |
-          export CC=gcc-10
-          export CXX=g++-10
-      - name: Setup Clang compiler 
-        if: startsWith(matrix.config.cc, 'clang')
-        run: |
-          export CC=clang 
-          export CXX=clang++
 
       - name: Install dependencies on MacOS 
         if: startsWith(matrix.config.os, 'macos')
@@ -103,8 +93,7 @@ jobs:
         shell: bash 
         run: |
           mkdir build 
-          echo "Compiler: ${CC}"
-          cd build && cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.generator }}"
+          cd build && cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_CC_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.generator }}"
       - name: Build & Execute 
         shell: bash 
         working-directory: build
