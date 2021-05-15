@@ -1,0 +1,104 @@
+name: UnitTestsSanitizers
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  ut:
+    name: ${{ matrix.config.name }} 
+    runs-on: ${{ matrix.config.os }} 
+    strategy:
+      matrix:
+        config: 
+        - {
+            name: "Windows MSVC",
+            os: windows-latest,
+            build_type: "Release",
+            cc: "cl",
+            cxx: "cl",
+            generator: "Visual Studio 16 2019"
+          }
+        - {
+            name: "Windows MinGW",
+            os: windows-latest,
+            build_type: "Release",
+            cc: "gcc-10",
+            cxx: "g++-10",
+            generator: "Ninja"
+          }
+        - { 
+            name: "Ubuntu 20.04 GCC",
+            os: ubuntu-20.04,
+            build_type: "Release",
+            cc: "gcc-10",
+            cxx: "g++-10",
+            generator: "Ninja"
+          }
+        - {
+            name: "Ubuntu 20.04 Clang",
+            os: ubuntu-20.04,
+            build_type: "Release",
+            cc: "clang",
+            cxx: "clang++",
+            generator: "Ninja"
+          }
+        - {
+            name: "MacOS Clang",
+            os: macos-latest, 
+            build_type: "Release",
+            cc: "clang",
+            cxx: "clang++", 
+            generator: "Ninja" 
+          }
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Print Environment
+        run: |
+          echo github.event.action: ${{ github.event.action }}
+          echo github.event_name: ${{ github.event_name }}
+      - name: Install dependencies on Windows 
+        if: startsWith(matrix.config.os, 'windows')
+        run: | 
+          choco install ninja cmake python3 pip
+          ninja --version 
+          cmake --version
+        
+      - name: Install dependencies on Ubuntu 
+        if: startsWith(matrix.config.os, 'ubuntu')
+        run: | 
+          sudo apt update
+          sudo apt install -y ${{ matrix.config.cc }} ${{ matrix.config.cxx }} ninja-build python3 python3-pip
+          sudo pip3 install virtualenv
+          ninja --version 
+          cmake --version
+      - name: Setup compiler 
+        if: startsWith(matrix.config.cc, 'gcc')
+        run: |
+          export CC=gcc-10
+          export CXX=g++-10
+        if: startsWith(matrix.config.cc, 'clang')
+        run: |
+          export CC=clang 
+          export CXX=clang++
+
+      - name: Install dependencies on MacOS 
+        if: startsWith(matrix.config.os, 'macos')
+        run: |
+          brew install cmake ninja
+          ninja --version 
+          cmake --version 
+          clang --version
+      - name: Configure Tests
+        shell: bash 
+        run: |
+          mkdir build 
+          echo "Compiler: ${CC}"
+          cd bin && cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.generator }}"
+      - name: Build & Execute 
+        shell: bash 
+        run: cmake --build . --config ${{ matrix.config.build_type }}
+

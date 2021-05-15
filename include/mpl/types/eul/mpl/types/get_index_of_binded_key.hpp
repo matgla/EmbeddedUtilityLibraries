@@ -28,13 +28,13 @@ namespace types
 {
 namespace details
 {
-template <typename T, std::size_t Index, typename... Args>
+template <typename T, int Index, typename... Args>
 struct get_index_of_binded_key;
 
-template <typename T, std::size_t Index, typename Arg, typename... Args>
+template <typename T, int Index, typename Arg, typename... Args>
 struct get_index_of_binded_key<T, Index, Arg, Args...>
 {
-    constexpr static std::size_t get_index()
+    constexpr static int get_index()
     {
         if constexpr (!is_binded<Arg>::value)
         {
@@ -47,17 +47,17 @@ struct get_index_of_binded_key<T, Index, Arg, Args...>
         return get_index_of_binded_key<T, Index + 1, Args...>::get_index();
     }
 
-    constexpr static std::size_t value = get_index();
+    constexpr static int value = get_index();
 };
 
-template <typename T, std::size_t Index>
+template <typename T, int Index>
 struct get_index_of_binded_key<T, Index>
 {
-    constexpr static std::size_t get_index()
+    constexpr static int get_index()
     {
-        return std::numeric_limits<std::size_t>::max();
+        return -1;
     }
-    constexpr static std::size_t value = get_index();
+    constexpr static int value = get_index();
 };
 } // namespace details
 
@@ -68,14 +68,14 @@ template <typename... TupleArgs>
 struct tuple_index_getter<std::tuple<TupleArgs...>>
 {
     template <typename Key>
-    constexpr static std::size_t by_key()
+    constexpr static int by_key()
     {
         return details::get_index_of_binded_key<Key, 0, TupleArgs...>::value;
     }
 };
 
 template <typename Key, typename... TupleArgs>
-constexpr static std::size_t get_index_from_tuple_by_key(const std::tuple<TupleArgs...>& /*unused*/)
+constexpr static int get_index_from_tuple_by_key(const std::tuple<TupleArgs...>& /*unused*/)
 {
     return details::get_index_of_binded_key<Key, 0, TupleArgs...>::value;
 }
