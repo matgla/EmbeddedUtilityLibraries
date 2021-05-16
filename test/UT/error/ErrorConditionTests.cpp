@@ -34,7 +34,7 @@ public:
     }
 };
 
-static MyCategory category; // NOLINT(fuchsia-statically-constructed-objects)
+static MyCategory category; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
 template <>
 error_condition make_error_condition(MyErrors e)

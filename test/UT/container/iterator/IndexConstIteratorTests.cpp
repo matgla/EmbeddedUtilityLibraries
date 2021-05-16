@@ -33,10 +33,11 @@ struct TestingObject
     }
 
     Data value = {0};
-    static std::size_t index;
+    static std::size_t index; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 };
 
-std::size_t TestingObject::index = 0;
+std::size_t TestingObject::index = 0; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+
 
 TEST_CASE("IndexConstIterator should", "[IndexConstIteratorTests]")
 {

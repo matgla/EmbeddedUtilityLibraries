@@ -29,20 +29,20 @@ struct event_listener
     {
         if (this != &ev)
         {
-            listener = this;
+            listener_ = this;
         }
     }
 
     constexpr event_listener()
     {
-        listener = this;
+        listener_ = this;
     }
 
     event_listener& operator=(const event_listener& ev)
     {
         if (this != &ev)
         {
-            listener = this;
+            listener_ = this;
         }
     }
 
@@ -50,15 +50,21 @@ struct event_listener
     event_listener& operator=(event_listener&& ev) = delete;
     ~event_listener()
     {
-        listener = nullptr;
+        listener_ = nullptr;
     }
 
     virtual void handle_event(const Event& event) = 0;
 
-    static SelfType* listener;
-};
+    static void post_event(const Event& event)
+    {
+        if (listener_)
+        {
+            listener_->handle_event(event);
+        }
+    }
 
-template <typename T>
-typename event_listener<T>::SelfType* event_listener<T>::listener = nullptr;
+private:
+    static inline SelfType* listener_ = nullptr; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+};
 
 } // namespace eul::kernel

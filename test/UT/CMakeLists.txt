@@ -14,19 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-include_directories(SYSTEM ../lib)
-include_directories(${PROJECT_SOURCE_DIR}/include)
-include_directories(${PROJECT_SOURCE_DIR}/src)
-include_directories(${PROJECT_SOURCE_DIR})
-
 add_library (catch INTERFACE)
 
 target_sources (catch INTERFACE 
     ${CMAKE_CURRENT_SOURCE_DIR}/Runner.cpp
 )
 
-target_include_directories (catch INTERFACE 
-    SYSTEM ${PROJECT_SOURCE_DIR}/test/lib
+target_include_directories (catch 
+    SYSTEM 
+    INTERFACE 
+    ${PROJECT_SOURCE_DIR}/test/lib
 )
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} -V)
@@ -43,4 +40,5 @@ add_subdirectory (memory)
 add_subdirectory (mpl)
 add_subdirectory (signals)
 add_subdirectory (timer)
+add_subdirectory (utils)
 

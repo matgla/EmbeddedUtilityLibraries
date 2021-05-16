@@ -14,23 +14,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-add_executable (eul_timer_tests)
+add_executable (eul_utils_tests)
 
-target_sources (eul_timer_tests
+target_sources (eul_utils_tests
     PRIVATE 
-        ${CMAKE_CURRENT_SOURCE_DIR}/TimeoutTimerTests.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/TimerManagerTests.cpp 
-        ${CMAKE_CURRENT_SOURCE_DIR}/TimerTests.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/StringTests.cpp
 )
 
-target_link_libraries (eul_timer_tests 
+target_link_libraries (eul_utils_tests 
     PRIVATE 
-        eul_timer
+        eul_utils
         eul_private_flags 
-        test_stubs
         catch
 )
 
-add_test (timer_tests eul_timer_tests)
-add_dependencies (check eul_timer_tests)
+add_test (utils_tests eul_utils_tests)
+add_dependencies (check eul_utils_tests)
 

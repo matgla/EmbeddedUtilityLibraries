@@ -20,3 +20,8 @@ target_sources(test_stubs
     INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/time/TimeStub.hpp
 )
+
+target_include_directories(test_stubs 
+    INTERFACE 
+        ${PROJECT_SOURCE_DIR}
+)

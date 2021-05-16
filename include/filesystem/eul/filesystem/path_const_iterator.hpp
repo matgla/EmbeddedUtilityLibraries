@@ -14,7 +14,7 @@ public:
     explicit path_const_iterator(std::string_view path);
 
     path_const_iterator operator++(int);
-    path_const_iterator& operator++();
+    const path_const_iterator& operator++();
 
     std::string_view operator*() const;
 

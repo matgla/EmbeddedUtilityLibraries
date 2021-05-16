@@ -36,32 +36,50 @@ public:
     {
     }
 
-    vector(const matrix<T, N, 1>& o) : data_(o)
+    explicit vector(const matrix<T, N, 1>& o) : data_(o)
     {
     }
 
     using self_type = vector<T, N>;
+    
+    vector& operator=(const matrix<T, N, 1>& o)
+    {
+        data_ = o;
+        return *this;
+    }
 
-    T dot(const self_type& other) const
+
+    [[nodiscard]] T dot(const self_type& other) const
     {
         T ans = 0;
 
         for (std::size_t i = 0; i < N; ++i)
         {
-            ans += this->data_[0][i] * other[i];
+            ans += this->data_.at(0).at(i) * other.at(i);
         }
         return ans;
     }
 
     T& operator[](std::size_t index) 
     {
-        return this->data_[0][index];
+        return this->data_.at(0).at(index);
     }
 
     const T& operator[](std::size_t index) const 
     {
-        return this->data_[0][index];
+        return this->data_.at(0).at(index);
     }
+
+    T& at(std::size_t index) 
+    {
+        return this->data_.at(0).at(index);
+    }
+
+    [[nodiscard]] const T& at(std::size_t index) const 
+    {
+        return this->data_.at(0).at(index);
+    }
+
 
     bool operator==(const self_type& other) const 
     {
@@ -76,7 +94,7 @@ public:
 
     self_type operator-(const self_type& other) const 
     {
-        self_type n = data_;
+        self_type n(data_);
         n.data_ -= other.data_;
         return n;
     }
@@ -99,7 +117,7 @@ public:
         return data_;
     }
 
-    const matrix<T, N, 1>& data() const 
+    [[nodiscard]] const matrix<T, N, 1>& data() const 
     {
         return data_;
     }

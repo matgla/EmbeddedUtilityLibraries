@@ -26,12 +26,12 @@
 namespace eul::utils
 {
 
-void reverse(char* s);
+void reverse(std::span<char> s);
 
 char int_to_char(int n);
 
 template <typename T>
-inline T itoa(T n, char* s, int base_n)
+inline T itoa(T n, std::span<char> s, int base_n)
 {
     static_assert(std::is_arithmetic<T>::value, "Type provided for serialize isn't arithmetic");
     T i = 0;
@@ -57,7 +57,7 @@ inline T itoa(T n, char* s, int base_n)
 }
 
 template <typename T>
-inline T itoa(T n, char* s)
+inline T itoa(T n, std::span<char> s)
 {
     constexpr int base = 10;
     return itoa<T>(n, s, base);
@@ -76,11 +76,5 @@ inline int strlen(const std::span<T>& data)
 
     return -1;
 }
-
-int writeToBufferAligned(char* buffer, int data, char suffix, uint8_t size, char prefix);
-int writeToBufferAligned(char* buffer, int data, char suffix);
-int formatTime(char* buffer, std::tm* t);
-int formatDate(char* buffer, std::tm* t);
-void formatDateAndTime(char* buffer, std::tm* t);
 
 } // namespace eul::utils

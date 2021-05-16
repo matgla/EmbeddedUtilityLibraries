@@ -266,13 +266,13 @@ private:
     [[nodiscard]]
     IFunctionInvoker& get_invoker()
     {
-        return *reinterpret_cast<IFunctionInvoker*>(&storage_);
+        return *reinterpret_cast<IFunctionInvoker*>(&storage_); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
     }
 
     [[nodiscard]]
     const IFunctionInvoker& get_invoker() const
     {
-        return *reinterpret_cast<const IFunctionInvoker*>(&storage_);
+        return *reinterpret_cast<const IFunctionInvoker*>(&storage_); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
     }
 
     template <class FunctionType>

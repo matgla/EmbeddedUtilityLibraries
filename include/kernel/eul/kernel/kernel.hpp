@@ -73,10 +73,7 @@ public:
     template <typename EventType>
     constexpr void post_event(const EventType& event) const
     {
-        if (event_listener<EventType>::listener)
-        {
-            event_listener<EventType>::listener->handle_event(event);
-        }
+        event_listener<EventType>::post_event(event);
     }
 
 private:

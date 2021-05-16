@@ -41,7 +41,7 @@ public:
         std::size_t i = 0;
         for (auto& row : l)
         {
-            std::copy(row.begin(), row.end(), data_[i].begin());
+            std::copy(row.begin(), row.end(), data_.at(i).begin());
             ++i;
         }
     }
@@ -52,7 +52,7 @@ public:
         {
             for (std::size_t j = 0; j < Columns; ++j)
             {
-                other[i][j] += data_[i][j]; 
+                other.at(i).at(j) += data_.at(i).at(j); 
             }
         }
 
@@ -65,7 +65,7 @@ public:
         {
             for (std::size_t j = 0; j < Columns; ++j)
             {
-                data_[i][j] += other[i][j]; 
+                data_.at(i).at(j) += other.at(i).at(j); 
             }
         }
         return *this;
@@ -77,7 +77,7 @@ public:
         {
             for (std::size_t j = 0; j < Columns; ++j)
             {
-                other[i][j] = data_[i][j] - other[i][j]; 
+                other.at(i).at(j) = data_.at(i).at(j) - other.at(i).at(j); 
             }
         }
 
@@ -90,7 +90,7 @@ public:
         {
             for (std::size_t j = 0; j < Columns; ++j)
             {
-                data_[i][j] -= other[i][j]; 
+                data_.at(i).at(j) -= other.at(i).at(j); 
             }
         }
         return *this;
@@ -103,7 +103,7 @@ public:
         {
             for (std::size_t j = 0; j < Columns; ++j)
             {
-                other[i][j] = data_[i][j] * mul; 
+                other.at(i).at(j) = data_.at(i).at(j) * mul; 
             }
         }
 
@@ -116,7 +116,7 @@ public:
         {
             for (std::size_t j = 0; j < Columns; ++j)
             {
-                data_[i][j] *= mul; 
+                data_.at(i).at(j) *= mul; 
             }
         }
         return *this;
@@ -134,9 +134,9 @@ public:
                 T part = 0; 
                 for (std::size_t x = 0; x < Columns; ++x)
                 {
-                    part += data_[i][x] * other[x][j];
+                    part += data_.at(i).at(x) * other.at(x).at(j);
                 }
-                answer[i][j] = part;
+                answer.at(i).at(j) = part;
             }
         }
 
@@ -151,12 +151,22 @@ public:
 
     const std::array<T, Columns>& operator[](std::size_t i) const 
     {
-        return data_[i];
+        return data_.at(i);
     }
 
     std::array<T, Columns>& operator[](std::size_t i) 
     {
-        return data_[i];
+        return data_.at(i);
+    }
+
+    [[nodiscard]] const std::array<T, Columns>& at(std::size_t i) const 
+    {
+        return data_.at(i);
+    }
+
+    std::array<T, Columns>& at(std::size_t i) 
+    {
+        return data_.at(i);
     }
 
     constexpr static std::size_t rows() 
@@ -169,7 +179,7 @@ public:
         return Columns;
     }
 
-protected:
+private:
     std::array<std::array<T, Columns>, Rows> data_;
 };
 

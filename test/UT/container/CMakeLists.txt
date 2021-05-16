@@ -27,7 +27,8 @@ target_sources (eul_container_tests
 )
 
 target_link_libraries (eul_container_tests 
-    PRIVATE eul_container
+    PRIVATE 
+        eul_container
         eul_private_flags 
         catch
 )
