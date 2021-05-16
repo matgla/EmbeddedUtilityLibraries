@@ -59,7 +59,7 @@ jobs:
           }
         exclude: 
           - sanitizers.name: "LeakSanitizer" 
-            config.os: macos_latest
+            config.os: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Print Environment
