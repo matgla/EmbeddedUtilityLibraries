@@ -39,6 +39,8 @@ find_package(CMakeUtils REQUIRED)
 
 include (sanitizers)
 add_sanitizers()
+include (coverage) 
+add_coverage()
 
 add_library(eul_public_flags INTERFACE)
 add_library(eul_private_flags INTERFACE)
@@ -63,8 +65,8 @@ else ()
     )
 endif ()
 
-target_link_libraries(eul_public_flags INTERFACE enable_sanitizers)
-target_link_libraries(eul_private_flags INTERFACE enable_sanitizers)
+target_link_libraries(eul_public_flags INTERFACE enable_sanitizers coverage_flags)
+target_link_libraries(eul_private_flags INTERFACE enable_sanitizers coverage_flags)
 
 target_link_options(eul_private_flags INTERFACE ${eul_cxx_linking_flags})
 
