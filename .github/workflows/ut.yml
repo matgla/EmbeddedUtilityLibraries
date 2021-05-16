@@ -104,6 +104,8 @@ jobs:
         run: ctest
       - name: Get coverage 
         if: startsWith(matrix.config.os, 'ubuntu') && startsWith(matrix.config.cc, 'gcc')
+        shell: bash 
+        working-directory: build
         run: make run_lcov
       - name: Publish coverage 
         if: startsWith(matrix.config.os, 'ubuntu') && startsWith(matrix.config.cc, 'gcc')
