@@ -97,7 +97,12 @@ void logger_printer::printTimeAndDate() const
     localtime_r(&t, &currentTime);
 #endif
 
-    auto* formatted_time = std::ctime(&t);
+#if defined(_MSC_VER)
+    char formatted_time[26];
+    std::ctime_s(formatted_time, sizeof formatted_time, &t);
+#else 
+    char* formatted_time = std::ctime(&t);
+#endif 
     std::memcpy(buffer.data(), formatted_time, std::strlen(formatted_time));
     write_to_streams(buffer.data());
 }
