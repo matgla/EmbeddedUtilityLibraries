@@ -103,9 +103,9 @@ jobs:
         working-directory: build 
         run: ctest
       - name: Get coverage 
-        if: startsWith(matrix.config.os, 'ubuntu') && startsWith(matrix.config.cc, 'gcc')
         shell: bash 
         working-directory: build
+        if: startsWith(matrix.config.os, 'ubuntu') && startsWith(matrix.config.cc, 'gcc')
         run: | 
           echo `pwd`
           ninja run_lcov
