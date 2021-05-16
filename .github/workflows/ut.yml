@@ -112,8 +112,9 @@ jobs:
 
       - name: Publish coverage 
         if: startsWith(matrix.config.os, 'ubuntu') && startsWith(matrix.config.cc, 'gcc')
-        working-directory: build
         uses: coverallsapp/github-action@master 
+        shell: bash 
+        working-directory: build
         with: 
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
