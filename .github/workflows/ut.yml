@@ -106,7 +106,10 @@ jobs:
         if: startsWith(matrix.config.os, 'ubuntu') && startsWith(matrix.config.cc, 'gcc')
         shell: bash 
         working-directory: build
-        run: make run_lcov
+        run: | 
+          echo `pwd`
+          make run_lcov
+
       - name: Publish coverage 
         if: startsWith(matrix.config.os, 'ubuntu') && startsWith(matrix.config.cc, 'gcc')
         uses: coverallsapp/github-action@master 
