@@ -22,23 +22,6 @@ jobs:
             cxx: "g++-10",
             packages: "g++-10 gcc-10 ninja-build python3 python3-pip",
             generator: "Ninja"
-            }
-        - {
-            name: "Ubuntu 20.04 Clang",
-            os: ubuntu-20.04,
-            build_type: "Release",
-            cc: "clang",
-            cxx: "clang++",
-            packages: "clang ninja-build python3 python3-pip",
-            generator: "Ninja"
-          }
-        - {
-            name: "MacOS Clang",
-            os: macos-latest, 
-            build_type: "Release",
-            cc: "clang",
-            cxx: "clang++", 
-            generator: "Ninja" 
           }
         sanitizers: 
         - {
@@ -57,9 +40,6 @@ jobs:
             flag: "ENABLE_TSAN",
             name: "ThreadSanitizer"
           }
-        exclude: 
-          - sanitizers.name: "LeakSanitizer" 
-            config.os: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Print Environment
@@ -75,13 +55,6 @@ jobs:
           ninja --version 
           cmake --version
 
-      - name: Install dependencies on MacOS 
-        if: startsWith(matrix.config.os, 'macos')
-        run: |
-          brew install cmake ninja
-          ninja --version 
-          cmake --version 
-          clang --version
       - name: Install VirtualEnv Mac/Ubuntu 
         if: startsWith(matrix.config.os, 'macos') || startsWith(matrix.config.os, 'ubuntu')
         run: | 
