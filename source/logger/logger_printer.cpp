@@ -99,7 +99,7 @@ void logger_printer::printTimeAndDate() const
 
 #if defined(_MSC_VER)
     char formatted_time[26];
-    std::ctime_s(formatted_time, sizeof formatted_time, &t);
+    std::_ctime32_s(formatted_time, &t);
 #else 
     char* formatted_time = std::ctime(&t);
 #endif 
