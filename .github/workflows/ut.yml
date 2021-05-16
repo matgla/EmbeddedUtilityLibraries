@@ -108,7 +108,7 @@ jobs:
         working-directory: build
         run: | 
           echo `pwd`
-          make run_lcov
+          ninja run_lcov
 
       - name: Publish coverage 
         if: startsWith(matrix.config.os, 'ubuntu') && startsWith(matrix.config.cc, 'gcc')
