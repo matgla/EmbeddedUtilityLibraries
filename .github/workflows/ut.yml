@@ -110,6 +110,12 @@ jobs:
           echo `pwd`
           ninja run_lcov
 
+      - name: Configure NodeJS 
+        uses: actions/setup-node@v1 
+        if: startsWith(matrix.config.os, 'ubuntu') && startsWith(matrix.config.cc, 'gcc')
+        with: 
+          node-version: 10.x
+
       - name: Publish coverage 
         if: startsWith(matrix.config.os, 'ubuntu') && startsWith(matrix.config.cc, 'gcc')
         uses: coverallsapp/github-action@master 
