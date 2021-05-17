@@ -115,6 +115,12 @@ jobs:
         if: startsWith(matrix.config.os, 'ubuntu') && startsWith(matrix.config.cc, 'gcc')
         with: 
           node-version: 10.x
+      - name: Check node version  
+        if: startsWith(matrix.config.os, 'ubuntu') && startsWith(matrix.config.cc, 'gcc')
+        shell: bash
+        run: |
+          node --version
+
 
       - name: Publish coverage 
         if: startsWith(matrix.config.os, 'ubuntu') && startsWith(matrix.config.cc, 'gcc')
