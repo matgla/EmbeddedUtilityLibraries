@@ -90,6 +90,22 @@ constexpr std::array<uint8_t, table_size> generate_table(uint8_t polynomial)
     return table;
 }
 
+
+constexpr std::array<uint16_t, table_size> generate_table(uint16_t polynomial)
+{
+    std::array<uint16_t, table_size> table{};
+    for (uint32_t i = 0; i < table_size; ++i)
+    {
+        uint16_t crc = static_cast<uint16_t>(i);
+        for (uint32_t bit = 0; bit < 16; ++bit)
+        {
+            crc = static_cast<uint16_t>(((crc & 0x8000) != 0 ? (crc << 1) ^ polynomial : crc << 1));
+        }
+        table.at(i) = crc;
+    }
+    return table;
+}
+
 constexpr uint32_t reverse(const uint32_t data)
 {
     return static_cast<uint32_t>(reverse(static_cast<uint8_t>(data)) << 24
@@ -98,15 +114,44 @@ constexpr uint32_t reverse(const uint32_t data)
             | reverse(static_cast<uint8_t>(data >> 24)) << 0);
 }
 
+constexpr uint16_t reverse(const uint16_t data) 
+{
+    return static_cast<uint16_t>(
+        reverse(static_cast<uint8_t>(data)) << 8
+        | reverse(static_cast<uint8_t>(data >> 8)) << 0
+    );
+}
+
 inline uint8_t calculate_part(uint8_t crc, uint8_t val)
 {
     static_cast<void>(crc);
     return val;
 }
 
+inline uint16_t calculate_part(uint16_t crc, uint16_t val) 
+{
+    static_cast<void>(crc);
+    return static_cast<uint16_t>(crc << 8) ^ val;
+}
+
 inline uint32_t calculate_part(uint32_t crc, uint32_t val)
 {
     return val ^ (crc >> 8);
+}
+
+inline uint32_t get_index_for_table(uint32_t crc, uint8_t byte)
+{
+    return (crc ^ byte) & 0xff; 
+}
+
+inline uint8_t get_index_for_table(uint8_t crc, uint8_t byte)
+{
+    return (crc ^ byte) & 0xff; 
+}
+
+inline uint16_t get_index_for_table(uint16_t crc, uint8_t byte)
+{
+    return ((crc >> 8) ^ byte) & 0xff; 
 }
 
 template <typename T, T polynomial, T init, T xor_out, bool reflected>
@@ -117,7 +162,7 @@ T calculate_crc(const std::span<const uint8_t>& data)
     T crc                       = init;
     for (const auto byte : data)
     {
-        crc = calculate_part(crc, table.at((crc ^ byte) & 0xff));
+        crc = calculate_part(crc, table.at(get_index_for_table(crc, byte)));
     }
     return crc ^ xor_out;
 }
@@ -133,3 +178,16 @@ uint8_t calculate_crc8(const std::span<const uint8_t> data)
 {
     return calculate_crc<uint8_t, polynomial, 0, 0, false>(data);
 }
+
+constexpr uint16_t ccit_polynomial = 0x1021;
+
+template <uint16_t polynomial = 0x1021>
+uint16_t calculate_crc16(const std::span<const uint8_t> data)
+{
+    if constexpr (ccit_polynomial)
+    {
+        return calculate_crc<uint16_t, polynomial, 0, 0, false>(data);
+    }
+    return 0;
+}
+

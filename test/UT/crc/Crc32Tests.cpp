@@ -43,4 +43,15 @@ TEST_CASE("Crc32Tests", "[CRC_TESTS]")
         std::array<uint8_t, 4> data2 = {0xff, 0xff, 0xff, 0xff};
         REQUIRE(0xde == calculate_crc8(data2));
     }
+    SECTION("Calculate correctly CRC16-CCIT") 
+    {
+        std::array<uint8_t, 3> data = {0x2, 0x3, 0xff};
+        REQUIRE(0x25c3 == calculate_crc16<ccit_polynomial>(data));
+
+        data[1] = 0xff;
+        REQUIRE(0x736f == calculate_crc16<ccit_polynomial>(data));
+        std::array<uint8_t, 4> data2 = {0xff, 0xff, 0xff, 0xff};
+        REQUIRE(0x99cf == calculate_crc16<ccit_polynomial>(data2));
+    }
+
 }
