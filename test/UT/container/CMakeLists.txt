@@ -21,6 +21,7 @@ target_sources (eul_container_tests
         ${CMAKE_CURRENT_SOURCE_DIR}/iterator/IndexConstIteratorTests.cpp 
         ${CMAKE_CURRENT_SOURCE_DIR}/iterator/IndexIteratorTests.cpp 
         ${CMAKE_CURRENT_SOURCE_DIR}/observable/ObservingListTests.cpp 
+        ${CMAKE_CURRENT_SOURCE_DIR}/BlockFifoTests.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/RingBufferTests.cpp 
         ${CMAKE_CURRENT_SOURCE_DIR}/StaticDequeTests.cpp 
         ${CMAKE_CURRENT_SOURCE_DIR}/StaticVectorTests.cpp 
