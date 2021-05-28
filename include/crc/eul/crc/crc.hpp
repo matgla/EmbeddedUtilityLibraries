@@ -154,8 +154,8 @@ inline uint16_t get_index_for_table(uint16_t crc, uint8_t byte)
     return ((crc >> 8) ^ byte) & 0xff; 
 }
 
-template <typename T, T polynomial, T init, T xor_out, bool reflected>
-T calculate_crc(const std::span<const uint8_t>& data)
+template <typename T, T polynomial, T xor_out, bool reflected>
+T calculate_crc(const std::span<const uint8_t>& data, T init)
 {
     constexpr static T target_polynomial = reflected ? reverse(polynomial) : polynomial;
     constexpr static std::array<T, 256> table = generate_table(target_polynomial);
@@ -170,13 +170,13 @@ T calculate_crc(const std::span<const uint8_t>& data)
 template <uint32_t polynomial = 0x04c11db7>
 uint32_t calculate_crc32(const std::span<const uint8_t> data)
 {
-    return calculate_crc<uint32_t, polynomial, std::numeric_limits<uint32_t>::max(), std::numeric_limits<uint32_t>::max(), true>(data);
+    return calculate_crc<uint32_t, polynomial, std::numeric_limits<uint32_t>::max(), true>(data, std::numeric_limits<uint32_t>::max());
 }
 
 template <uint8_t polynomial = 0x07>
 uint8_t calculate_crc8(const std::span<const uint8_t> data)
 {
-    return calculate_crc<uint8_t, polynomial, 0, 0, false>(data);
+    return calculate_crc<uint8_t, polynomial, 0, false>(data, 0);
 }
 
 constexpr uint16_t ccit_polynomial = 0x1021;
@@ -184,9 +184,9 @@ constexpr uint16_t ccit_polynomial = 0x1021;
 template <uint16_t polynomial = 0x1021>
 uint16_t calculate_crc16(const std::span<const uint8_t> data)
 {
-    if constexpr (ccit_polynomial)
+    if constexpr (ccit_polynomial == polynomial)
     {
-        return calculate_crc<uint16_t, polynomial, 0, 0, false>(data);
+        return calculate_crc<uint16_t, polynomial, 0, false>(data, 0);
     }
     return 0;
 }
