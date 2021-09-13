@@ -18,6 +18,17 @@
 
 #include "eul/container/static_deque.hpp"
 
+struct TestClass
+{
+    int a;
+    int b;
+
+    bool operator==(const TestClass& other) const
+    {
+        return a == other.a && b == other.b;
+    }
+};
+
 TEST_CASE("StaticDeque should", "[StaticDeque]")
 {
     constexpr int value1 = 1;
@@ -73,6 +84,33 @@ TEST_CASE("StaticDeque should", "[StaticDeque]")
         REQUIRE(sut[2] == 1);
         REQUIRE(sut.size() == 3);
     }
+
+    SECTION("emplace_back elements")
+    {
+        eul::container::static_deque<TestClass, 2> sut;
+
+        REQUIRE(sut.emplace_back(1, 2));
+        REQUIRE(sut.emplace_back(-1, -2));
+        REQUIRE_FALSE(sut.emplace_back(1, 1));
+
+        REQUIRE(sut[0] == TestClass{.a = 1, .b = 2});
+        REQUIRE(sut[1] == TestClass{.a = -1, .b = -2});
+    }
+
+    SECTION("emplace_front elements")
+    {
+        eul::container::static_deque<TestClass, 3> sut;
+
+        REQUIRE(sut.emplace_front(1, 2));
+        REQUIRE(sut.emplace_front(-1, -2));
+        REQUIRE(sut.emplace_front(1, 1));
+        REQUIRE_FALSE(sut.emplace_front(1, 2));
+
+        REQUIRE(sut[0] == TestClass{.a = 1, .b = 1});
+        REQUIRE(sut[1] == TestClass{.a = -1, .b = -2});
+        REQUIRE(sut[2] == TestClass{.a = 1, .b = 2});
+    }
+
 
     SECTION("mixed push_back and front elements")
     {

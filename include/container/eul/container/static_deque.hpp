@@ -42,6 +42,12 @@ public:
     bool push_back(const T& data);
     bool push_front(const T& data);
 
+    template <typename... Args>
+    bool emplace_back(Args&&... args);
+
+    template <typename... Args>
+    bool emplace_front(Args&&... args);
+
     [[nodiscard]] std::size_t size() const;
     [[nodiscard]] constexpr std::size_t max_size() const;
     T& operator[](std::size_t index);
@@ -109,6 +115,37 @@ bool static_deque<T, Size>::push_front(const T& data)
     decrement_index(&tail_);
 
     data_.at(tail_) = data;
+    full_        = tail_ == head_;
+    return true;
+}
+
+template <typename T, std::size_t Size>
+template <typename... Args>
+bool static_deque<T, Size>::emplace_back(Args&&... args)
+{
+    if (full_)
+    {
+        return false;
+    }
+
+    new (&data_.at(head_)) T(args...);
+    increment_index(&head_);
+    full_ = tail_ == head_;
+    return true;
+}
+
+template <typename T, std::size_t Size>
+template <typename... Args>
+bool static_deque<T, Size>::emplace_front(Args&&... args)
+{
+    if (full_)
+    {
+        return false;
+    }
+
+    decrement_index(&tail_);
+
+    new (&data_.at(tail_)) T(args...);
     full_        = tail_ == head_;
     return true;
 }
