@@ -17,7 +17,7 @@
 #include <string>
 #include <type_traits>
 
-#include <catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include "eul/mpl/types/bind_type.hpp"
 #include "eul/mpl/types/get_index_of_binded_key.hpp"

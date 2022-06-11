@@ -25,7 +25,7 @@ target_link_libraries (eul_functional_tests
     PRIVATE 
         eul_functional
         eul_private_flags 
-        catch
+        Catch2WithMain
 )
 
 add_test (functional_tests eul_functional_tests)

@@ -14,23 +14,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-add_subdirectory(pool)
+# add_subdirectory(pool)
 
-add_executable (eul_memory_tests)
+# add_executable (eul_memory_tests)
 
-target_sources (eul_memory_tests
-    PRIVATE 
-        ${CMAKE_CURRENT_SOURCE_DIR}/ObserverTests.cpp
-)
+# target_sources (eul_memory_tests
+#     PRIVATE 
+#         ${CMAKE_CURRENT_SOURCE_DIR}/ObserverTests.cpp
+# )
 
-target_link_libraries (eul_memory_tests 
-    PRIVATE 
-        eul_memory
-        eul_private_flags 
-        eul_utils
-        catch
-)
+# target_link_libraries (eul_memory_tests 
+#     PRIVATE 
+#         eul_memory
+#         eul_private_flags 
+#         eul_utils
+#         Catch2WithMain
+# )
 
-add_test (memory_tests eul_memory_tests)
-add_dependencies (check eul_memory_tests)
+# add_test (memory_tests eul_memory_tests)
+# add_dependencies (check eul_memory_tests)
 

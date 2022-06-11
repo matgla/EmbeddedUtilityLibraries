@@ -17,7 +17,7 @@
 #include <algorithm>
 #include <cstdint>
 
-#include <catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include "eul/container/static_vector.hpp"
 

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#include <catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include "eul/timer/timeout_timer.hpp"
 #include "test/stubs/time/TimeStub.hpp"

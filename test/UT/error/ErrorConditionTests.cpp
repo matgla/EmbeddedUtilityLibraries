@@ -2,7 +2,7 @@
 #include "eul/error/error_category.hpp"
 #include "eul/error/system_category.hpp"
 
-#include <catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 namespace eul::error
 {

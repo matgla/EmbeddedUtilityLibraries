@@ -1,6 +1,6 @@
 #include "eul/filesystem/path.hpp"
 
-#include <catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 namespace eul::filesystem
 {

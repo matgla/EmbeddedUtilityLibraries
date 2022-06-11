@@ -31,7 +31,7 @@ target_link_libraries (eul_container_tests
     PRIVATE 
         eul_container
         eul_private_flags 
-        catch
+        Catch2WithMain 
 )
 
 add_test (container_tests eul_container_tests)

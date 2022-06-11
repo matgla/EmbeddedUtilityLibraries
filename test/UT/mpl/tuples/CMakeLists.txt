@@ -26,7 +26,7 @@ target_link_libraries (eul_mpl_tuples_tests
     PRIVATE 
         eul_mpl_tuples
         eul_private_flags 
-        catch
+        Catch2WithMain
 )
 
 add_test (mpl_tuples_tests eul_mpl_tuples_tests)

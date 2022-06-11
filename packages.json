@@ -9,6 +9,14 @@
             "options": {
                 "is_cmake_library": true
             }
+        },
+        {
+            "link": "https://github.com/catchorg/Catch2.git",
+            "type": "git",
+            "version": "v3.0.0-preview4",
+            "target": "catch",
+            "options": {
+            }
         }
     ]
 }

@@ -28,7 +28,7 @@ target_link_libraries (eul_timer_tests
         eul_timer
         eul_private_flags 
         test_stubs
-        catch
+        Catch2WithMain
 )
 
 add_test (timer_tests eul_timer_tests)

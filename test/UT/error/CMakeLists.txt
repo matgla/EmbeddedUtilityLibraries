@@ -27,7 +27,7 @@ target_link_libraries (eul_error_tests
     PRIVATE 
         eul_error
         eul_private_flags 
-        catch
+        Catch2WithMain
 )
 
 add_test (error_tests eul_error_tests)

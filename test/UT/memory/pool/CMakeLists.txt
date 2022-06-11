@@ -25,7 +25,7 @@ target_link_libraries (eul_memory_pool_tests
     PRIVATE 
         eul_memory_pool
         eul_private_flags 
-        catch
+        Catch2WithMain
 )
 
 add_test (memory_pool_tests eul_memory_pool_tests)

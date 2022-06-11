@@ -16,7 +16,7 @@
 
 #include <vector>
 
-#include <catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include "eul/container/observable/observing_list.hpp"
 #include "eul/container/observable/observing_node.hpp"

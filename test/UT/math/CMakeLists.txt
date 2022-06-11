@@ -26,7 +26,7 @@ target_link_libraries (eul_math_tests
     PRIVATE 
         eul_math
         eul_private_flags 
-        catch
+        Catch2WithMain
 )
 
 add_test (math_tests eul_math_tests)

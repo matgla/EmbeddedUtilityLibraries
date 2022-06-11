@@ -25,7 +25,7 @@ target_link_libraries (eul_kernel_tests
     PRIVATE 
         eul_kernel
         eul_private_flags 
-        catch
+        Catch2WithMain
 )
 
 add_test (kernel_tests eul_kernel_tests)

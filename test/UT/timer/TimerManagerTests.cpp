@@ -16,7 +16,7 @@
 
 #include <chrono>
 
-#include <catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include "eul/timer/timeout_timer.hpp"
 #include "eul/timer/timer_manager.hpp"

@@ -26,7 +26,7 @@ target_link_libraries (eul_filesystem_tests
     PRIVATE 
         eul_filesystem
         eul_private_flags 
-        catch
+        Catch2WithMain
 )
 
 add_test (filesystem_tests eul_filesystem_tests)

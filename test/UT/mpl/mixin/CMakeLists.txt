@@ -26,7 +26,7 @@ target_link_libraries (eul_mpl_mixin_tests
     PRIVATE 
         eul_mpl_mixin
         eul_private_flags 
-        catch
+        Catch2WithMain
 )
 
 add_test (mpl_mixin_tests eul_mpl_mixin_tests)

@@ -14,17 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-add_library (catch INTERFACE)
-
-target_sources (catch INTERFACE 
-    ${CMAKE_CURRENT_SOURCE_DIR}/Runner.cpp
-)
-
-target_include_directories (catch 
-    SYSTEM 
-    INTERFACE 
-    ${PROJECT_SOURCE_DIR}/test/lib
-)
+find_package(catch REQUIRED)
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} -V)
 
