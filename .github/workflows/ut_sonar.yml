@@ -9,16 +9,25 @@ on:
 jobs:
   ut_sonar:
     runs-on: ubuntu-latest
+    env: 
+      SONAR_SCANNER_VERSION: 4.7.0.2747
+      SONAR_SERVER_URL: "https://sonarcloud.io"
     container: 
       image: ghcr.io/matgla/eul_ci:latest
     steps:
-      - name: Execute docker
-        shell: bash
-        run: | 
-          echo "--This is running in my custom Docker image--"
+      - uses: actions/checkout@v2
       - name: Show toolchain versions
         shell: bash
         run: | 
           cmake --version
           gcc --version
+      - name: Prepare environment 
+        shell: bash 
+        run: |
+          mkdir build
+      - name: Generate CMake
+        shell: bash 
+        working-directory: build
+        run: | 
+          cmake .. -GNinja
           
