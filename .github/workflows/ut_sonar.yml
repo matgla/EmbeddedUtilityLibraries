@@ -1,0 +1,24 @@
+name: SonarQube - UT
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  ut_sonar:
+    runs-on: ubuntu-latest
+    container: 
+      image: ghcr.io/matgla/eul_ci:latest
+    steps:
+      - name: Execute docker
+        shell: bash
+        run: | 
+          echo "--This is running in my custom Docker image--"
+      - name: Show toolchain versions
+        shell: bash
+        run: | 
+          cmake --version
+          gcc --version
+          
