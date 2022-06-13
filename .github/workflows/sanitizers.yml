@@ -1,4 +1,4 @@
-name: UnitTestsSanitizers
+name: Sanitizers - UT
 
 on:
   push:
@@ -7,22 +7,17 @@ on:
     branches: [ master ]
 
 jobs:
-  ut:
-    name: ${{ matrix.config.name }} - ${{ matrix.sanitizers.name }} 
-    runs-on: ${{ matrix.config.os }} 
+  ut_sanitizers:
+    name: UT sanitizer - ${{ matrix.sanitizers.name }} 
+    runs-on: ubuntu-latest
+    container: 
+      image: ghcr.io/matgla/eul_ci:latest
+    credentials:
+      username: ${{ github.actor }}
+      password: ${{ secrets.github_token }}
     strategy:
       fail-fast: false
       matrix:
-        config: 
-        - { 
-            name: "Ubuntu 20.04 GCC",
-            os: ubuntu-20.04,
-            build_type: "Release",
-            cc: "gcc-10",
-            cxx: "g++-10",
-            packages: "g++-10 gcc-10 ninja-build python3 python3-pip",
-            generator: "Ninja"
-          }
         sanitizers: 
         - {
             flag: "ENABLE_ASAN",
@@ -46,30 +41,18 @@ jobs:
         run: |
           echo github.event.action: ${{ github.event.action }}
           echo github.event_name: ${{ github.event_name }}
-      - name: Install dependencies on Ubuntu 
-        if: startsWith(matrix.config.os, 'ubuntu')
-        run: | 
-          sudo apt update
-          sudo apt install -y ${{ matrix.config.packages }} 
-          sudo pip3 install virtualenv
-          ninja --version 
-          cmake --version
 
-      - name: Install VirtualEnv Mac/Ubuntu 
-        if: startsWith(matrix.config.os, 'macos') || startsWith(matrix.config.os, 'ubuntu')
-        run: | 
-          sudo pip3 install virtualenv
-      - name: Configure Tests
+      - name: Configure Environment
         shell: bash 
         run: |
-          mkdir build 
-          cd build && cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -D${{ matrix.sanitizers.flag }}=ON -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -G "${{ matrix.config.generator }}"
-      - name: Build UT 
+            mkdir build
+      - name: Configure project
+        shell: bash
+        working-directory: build
+        run: |
+          cmake .. -D${{ matrix.sanitizers.flag }}=ON -GNinja
+      - name: Build & Execute UT
         shell: bash 
         working-directory: build
-        run: cmake --build . --config ${{ matrix.config.build_type }}
-      - name: Run UT
-        shell: bash 
-        working-directory: build 
-        run: ctest
+        run: ninja check
 

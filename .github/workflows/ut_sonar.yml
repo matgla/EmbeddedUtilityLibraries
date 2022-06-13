@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ master ]
 
-env:
-  REGISTRY: ghcr.io
-
 jobs:
   ut_sonar:
     runs-on: ubuntu-latest
