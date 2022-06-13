@@ -7,18 +7,32 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-20.04
+  clang_tidy:
+    runs-on: ubuntu-latest
+    container: 
+      image: ghcr.io/matgla/eul_ci:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
     steps:
-    - name: install dependencies
-      run: |
-        sudo apt update
-        sudo apt install -y cmake python3 python3-pip clang-tidy gcc-10 g++-10 
-        sudo pip3 install virtualenv
     - uses: actions/checkout@v2
-    - name: configure & execute tests
+    - name: Show toolchain versions
+      shell: bash
       run: |
-        rm -rf bin && mkdir bin && cd bin && cmake .. -DCMAKE_CXX_COMPILER=g++-10 -DCMAKE_BUILD_TYPE=debug
-        run-clang-tidy
+        cmake --version
+    - name: Prepare environment
+      shell: bash 
+      run: |
+        mkdir build 
+    - name: Generate CMake 
+      shell: bash 
+      working-directory: build
+      run: |
+        cmake .. -GNinja -DENABLE_CLANG_TIDY=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++
+    - name: Run ClangTidy 
+      shell: bash 
+      working-directory: build
+      run: |
+        ninja run_clang_tidy
+      
 

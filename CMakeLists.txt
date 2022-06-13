@@ -94,12 +94,13 @@ if (NOT DISABLE_TESTS)
 endif ()
 
 if (ENABLE_CLANG_TIDY)
-
+    message (STATUS "Enabled ClangTidy")
     include(virtualenv)
 
     setup_virtualenv(clang_tidy_venv ${PROJECT_SOURCE_DIR}/requirements.txt)
 
-    message("PP: ${CMAKE_CURRENT_BINARY_DIR}")
+    find_program(RUN_CLANG_TIDY_EXE NAMES "run-clang-tidy" REQUIRED)
+
     add_custom_target(filter_out_compile_commands 
         COMMAND ${CMAKE_CURRENT_BINARY_DIR}/clang_tidy_venv/bin/compile-commands --file ${PROJECT_BINARY_DIR}/compile_commands.json 
             --filter_files=".*_deps/.*"
@@ -108,9 +109,8 @@ if (ENABLE_CLANG_TIDY)
     )
 
     add_custom_target(run_clang_tidy
-        run-clang-tidy 
         DEPENDS filter_out_compile_commands
-        COMMAND run-clang-tidy
+        COMMAND ${RUN_CLANG_TIDY_EXE}
     )
 
 endif()
