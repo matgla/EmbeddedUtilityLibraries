@@ -16,6 +16,10 @@
             "version": "v3.0.0-preview4",
             "target": "catch",
             "options": {
+                "cmake_variables": {
+                    "CATCH_BUILD_TESTING": "OFF",
+                    "CMAKE_CXX_STANDARD": "20"
+                }
             }
         }
     ]

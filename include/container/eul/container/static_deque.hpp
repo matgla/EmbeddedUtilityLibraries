@@ -128,7 +128,7 @@ bool static_deque<T, Size>::emplace_back(Args&&... args)
         return false;
     }
 
-    new (&data_.at(head_)) T(args...);
+    new (&data_.at(head_)) T{args...};
     increment_index(&head_);
     full_ = tail_ == head_;
     return true;
@@ -145,7 +145,7 @@ bool static_deque<T, Size>::emplace_front(Args&&... args)
 
     decrement_index(&tail_);
 
-    new (&data_.at(tail_)) T(args...);
+    new (&data_.at(tail_)) T{args...};
     full_        = tail_ == head_;
     return true;
 }
