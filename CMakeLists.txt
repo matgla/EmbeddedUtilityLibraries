@@ -108,9 +108,21 @@ if (ENABLE_CLANG_TIDY)
             ${CMAKE_CURRENT_BINARY_DIR}
     )
 
+    cmake_host_system_information(RESULT cpus QUERY NUMBER_OF_LOGICAL_CORES)
+
     add_custom_target(run_clang_tidy
         DEPENDS filter_out_compile_commands
-        COMMAND ${RUN_CLANG_TIDY_EXE}
+        COMMAND ${RUN_CLANG_TIDY_EXE} -j${cpus}
+        VERBATIM
     )
 
+    add_custom_command(OUTPUT clang_tidy_report.txt
+        COMMAND ${RUN_CLANG_TIDY_EXE} &> clang_tidy_report.txt
+        VERBATIM # optional
+    )
+
+    add_custom_target(run_clang_tidy_for_sonar
+        DEPENDS clang_tidy_report.txt
+        VERBATIM
+    )
 endif()

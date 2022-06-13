@@ -32,13 +32,18 @@ jobs:
         shell: bash 
         working-directory: build
         run: | 
-          cmake .. -GNinja
+          cmake .. -GNinja -DENABLE_CLANG_TIDY=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++
+      - name: Execute ClangTidy
+        shell: bash
+        working-directory: build
+        run: |
+          ninja run_clang_tidy_for_sonar
       - name: Execute SonarScanner 
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.compile-commands="build/compile_commands.json"
+          sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.compile-commands="build/compile_commands.json" --define sonar.cxx.clangtidy.reportPath=build/clang_tidy_report.txt 
 
           
