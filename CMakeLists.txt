@@ -117,8 +117,9 @@ if (ENABLE_CLANG_TIDY)
     )
 
     add_custom_command(OUTPUT clang_tidy_report.txt
-        COMMAND ${RUN_CLANG_TIDY_EXE} &> clang_tidy_report.txt
-        VERBATIM # optional
+        COMMAND ${RUN_CLANG_TIDY_EXE} -j${cpus} > clang_tidy_report.txt
+        DEPENDS filter_out_compile_commands
+        VERBATIM
     )
 
     add_custom_target(run_clang_tidy_for_sonar
