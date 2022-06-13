@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     container: 
       image: ghcr.io/matgla/eul_ci:latest
-    credentials:
-      username: ${{ github.actor }}
-      password: ${{ secrets.github_token }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
     strategy:
       fail-fast: false
       matrix:
