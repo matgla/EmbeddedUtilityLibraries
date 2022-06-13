@@ -1,4 +1,7 @@
 FROM ubuntu:latest
+ARG CMAKE_VERSION=3.23.2 
+ARG SONAR_SCANNER_VERSION=4.7.0.2747
+
 RUN apt-get update && apt-get install -y wget software-properties-common
 RUN apt-get install -y gcc g++ 
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -10,9 +13,16 @@ RUN echo gcc --version
 RUN apt-get install -y ninja-build
 RUN apt-get install -y openjdk-17-jdk 
 RUN apt-get install -y git python3 python3-pip python3-virtualenv
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.23.2/cmake-3.23.2-linux-x86_64.sh \ 
+RUN wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION-linux-x86_64.sh \ 
     && mkdir -p /opt/cmake \
-    && sh ./cmake-3.23.2-linux-x86_64.sh --skip-license --prefix=/opt/cmake \
-    && rm cmake-3.23.2-linux-x86_64.sh \
+    && sh ./cmake-$CMAKE_VERSION-linux-x86_64.sh --skip-license --prefix=/opt/cmake \
+    && rm cmake-$CMAKE_VERSION-linux-x86_64.sh \
     && update-alternatives --install /usr/bin/cmake cmake /opt/cmake/bin/cmake 60
+RUN apt-get install unzip
 RUN apt-get clean
+RUN cd /opt \
+    && wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip \
+    && unzip sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip -d sonar_scanner \
+    && rm -rf sonar-scanner-cli-$SOANR_SCANNER_VERSION-linux.zip
+ENV PATH=$PATH:/opt/sonar_scanner/sonar-scanner-$SONAR_SCANNER_VERSION-linux/bin
+RUN echo $PATH
