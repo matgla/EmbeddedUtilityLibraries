@@ -1,39 +1,29 @@
 #include "eul/filesystem/path.hpp"
 
+// TODO(mateusz): Remove std::string, should be replaced with some custom string with known size
+
 namespace eul::filesystem
 {
 
-path::path(std::string_view p)
-    : path_(p)
+path::path(std::string_view path)
+    : path_(path)
 {
 }
 
-path::path(const path& p) = default;
-
-path::path(const char* p)
-    : path_(p)
+path::path(const char* path)
+    : path_(path)
 {
 }
 
-path& path::operator=(const path& p)
+path& path::operator=(const std::string_view& path)
 {
-    if (this != &p)
-    {
-        this->path_ = p.path_;
-    }
+    path_ = path;
     return *this;
 }
 
-
-path& path::operator=(const std::string_view& p)
+path& path::operator=(const char* path)
 {
-    path_ = p;
-    return *this;
-}
-
-path& path::operator=(const char* p)
-{
-    path_ = p;
+    path_ = path;
     return *this;
 }
 
@@ -43,6 +33,57 @@ bool path::is_absolute() const
 {
     return path_.empty() ? false : path_[0] == '/';
 }
+
+void path::convert_slashes(std::string& converted_path) const
+{
+    if (!converted_path.empty())
+    {
+        std::size_t last_slash = converted_path.find_last_of('/');
+        if (last_slash != std::string::npos)
+        {
+            converted_path = converted_path.substr(0, last_slash);
+            if (converted_path.empty())
+            {
+                converted_path = "/";
+            }
+        }
+        else
+        {
+            if (is_absolute())
+            {
+                converted_path = "/";
+            }
+            else
+            {
+                if (converted_path.find("..") != std::string::npos)
+                {
+                    converted_path += "/";
+                    converted_path += "..";
+                }
+                else if (converted_path == ".")
+                {
+                    converted_path = "..";
+                }
+                else
+                {
+                    converted_path = ".";
+                }
+            }
+        }
+    }
+    else
+    {
+        if (is_absolute())
+        {
+            converted_path = "/";
+        }
+        else
+        {
+            converted_path = "..";
+        }
+    }
+}
+
 
 // TODO(mateusz): rewrite this, it's quite complex
 path path::lexically_normal() const
@@ -54,54 +95,10 @@ path path::lexically_normal() const
         {
             continue;
         }
+
         if (part == "..")
         {
-            if (!converted_path.empty())
-            {
-                std::size_t last_slash = converted_path.find_last_of('/');
-                if (last_slash != std::string::npos)
-                {
-                    converted_path = converted_path.substr(0, last_slash);
-                    if (converted_path.empty())
-                    {
-                        converted_path = "/";
-                    }
-                }
-                else
-                {
-                    if (is_absolute())
-                    {
-                        converted_path = "/";
-                    }
-                    else
-                    {
-                        if (converted_path.find("..") != std::string::npos)
-                        {
-                            converted_path += "/";
-                            converted_path += "..";
-                        }
-                        else if (converted_path == ".")
-                        {
-                            converted_path = "..";
-                        }
-                        else
-                        {
-                            converted_path = ".";
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (is_absolute())
-                {
-                    converted_path = "/";
-                }
-                else
-                {
-                    converted_path = "..";
-                }
-            }
+            convert_slashes(converted_path);
         }
         else
         {
@@ -127,9 +124,9 @@ path path::lexically_relative(const path& base) const
         {
             relative = relative.substr(first_not_slash, relative.length());
         }
-        return path(relative);
+        return {std::string_view{relative}};
     }
-    return path("");
+    return {""};
 }
 
 path path::parent_path() const
@@ -137,15 +134,15 @@ path path::parent_path() const
     std::size_t last_slash = path_.find_last_of('/');
     if (last_slash == std::string::npos)
     {
-        return path("");
+        return {""};
     }
 
     if (last_slash == 0)
     {
-        return path("/");
+        return {"/"};
     }
 
-    return path(path_.substr(0, last_slash));
+    return {std::string_view{path_}.substr(0, last_slash)};
 }
 
 std::string path::filename() const

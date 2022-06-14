@@ -33,6 +33,7 @@ class function<ReturnType(Args...), Size>
 {
     struct IFunctionInvoker // NOLINT(cppcoreguidelines-special-member-functions)
     {
+    public:
         virtual ~IFunctionInvoker()                       = default;
         virtual ReturnType operator()(Args... args)       = 0;
         virtual ReturnType operator()(Args... args) const = 0;
@@ -197,18 +198,18 @@ public:
     {
         EUL_ASSERT_MSG(isCallable_ != false, "Function not initialized!");
         auto& invoker = get_invoker();
-        return invoker(std::forward<Args>(args)...);
+        return invoker(args...);
     }
 
     ReturnType operator()(Args... args) const
     {
         EUL_ASSERT_MSG(isCallable_ != false, "Function not initialized!");
         const auto& invoker = get_invoker();
-        return invoker(std::forward<Args>(args)...);
+        return invoker(args...);
     }
 
 
-private:
+protected:
     void copy_to(storage_type& new_place) const
     {
         get_invoker().copy_to(&new_place);
@@ -304,7 +305,7 @@ private:
         isCallable_ = true;
     }
 
-
+private:
     storage_type storage_{};
     bool isCallable_{false};
 };

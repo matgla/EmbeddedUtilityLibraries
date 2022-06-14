@@ -23,7 +23,7 @@ target_sources(eul_kernel
         ${include_dir}/event_listener.hpp
         ${include_dir}/fwd.hpp
         ${include_dir}/kernel.hpp
-        ${include_dir}/module.hpp
+        ${include_dir}/service.hpp
         ${include_dir}/typeid.hpp
 )
 

@@ -10,7 +10,7 @@ namespace eul::error
 
 error_condition error_category::default_error_condition(int code) const noexcept
 {
-    return error_condition(code, *this);
+    return {code, *this};
 }
 
 bool error_category::equivalent(int code, const error_condition& condition) const noexcept

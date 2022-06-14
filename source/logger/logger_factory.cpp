@@ -28,12 +28,12 @@ logger_factory::logger_factory(const time::i_time_provider& time_provider)
 
 logger logger_factory::create(const std::string_view& name) const
 {
-    return logger(name, time_provider_);
+    return {name, time_provider_};
 }
 
 logger logger_factory::create(const std::string_view& name, const std::string_view& prefix) const
 {
-    return logger(name, prefix, time_provider_);
+    return {name, prefix, time_provider_};
 }
 
 const time::i_time_provider& logger_factory::get_time_provider() const

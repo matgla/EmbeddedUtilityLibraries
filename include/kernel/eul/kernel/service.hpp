@@ -22,42 +22,42 @@
 namespace eul::kernel
 {
 
-class module
+class service
 {
 public:
-    using ModuleNode = eul::container::observing_node<module*>;
+    using ServiceNode = eul::container::observing_node<service*>;
 
-    template <typename ModuleType>
-    module(typeid_t id, ModuleType& module)
+    template <typename ServiceType>
+    service(typeid_t id, ServiceType& service)
         : observing_node_(this)
         , id_(id)
-        , module_(&module)
+        , service_(&service)
     {
     }
 
-    template <typename ModuleType>
-    explicit module(ModuleType* module)
+    template <typename ServiceType>
+    explicit service(ServiceType* service)
         : observing_node_(this)
-        , id_(type_id<ModuleType>())
-        , module_(module)
+        , id_(type_id<ServiceType>())
+        , service_(service)
     {
     }
 
-    virtual ~module() = default;
+    virtual ~service() = default;
 
-    template <typename ModuleType>
+    template <typename ServiceType>
     auto* get()
     {
-        return static_cast<ModuleType*>(module_);
+        return static_cast<ServiceType*>(service_);
     }
 
-    template <typename ModuleType>
+    template <typename ServiceType>
     [[nodiscard]] const auto* get() const
     {
-        return static_cast<const ModuleType*>(module_);
+        return static_cast<const ServiceType*>(service_);
     }
 
-    ModuleNode& observing_node()
+    ServiceNode& observing_node()
     {
         return observing_node_;
     }
@@ -68,9 +68,9 @@ public:
         return id_;
     }
 private:
-    ModuleNode observing_node_;
+    ServiceNode observing_node_;
     typeid_t id_;
-    void* module_;
+    void* service_;
 };
 
 } // namespace eul::kernel

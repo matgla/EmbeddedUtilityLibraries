@@ -51,7 +51,7 @@ public:
             const auto& slot = *(slot_observer.data());
             if (slot)
             {
-                slot(std::forward<Args>(args)...);
+                slot(args...);
             }
         }
     }

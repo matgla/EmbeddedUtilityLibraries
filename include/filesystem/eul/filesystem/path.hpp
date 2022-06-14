@@ -15,13 +15,8 @@ public:
     using iterator = const_iterator;
 
     path(std::string_view p); // NOLINT(google-explicit-constructor)
-    path(const path& p);
     path(const char* p); // NOLINT(google-explicit-constructor)
-    ~path() = default;
-    path(path&& p) = default;
     path& operator=(const std::string_view& p);
-    path& operator=(const path& p);
-    path& operator=(path&& p) = default;
     path& operator=(const char* p);
 
     [[nodiscard]]
@@ -52,6 +47,8 @@ public:
     path& operator+=(const path& next);
 
 private:
+    void convert_slashes(std::string& converted_path) const;
+
     std::string path_;
 };
 

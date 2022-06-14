@@ -1,4 +1,4 @@
-name: SonarQube - UT
+name: ClangTidy - UT
 
 on:
   push:
@@ -7,11 +7,8 @@ on:
     branches: [ master ]
 
 jobs:
-  ut_sonar:
+  ut_clang_tidy:
     runs-on: ubuntu-latest
-    env: 
-      SONAR_SCANNER_VERSION: 4.7.0.2747
-      SONAR_SERVER_URL: "https://sonarcloud.io"
     container: 
       image: ghcr.io/matgla/eul_ci:latest
       credentials:
@@ -32,13 +29,12 @@ jobs:
         shell: bash 
         working-directory: build
         run: | 
-          cmake .. -GNinja -DENABLE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug
-      - name: Execute SonarScanner 
+          cmake .. -GNinja -DENABLE_CLANG_TIDY=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++
+      - name: Execute ClangTidy
         shell: bash
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        working-directory: build
+        continue-on-error: true
         run: |
-          sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.compile-commands="build/compile_commands.json" --define sonar.coverageReportPaths="coverage_for_sonar.xml"
+          ninja run_clang_tidy
 
           

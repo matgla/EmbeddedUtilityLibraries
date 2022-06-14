@@ -37,7 +37,7 @@ public:
     using const_iterator = container::iterator::index_const_iterator<static_deque<T, Size>>;
 
     static_deque();
-    static_deque(const std::initializer_list<T>& arguments);
+    explicit static_deque(const std::initializer_list<T>& arguments);
 
     bool push_back(const T& data);
     bool push_front(const T& data);

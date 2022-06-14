@@ -39,7 +39,7 @@ public:
     {
     }
 
-    static_vector(const std::initializer_list<Type>& arguments)
+    explicit static_vector(const std::initializer_list<Type>& arguments)
         : data_()
     {
         std::copy(arguments.begin(), arguments.end(), std::back_inserter(*this));

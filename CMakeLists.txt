@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.2)
 
 project(eul CXX)
 
@@ -63,13 +63,22 @@ else ()
         $<$<CONFIG:DEBUG>:-Og -g>
         $<$<CONFIG:RELEASE>:-O2>
     )
+    target_link_libraries(eul_private_flags INTERFACE eul_public_flags)
 endif ()
 
-target_link_libraries(eul_public_flags INTERFACE enable_sanitizers coverage_flags)
-target_link_libraries(eul_private_flags INTERFACE enable_sanitizers coverage_flags)
+target_link_libraries(eul_public_flags 
+    INTERFACE 
+        enable_sanitizers 
+        coverage_flags
+)
+
+target_link_libraries(eul_private_flags 
+    INTERFACE 
+        enable_sanitizers 
+        coverage_flags
+)
 
 target_link_options(eul_private_flags INTERFACE ${eul_cxx_linking_flags})
-
 
 add_subdirectory (source/container)
 add_subdirectory (source/crc)

@@ -17,36 +17,36 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "eul/kernel/kernel.hpp"
-#include "eul/kernel/module.hpp"
+#include "eul/kernel/service.hpp"
 
 
-struct EventUpdateModuleC
+struct EventUpdateServiceC
 {
     int a;
 };
 
-struct EventUpdateModuleA
+struct EventUpdateServiceA
 {
     int a;
 };
 
-struct ModuleB : public eul::kernel::module
+struct ServiceB : public eul::kernel::service
 {
-    ModuleB() : module(this)
+    ServiceB() : service(this)
     {
     }
 
     int a{0};
 };
 
-struct ModuleC : public eul::kernel::module, // NOLINT(fuchsia-multiple-inheritance)
-    public eul::kernel::event_listener<EventUpdateModuleC>
+struct ServiceC : public eul::kernel::service, // NOLINT(fuchsia-multiple-inheritance)
+    public eul::kernel::event_listener<EventUpdateServiceC>
 {
-    ModuleC() : module(this)
+    ServiceC() : service(this)
     {
     }
 
-    void handle_event(const EventUpdateModuleC& ev) override
+    void handle_event(const EventUpdateServiceC& ev) override
     {
         a = ev.a;
     }
@@ -54,30 +54,30 @@ struct ModuleC : public eul::kernel::module, // NOLINT(fuchsia-multiple-inherita
     int a{0};
 };
 
-struct ModuleA : public eul::kernel::module,  // NOLINT(fuchsia-multiple-inheritance)
-    public eul::kernel::event_listener<EventUpdateModuleA>
+struct ServiceA : public eul::kernel::service,  // NOLINT(fuchsia-multiple-inheritance)
+    public eul::kernel::event_listener<EventUpdateServiceA>
 {
-    explicit ModuleA(eul::kernel::kernel* kernel)
-        : module(this)
+    explicit ServiceA(eul::kernel::kernel* kernel)
+        : service(this)
         , kernel_(*kernel)
     {
     }
 
-    void handle_event(const EventUpdateModuleA& ev) override
+    void handle_event(const EventUpdateServiceA& ev) override
     {
         a = ev.a;
-        update_module_c(ev.a);
+        update_service_c(ev.a);
     }
 
-    void update_module_b(int value)
+    void update_service_b(int value)
     {
-        auto* b = kernel_.get_module<ModuleB>();
+        auto* b = kernel_.get_service<ServiceB>();
         b->a= value;
     }
 
-    void update_module_c(int value) const
+    void update_service_c(int value) const
     {
-        kernel_.post_event(EventUpdateModuleC{value});
+        kernel_.post_event(EventUpdateServiceC{value});
     }
 
     int a{0};
@@ -87,27 +87,27 @@ struct ModuleA : public eul::kernel::module,  // NOLINT(fuchsia-multiple-inherit
 
 TEST_CASE("KernelShould", "[KernelTests]")
 {
-    SECTION("Register and provide modules")
+    SECTION("Register and provide services")
     {
         eul::kernel::kernel kernel;
 
-        ModuleA a(&kernel);
-        ModuleB b;
+        ServiceA a(&kernel);
+        ServiceB b;
 
         a.a = 1;
         b.a = 2;
 
-        kernel.register_module(&a);
-        kernel.register_module(&b);
+        kernel.register_service(&a);
+        kernel.register_service(&b);
 
-        auto* moduleA = kernel.get_module<ModuleA>();
+        auto* serviceA = kernel.get_service<ServiceA>();
         constexpr int test_value = 14;
-        moduleA->update_module_b(test_value);
+        serviceA->update_service_b(test_value);
 
         REQUIRE(a.a == 1);
         REQUIRE(b.a == test_value);
 
-        moduleA->a = 2;
+        serviceA->a = 2;
         REQUIRE(a.a == 2);
         REQUIRE(b.a == test_value);
     }
@@ -116,20 +116,20 @@ TEST_CASE("KernelShould", "[KernelTests]")
     {
         eul::kernel::kernel kernel;
 
-        ModuleA a(&kernel);
-        ModuleB b;
-        ModuleC c;
+        ServiceA a(&kernel);
+        ServiceB b;
+        ServiceC c;
 
         a.a = 1;
         b.a = 2;
         c.a = 3;
 
-        kernel.register_module(&a);
-        kernel.register_module(&b);
-        kernel.register_module(&c);
+        kernel.register_service(&a);
+        kernel.register_service(&b);
+        kernel.register_service(&c);
 
         constexpr int test_value = 11;
-        kernel.post_event(EventUpdateModuleA{test_value});
+        kernel.post_event(EventUpdateServiceA{test_value});
 
         REQUIRE(a.a == test_value);
         REQUIRE(b.a == 2);

@@ -59,16 +59,16 @@ public:
         observing_node_.reset();
     }
 
-    ReturnType operator()(Args&&... args) const
+    ReturnType operator()(Args... args) const
     {
         EUL_ASSERT_MSG(callback_, "Slot is not initialized");
-        return callback_(std::forward<Args>(args)...);
+        return callback_(args...);
     }
 
-    ReturnType operator()(Args&&... args)
+    ReturnType operator()(Args... args)
     {
         EUL_ASSERT_MSG(callback_, "Slot is not initialized");
-        return callback_(std::forward<Args>(args)...);
+        return callback_(args...);
     }
 
     template <typename CallbackType>
