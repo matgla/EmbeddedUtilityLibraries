@@ -39,7 +39,7 @@ static MyCategory category; // NOLINT(cppcoreguidelines-avoid-non-const-global-v
 template <>
 error_condition make_error_condition(MyErrors e)
 {
-    return error_condition(static_cast<int>(e), category);
+    return {static_cast<int>(e), category};
 }
 
 TEST_CASE("ErrorCondition tests", "[ErrorConditionTests]")

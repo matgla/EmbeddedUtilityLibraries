@@ -10,21 +10,21 @@ TEST_CASE("PathConstIteratorShould", "[PathConstTests]")
     SECTION("ReturnsEmptyForEmptyPath")
     {
         path_const_iterator it("");
-        REQUIRE(*it == "");
+        REQUIRE(*it.empty());
 
     }
     SECTION("ReturnsRootPath")
     {
         path_const_iterator it("///");
         REQUIRE(*it == "/");
-        REQUIRE(*(++it) == "");
+        REQUIRE(*(++it).empty());
     }
     SECTION("ReturnsPathUnderRoot")
     {
         path_const_iterator it("///dir//");
         REQUIRE(*it++ == "/");
         REQUIRE(*it++ == "dir");
-        REQUIRE(*it == "");
+        REQUIRE((*it).empty());
     }
     SECTION("ReturnsCorrectPartsOfPath")
     {
@@ -45,7 +45,7 @@ TEST_CASE("PathConstIteratorShould", "[PathConstTests]")
         path_const_iterator it("a/.");
         REQUIRE(*it++ == "a");
         REQUIRE(*it++ == ".");
-        REQUIRE(*it++ == "");
+        REQUIRE(*(it++).empty());
     }
 }
 

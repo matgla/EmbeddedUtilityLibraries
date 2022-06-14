@@ -88,20 +88,20 @@ void logger_printer::printTimeAndDate() const
     constexpr int BufferSize = 30;
     std::array<char, BufferSize> buffer{};
 
-    std::time_t t          = std::chrono::duration_cast<std::chrono::seconds>(
+    std::time_t timestamp          = std::chrono::duration_cast<std::chrono::seconds>(
         std::chrono::milliseconds(time_.milliseconds().count())).count();
     struct tm currentTime{};
 #if defined(_MSC_VER)
-    localtime_s(&currentTime, &t);
+    localtime_s(&currentTime, &timestamp);
 #else 
-    localtime_r(&t, &currentTime);
+    localtime_r(&timestamp, &currentTime);
 #endif
 
 #if defined(_MSC_VER)
      char formatted_time[26];
      ctime_s(formatted_time, sizeof formatted_time, &t);
 #else 
-    char* formatted_time = std::ctime(&t);
+    char* formatted_time = std::ctime(&timestamp);
 #endif 
     std::memcpy(buffer.data(), formatted_time, std::strlen(formatted_time));
     write_to_streams(buffer.data());

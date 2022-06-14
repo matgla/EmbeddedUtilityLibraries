@@ -31,9 +31,9 @@ std::string_view system_category_impl::message(int condition) const
 }
 
 template <>
-error_code make_error_code<errc>(errc e)
+error_code make_error_code<errc>(errc error_code)
 {
-    return error_code(static_cast<int>(e), system_category_impl::get());
+    return {static_cast<int>(error_code), system_category_impl::get()};
 }
 
 const error_category& system_category() noexcept

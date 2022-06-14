@@ -25,9 +25,9 @@
 namespace eul::utils
 {
 
-void reverse(std::span<char> s)
+void reverse(std::span<char> str)
 {
-    if (s.empty())
+    if (str.empty())
     {
         return;
     }

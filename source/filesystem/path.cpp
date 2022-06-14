@@ -1,39 +1,41 @@
 #include "eul/filesystem/path.hpp"
 
+// TODO(mateusz): Remove std::string, should be replaced with some custom string with known size
+
 namespace eul::filesystem
 {
 
-path::path(std::string_view p)
-    : path_(p)
+path::path(std::string_view path)
+    : path_(path)
 {
 }
 
-path::path(const path& p) = default;
+path::path(const path& path) = default;
 
-path::path(const char* p)
-    : path_(p)
+path::path(const char* path)
+    : path_(path)
 {
 }
 
-path& path::operator=(const path& p)
+path& path::operator=(const path& path)
 {
-    if (this != &p)
+    if (this != &path)
     {
-        this->path_ = p.path_;
+        this->path_ = path.path_;
     }
     return *this;
 }
 
 
-path& path::operator=(const std::string_view& p)
+path& path::operator=(const std::string_view& path)
 {
-    path_ = p;
+    path_ = path;
     return *this;
 }
 
-path& path::operator=(const char* p)
+path& path::operator=(const char* path)
 {
-    path_ = p;
+    path_ = path;
     return *this;
 }
 
@@ -127,9 +129,9 @@ path path::lexically_relative(const path& base) const
         {
             relative = relative.substr(first_not_slash, relative.length());
         }
-        return path(relative);
+        return {relative};
     }
-    return path("");
+    return {""};
 }
 
 path path::parent_path() const
@@ -137,15 +139,15 @@ path path::parent_path() const
     std::size_t last_slash = path_.find_last_of('/');
     if (last_slash == std::string::npos)
     {
-        return path("");
+        return {""};
     }
 
     if (last_slash == 0)
     {
-        return path("/");
+        return {"/"};
     }
 
-    return path(path_.substr(0, last_slash));
+    return {path_.substr(0, last_slash)};
 }
 
 std::string path::filename() const

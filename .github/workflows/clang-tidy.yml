@@ -1,0 +1,40 @@
+name: SonarQube - UT
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  ut_clang_tidy:
+    runs-on: ubuntu-latest
+    container: 
+      image: ghcr.io/matgla/eul_ci:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Show toolchain versions
+        shell: bash
+        run: | 
+          cmake --version
+          gcc --version
+      - name: Prepare environment 
+        shell: bash 
+        run: |
+          mkdir build
+      - name: Generate CMake
+        shell: bash 
+        working-directory: build
+        run: | 
+          cmake .. -GNinja -DENABLE_CLANG_TIDY=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++
+      - name: Execute ClangTidy
+        shell: bash
+        working-directory: build
+        continue-on-error: true
+        run: |
+          ninja run_clang_tidy
+
+          
