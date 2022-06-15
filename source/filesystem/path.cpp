@@ -136,7 +136,7 @@ path path::lexically_relative(const path& base) const
         {
             relative = relative.substr(first_not_slash, relative.length());
         }
-        return {relative};
+        return {std::string_view{relative}};
     }
     return {""};
 }

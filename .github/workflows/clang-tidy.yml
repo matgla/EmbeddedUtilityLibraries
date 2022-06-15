@@ -1,4 +1,4 @@
-name: SonarQube - UT
+name: ClangTidy - UT
 
 on:
   push:
