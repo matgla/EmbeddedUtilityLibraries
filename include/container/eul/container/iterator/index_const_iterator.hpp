@@ -40,8 +40,8 @@ public:
 
     index_const_iterator operator++(int);
     index_const_iterator& operator++();
-    bool operator==(const index_const_iterator& it) const;
-    bool operator!=(const index_const_iterator& it) const;
+    bool operator==(const index_const_iterator& it) const; // NOSONAR
+    bool operator!=(const index_const_iterator& it) const; // NOSONAR
     const value_type& operator*() const;
     const value_type* operator->() const;
 

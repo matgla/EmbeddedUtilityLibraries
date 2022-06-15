@@ -197,14 +197,14 @@ public:
     {
         EUL_ASSERT_MSG(isCallable_ != false, "Function not initialized!");
         auto& invoker = get_invoker();
-        return invoker(std::forward<Args>(args)...);
+        return invoker(args...);
     }
 
     ReturnType operator()(Args... args) const
     {
         EUL_ASSERT_MSG(isCallable_ != false, "Function not initialized!");
         const auto& invoker = get_invoker();
-        return invoker(std::forward<Args>(args)...);
+        return invoker(args...);
     }
 
 

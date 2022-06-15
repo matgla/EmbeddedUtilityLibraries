@@ -24,7 +24,7 @@
 #include "eul/utils/assert.hpp"
 #include "eul/container/observable/observing_list.hpp"
 #include "eul/kernel/event_listener.hpp"
-#include "eul/kernel/module.hpp"
+#include "eul/kernel/service.hpp"
 #include "eul/kernel/typeid.hpp"
 
 namespace eul::kernel
@@ -33,40 +33,40 @@ namespace eul::kernel
 class kernel
 {
 public:
-    void register_module(module* module)
+    void register_service(service* service)
     {
-        modules_.push_back(module->observing_node());
+        services_.push_back(service->observing_node());
     }
 
-    template <typename ModuleType>
-    [[nodiscard]] const ModuleType* get_module() const
+    template <typename ServiceType>
+    [[nodiscard]] const ServiceType* get_service() const
     {
-        const auto module_id = type_id<ModuleType>();
+        const auto service_id = type_id<ServiceType>();
 
-        for (const auto & module : modules_)
+        for (const auto & service : services_)
         {
-            if (module.data()->get_id() == module_id)
+            if (service.data()->get_id() == service_id)
             {
-                return module.data()->get<ModuleType>();
+                return service.data()->get<ServiceType>();
             }
         }
-        EUL_ASSERT_MSG(false, "Trying to retrieve unregistered module");
+        EUL_ASSERT_MSG(false, "Trying to retrieve unregistered service");
         return nullptr;
     }
 
-    template <typename ModuleType>
-    ModuleType* get_module()
+    template <typename ServiceType>
+    ServiceType* get_service()
     {
-        const auto module_id = type_id<ModuleType>();
+        const auto service_id = type_id<ServiceType>();
 
-        for (auto& module : modules_)
+        for (auto& service : services_)
         {
-            if (module.data()->get_id() == module_id)
+            if (service.data()->get_id() == service_id)
             {
-                return module.data()->get<ModuleType>();
+                return service.data()->get<ServiceType>();
             }
         }
-        EUL_ASSERT_MSG(false, "Trying to retrieve unregistered module");
+        EUL_ASSERT_MSG(false, "Trying to retrieve unregistered service");
         return nullptr;
     }
 
@@ -77,7 +77,7 @@ public:
     }
 
 private:
-    eul::container::observing_list<eul::container::observing_node<module*>> modules_;
+    eul::container::observing_list<eul::container::observing_node<service*>> services_;
 };
 
 } // namespace eul::kernel

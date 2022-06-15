@@ -103,7 +103,7 @@ void logger_printer::printTimeAndDate() const
 #else 
     char* formatted_time = std::ctime(&timestamp);
 #endif 
-    std::memcpy(buffer.data(), formatted_time, std::strlen(formatted_time));
+    std::memcpy(buffer.data(), formatted_time, std::strlen(formatted_time)); // NOSONAR
     write_to_streams(buffer.data());
 }
 
@@ -123,22 +123,22 @@ int logger_printer::get_base() const
         {
             constexpr int dec_base = 10;
             return dec_base;
-        } break;
+        }
         case logging_flags::base::hex:
         {
             constexpr int hex_base = 16;
             return hex_base;
-        } break;
+        }
         case logging_flags::base::oct:
         {
             constexpr int oct_base = 8;
             return oct_base;
-        } break;
+        }
         case logging_flags::base::bin:
         {
             constexpr int bin_base = 2;
             return bin_base;
-        } break;
+        }
     }
     return 0;
 }
