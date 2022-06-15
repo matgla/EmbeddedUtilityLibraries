@@ -52,6 +52,8 @@ public:
     path& operator+=(const path& next);
 
 private:
+    void convert_slashes(std::string& converted_path) const;
+
     std::string path_;
 };
 
