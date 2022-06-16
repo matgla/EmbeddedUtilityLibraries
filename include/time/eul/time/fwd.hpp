@@ -16,12 +16,9 @@
 
 #pragma once
 
-namespace eul
-{
-namespace time
+namespace eul::time 
 {
 
 class i_time_provider;
 
-} // namespace time
-} // namespace eul
+} // namespace eul::time

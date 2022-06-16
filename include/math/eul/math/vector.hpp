@@ -81,11 +81,7 @@ public:
     }
 
 
-    bool operator==(const self_type& other) const 
-    {
-        return this->data_ == other.data_;
-    }
-
+    bool operator==(const self_type& other) const = default;
     self_type operator+(self_type other) const 
     {
         other.data_ += data_;

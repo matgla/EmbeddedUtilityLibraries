@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <concepts>
 #include <string_view>
 
 #include <span>
@@ -129,8 +130,7 @@ public:
         return *this;
     }
 
-    template <typename T,
-        typename std::enable_if_t<std::is_same_v<T, bool>, int> = 0>
+    template <typename T> requires std::same_as<T, bool>
     logger_printer& operator<<(const T data)
     {
         if (flags_.get_boolalpha() == logging_flags::boolalpha::enabled)
@@ -182,7 +182,7 @@ public:
         return *this;
     }
 
-protected:
+private:
 
     [[nodiscard]]
     int get_base() const;
@@ -194,7 +194,7 @@ protected:
 
 
     template <typename T>
-    int reverse_number(T& number, int base)
+    int reverse_number(T& number, int base) const
     {
         if (number == 0)
         {
@@ -225,7 +225,7 @@ protected:
     }
 
     template <typename T>
-    void write_number_as_text(T number, int base, int zeros_at_end)
+    void write_number_as_text(T number, int base, int zeros_at_end) const
     {
         while (number != 0)
         {

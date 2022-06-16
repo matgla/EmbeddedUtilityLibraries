@@ -18,15 +18,11 @@
 
 #include <tuple>
 
-namespace eul
-{
-namespace mpl
-{
-namespace tuples
-{
-namespace details
+namespace eul::mpl::tuples
 {
 
+namespace details 
+{
 template <typename... Types>
 struct extended_tuple
 {
@@ -46,6 +42,4 @@ struct extend<std::tuple<Args...>>
     using with = details::extended_tuple<Args..., NewTypes...>;
 };
 
-} // namespace tuples
-} // namespace mpl
-} // namespace eul
+} // namespace eul::mpl::tuples

@@ -17,6 +17,7 @@
 #pragma once
 
 #include <cassert>
+#include <bit>
 #include <new>
 #include <type_traits>
 #include <utility>
@@ -45,7 +46,7 @@ public:
     constexpr static std::size_t size
         = Size + sizeof(IFunctionInvoker) + sizeof(void*);
 
-    using storage_type = typename std::aligned_storage<size, alignof(void*)>::type;
+    using storage_type = typename std::aligned_storage_t<size, alignof(void*)>;
     using this_type    = function<ReturnType(Args...), size>;
 
     function() noexcept
@@ -196,14 +197,14 @@ public:
 
     ReturnType operator()(Args... args)
     {
-        EUL_ASSERT_MSG(isCallable_ != false, "Function not initialized!");
+        eul_assert_msg(isCallable_ != false, "Function not initialized!");
         auto& invoker = get_invoker();
         return invoker(args...);
     }
 
     ReturnType operator()(Args... args) const
     {
-        EUL_ASSERT_MSG(isCallable_ != false, "Function not initialized!");
+        eul_assert_msg(isCallable_ != false, "Function not initialized!");
         const auto& invoker = get_invoker();
         return invoker(args...);
     }
@@ -231,7 +232,7 @@ protected:
         FunctionInvoker<FunctionType>& operator=(FunctionInvoker&&)  noexcept = default;
         FunctionInvoker<FunctionType>& operator=(const FunctionInvoker&) = default;
 
-        explicit FunctionInvoker(FunctionType&& function) noexcept : function_(function)
+        explicit FunctionInvoker(FunctionType&& function) noexcept : function_(std::move(function))
         {
         }
 
@@ -260,26 +261,26 @@ protected:
             new (new_place) FunctionInvoker(std::move(*this));
         }
     private:
-        FunctionType function_;
+        [[no_unique_address]] FunctionType function_;
     };
 
 
     [[nodiscard]]
     IFunctionInvoker& get_invoker()
     {
-        return *reinterpret_cast<IFunctionInvoker*>(&storage_); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+        return *std::bit_cast<IFunctionInvoker*>(&storage_);
     }
 
     [[nodiscard]]
     const IFunctionInvoker& get_invoker() const
     {
-        return *reinterpret_cast<const IFunctionInvoker*>(&storage_); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
+        return *std::bit_cast<const IFunctionInvoker*>(&storage_);
     }
 
     template <class FunctionType>
     void register_callback(FunctionType&& f)
     {
-        using decayed_function_type = typename std::decay<FunctionType>::type;
+        using decayed_function_type = typename std::decay_t<FunctionType>;
         using function_invoker_type = FunctionInvoker<decayed_function_type>;
         static_assert(!std::is_same<decayed_function_type, this_type>::value,
                       "Wrong function type declared");
@@ -294,7 +295,7 @@ protected:
     template <class FunctionType>
     void register_callback(const FunctionType& f)
     {
-        using decayed_function_type = typename std::decay<FunctionType>::type;
+        using decayed_function_type = typename std::decay_t<FunctionType>;
         using function_invoker_type = FunctionInvoker<decayed_function_type>;
         static_assert(!std::is_same<decayed_function_type, this_type>::value,
                       "Wrong function type declared");

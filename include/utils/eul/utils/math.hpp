@@ -19,13 +19,10 @@
 #include <cstdint>
 #include <utility>
 
-namespace eul
-{
-namespace utils
+namespace eul::utils
 {
 
 int pow(int base, int index);
 std::pair<uint16_t, uint16_t> floatToInts(float number, uint8_t precision);
 
-} // namespace utils
-} // namespace eul
+} // namespace eul::utils

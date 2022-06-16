@@ -1,5 +1,5 @@
-// This file is part of EUL project. This project is set of libraries useful for embedded development.
-// Copyright (C) 2019 Mateusz Stadnik
+// This file is part of EUL project.
+// Copyright (C) 2021 Mateusz Stadnik
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -10,25 +10,25 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#pragma once
+#include <catch2/catch_test_macros.hpp>
 
-#include <type_traits>
+#include <iostream>
 
-#include "eul/mpl/types/bind_type.hpp"
+#include "eul/logger/logger.hpp"
 
-namespace eul::mpl::types 
+namespace eul::logger 
 {
 
-template <typename... T>
-struct is_binded : public std::false_type
-{};
+TEST_CASE("LoggerTests", "[LOGGER_TESTS]")
+{
+    SECTION("Do nothing") 
+    {
+    }
+}
 
-template <typename Key, typename Value>
-struct is_binded<binded<Key, Value>> : public std::true_type
-{};
+} // namespace eul::logger 
 
-} // namespace eul::mpl::types

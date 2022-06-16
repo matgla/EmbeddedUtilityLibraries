@@ -73,16 +73,16 @@ public:
 
 private:
     T data_;
-    observing_node<T>* next_;
-    observing_node<T>* prev_;
-    observing_list<observing_node<T>>* list_;
+    observing_node<T>* next_ = nullptr;
+    observing_node<T>* prev_ = nullptr;
+    observing_list<observing_node<T>>* list_ = nullptr;
 };
 
 
 template <typename T>
 template <typename... Args>
 observing_node<T>::observing_node(Args... args)
-    : data_{args...}, next_(nullptr), prev_(nullptr), list_(nullptr)
+    : data_{args...}
 {
 }
 

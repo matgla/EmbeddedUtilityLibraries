@@ -47,14 +47,14 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
         constexpr std::size_t size = 8;
         eul::container::static_vector<uint8_t, size> sut;
 
-        std::copy(data.begin(), data.end(), std::back_inserter(sut));
+        std::ranges::copy(data.begin(), data.end(), std::back_inserter(sut));
 
         REQUIRE(sut.size() == 3);
         REQUIRE(sut[0] == 0);
         REQUIRE(sut[1] == 1);
         REQUIRE(sut[2] == 2);
 
-        std::copy(data.begin(), data.end(), std::back_inserter(sut));
+        std::ranges::copy(data.begin(), data.end(), std::back_inserter(sut));
 
         REQUIRE(sut.size() == 6);
         REQUIRE(sut[0] == 0);

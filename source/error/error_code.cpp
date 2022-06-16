@@ -14,8 +14,7 @@ error_code::error_code() noexcept
 }
 
 error_code::error_code(int ec, const error_category& ecat) noexcept
-    : condition_(nullptr)
-    , category_(&ecat)
+    : category_(&ecat)
     , value_(ec)
 
 
@@ -61,17 +60,6 @@ error_code::operator bool() const noexcept
 bool error_code::operator==(const error_code& rhs) const noexcept
 {
     return (*category_ == *rhs.category_) && value_ == rhs.value_;
-}
-
-bool error_code::operator!=(const error_code& rhs) const noexcept
-{
-    return !operator==(rhs);
-}
-
-bool error_code::operator<(const error_code& rhs) const noexcept
-{
-    return (*this->category_ < *rhs.category_)
-        || ((*this->category_ == *rhs.category_) && value_ < rhs.value_);
 }
 
 } // namespace eul::error

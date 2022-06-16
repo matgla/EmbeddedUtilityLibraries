@@ -17,6 +17,7 @@
 #pragma once
 
 #include <array>
+#include <algorithm>
 
 #include "eul/utils/assert.hpp"
 
@@ -42,7 +43,7 @@ public:
     explicit static_vector(const std::initializer_list<Type>& arguments)
         : data_()
     {
-        std::copy(arguments.begin(), arguments.end(), std::back_inserter(*this));
+        std::ranges::copy(arguments.begin(), arguments.end(), std::back_inserter(*this));
     }
 
     template <std::size_t count>
@@ -62,7 +63,7 @@ public:
     {
         static_assert(OtherContainerSize <= BufferSize, "Container to be copied can't fit");
         clear();
-        std::copy(other.begin(), other.end(), std::back_inserter(*this));
+        std::ranges::copy(other.begin(), other.end(), std::back_inserter(*this));
         return *this;
     }
 
@@ -97,7 +98,7 @@ public:
         }
         while(it != end() && (it + 1) != end())
         {
-            *(it) = *(it + 1);
+            *it = *(it + 1);
             ++it;
         }
         --firstFreePosition_;
@@ -153,35 +154,35 @@ public:
 
     Type& back()
     {
-        EUL_ASSERT_MSG(size() != 0, "Vector is empty!");
+        eul_assert_msg(size() != 0, "Vector is empty!");
 
         return data_[firstFreePosition_ - 1];
     }
 
     Type& front()
     {
-        EUL_ASSERT_MSG(size() != 0, "Vector is empty!");
+        eul_assert_msg(size() != 0, "Vector is empty!");
 
         return data_[0];
     }
 
     [[nodiscard]] const Type& back() const
     {
-        EUL_ASSERT_MSG(size() != 0, "Vector is empty!");
+        eul_assert_msg(size() != 0, "Vector is empty!");
 
         return data_[firstFreePosition_ - 1];
     }
 
     [[nodiscard]] const Type& front() const
     {
-        EUL_ASSERT_MSG(size() != 0, "Vector is empty!");
+        eul_assert_msg(size() != 0, "Vector is empty!");
 
         return data_[0];
     }
 
     [[nodiscard]] int find(int data) const
     {
-        for (std::size_t i = 0; i < data_.size(); i++)
+        for (int i = 0; i < data_.size(); i++)
         {
             if (data == data_[i])
             {

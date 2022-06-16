@@ -57,9 +57,14 @@ public:
         time_ = &time;
     }
 
-    template <typename Dummy = char, typename std::enable_if_t<CurrentLoggingPolicy::debug_enabled, Dummy> = 0>
-    auto debug() const
+    template <typename T>
+    T debug() const
     {
+        if constexpr (!CurrentLoggingPolicy::debug_enabled)
+        {
+            return suppressing_logger();
+        }
+
         if (prefix_ && prefix_ != "")
         {
             return logger_printer("DBG", name_, *prefix_, *time_);
@@ -67,15 +72,14 @@ public:
         return logger_printer("DBG", name_, *time_);
     }
 
-    template <typename Dummy = char, typename std::enable_if_t<!CurrentLoggingPolicy::debug_enabled, Dummy> = 0>
-    auto debug() const
+    template <typename T>
+    T info() const
     {
-        return suppressing_logger();
-    }
+        if constexpr (!CurrentLoggingPolicy::info_enabled)
+        {
+            return suppressing_logger();
+        }
 
-    template <typename Dummy = char, typename std::enable_if_t<CurrentLoggingPolicy::info_enabled, Dummy> = 0>
-    auto info() const
-    {
         if (prefix_ && prefix_ != "")
         {
             return logger_printer("INF", name_, *prefix_, *time_);
@@ -83,15 +87,14 @@ public:
         return logger_printer("INF", name_, *time_);
     }
 
-    template <typename Dummy = char, typename std::enable_if_t<!CurrentLoggingPolicy::info_enabled, Dummy> = 0>
-    auto info() const
+    template <typename T>
+    T warning() const
     {
-        return suppressing_logger();
-    }
+        if constexpr (!CurrentLoggingPolicy::warning_enabled)
+        {
+            return suppressing_logger();
+        }
 
-    template <typename Dummy = char, typename std::enable_if_t<CurrentLoggingPolicy::warning_enabled, Dummy> = 0>
-    auto warning() const
-    {
         if (prefix_ && prefix_ != "")
         {
             return logger_printer("WRN", name_, *prefix_, *time_);
@@ -99,15 +102,14 @@ public:
         return logger_printer("WRN", name_, *time_);
     }
 
-    template <typename Dummy = char, typename std::enable_if_t<!CurrentLoggingPolicy::warning_enabled, Dummy> = 0>
-    auto warning() const
+    template <typename T>
+    T error() const
     {
-        return suppressing_logger();
-    }
+        if constexpr (!CurrentLoggingPolicy::error_enabled)
+        {
+            return suppressing_logger();
+        }
 
-    template <typename Dummy = char, typename std::enable_if_t<CurrentLoggingPolicy::error_enabled, Dummy> = 0>
-    auto error() const
-    {
         if (prefix_ && prefix_ != "")
         {
             return logger_printer("ERR", name_, *prefix_, *time_);
@@ -115,26 +117,19 @@ public:
         return logger_printer("ERR", name_, *time_);
     }
 
-    template <typename Dummy = char, typename std::enable_if_t<!CurrentLoggingPolicy::error_enabled, Dummy> = 0>
-    auto error() const
+    template <typename T>
+    T trace() const
     {
-        return suppressing_logger();
-    }
+        if constexpr (!CurrentLoggingPolicy::trace_enabled)
+        {
+            return suppressing_logger();
+        }
 
-    template <typename Dummy = char, typename std::enable_if_t<CurrentLoggingPolicy::trace_enabled, Dummy> = 0>
-    auto trace() const
-    {
         if (prefix_ && prefix_ != "")
         {
             return logger_printer("TRC", name_, *prefix_, *time_);
         }
         return logger_printer("TRC", name_, *time_);
-    }
-
-    template <typename Dummy = char, typename std::enable_if_t<!CurrentLoggingPolicy::trace_enabled, Dummy> = 0>
-    auto trace() const
-    {
-        return suppressing_logger();
     }
 
 private:

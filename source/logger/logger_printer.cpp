@@ -97,11 +97,11 @@ void logger_printer::printTimeAndDate() const
     localtime_r(&timestamp, &currentTime);
 #endif
 
+char formatted_time[26];
 #if defined(_MSC_VER)
-     char formatted_time[26];
-     ctime_s(formatted_time, sizeof formatted_time, &timestamp);
+    ctime_s(formatted_time, sizeof formatted_time, &timestamp);
 #else 
-    char* formatted_time = std::ctime(&timestamp);
+    ctime_r(&timestamp, formatted_time);
 #endif 
     std::memcpy(buffer.data(), formatted_time, std::strlen(formatted_time)); // NOSONAR
     write_to_streams(buffer.data());
@@ -121,23 +121,19 @@ int logger_printer::get_base() const
     {
         case logging_flags::base::dec:
         {
-            constexpr int dec_base = 10;
-            return dec_base;
+            return 10;
         }
         case logging_flags::base::hex:
         {
-            constexpr int hex_base = 16;
-            return hex_base;
+            return 16;
         }
         case logging_flags::base::oct:
         {
-            constexpr int oct_base = 8;
-            return oct_base;
+            return 8;
         }
         case logging_flags::base::bin:
         {
-            constexpr int bin_base = 2;
-            return bin_base;
+            return 2;
         }
     }
     return 0;

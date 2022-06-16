@@ -40,8 +40,8 @@ std::pair<uint16_t, uint16_t> floatToInts(float number, uint8_t precision)
     auto floatingPoint = number - static_cast<float>(high);
     constexpr int base = 10;
     auto multiplier    = static_cast<float>(pow(base, precision));\
-    constexpr float epsilion = 0.1f;
-    if (floatingPoint < epsilion)
+    
+    if (constexpr float epsilion = 0.1f; floatingPoint < epsilion)
     {
         low = static_cast<uint16_t>(std::round(floatingPoint * base) / base * base);
     }

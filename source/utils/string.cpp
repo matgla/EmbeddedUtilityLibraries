@@ -36,8 +36,8 @@ void reverse(std::span<char> str)
 
 char int_to_char(int n)
 {
-    constexpr int is_not_single_digit_check = 9;
-    if (n > is_not_single_digit_check)
+    
+    if (constexpr int is_not_single_digit_check = 9; n > is_not_single_digit_check)
     {
         constexpr int dec_base = 10;
         return static_cast<char>(n - dec_base + 'a');

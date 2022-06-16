@@ -20,9 +20,7 @@
 
 #include "eul/container/observable/observing_node.hpp"
 
-namespace eul
-{
-namespace logger
+namespace eul::logger 
 {
 
 class logger_stream
@@ -40,5 +38,4 @@ private:
     observing_node_type observing_node_;
 };
 
-} // namespace logger
-} // namespace eul
+} // namespace eul::logger

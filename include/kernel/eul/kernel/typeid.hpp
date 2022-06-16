@@ -18,9 +18,7 @@
 
 #include <cstddef>
 
-namespace eul
-{
-namespace kernel
+namespace eul::kernel 
 {
 
 using typeid_t = std::size_t;
@@ -34,6 +32,4 @@ typeid_t type_id() noexcept
     return type_id;
 }
 
-
-} // namespace kernel
-} // namespace eul
+} // namespace eul::kernel

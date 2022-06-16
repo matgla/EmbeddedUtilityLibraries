@@ -18,6 +18,11 @@ cmake_minimum_required(VERSION 3.2)
 
 project(eul CXX)
 
+# EUL for apple supports only libc++
+if (APPLE)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
+endif ()
+
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include(FetchContent)

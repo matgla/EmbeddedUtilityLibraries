@@ -16,30 +16,43 @@
 
 #pragma once
 
-#ifndef NDEBUG
+#ifdef __clang__
+#include <experimental/source_location>
+namespace std 
+{
+    using source_location = std::experimental::source_location;
+}
+#else 
+#include <source_location>
+#endif 
 
 #include <cstdlib>
 #include <string_view>
-
 #include "eul/utils/unused.hpp"
 
-// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define EUL_ASSERT_MSG(expr, msg)                                                                            \
-    ((expr) ? (void)0 : eul::assertFailed(#expr, std::string_view(__FILE__), __LINE__, std::string_view(&__FUNCTION__[0], sizeof(__FUNCTION__)), std::string_view(msg)))
-
+#ifndef NDEBUG
 namespace eul
 {
 
-
-inline void assertFailed(const char* expr, std::string_view file, int line, std::string_view function, std::string_view msg)
+inline void assertFailed(const char* expr, std::string_view file, uint32_t line, std::string_view function, std::string_view msg)
 {
     UNUSED5(expr, file, line, function, msg);
 }
 
 } // namespace eul
+constexpr void eul_assert_msg(const auto value, const std::string_view msg, const std::source_location loc = std::source_location::current())
+{
+    if (!value)
+    {
+        eul::assertFailed(loc.function_name(), loc.file_name(), loc.line(), loc.function_name(), msg);
+    }
+}
 
 #else
 
-#define EUL_ASSERT_MSG(expr, msg) ((void)(0))
+constexpr void eul_assert_msg(const auto value, const std::string_view msg, const std::source_location loc = std::source_location::current())
+{
+    UNUSED(value, msg, loc);
+}
 
 #endif // ASSERTION_ENABLED

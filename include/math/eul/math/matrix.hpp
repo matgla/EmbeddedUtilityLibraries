@@ -17,6 +17,7 @@
 #pragma once 
 
 #include <array>
+#include <algorithm>
 #include <cstddef>
 
 namespace eul::math 
@@ -41,7 +42,7 @@ public:
         std::size_t i = 0;
         for (auto& row : l)
         {
-            std::copy(row.begin(), row.end(), data_.at(i).begin());
+            std::ranges::copy(row.begin(), row.end(), data_.at(i).begin());
             ++i;
         }
     }
@@ -144,10 +145,7 @@ public:
     }
  
     
-    bool operator==(const self_type& other) const 
-    {
-        return data_ == other.data_;
-    }
+    bool operator==(const self_type& other) const = default;
 
     const std::array<T, Columns>& operator[](std::size_t i) const 
     {

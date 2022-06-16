@@ -33,7 +33,7 @@ char int_to_char(int n);
 template <typename T>
 inline T itoa(T n, std::span<char> s, int base_n)
 {
-    static_assert(std::is_arithmetic<T>::value, "Type provided for serialize isn't arithmetic");
+    static_assert(std::is_arithmetic_v<T>, "Type provided for serialize isn't arithmetic");
     T i = 0;
     T sign = n;
 

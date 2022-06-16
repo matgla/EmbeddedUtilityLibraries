@@ -18,11 +18,7 @@
 
 #include <tuple>
 
-namespace eul
-{
-namespace mpl
-{
-namespace mixin
+namespace eul::mpl::mixin 
 {
 
 template <typename MixinType, template <typename> typename... Types>
@@ -35,6 +31,4 @@ struct inherit_from<std::tuple<T...>> : public T...
 {
 };
 
-} // namespace mixin
-} // namespace mpl
-} // namespace eul
+} // namespace eul::mpl::mixin

@@ -71,7 +71,7 @@ private:
 
     [[nodiscard]] const NodeType* get_end() const;
 
-    void link(NodeType& prev, NodeType& node);
+    void link(NodeType& prev, NodeType& node) const;
     void link(NodeType& node);
 
     NodeType* root_{nullptr};
@@ -120,8 +120,8 @@ bool observing_list<NodeType>::insert_after(NodeType& prev, NodeType& node)
     {
         return false;
     }
-    auto* current = find(&prev);
-    if (!current)
+
+    if (!find(&prev))
     {
         return false;
     }
@@ -323,7 +323,7 @@ const NodeType* observing_list<NodeType>::get_end() const
 }
 
 template <typename NodeType>
-void observing_list<NodeType>::link(NodeType& prev, NodeType& node)
+void observing_list<NodeType>::link(NodeType& prev, NodeType& node) const
 {
     node.set_next(prev.next());
 

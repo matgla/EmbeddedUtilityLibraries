@@ -23,10 +23,7 @@ struct TestClass
     int a;
     int b;
 
-    bool operator==(const TestClass& other) const
-    {
-        return a == other.a && b == other.b;
-    }
+    bool operator==(const TestClass& other) const = default;
 };
 
 TEST_CASE("StaticDeque should", "[StaticDeque]")
