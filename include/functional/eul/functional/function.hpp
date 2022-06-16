@@ -33,6 +33,7 @@ class function<ReturnType(Args...), Size>
 {
     struct IFunctionInvoker // NOLINT(cppcoreguidelines-special-member-functions)
     {
+    public:
         virtual ~IFunctionInvoker()                       = default;
         virtual ReturnType operator()(Args... args)       = 0;
         virtual ReturnType operator()(Args... args) const = 0;
@@ -208,7 +209,7 @@ public:
     }
 
 
-private:
+protected:
     void copy_to(storage_type& new_place) const
     {
         get_invoker().copy_to(&new_place);
@@ -304,7 +305,7 @@ private:
         isCallable_ = true;
     }
 
-
+private:
     storage_type storage_{};
     bool isCallable_{false};
 };

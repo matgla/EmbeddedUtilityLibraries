@@ -188,6 +188,9 @@ uint16_t calculate_crc16(const std::span<const uint8_t> data)
     {
         return calculate_crc<uint16_t, polynomial, 0, false>(data, 0);
     }
-    return 0;
+    else
+    {
+        return 0;
+    }
 }
 

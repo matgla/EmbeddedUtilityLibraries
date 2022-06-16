@@ -100,7 +100,7 @@ TEST_CASE("Static vector should", "[StaticVectorTests]")
 
     SECTION("initalizes with initializer list")
     {
-        const eul::container::static_vector<uint8_t, 4> sut = {1, 2, 3, 4};
+        const eul::container::static_vector<uint8_t, 4> sut{1, 2, 3, 4};
         const eul::container::static_vector<uint8_t, 4> sut2{1, 2, 3, 4};
         const eul::container::static_vector<uint8_t, 4> sut3({1, 2, 3, 4});
 

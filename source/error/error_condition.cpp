@@ -9,15 +9,11 @@ error_condition::error_condition() noexcept
 {
 }
 
-error_condition::error_condition(const error_condition& other) noexcept = default;
-
 error_condition::error_condition(int val, const error_category& cat) noexcept
     : value_(val)
     , category_(&cat)
 {
 }
-
-error_condition& error_condition::operator=(const error_condition& other) noexcept = default;
 
 void error_condition::assign(int val, const error_category& cat) noexcept
 {

@@ -15,14 +15,7 @@ class error_condition
 {
 public:
     error_condition() noexcept;
-    ~error_condition() = default;
-
     error_condition(int val, const error_category& cat) noexcept;
-
-    error_condition(const error_condition& other) noexcept;
-    error_condition& operator=(const error_condition& other) noexcept;
-    error_condition(error_condition&& other) noexcept = default;
-    error_condition& operator=(error_condition&& other) noexcept = default;
 
     template <typename ErrorConditionEnum>
     error_condition(ErrorConditionEnum e) noexcept // NOLINT(google-explicit-constructor)

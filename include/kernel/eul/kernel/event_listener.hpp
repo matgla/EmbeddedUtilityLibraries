@@ -24,33 +24,13 @@ namespace eul::kernel
 template <typename Event>
 struct event_listener
 {
+    virtual ~event_listener() = default;
+    
     using SelfType = event_listener<Event>;
-    constexpr event_listener(const event_listener& ev)
-    {
-        if (this != &ev)
-        {
-            listener_ = this;
-        }
-    }
 
     constexpr event_listener()
     {
         listener_ = this;
-    }
-
-    event_listener& operator=(const event_listener& ev)
-    {
-        if (this != &ev)
-        {
-            listener_ = this;
-        }
-    }
-
-    constexpr event_listener(event_listener&& ev) = delete;
-    event_listener& operator=(event_listener&& ev) = delete;
-    ~event_listener()
-    {
-        listener_ = nullptr;
     }
 
     virtual void handle_event(const Event& event) = 0;

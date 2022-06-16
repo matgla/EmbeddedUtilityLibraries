@@ -27,5 +27,6 @@ ENV PATH=$PATH:/opt/sonar_scanner/sonar-scanner-$SONAR_SCANNER_VERSION-linux/bin
 RUN echo $PATH
 RUN apt-get install -y clang-14 clang-tidy-14
 RUN update-alternatives --install /usr/bin/clang clang-14 /usr/bin/clang-14 100 --slave /usr/bin/clang++ clang++14 /usr/bin/clang++-14 --slave /usr/bin/clang-tidy clang-tidy-14 /usr/bin/clang-tidy-14 --slave /usr/bin/run-clang-tidy run-clang-tidy-14 /usr/bin/run-clang-tidy-14 
-
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get install -y gcovr
 RUN apt-get clean

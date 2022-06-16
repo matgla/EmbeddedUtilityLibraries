@@ -32,19 +32,22 @@ jobs:
         shell: bash 
         working-directory: build
         run: | 
-          cmake .. -GNinja -DENABLE_CLANG_TIDY=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++
-      - name: Execute ClangTidy
-        shell: bash
+          cmake .. -GNinja -DENABLE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug
+      - name: Execute tests
+        shell: bash 
         working-directory: build
-        continue-on-error: true
-        run: |
-          ninja run_clang_tidy_for_sonar
+        run: | 
+          ninja check
+      - name: Generate coverage report
+        shell: bash 
+        run: | 
+          gcovr --sonarqube coverage_for_sonar.xml
       - name: Execute SonarScanner 
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.compile-commands="build/compile_commands.json" --define sonar.cxx.clangtidy.reportPath=build/clang_tidy_report.txt 
+          sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.compile-commands="build/compile_commands.json" --define sonar.coverageReportPaths="coverage_for_sonar.xml"
 
           

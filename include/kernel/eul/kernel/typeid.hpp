@@ -25,7 +25,7 @@ namespace kernel
 
 using typeid_t = std::size_t;
 
-static typeid_t type_counter = 0; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+typeid_t type_counter = 0; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
 template <typename T>
 typeid_t type_id() noexcept

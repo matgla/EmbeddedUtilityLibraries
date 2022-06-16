@@ -10,22 +10,10 @@ path::path(std::string_view path)
 {
 }
 
-path::path(const path& path) = default;
-
 path::path(const char* path)
     : path_(path)
 {
 }
-
-path& path::operator=(const path& path)
-{
-    if (this != &path)
-    {
-        this->path_ = path.path_;
-    }
-    return *this;
-}
-
 
 path& path::operator=(const std::string_view& path)
 {
@@ -154,7 +142,7 @@ path path::parent_path() const
         return {"/"};
     }
 
-    return {path_.substr(0, last_slash)};
+    return {std::string_view{path_}.substr(0, last_slash)};
 }
 
 std::string path::filename() const
