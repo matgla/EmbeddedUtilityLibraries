@@ -35,6 +35,7 @@ logger_printer::logger_printer(
     : name_(name)
     , time_(time)
 {
+    std::cerr << "Printer constructpr 1" << std::endl;
     printHeader(prefix, user_prefix);
 }
 
@@ -45,6 +46,7 @@ logger_printer::logger_printer(
     : name_(name)
     , time_(time)
 {
+    std::cerr << "Printer constructpr 2" << std::endl;
     printHeader(prefix);
 }
 
@@ -103,7 +105,7 @@ char formatted_time[26];
 #else 
     ctime_r(&timestamp, formatted_time);
 #endif 
-    std::memcpy(buffer.data(), formatted_time, std::strlen(formatted_time)); // NOSONAR
+    std::memcpy(buffer.data(), formatted_time, sizeof formatted_time - 2); // NOSONAR
     write_to_streams(buffer.data());
 }
 
@@ -117,6 +119,7 @@ void logger_printer::write_to_streams(const std::string_view& data)
 
 int logger_printer::get_base() const
 {
+    std::cerr << "Flags base: " << static_cast<int>(flags_.get_base()) << std::endl;
     switch (flags_.get_base())
     {
         case logging_flags::base::dec:

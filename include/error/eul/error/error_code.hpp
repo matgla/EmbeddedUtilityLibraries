@@ -52,7 +52,6 @@ public:
     auto operator<=>(const error_code& rhs) const noexcept 
     {
         return (*this->category_) <=> (*rhs.category_);
-            // || ((*this->category_ == *rhs.category_) && value_ <=> rhs.value_);
     }
 private:
     const error_condition* condition_ = nullptr;

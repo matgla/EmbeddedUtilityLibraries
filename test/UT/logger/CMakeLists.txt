@@ -16,16 +16,50 @@
 
 add_executable (eul_logger_tests)
 
+add_library(eul_logger_disabled_policy_tests OBJECT)
+target_sources(eul_logger_disabled_policy_tests
+    PUBLIC 
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoggerTestsDisabledPolicy.cpp
+)
+target_link_libraries(eul_logger_disabled_policy_tests
+    PUBLIC 
+        Catch2
+        eul_logger
+        eul_private_flags
+)
+
+add_library(eul_logger_error_policy_tests OBJECT)
+target_sources(eul_logger_error_policy_tests
+    PUBLIC 
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoggerTestsErrorPolicy.cpp
+)
+target_compile_definitions(eul_logger_error_policy_tests
+    PRIVATE 
+        -DLOG_LEVEL_ERROR=1
+)
+target_link_libraries(eul_logger_error_policy_tests
+    PUBLIC 
+        Catch2
+        eul_logger
+        eul_private_flags
+)
+
 target_sources (eul_logger_tests
     PRIVATE 
-        ${CMAKE_CURRENT_SOURCE_DIR}/LoggerTests.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ExpectStream.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/TimeProviderStub.hpp
+
+        ${CMAKE_CURRENT_SOURCE_DIR}/ExpectStream.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/TimeProviderStub.cpp
+
+        $<TARGET_OBJECTS:eul_logger_disabled_policy_tests>
+        $<TARGET_OBJECTS:eul_logger_error_policy_tests>
 )
 
 target_link_libraries (eul_logger_tests 
     PRIVATE 
-        eul_logger
-        eul_private_flags 
         Catch2WithMain
+        eul_logger
 )
 
 add_test (logger_tests eul_logger_tests)

@@ -23,12 +23,19 @@
 
 #include "eul/time/fwd.hpp"
 
+#include <iostream>
+
 namespace eul::logger
 {
 
 struct logging_flags
 {
 public:
+    logging_flags()
+    {
+        std::cerr << "Flags created" << std::endl;
+    }
+
     enum class base : uint8_t
     {
         dec,
@@ -196,6 +203,7 @@ private:
     template <typename T>
     int reverse_number(T& number, int base) const
     {
+        std::cerr << "num: " << number << ", base: " << base << std::endl;
         if (number == 0)
         {
             return 1;
@@ -231,7 +239,7 @@ private:
         {
             constexpr std::size_t buffer_size = 2;
             std::array<char, buffer_size> digit{
-                 {"0123456789abcdef"[number%base]},
+                 "0123456789abcdef"[number%base],
                  0
             };
             write_to_streams(digit.data());
@@ -249,7 +257,6 @@ private:
         }
     }
 
-private:
     const std::string_view name_;
     const time::i_time_provider& time_;
     logging_flags flags_;

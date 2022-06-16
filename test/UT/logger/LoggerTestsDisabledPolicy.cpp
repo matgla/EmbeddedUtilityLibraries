@@ -17,16 +17,40 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include <iostream>
+#include <chrono>
 
 #include "eul/logger/logger.hpp"
+#include "eul/logger/logger_factory.hpp"
+#include "eul/logger/logger_stream_registry.hpp"
+#include "eul/time/i_time_provider.hpp"
+
+#include "TimeProviderStub.hpp"
+#include "ExpectStream.hpp"
 
 namespace eul::logger 
 {
 
-TEST_CASE("LoggerTests", "[LOGGER_TESTS]")
+TEST_CASE("LoggerDisabledPolicyShould", "[LOGGER_TESTS]")
 {
-    SECTION("Do nothing") 
+    SECTION("Print nothing") 
     {
+        ExpectStream stream;
+        logger_stream_registry::get().register_stream(stream);
+
+        TimeProviderStub time_provider;
+        auto logger = logger_factory(time_provider)
+            .create("Test", "Prefix");
+
+        stream.expect_none();
+        logger.trace() << "Hello";
+        stream.expect_none();
+        logger.debug() << "Hello";
+        stream.expect_none();
+        logger.info() << "Hello";
+        stream.expect_none();
+        logger.warning() << "Hello";
+        stream.expect_none();
+        logger.error() << "Hello";
     }
 }
 
