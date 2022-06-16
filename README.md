@@ -1,4 +1,8 @@
 # Embedded Utility Library
 C++ libraries for embedded systems. 
 
-[![Build Status](https://travis-ci.com/matgla/EmbeddedUtilityLibraries.svg?branch=master)](https://travis-ci.com/matgla/EmbeddedUtilityLibraries) [![Coverage Status](https://coveralls.io/repos/github/matgla/EmbeddedUtilityLibraries/badge.svg?branch=master)](https://coveralls.io/github/matgla/EmbeddedUtilityLibraries?branch=master)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=matgla_EmbeddedUtilityLibraries&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=matgla_EmbeddedUtilityLibraries)
+
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=matgla_EmbeddedUtilityLibraries&metric=coverage)](https://sonarcloud.io/summary/new_code?id=matgla_EmbeddedUtilityLibraries)
+
+[![UnitTests](https://github.com/matgla/EmbeddedUtilityLibraries/actions/workflows/ut.yml/badge.svg?branch=master)](https://github.com/matgla/EmbeddedUtilityLibraries/actions/workflows/ut.yml)
