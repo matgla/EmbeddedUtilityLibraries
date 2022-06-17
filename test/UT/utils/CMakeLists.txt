@@ -19,6 +19,7 @@ add_executable (eul_utils_tests)
 target_sources (eul_utils_tests
     PRIVATE 
         ${CMAKE_CURRENT_SOURCE_DIR}/StringTests.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MathTests.cpp
 )
 
 target_link_libraries (eul_utils_tests 
