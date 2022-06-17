@@ -47,6 +47,15 @@ TEST_CASE("PathConstIteratorShould", "[PathConstTests]")
         REQUIRE(*it++ == ".");
         REQUIRE((*it++).empty());
     }
+    SECTION("CompareIterators")
+    {
+        path_const_iterator it1("a/./b");
+        path_const_iterator it2("a/.");
+        path_const_iterator it3 = it2;
+        REQUIRE(it1 != it2);
+        REQUIRE(it1 != it3);
+        REQUIRE(it2 == it3);
+    }
 }
 
 } // namespace eul::filesystem

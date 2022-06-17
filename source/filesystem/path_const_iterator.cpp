@@ -61,4 +61,5 @@ void path_const_iterator::set_next_part()
     part_ = {};
 }
 
+
 } // namespace eul::filesystem

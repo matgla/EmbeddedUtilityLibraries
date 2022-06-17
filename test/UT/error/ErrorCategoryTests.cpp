@@ -113,6 +113,9 @@ TEST_CASE("ErrorCategory tests", "[ErrorCategoryTests]")
         {
             REQUIRE(sut_2 < base_1);
         }
+
+        auto val = sut_1 <=> sut_2;
+        REQUIRE((val < 0));
     }
 }
 
