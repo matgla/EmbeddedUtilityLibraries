@@ -135,4 +135,15 @@ TEST_CASE("KernelShould", "[KernelTests]")
         REQUIRE(b.a == 2);
         REQUIRE(c.a == test_value);
     }
+    SECTION("Return nullptr if not registered service")
+    {
+        eul::kernel::kernel kernel;
+
+        ServiceB* b = kernel.get_service<ServiceB>();
+        const ServiceB* c = kernel.get_service<ServiceB>();
+
+        REQUIRE(!b);
+        REQUIRE(!c);
+        
+    }
 }
