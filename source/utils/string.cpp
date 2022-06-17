@@ -22,17 +22,9 @@
 #include "eul/utils/assert.hpp"
 #include "eul/utils/math.hpp"
 
+#include <iostream>
 namespace eul::utils
 {
-
-void reverse(std::span<char> str)
-{
-    if (str.empty())
-    {
-        return;
-    }
-
-}
 
 char int_to_char(int n)
 {
