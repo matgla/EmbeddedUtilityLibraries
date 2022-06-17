@@ -26,8 +26,6 @@
 #include "eul/logger/suppressing_logger.hpp"
 #include "eul/time/i_time_provider.hpp"
 
-#include <iostream>
-
 namespace eul::logger
 {
 
@@ -59,7 +57,7 @@ public:
         time_ = &time;
     }
 
-    template <typename Dummy = void> requires CurrentLoggingPolicy::debug_enabled
+    template <typename Policy = CurrentLoggingPolicy> requires Policy::debug_enabled
     auto debug() const
     {
         if (prefix_ && prefix_ != "")
@@ -69,13 +67,13 @@ public:
         return logger_printer("DBG", name_, *time_);
     }
 
-    template <typename Dummy = void> requires (!CurrentLoggingPolicy::debug_enabled)
+    template <typename Policy = CurrentLoggingPolicy> requires (!Policy::debug_enabled)
     auto debug() const 
     {
         return suppressing_logger();
     }
 
-    template <typename Dummy = void> requires CurrentLoggingPolicy::info_enabled
+    template <typename Policy = CurrentLoggingPolicy> requires Policy::info_enabled
     auto info() const
     {
         if (prefix_ && prefix_ != "")
@@ -85,13 +83,13 @@ public:
         return logger_printer("INF", name_, *time_);
     }
 
-    template <typename Dummy = void> requires (!CurrentLoggingPolicy::info_enabled)
+    template <typename Policy = CurrentLoggingPolicy> requires (!Policy::info_enabled)
     auto info() const 
     {
         return suppressing_logger();
     }
 
-    template <typename Dummy = void> requires CurrentLoggingPolicy::warning_enabled
+    template <typename Policy = CurrentLoggingPolicy> requires Policy::warning_enabled
     auto warning() const
     {
         if (prefix_ && prefix_ != "")
@@ -101,7 +99,7 @@ public:
         return logger_printer("WRN", name_, *time_);
     }
 
-    template <typename Dummy = void> requires (!CurrentLoggingPolicy::warning_enabled)
+    template <typename Policy = CurrentLoggingPolicy> requires (!Policy::warning_enabled)
     auto warning() const 
     {
         return suppressing_logger();
@@ -110,7 +108,6 @@ public:
     template <typename Policy = CurrentLoggingPolicy> requires Policy::error_enabled
     auto error() const
     {
-        std::cerr << "error()" << std::endl;
         if (prefix_ && prefix_ != "")
         {
             return logger_printer("ERR", name_, *prefix_, *time_);
@@ -121,12 +118,10 @@ public:
     template <typename Policy = CurrentLoggingPolicy> requires (!Policy::error_enabled)
     auto error() const 
     {
-        std::cerr << "error suppress()" << std::endl;
-
         return suppressing_logger();
     }
 
-    template <typename Dummy = void> requires CurrentLoggingPolicy::trace_enabled
+    template <typename Policy = CurrentLoggingPolicy> requires Policy::trace_enabled
     auto trace() const
     {
         if (prefix_ && prefix_ != "")
@@ -136,7 +131,7 @@ public:
         return logger_printer("TRC", name_, *time_);
     }
     
-    template <typename Dummy = void> requires (!CurrentLoggingPolicy::trace_enabled)
+    template <typename Policy = CurrentLoggingPolicy> requires (!Policy::trace_enabled)
     auto trace() const 
     {
         return suppressing_logger();

@@ -20,7 +20,7 @@ void ExpectStream::write(const std::string_view& str)
     {
         got_ << tmp; 
         REQUIRE(got_.str() == expect_);
-        got_.clear();
+        std::stringstream().swap(got_);
         return;
     }
     got_ << tmp;
@@ -28,7 +28,8 @@ void ExpectStream::write(const std::string_view& str)
 
 void ExpectStream::expect(const std::string& message, const std::chrono::milliseconds& milliseconds)
 {
-    std::time_t time = milliseconds.count();
+    got_.clear();
+    std::time_t time = std::chrono::duration_cast<std::chrono::seconds>(milliseconds).count();
     struct tm time_tm{}; 
     #if defined(_MSC_VER)
         localtime_s(&time_tm, &time);

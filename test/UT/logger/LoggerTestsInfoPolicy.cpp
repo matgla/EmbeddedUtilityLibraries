@@ -16,10 +16,13 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include <chrono>
+
 #include "eul/logger/logger.hpp"
 #include "eul/logger/logger_factory.hpp"
-#include "eul/logger/logger_stream_registry.hpp"
 #include "eul/time/i_time_provider.hpp"
+#include "eul/logger/logger_stream_registry.hpp"
+#include "eul/logger/logger_stream.hpp"
 
 #include "TimeProviderStub.hpp"
 #include "ExpectStream.hpp"
@@ -27,27 +30,36 @@
 namespace eul::logger 
 {
 
-TEST_CASE("LoggerDisabledPolicyShould", "[LOGGER_TESTS]")
+TEST_CASE("LoggerInfoPolicyShould", "[LOGGER_TESTS]")
 {
-    SECTION("Print nothing") 
+    SECTION("Print info warning and error") 
     {
         ExpectStream stream;
         logger_stream_registry::get().register_stream(stream);
-
         TimeProviderStub time_provider;
         auto logger = logger_factory(time_provider)
-            .create("Test", "Prefix");
+            .create("LoggerTest", "InfoTest");
 
         stream.expect_none();
-        logger.trace() << "Hello";
+        logger.trace() << "Trace is printed";
         stream.expect_none();
-        logger.debug() << "Hello";
+        logger.debug() << "Debug is printed";
         stream.expect_none();
-        logger.info() << "Hello";
-        stream.expect_none();
-        logger.warning() << "Hello";
-        stream.expect_none();
-        logger.error() << "Hello";
+
+        constexpr std::chrono::hours time1{1000000};
+        time_provider.set_time(time1);
+        stream.expect("INF/InfoTest/LoggerTest: info prints octal 23224\n", time1);
+
+        logger.info() << "info" << " prints octal " << eul::logger::oct << 9876;
+
+        time_provider.set_time(std::chrono::milliseconds(0));
+        stream.expect("WRN/InfoTest/LoggerTest: warning is printed out with hex 0xabcd\n", std::chrono::milliseconds{0});
+        logger.warning() << "warning is printed out with hex 0x" << eul::logger::hex << 0xabcd;
+
+        constexpr std::chrono::seconds time2{1000000};
+        time_provider.set_time(time2);
+        stream.expect("ERR/InfoTest/LoggerTest: Error is printed with 1234\n", time2);
+        logger.error() << "Error" << " is printed with " << eul::logger::dec << 1234;
     }
 }
 

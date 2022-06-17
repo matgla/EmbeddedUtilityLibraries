@@ -16,8 +16,6 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include <iostream>
-
 #include "eul/math/matrix.hpp"
 
 namespace eul::math 

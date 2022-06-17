@@ -16,6 +16,10 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include <chrono>
+#include <string>
+#include <sstream>
+
 #include "eul/logger/logger.hpp"
 #include "eul/logger/logger_factory.hpp"
 #include "eul/time/i_time_provider.hpp"
@@ -28,27 +32,40 @@
 namespace eul::logger 
 {
 
-TEST_CASE("LoggerErrorPolicyShould", "[LOGGER_TESTS]")
+TEST_CASE("LoggerDebugPolicyShould", "[LOGGER_TESTS]")
 {
-    SECTION("Print Error") 
+    SECTION("Print debug info warning and errors") 
     {
         ExpectStream stream;
         logger_stream_registry::get().register_stream(stream);
         TimeProviderStub time_provider;
         auto logger = logger_factory(time_provider)
-            .create("Test", "Prefix");
+            .create("LoggerTest", "DebugTests");
 
         stream.expect_none();
         logger.trace() << "Trace is printed";
         stream.expect_none();
-        logger.debug() << "Debug is printed";
-        stream.expect_none();
-        logger.info() << "Hello is printed";
-        stream.expect_none();
-        logger.warning() << "Warning is printed";
 
-        stream.expect("ERR/Prefix/Test: Error is printed with 1234\n", std::chrono::milliseconds{0});
-        logger.error() << "Error" << " is printed with " << 1234;
+        constexpr std::chrono::hours time{12345};
+        time_provider.set_time(time);
+        stream.expect("DBG/DebugTests/LoggerTest: Printing debug with binary: 0b1111111111011100\n", time);
+
+        logger.debug() << "Printing debug with binary: 0b" << eul::logger::bin << 65500;
+
+        constexpr std::chrono::hours time2{1000000};
+        time_provider.set_time(time2);
+        stream.expect("INF/DebugTests/LoggerTest: info prints octal 23224\n", time2);
+
+        logger.info() << "info" << " prints octal " << eul::logger::oct << 9876;
+
+        time_provider.set_time(std::chrono::milliseconds(0));
+        stream.expect("WRN/DebugTests/LoggerTest: warning is printed out with hex 0xabcd\n", std::chrono::milliseconds{0});
+        logger.warning() << "warning is printed out with hex 0x" << eul::logger::hex << 0xabcd;
+
+        constexpr std::chrono::seconds time3{1000000};
+        time_provider.set_time(time3);
+        stream.expect("ERR/DebugTests/LoggerTest: Error is printed with 1234\n", time3);
+        logger.error() << "Error" << " is printed with " << eul::logger::dec << 1234;
     }
 }
 

@@ -44,6 +44,71 @@ target_link_libraries(eul_logger_error_policy_tests
         eul_private_flags
 )
 
+add_library(eul_logger_warning_policy_tests OBJECT)
+target_sources(eul_logger_warning_policy_tests
+    PUBLIC 
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoggerTestsWarningPolicy.cpp
+)
+target_compile_definitions(eul_logger_warning_policy_tests
+    PRIVATE 
+        -DLOG_LEVEL_WARNING=1
+)
+target_link_libraries(eul_logger_warning_policy_tests
+    PUBLIC 
+        Catch2
+        eul_logger
+        eul_private_flags
+)
+
+add_library(eul_logger_info_policy_tests OBJECT)
+target_sources(eul_logger_info_policy_tests
+    PUBLIC 
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoggerTestsInfoPolicy.cpp
+)
+target_compile_definitions(eul_logger_info_policy_tests
+    PRIVATE 
+        -DLOG_LEVEL_INFO=1
+)
+target_link_libraries(eul_logger_info_policy_tests
+    PUBLIC 
+        Catch2
+        eul_logger
+        eul_private_flags
+)
+
+add_library(eul_logger_debug_policy_tests OBJECT)
+target_sources(eul_logger_debug_policy_tests
+    PUBLIC 
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoggerTestsDebugPolicy.cpp
+)
+target_compile_definitions(eul_logger_debug_policy_tests
+    PRIVATE 
+        -DLOG_LEVEL_DEBUG=1
+)
+target_link_libraries(eul_logger_debug_policy_tests
+    PUBLIC 
+        Catch2
+        eul_logger
+        eul_private_flags
+)
+
+add_library(eul_logger_trace_policy_tests OBJECT)
+target_sources(eul_logger_trace_policy_tests
+    PUBLIC 
+        ${CMAKE_CURRENT_SOURCE_DIR}/LoggerTestsTracePolicy.cpp
+)
+target_compile_definitions(eul_logger_trace_policy_tests
+    PRIVATE 
+        -DLOG_LEVEL_TRACE=1
+)
+target_link_libraries(eul_logger_trace_policy_tests
+    PUBLIC 
+        Catch2
+        eul_logger
+        eul_private_flags
+)
+
+
 target_sources (eul_logger_tests
     PRIVATE 
         ${CMAKE_CURRENT_SOURCE_DIR}/ExpectStream.hpp
@@ -54,6 +119,10 @@ target_sources (eul_logger_tests
 
         $<TARGET_OBJECTS:eul_logger_disabled_policy_tests>
         $<TARGET_OBJECTS:eul_logger_error_policy_tests>
+        $<TARGET_OBJECTS:eul_logger_warning_policy_tests>
+        $<TARGET_OBJECTS:eul_logger_info_policy_tests>
+        $<TARGET_OBJECTS:eul_logger_debug_policy_tests>
+        $<TARGET_OBJECTS:eul_logger_trace_policy_tests>
 )
 
 target_link_libraries (eul_logger_tests 

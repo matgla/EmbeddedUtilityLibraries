@@ -3,7 +3,6 @@ ARG CMAKE_VERSION=3.23.2
 ARG SONAR_SCANNER_VERSION=4.7.0.2747
 
 RUN apt-get update && apt-get install -y wget software-properties-common
-RUN apt-get install -y gcc g++ 
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test
 RUN apt-get install -y gcc-12 g++-12 build-essential
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 100 --slave /usr/bin/g++ g++ /usr/bin/g++-12 --slave /usr/bin/gcov gcov /usr/bin/gcov-12
