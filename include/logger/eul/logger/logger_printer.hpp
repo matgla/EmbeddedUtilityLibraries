@@ -17,6 +17,7 @@
 #pragma once
 
 #include <concepts>
+#include <array>
 #include <string_view>
 
 #include <span>
