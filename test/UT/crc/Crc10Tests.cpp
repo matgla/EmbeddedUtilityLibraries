@@ -19,7 +19,7 @@
 
 #include "CrcTestBase.hpp"
 
-#include <eul/crc/crc7.hpp>
+#include <eul/crc/crc10.hpp>
 
 namespace eul::crc
 {
@@ -34,11 +34,12 @@ const static std::vector<std::vector<uint8_t>> test_data{
     {0xff, 0xff, 0xff, 0xff},
 };
 
-static_assert(std::is_same_v<Crc7_MMC, Crc7>, "Crc7_MMC should be same as Crc7");
+static_assert(std::is_same_v<Crc10, Crc10_ATM>, "Crc10 should be same as Crc10_ATM");
+static_assert(std::is_same_v<Crc10_I_610, Crc10_ATM>, "Crc10_I_610 should be same as Crc10_ATM");
         
-REGISTER_CRC_TEST(Crc7_MMC,  test_data, {0x75, 0x00, 0x79, 0x3d, 0x3b, 0x00, 0x15});
-REGISTER_CRC_TEST(Crc7_ROHC, test_data, {0x53, 0x46, 0x79, 0x07, 0x74, 0x23, 0x07});
-REGISTER_CRC_TEST(Crc7_UMTS, test_data, {0x61, 0x00, 0x59, 0x78, 0x76, 0x00, 0x53});
+REGISTER_CRC_TEST(Crc10_ATM,        test_data, {0x199, 0x000, 0x0e1, 0x2a8, 0x32a, 0x000, 0x056});
+REGISTER_CRC_TEST(Crc10_CDMA2000,   test_data, {0x233, 0x356, 0x300, 0x0d8, 0x083, 0x2f8, 0x1d0});
+REGISTER_CRC_TEST(Crc10_GSM,        test_data, {0x12a, 0x3ff, 0x274, 0x1da, 0x3a7, 0x3ff, 0x07f});
 
 } // namespace eul::crc
 

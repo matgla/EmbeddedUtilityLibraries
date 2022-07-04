@@ -19,7 +19,7 @@
 
 #include "CrcTestBase.hpp"
 
-#include <eul/crc/crc7.hpp>
+#include <eul/crc/crc14.hpp>
 
 namespace eul::crc
 {
@@ -34,11 +34,9 @@ const static std::vector<std::vector<uint8_t>> test_data{
     {0xff, 0xff, 0xff, 0xff},
 };
 
-static_assert(std::is_same_v<Crc7_MMC, Crc7>, "Crc7_MMC should be same as Crc7");
-        
-REGISTER_CRC_TEST(Crc7_MMC,  test_data, {0x75, 0x00, 0x79, 0x3d, 0x3b, 0x00, 0x15});
-REGISTER_CRC_TEST(Crc7_ROHC, test_data, {0x53, 0x46, 0x79, 0x07, 0x74, 0x23, 0x07});
-REGISTER_CRC_TEST(Crc7_UMTS, test_data, {0x61, 0x00, 0x59, 0x78, 0x76, 0x00, 0x53});
+
+REGISTER_CRC_TEST(Crc14_DARC, test_data, {0x082d, 0x0000, 0x3db6, 0x2645, 0x0a15, 0x0000, 0x1bf6});
+REGISTER_CRC_TEST(Crc14_GSM,  test_data, {0x30ae, 0x3fff, 0x2ded, 0x3c47, 0x3b66, 0x3fff, 0x2aa2});
 
 } // namespace eul::crc
 
