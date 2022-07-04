@@ -19,7 +19,7 @@
 
 #include "CrcTestBase.hpp"
 
-#include <eul/crc/crc7.hpp>
+#include <eul/crc/crc6.hpp>
 
 namespace eul::crc
 {
@@ -34,11 +34,13 @@ const static std::vector<std::vector<uint8_t>> test_data{
     {0xff, 0xff, 0xff, 0xff},
 };
 
-static_assert(std::is_same_v<Crc7_MMC, Crc7>, "Crc7_MMC should be same as Crc7");
+static_assert(std::is_same_v<Crc6_ITU, Crc6_G_704>, "Crc6_ITU should be same as Crc6_G_704");
         
-REGISTER_CRC_TEST(Crc7_MMC,  test_data, {0x75, 0x00, 0x79, 0x3d, 0x3b, 0x00, 0x15});
-REGISTER_CRC_TEST(Crc7_ROHC, test_data, {0x53, 0x46, 0x79, 0x07, 0x74, 0x23, 0x07});
-REGISTER_CRC_TEST(Crc7_UMTS, test_data, {0x61, 0x00, 0x59, 0x78, 0x76, 0x00, 0x53});
+REGISTER_CRC_TEST(Crc6_CDMA2000_A,  test_data, {0x0d});
+REGISTER_CRC_TEST(Crc6_CDMA2000_B,  test_data, {0x3b});
+REGISTER_CRC_TEST(Crc6_DARC,        test_data, {0x26, 0x00, 0x11, 0x2e, 0x26, 0x00, 0x1d});
+REGISTER_CRC_TEST(Crc6_G_704,       test_data, {0x06, 0x00, 0x2c, 0x37, 0x1c, 0x00, 0x04});
+REGISTER_CRC_TEST(Crc6_GSM,         test_data, {0x13, 0x3f, 0x17, 0x06, 0x26, 0x3f, 0x35});
 
 } // namespace eul::crc
 
