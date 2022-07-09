@@ -23,6 +23,11 @@ constexpr void UNUSED(const T&.../*unused*/)
     // drops warnings without macros
 }
 
+
+template <typename... T>
+constexpr void unused(const T&.../*unused*/)
+{
+}
 template <typename A>
 constexpr void UNUSED1(const A& a)
 {

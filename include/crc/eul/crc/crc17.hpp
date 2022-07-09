@@ -1,5 +1,5 @@
 // This file is part of EmbeddedUtilityLibraries project.
-// Copyright (C) 2021 Mateusz Stadnik
+// Copyright (C) 2022 Mateusz Stadnik
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,31 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#include <cstdint> 
-#include <vector>
+/* based on catalogue from: https://reveng.sourceforge.io/crc-catalogue/ */
 
-#include "CrcTestBase.hpp"
 
-#include <eul/crc/crc7.hpp>
+#pragma once 
 
-namespace eul::crc
+#include <cstdint>
+ 
+#include "eul/crc/crc_factory.hpp"
+
+namespace eul::crc 
 {
 
-const static std::vector<std::vector<uint8_t>> test_data{
-    {0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39},
-    {0x00},
-    {0xff},
-    {0x14},
-    {0x2, 0xff, 0xff},
-    {0x00, 0x00},
-    {0xff, 0xff, 0xff, 0xff},
-};
-
-static_assert(std::is_same_v<Crc7_MMC, Crc7>, "Crc7_MMC should be same as Crc7");
-        
-REGISTER_CRC_TEST(Crc7_MMC,  test_data, {0x75, 0x00, 0x79, 0x3d, 0x3b, 0x00, 0x15});
-REGISTER_CRC_TEST(Crc7_ROHC, test_data, {0x53, 0x46, 0x79, 0x07, 0x74, 0x23, 0x07});
-REGISTER_CRC_TEST(Crc7_UMTS, test_data, {0x61, 0x00, 0x59, 0x78, 0x76, 0x00, 0x53});
+using Crc17_CAN_FD = decltype(CrcFactory<>{}
+    .set_bits<17>()
+    .set_type<uint32_t>() 
+    .set_polynomial<0x1685b>()
+    .set_refin<false>()
+    .set_refout<false>()
+    .set_init<0x00000>()
+    .set_xor_out<0x00000>()
+    .build());
 
 } // namespace eul::crc
 

@@ -16,9 +16,15 @@
 
 find_package(catch REQUIRED)
 
+if (WIN32)
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+endif ()
+
+find_package(googletest REQUIRED)
+
 set_target_properties(Catch2WithMain PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:Catch2WithMain,INTERFACE_INCLUDE_DIRECTORIES>)
 
-add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} -V)
+add_custom_target(check COMMAND GTEST_COLOR=1 ${CMAKE_CTEST_COMMAND} -V)
 
 add_subdirectory (container)
 add_subdirectory (crc)
