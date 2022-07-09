@@ -22,9 +22,7 @@
 #include "eul/container/observable/observing_node.hpp"
 #include "eul/functional/function.hpp"
 
-namespace eul
-{
-namespace signals
+namespace eul::signals 
 {
 
 template <class Functor, std::size_t Size>
@@ -61,13 +59,13 @@ public:
 
     ReturnType operator()(Args... args) const
     {
-        EUL_ASSERT_MSG(callback_, "Slot is not initialized");
+        eul_assert_msg(callback_, "Slot is not initialized");
         return callback_(args...);
     }
 
     ReturnType operator()(Args... args)
     {
-        EUL_ASSERT_MSG(callback_, "Slot is not initialized");
+        eul_assert_msg(callback_, "Slot is not initialized");
         return callback_(args...);
     }
 
@@ -87,5 +85,4 @@ private:
     callback_type callback_;
 };
 
-} // namespace signals
-} // namespace eul
+} // namespace eul::signals

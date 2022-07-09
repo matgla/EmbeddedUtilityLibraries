@@ -51,14 +51,4 @@ bool error_condition::operator==(const error_condition& rhs) const noexcept
     return (*category_ == *rhs.category_) && value_ == rhs.value_;
 }
 
-bool error_condition::operator!=(const error_condition& rhs) const noexcept
-{
-    return !operator==(rhs);
-}
-
-bool error_condition::operator<(const error_condition& rhs) const noexcept
-{
-    return (*this->category_ < *rhs.category_)
-        || ((*this->category_ == *rhs.category_) && value_ < rhs.value_);}
-
 } // namespace eul::error

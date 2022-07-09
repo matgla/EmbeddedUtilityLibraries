@@ -50,7 +50,7 @@ public:
                 return service.data()->get<ServiceType>();
             }
         }
-        EUL_ASSERT_MSG(false, "Trying to retrieve unregistered service");
+        eul_assert_msg(false, "Trying to retrieve unregistered service");
         return nullptr;
     }
 
@@ -66,7 +66,7 @@ public:
                 return service.data()->get<ServiceType>();
             }
         }
-        EUL_ASSERT_MSG(false, "Trying to retrieve unregistered service");
+        eul_assert_msg(false, "Trying to retrieve unregistered service");
         return nullptr;
     }
 

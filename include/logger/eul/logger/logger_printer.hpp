@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <concepts>
+#include <array>
 #include <string_view>
 
 #include <span>
@@ -129,8 +131,7 @@ public:
         return *this;
     }
 
-    template <typename T,
-        typename std::enable_if_t<std::is_same_v<T, bool>, int> = 0>
+    template <typename T> requires std::same_as<T, bool>
     logger_printer& operator<<(const T data)
     {
         if (flags_.get_boolalpha() == logging_flags::boolalpha::enabled)
@@ -182,7 +183,7 @@ public:
         return *this;
     }
 
-protected:
+private:
 
     [[nodiscard]]
     int get_base() const;
@@ -194,7 +195,7 @@ protected:
 
 
     template <typename T>
-    int reverse_number(T& number, int base)
+    int reverse_number(T& number, int base) const
     {
         if (number == 0)
         {
@@ -225,13 +226,13 @@ protected:
     }
 
     template <typename T>
-    void write_number_as_text(T number, int base, int zeros_at_end)
+    void write_number_as_text(T number, int base, int zeros_at_end) const
     {
         while (number != 0)
         {
             constexpr std::size_t buffer_size = 2;
             std::array<char, buffer_size> digit{
-                 {"0123456789abcdef"[number%base]},
+                 "0123456789abcdef"[number%base],
                  0
             };
             write_to_streams(digit.data());
@@ -249,7 +250,6 @@ protected:
         }
     }
 
-private:
     const std::string_view name_;
     const time::i_time_provider& time_;
     logging_flags flags_;

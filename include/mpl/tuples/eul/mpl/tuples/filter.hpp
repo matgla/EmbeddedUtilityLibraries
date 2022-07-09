@@ -18,12 +18,9 @@
 
 #include <tuple>
 
-namespace eul
+namespace eul::mpl::tuples 
 {
-namespace mpl
-{
-namespace tuples
-{
+
 namespace detail
 {
 template <template <typename> typename pred, typename... T>
@@ -47,11 +44,11 @@ struct push_front<T, std::tuple<Rest...>>
 template <template <typename> typename pred, typename Type, typename... Rest>
 struct filter_impl<pred, Type, Rest...>
 {
-    using type = typename std::conditional<
+    using type = typename std::conditional_t<
         pred<Type>::value,
         typename push_front<Type,
                             typename filter_impl<pred, Rest...>::type>::type,
-        typename filter_impl<pred, Rest...>::type>::type;
+        typename filter_impl<pred, Rest...>::type>;
 };
 } // namespace detail
 
@@ -61,6 +58,4 @@ struct filter
     using type = typename detail::filter_impl<pred, Types...>::type;
 };
 
-} // namespace tuples
-} // namespace mpl
-} // namespace eul
+} // namespace eul::mpl::tuples

@@ -21,9 +21,7 @@
 #include "eul/logger/logger_stream.hpp"
 #include "eul/logger/logger_stream_registry.hpp"
 
-namespace eul
-{
-namespace logger
+namespace eul::logger 
 {
 
 class logger_stream_registry
@@ -43,5 +41,4 @@ private:
     streams streams_;
 };
 
-} // namespace logger
-} // namespace eul
+} // namespace eul::logger

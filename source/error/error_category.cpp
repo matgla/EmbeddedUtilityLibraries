@@ -28,14 +28,4 @@ bool error_category::operator==(const error_category& rhs) const noexcept
     return this == &rhs;
 }
 
-bool error_category::operator!=(const error_category& rhs) const noexcept
-{
-    return this != &rhs;
-}
-
-bool error_category::operator<(const error_category& rhs) const noexcept
-{
-    return std::less<>()(this, &rhs);
-}
-
 } // namespace eul::error

@@ -20,11 +20,7 @@
 
 #include "eul/mpl/types/binded_traits.hpp"
 
-namespace eul
-{
-namespace mpl
-{
-namespace types
+namespace eul::mpl::types 
 {
 namespace details
 {
@@ -40,7 +36,7 @@ struct get_index_of_binded_key<T, Index, Arg, Args...>
         {
             return get_index_of_binded_key<T, Index + 1, Args...>::get_index();
         }
-        else if constexpr (std::is_same<typename Arg::KeyType, T>::value)
+        else if constexpr (std::is_same_v<typename Arg::KeyType, T>)
         {
             return Index;
         }
@@ -80,6 +76,4 @@ constexpr static int get_index_from_tuple_by_key(const std::tuple<TupleArgs...>&
     return details::get_index_of_binded_key<Key, 0, TupleArgs...>::value;
 }
 
-} // namespace types
-} // namespace mpl
-} // namespace eul
+} // namespace eul::mpl::types

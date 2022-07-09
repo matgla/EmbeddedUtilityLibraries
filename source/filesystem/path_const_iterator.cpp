@@ -27,16 +27,6 @@ std::string_view path_const_iterator::operator*() const
     return part_;
 }
 
-bool path_const_iterator::operator==(const path_const_iterator& it) const
-{
-    return part_ == it.part_ && path_ == it.path_;
-}
-
-bool path_const_iterator::operator!=(const path_const_iterator& it) const
-{
-    return !operator==(it);
-}
-
 void path_const_iterator::set_next_part()
 {
     if (part_.empty())
@@ -49,13 +39,14 @@ void path_const_iterator::set_next_part()
             return;
         }
     }
-    std::size_t first_not_slash = path_.find_first_not_of('/');
-    if (first_not_slash != std::string_view::npos)
+    
+    if (std::size_t first_not_slash = path_.find_first_not_of('/'); 
+        first_not_slash != std::string_view::npos)
     {
         path_ = path_.substr(first_not_slash, path_.length());
-        std::size_t first_slash = path_.find('/');
 
-        if (first_slash != std::string_view::npos)
+        if (std::size_t first_slash = path_.find('/');
+            first_slash != std::string_view::npos)
         {
             part_ = path_.substr(0, first_slash);
             path_ = path_.substr(part_.length(), path_.length());
@@ -69,5 +60,6 @@ void path_const_iterator::set_next_part()
     path_ = {};
     part_ = {};
 }
+
 
 } // namespace eul::filesystem

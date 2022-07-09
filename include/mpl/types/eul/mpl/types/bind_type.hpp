@@ -16,11 +16,7 @@
 
 #pragma once
 
-namespace eul
-{
-namespace mpl
-{
-namespace types
+namespace eul::mpl::types 
 {
 
 template <typename Key, typename Value>
@@ -42,6 +38,4 @@ struct bind_type
     }
 };
 
-} // namespace types
-} // namespace mpl
-} // namespace eul
+} // namespace eul::mpl::types

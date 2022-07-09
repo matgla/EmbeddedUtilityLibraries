@@ -1,5 +1,5 @@
 // This file is part of EUL project. This project is set of libraries useful for embedded development.
-// Copyright (C) 2019 Mateusz Stadnik
+// Copyright (C) 2022 Mateusz Stadnik
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,28 +14,40 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#include "eul/utils/string.hpp"
+#include <string_view>
+#include <span>
 
-#include <algorithm>
-#include <cstring>
+#include <catch2/catch_test_macros.hpp>
 
-#include "eul/utils/assert.hpp"
-#include "eul/utils/math.hpp"
+#include <eul/utils/math.hpp>
 
-#include <iostream>
 namespace eul::utils
 {
-
-char int_to_char(int n)
-{
     
-    if (constexpr int is_not_single_digit_check = 9; n > is_not_single_digit_check)
+TEST_CASE("MathUtilsShould", "[MathTests]")
+{
+    SECTION("Calculate power")
     {
-        constexpr int dec_base = 10;
-        return static_cast<char>(n - dec_base + 'a');
+        REQUIRE(pow(1, 100) == 1);
+        REQUIRE(pow(2, 4) == 16);
+        REQUIRE(pow(3, 3) == 27);
     }
 
-    return static_cast<char>(n + '0');
+    SECTION("Convert floats to int pair")
+    {
+        const auto [integer, fractal] = floatToInts(1234.5678f, 2);
+        REQUIRE(integer == 1234);
+        REQUIRE(fractal == 57);
+
+        const auto [integer1, fractal1] = floatToInts(1234.56781f, 4);
+        REQUIRE(integer1 == 1234);
+        REQUIRE(fractal1 == 5677);
+
+        const auto [integer2, fractal2] = floatToInts(0.12f, 4);
+        REQUIRE(integer2 == 0);
+        REQUIRE(fractal2 == 1200);
+    }
 }
 
 } // namespace eul::utils
+

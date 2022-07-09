@@ -1,11 +1,13 @@
 #pragma once
 
+#include <compare>
 #include <string_view>
+
+#include "eul/error/error_category.hpp"
 
 namespace eul::error
 {
 
-class error_category;
 class error_condition;
 
 template <typename ErrorConditionEnum>
@@ -43,8 +45,10 @@ public:
 
     explicit operator bool() const noexcept;
     bool operator==(const error_condition& rhs) const noexcept;
-    bool operator!=(const error_condition& rhs) const noexcept;
-    bool operator<(const error_condition& rhs) const noexcept;
+    auto operator<=>(const error_condition& rhs) const noexcept
+    {
+        return *this->category_ <=> *rhs.category_;
+    }
 private:
     int value_{0};
     const error_category* category_{nullptr};

@@ -25,20 +25,19 @@ namespace eul::timer
 class timeout_timer : public timer
 {
 public:
-    explicit timeout_timer(const time::i_time_provider& timeProvider)
-        : timer(timeProvider)
-    {
-    }
+    using timer::timer; 
 
     void run() override
     {
-        if (get_state() == State::Running)
+        if (get_state() != State::Running)
         {
-            if (get_time_provider().milliseconds() >= get_endtime()) // NOLINT(modernize-use-nullptr)
-            {
-                set_state(State::Idle);
-                fire();
-            }
+            return;
+        }
+
+        if (get_time_provider().milliseconds() >= get_endtime()) // NOLINT(modernize-use-nullptr)
+        {
+            set_state(State::Idle);
+            fire();
         }
     }
 };

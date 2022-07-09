@@ -43,8 +43,7 @@ public:
     }
 
     explicit timer(const time::i_time_provider& time_provider)
-        : time_provider_(time_provider),
-          start_time_(0), end_time_(0), state_(State::Idle)
+        : time_provider_(time_provider)
     {
     }
 
@@ -128,11 +127,11 @@ protected:
 private:
     const time::i_time_provider& time_provider_; //NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
 
-    std::chrono::milliseconds start_time_;
-    std::chrono::milliseconds end_time_;
+    std::chrono::milliseconds start_time_{0};
+    std::chrono::milliseconds end_time_{0};
     CallbackType callback_;
 
-    State state_;
+    State state_ = State::Idle;
 };
 
 } // namespace eul::timer

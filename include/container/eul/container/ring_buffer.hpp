@@ -88,7 +88,7 @@ public:
     }
 
 private:
-    void increment_index(std::size_t* index)
+    void increment_index(std::size_t* index) const
     {
         ++(*index);
         (*index) = (*index) % ContainerSize;

@@ -16,9 +16,7 @@
 
 #pragma once
 
-namespace eul
-{
-namespace timer
+namespace eul::timer 
 {
 
 class ITimer
@@ -29,5 +27,4 @@ public:
     virtual void run() = 0;
 };
 
-} // namespace timer
-} // namespace eul
+} // namespace eul::timer

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <compare>
 #include <string_view>
 
 namespace eul::error
@@ -37,8 +38,10 @@ public:
     virtual std::string_view message(int condition) const = 0;
 
     bool operator==(const error_category& rhs) const noexcept;
-    bool operator!=(const error_category& rhs) const noexcept;
-    bool operator<(const error_category& rhs) const noexcept;
+    auto operator<=>(const error_category& rhs) const noexcept
+    {
+        return std::compare_three_way()(this, &rhs);
+    }
 };
 
 } // namespace eul::error

@@ -20,11 +20,7 @@
 
 #include "eul/mpl/types/bind_type.hpp"
 
-namespace eul
-{
-namespace mpl
-{
-namespace types
+namespace eul::mpl::types 
 {
 
 template <typename... T>
@@ -35,6 +31,4 @@ template <typename Key, typename Value>
 struct is_binded<binded<Key, Value>> : public std::true_type
 {};
 
-} // namespace types
-} // namespace mpl
-} // namespace eul
+} // namespace eul::mpl::types

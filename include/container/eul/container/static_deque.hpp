@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -86,8 +87,8 @@ static_deque<T, Size>::static_deque() = default;
 template <typename T, std::size_t Size>
 static_deque<T, Size>::static_deque(const std::initializer_list<T>& arguments)
 {
-    EUL_ASSERT_MSG(arguments.size() <= data_.max_size(), "Exceeded maximum arguments size");
-    std::copy(arguments.begin(), arguments.end(), std::back_inserter(*this));
+    eul_assert_msg(arguments.size() <= data_.max_size(), "Exceeded maximum arguments size");
+    std::ranges::copy(arguments.begin(), arguments.end(), std::back_inserter(*this));
 }
 
 template <typename T, std::size_t Size>

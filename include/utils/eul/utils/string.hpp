@@ -16,25 +16,28 @@
 
 #pragma once
 
+#include <algorithm>
+#include <algorithm>
 #include <cstdint>
 #include <cstring>
 #include <ctime>
 #include <type_traits>
+#include <string_view>
 
 #include <span>
 
 namespace eul::utils
 {
 
-void reverse(std::span<char> s);
-
 char int_to_char(int n);
 
-template <typename T>
-inline T itoa(T n, std::span<char> s, int base_n)
+template <int base_n = 10>
+inline std::span<char>::size_type itoa(auto n, std::span<char> s)
 {
-    static_assert(std::is_arithmetic<T>::value, "Type provided for serialize isn't arithmetic");
-    T i = 0;
+    using T = std::decay_t<decltype(n)>;
+    static_assert(std::is_arithmetic_v<decltype(n)>, "Type provided for serialize isn't arithmetic");
+    static_assert(base_n >= 1 && base_n <= 16, "Base must be passed in range <1:16>");
+    std::span<char>::size_type i = 0;
     T sign = n;
 
     if (sign < 0)
@@ -42,7 +45,6 @@ inline T itoa(T n, std::span<char> s, int base_n)
         n = -n; /* make n positive */
     }
 
-    i = 0;
     do
     {                                   /* generate digits in reverse order */
         s[i++] = int_to_char(n % base_n); /* get next digit */ // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
@@ -52,21 +54,16 @@ inline T itoa(T n, std::span<char> s, int base_n)
         s[i++] = '-'; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     }
     s[i] = '\0'; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-    reverse(s);
-    return i;
-}
 
-template <typename T>
-inline T itoa(T n, std::span<char> s)
-{
-    constexpr int base = 10;
-    return itoa<T>(n, s, base);
+    std::reverse(s.begin(), s.begin() + static_cast<long>(i));
+
+    return 0;
 }
 
 template <typename T>
 inline int strlen(const std::span<T>& data)
 {
-    for (typename std::span<T>::index_type i = 0; i < data.size(); ++i)
+    for (typename std::span<T>::size_type i = 0; i < data.size(); ++i)
     {
         if (data[i] == 0)
         {

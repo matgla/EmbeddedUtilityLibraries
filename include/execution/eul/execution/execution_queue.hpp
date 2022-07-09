@@ -84,10 +84,11 @@ void execution_queue<MaximumNumberOfExecutors>::run()
         else
         {
             auto executor  = executors_.front().second;
-            auto* lifetime = executors_.front().first;
-            if (std::find_if(executors_.begin(), executors_.end(), [lifetime](const auto& executor) {
-                    return lifetime == executor.first;
-                }) == executors_.end())
+            if (auto* lifetime = executors_.front().first; 
+                std::find_if(executors_.begin(), executors_.end(), [lifetime](const auto& executor_to_test) {
+                    return lifetime == executor_to_test.first;
+                }) == executors_.end()
+            )
             {
                 lifetimes_.erase(*lifetime);
             }
