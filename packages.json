@@ -28,7 +28,7 @@
             "type": "git",
             "version": "v1.12.0",
             "directory": "googletest",
-            "target": "gtest",
+            "target": "googletest",
             "options": ""
         }
     ]
