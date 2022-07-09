@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 find_package(catch REQUIRED)
+find_package(gtest REQUIRED)
 
 if (WIN32)
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)

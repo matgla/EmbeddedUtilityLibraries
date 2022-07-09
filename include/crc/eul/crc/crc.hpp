@@ -83,7 +83,11 @@ private:
         TableType table{};
         for (uint64_t i = 0; i < table_size; ++i)
         {
+<<<<<<< HEAD
             constexpr T mask = static_cast<T>(T(1) << (sizeof(T) * 8 - 1));
+=======
+            constexpr T mask = 1UL << (sizeof(T) * 8 - 1);
+>>>>>>> 2942017e797c86fbe4d2e37deb4f20f0c18dc9cf
             auto remainder = static_cast<T>(i << (sizeof(T) - 1) * 8);
 
             for (T bit = 0; bit < 8; ++bit)
