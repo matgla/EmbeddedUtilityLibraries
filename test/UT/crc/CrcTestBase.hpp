@@ -39,7 +39,7 @@ template <typename CrcType>
 class CrcShould : public ::testing::Test
 {
 protected:
-    std::string print_testcase(std::span<const uint8_t> data);
+    std::string print_testcase(std::span<const uint8_t> bytes);
 
     const static TestData data;
 };
@@ -48,15 +48,15 @@ protected:
 TYPED_TEST_SUITE_P(CrcShould);
 
 template <typename CrcType>
-std::string CrcShould<CrcType>::print_testcase(std::span<const uint8_t> data)
+std::string CrcShould<CrcType>::print_testcase(std::span<const uint8_t> bytes)
 {
     std::stringstream str;
     str << "Used algorithm: " << this->data.name << " for data: " << std::hex << "{";
-    for (std::size_t i = 0; i < data.size() - 1; ++i)
+    for (std::size_t i = 0; i < bytes.size() - 1; ++i)
     {
-        str << "0x" << +data[i] << ", ";
+        str << "0x" << +bytes[i] << ", ";
     }
-    str << "0x" << +data[data.size() - 1] << "}";
+    str << "0x" << +bytes[bytes.size() - 1] << "}";
     return str.str();
 }
 
