@@ -40,7 +40,7 @@ public:
     bool operator==(const error_category& rhs) const noexcept;
     auto operator<=>(const error_category& rhs) const noexcept
     {
-        return this <=> &rhs;
+        return std::compare_three_way()(this, &rhs);
     }
 };
 

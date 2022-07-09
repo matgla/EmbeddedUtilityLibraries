@@ -36,4 +36,4 @@ jobs:
       - name: Run UT
         shell: bash 
         working-directory: build 
-        run: ctest
+        run: ctest --output-on-failure

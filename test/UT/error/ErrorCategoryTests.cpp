@@ -114,13 +114,28 @@ TEST_CASE("ErrorCategory tests", "[ErrorCategoryTests]")
             REQUIRE(sut_2 < base_1);
         }
 
-        auto val = sut_1 <=> sut_2;
-        REQUIRE((val < 0));
-        val = sut_2 <=> sut_1;
-        REQUIRE((val > 0));
-        val = sut_1 <=> sut_1;
-        REQUIRE((val == 0));
 
+        if (std::less<>()(&base_1, &base_2))
+        {
+            auto val = sut_1 <=> sut_2;
+
+            REQUIRE((val < 0));
+            val = sut_2 <=> sut_1;
+            REQUIRE((val > 0));
+            val = sut_1 <=> sut_1;
+            REQUIRE((val == 0));
+
+        }
+        else
+        {
+            auto val = sut_2 <=> sut_1;
+
+            REQUIRE((val < 0));
+            val = sut_1 <=> sut_2;
+            REQUIRE((val > 0));
+            val = sut_1 <=> sut_1;
+            REQUIRE((val == 0));
+        }
     }
 }
 
