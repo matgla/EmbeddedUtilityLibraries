@@ -1,4 +1,5 @@
-# <img src="docs/logo.svg" width=60px style="display: block-inline;margin: -4px 0"> Embedded Utility Library
+<p align="center"> <img src="docs/logo.svg" width=80%> </p> 
+ 
 
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=matgla_EmbeddedUtilityLibraries&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=matgla_EmbeddedUtilityLibraries)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=matgla_EmbeddedUtilityLibraries&metric=coverage)](https://sonarcloud.io/summary/new_code?id=matgla_EmbeddedUtilityLibraries)
