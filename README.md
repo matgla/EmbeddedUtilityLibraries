@@ -6,7 +6,6 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Readme
----
 
 **EmbeddedUtilityLibraries** is a set of C++ libraries dedicated to embedded development. 
 
@@ -14,15 +13,25 @@ For further information, please visit the documentation page: [documentation](ht
 
 For development information, you can see the [Projects](https://github.com/matgla/EmbeddedUtilityLibraries/projects?type=beta) section on  GitHub. 
 
-If you found a bug, please raise it in the [issues](https://github.com/matgla/EmbeddedUtilityLibraries/issues) section or create a [pull request](https://github.com/matgla/EmbeddedUtilityLibraries/pulls) with the fix ( prefered 😊 ).
+If you found a bug, please raise it in the [issues](https://github.com/matgla/EmbeddedUtilityLibraries/issues) section or create a [pull request](https://github.com/matgla/EmbeddedUtilityLibraries/pulls) with the fix ( preferred 😊 ).
+
+## Disclaimer
+
+---
+
+**Attention** whole project is in the very early stage of development. Therefore, it contains a lot of bugs and design issues.
+
+---
+
+This project is under maintenance by a single person. 
+Therefore, there are no plans specified for further development. 
+Instead, the features and fixes will come when they are needed. 
 
 ## Contribution 
----
 
 If you want to contribute, you are always welcome! However, read the [contribution guidelines](docs/contribution.md) first.
 
 ## License
----
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
