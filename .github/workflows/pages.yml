@@ -7,14 +7,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Doxygen Action
-      uses: mattnotmitt/doxygen-action@1.9.4
-      with:
-        working-directory: ./docs/doxygen
-        doxyfile-path: ./Doxyfile-prj.cfg
-    - name: Push
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: gh-pages
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: "true"
+      - name: Install Doxygen
+        run: sudo apt-get install doxygen texlive-latex-recommended -y
+        shell: bash
+      - name: Generate Doxygen Documentation
+        run: doxygen Doxyfile-prj.cfg
+        shell: bash
+        working-directory: ./docs/doxygen 
+      - name: Create .nojekyll
+        run: touch ./docs/doxygen/html/.nojekyll
+        shell: bash
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: docs/doxygen/html
