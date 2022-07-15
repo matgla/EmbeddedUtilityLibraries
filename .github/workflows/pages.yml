@@ -12,18 +12,18 @@ jobs:
         with:
           submodules: "true"
       - name: Install Doxygen
-        run: sudo apt-get install doxygen texlive-latex-recommended -y
+        run: sudo apt-get install doxygen texlive-latex-recommended texlive-font-utils -y
         shell: bash
       - name: Generate Doxygen Documentation
         run: doxygen Doxyfile-prj.cfg
         shell: bash
         working-directory: ./docs/doxygen 
       - name: Create .nojekyll
-        run: touch ./docs/doxygen/html/.nojekyll
+        run: touch ./docs/doxygen/doxygen_generated/html/.nojekyll
         shell: bash
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
-          folder: docs/doxygen/html
+          folder: ./docs/doxygen/doxygen_generated/html
