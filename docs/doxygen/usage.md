@@ -5,7 +5,7 @@ Usage guide {#usage_page}
 EmbeddedUtilityLibrary uses CMake as a project configurator. To use it in your project, you must add sources, i.e., with git submodules.
 When sources are available call `add_subdirectory(eul_path)` from your CMakeLists. 
 
-If you are using Yaspem (link) here is package entry snippet: 
+If you are using [Yaspem](https://github.com/matgla/Yaspem), here is the package entry snippet: 
 ```json 
 {
     "link": "https://github.com/matgla/EmbeddedUtilityLibraries.git",

@@ -11,7 +11,8 @@ jobs:
     - name: Doxygen Action
       uses: mattnotmitt/doxygen-action@1.9.4
       with:
-        doxyfile-path: ./docs/doxygen/Doxyfile-prj.cfg
+        working-directory: ./docs/doxygen
+        doxyfile-path: ./Doxyfile-prj.cfg
     - name: Push
       uses: ad-m/github-push-action@master
       with:
