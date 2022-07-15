@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>EmbeddedUtilityLibraries: eul::function&lt; ReturnType(Args...), Size &gt; Class Template Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    const setTheme = theme => document.documentElement.className = theme;
+    DoxygenAwesomeDarkModeToggle.darkModeIcon = "<span class='material-symbols-outlined' style='color:var(--primary-light-color)'>light_mode</span>"
+    DoxygenAwesomeDarkModeToggle.lightModeIcon = "<span class='material-symbols-outlined' style='color:var(--primary-dark-color)'>dark_mode</span>"
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- GitHub Corner. https://gist.github.com/cedoor/9c52dfe83b982648a8f395d45a55004f -->
+<a href="https://github.com/matgla/EmbeddedUtilityLibraries" class="github-corner">
+    <svg width="80" height="80" viewBox="0 0 250 250" id="github_corner" style="fill: var(--primary-color); color:#fff; position: absolute; top: 0; border: 0; right: 0;">
+      <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    </svg>
+  </a>
+  <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  <!-- End GitHub Corner. -->
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_mini.svg"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">EmbeddedUtilityLibraries
+   </div>
+   <div id="projectbrief">A set of libraries to speed up embedded programming.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part --><!-- Generated by Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('classeul_1_1function_3_01ReturnType_07Args_8_8_8_08_00_01Size_01_4.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="classeul_1_1function_3_01ReturnType_07Args_8_8_8_08_00_01Size_01_4-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">eul::function&lt; ReturnType(Args...), Size &gt; Class Template Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structeul_1_1function_3_01ReturnType_07Args_8_8_8_08_00_01Size_01_4_1_1FunctionInvoker.html">FunctionInvoker</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ab5d20c5be676e82a14a3ab8fc8872525"><td class="memItemLeft" align="right" valign="top"><a id="ab5d20c5be676e82a14a3ab8fc8872525"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>storage_type</b> = typename std::aligned_storage_t&lt; size, alignof(void *)&gt;</td></tr>
+<tr class="separator:ab5d20c5be676e82a14a3ab8fc8872525"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39f88e96659074f4e52fd893d8c6bace"><td class="memItemLeft" align="right" valign="top"><a id="a39f88e96659074f4e52fd893d8c6bace"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>this_type</b> = <a class="el" href="classeul_1_1function.html">function</a>&lt; ReturnType(Args...), size &gt;</td></tr>
+<tr class="separator:a39f88e96659074f4e52fd893d8c6bace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a0d9e4fd0c20d4325962e3cc041fe3736"><td class="memItemLeft" align="right" valign="top"><a id="a0d9e4fd0c20d4325962e3cc041fe3736"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>function</b> (std::nullptr_t) noexcept</td></tr>
+<tr class="separator:a0d9e4fd0c20d4325962e3cc041fe3736"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39e03bdae23b79864e7eaf919b2b26ef"><td class="memItemLeft" align="right" valign="top"><a id="a39e03bdae23b79864e7eaf919b2b26ef"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>function</b> (const <a class="el" href="classeul_1_1function.html">function</a> &amp;other)</td></tr>
+<tr class="separator:a39e03bdae23b79864e7eaf919b2b26ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66d143c0957239528d7d9d355be48458"><td class="memItemLeft" align="right" valign="top"><a id="a66d143c0957239528d7d9d355be48458"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>function</b> (<a class="el" href="classeul_1_1function.html">function</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:a66d143c0957239528d7d9d355be48458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fe7c82ba746d68af0230b1c7fec30ec"><td class="memItemLeft" align="right" valign="top"><a id="a4fe7c82ba746d68af0230b1c7fec30ec"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>function</b> (<a class="el" href="classeul_1_1function.html">function</a> &amp;other)</td></tr>
+<tr class="separator:a4fe7c82ba746d68af0230b1c7fec30ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ce35b861272d2aaf88ab0d7c169fed2"><td class="memTemplParams" colspan="2"><a id="a7ce35b861272d2aaf88ab0d7c169fed2"></a>
+template&lt;class F &gt; </td></tr>
+<tr class="memitem:a7ce35b861272d2aaf88ab0d7c169fed2"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>function</b> (F &amp;&amp;f)</td></tr>
+<tr class="separator:a7ce35b861272d2aaf88ab0d7c169fed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a796c21536fffdf66b298f17c6a9b6858"><td class="memTemplParams" colspan="2"><a id="a796c21536fffdf66b298f17c6a9b6858"></a>
+template&lt;class F &gt; </td></tr>
+<tr class="memitem:a796c21536fffdf66b298f17c6a9b6858"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>function</b> (const F &amp;f)</td></tr>
+<tr class="separator:a796c21536fffdf66b298f17c6a9b6858"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7426350d70edd104205bada4b5301166"><td class="memItemLeft" align="right" valign="top"><a id="a7426350d70edd104205bada4b5301166"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>destroy</b> ()</td></tr>
+<tr class="separator:a7426350d70edd104205bada4b5301166"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b3108e7a6db471cbc4e1434f1992244"><td class="memItemLeft" align="right" valign="top"><a id="a0b3108e7a6db471cbc4e1434f1992244"></a>
+<a class="el" href="classeul_1_1function.html">function</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classeul_1_1function.html">function</a> &amp;other)</td></tr>
+<tr class="separator:a0b3108e7a6db471cbc4e1434f1992244"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5c8063f14ad012c9411d9adc49e2870"><td class="memItemLeft" align="right" valign="top"><a id="ad5c8063f14ad012c9411d9adc49e2870"></a>
+<a class="el" href="classeul_1_1function.html">function</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classeul_1_1function.html">function</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:ad5c8063f14ad012c9411d9adc49e2870"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a347a879dd4fd325148fc7c1d868ccfa0"><td class="memItemLeft" align="right" valign="top"><a id="a347a879dd4fd325148fc7c1d868ccfa0"></a>
+<a class="el" href="classeul_1_1function.html">function</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (std::nullptr_t)</td></tr>
+<tr class="separator:a347a879dd4fd325148fc7c1d868ccfa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea381bbcd009b6d80424228a43fb9cfe"><td class="memTemplParams" colspan="2"><a id="aea381bbcd009b6d80424228a43fb9cfe"></a>
+template&lt;class F &gt; </td></tr>
+<tr class="memitem:aea381bbcd009b6d80424228a43fb9cfe"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classeul_1_1function.html">function</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator=</b> (F &amp;&amp;f)</td></tr>
+<tr class="separator:aea381bbcd009b6d80424228a43fb9cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa103bfb06f05857fe28a3cdec589523e"><td class="memTemplParams" colspan="2"><a id="aa103bfb06f05857fe28a3cdec589523e"></a>
+template&lt;class F &gt; </td></tr>
+<tr class="memitem:aa103bfb06f05857fe28a3cdec589523e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classeul_1_1function.html">function</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator=</b> (const F &amp;f)</td></tr>
+<tr class="separator:aa103bfb06f05857fe28a3cdec589523e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d0aedc0500b384989edd59790b3b715"><td class="memItemLeft" align="right" valign="top"><a id="a7d0aedc0500b384989edd59790b3b715"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>swap</b> (<a class="el" href="classeul_1_1function.html">function</a> &amp;other) noexcept</td></tr>
+<tr class="separator:a7d0aedc0500b384989edd59790b3b715"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c1bf804da1ae06e5779e9d409d3f04f"><td class="memItemLeft" align="right" valign="top"><a id="a3c1bf804da1ae06e5779e9d409d3f04f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>operator bool</b> () const noexcept</td></tr>
+<tr class="separator:a3c1bf804da1ae06e5779e9d409d3f04f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d38fa7a65cc8d2038ee8e07e9e9770c"><td class="memItemLeft" align="right" valign="top"><a id="a4d38fa7a65cc8d2038ee8e07e9e9770c"></a>
+ReturnType&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (Args... args)</td></tr>
+<tr class="separator:a4d38fa7a65cc8d2038ee8e07e9e9770c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fef9c30b7d5c47b556a1edccb296b85"><td class="memItemLeft" align="right" valign="top"><a id="a8fef9c30b7d5c47b556a1edccb296b85"></a>
+ReturnType&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (Args... args) const</td></tr>
+<tr class="separator:a8fef9c30b7d5c47b556a1edccb296b85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a2e2074e40b3ded70ff4f25f7a86ae5b9"><td class="memItemLeft" align="right" valign="top"><a id="a2e2074e40b3ded70ff4f25f7a86ae5b9"></a>
+constexpr static std::size_t&#160;</td><td class="memItemRight" valign="bottom"><b>size</b> = Size + sizeof(IFunctionInvoker) + sizeof(void*)</td></tr>
+<tr class="separator:a2e2074e40b3ded70ff4f25f7a86ae5b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a4fffa0ac6f1f4608d16388c7f032038a"><td class="memItemLeft" align="right" valign="top"><a id="a4fffa0ac6f1f4608d16388c7f032038a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>copy_to</b> (storage_type &amp;new_place) const</td></tr>
+<tr class="separator:a4fffa0ac6f1f4608d16388c7f032038a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc1c029f72aaa680a8f97e7164914341"><td class="memItemLeft" align="right" valign="top"><a id="afc1c029f72aaa680a8f97e7164914341"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>move_to</b> (storage_type &amp;new_place) const</td></tr>
+<tr class="separator:afc1c029f72aaa680a8f97e7164914341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73240b3613ae99244750c19d32b124b7"><td class="memItemLeft" align="right" valign="top"><a id="a73240b3613ae99244750c19d32b124b7"></a>
+IFunctionInvoker &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_invoker</b> ()</td></tr>
+<tr class="separator:a73240b3613ae99244750c19d32b124b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91084a8f18609c0d328b181c890a16c4"><td class="memItemLeft" align="right" valign="top"><a id="a91084a8f18609c0d328b181c890a16c4"></a>
+const IFunctionInvoker &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_invoker</b> () const</td></tr>
+<tr class="separator:a91084a8f18609c0d328b181c890a16c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43559623609e08d39a74143df4bad5dd"><td class="memTemplParams" colspan="2"><a id="a43559623609e08d39a74143df4bad5dd"></a>
+template&lt;class FunctionType &gt; </td></tr>
+<tr class="memitem:a43559623609e08d39a74143df4bad5dd"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>register_callback</b> (FunctionType &amp;&amp;f)</td></tr>
+<tr class="separator:a43559623609e08d39a74143df4bad5dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ca5066b86c0dc690f03ee442708aa1f"><td class="memTemplParams" colspan="2"><a id="a6ca5066b86c0dc690f03ee442708aa1f"></a>
+template&lt;class FunctionType &gt; </td></tr>
+<tr class="memitem:a6ca5066b86c0dc690f03ee442708aa1f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>register_callback</b> (const FunctionType &amp;f)</td></tr>
+<tr class="separator:a6ca5066b86c0dc690f03ee442708aa1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>/home/runner/work/EmbeddedUtilityLibraries/EmbeddedUtilityLibraries/include/functional/eul/functional/<a class="el" href="function_8hpp_source.html">function.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>eul</b></li><li class="navelem"><a class="el" href="classeul_1_1function_3_01ReturnType_07Args_8_8_8_08_00_01Size_01_4.html">function&lt; ReturnType(Args...), Size &gt;</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>EmbeddedUtilityLibraries: &quot;Crc32 algorithms&quot;</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    const setTheme = theme => document.documentElement.className = theme;
+    DoxygenAwesomeDarkModeToggle.darkModeIcon = "<span class='material-symbols-outlined' style='color:var(--primary-light-color)'>light_mode</span>"
+    DoxygenAwesomeDarkModeToggle.lightModeIcon = "<span class='material-symbols-outlined' style='color:var(--primary-dark-color)'>dark_mode</span>"
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- GitHub Corner. https://gist.github.com/cedoor/9c52dfe83b982648a8f395d45a55004f -->
+<a href="https://github.com/matgla/EmbeddedUtilityLibraries" class="github-corner">
+    <svg width="80" height="80" viewBox="0 0 250 250" id="github_corner" style="fill: var(--primary-color); color:#fff; position: absolute; top: 0; border: 0; right: 0;">
+      <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+    </svg>
+  </a>
+  <style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  <!-- End GitHub Corner. -->
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_mini.svg"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">EmbeddedUtilityLibraries
+   </div>
+   <div id="projectbrief">A set of libraries to speed up embedded programming.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part --><!-- Generated by Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('group__crc32.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle">
+<div class="title">"Crc32 algorithms"<div class="ingroups"><a class="el" href="group__crc.html">&quot;CRC&quot;</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:gae3a6a59a9113321a4e3d9bbc7f446301"><td class="memItemLeft" align="right" valign="top"><a id="gae3a6a59a9113321a4e3d9bbc7f446301"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32</b> = decltype(<a class="el" href="classeul_1_1crc_1_1CrcFactory.html">CrcFactory</a>&lt;&gt;{} .set_bits&lt; 32 &gt;() .set_type&lt; uint32_t &gt;() .set_polynomial&lt; 0x04c11db7 &gt;() .set_refin&lt; true &gt;() .set_refout&lt; true &gt;() .set_init&lt; 0xffffffff &gt;() .set_xor_out&lt; 0xffffffff &gt;() .build())</td></tr>
+<tr class="separator:gae3a6a59a9113321a4e3d9bbc7f446301"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4e28319bbda8b3443416d650c2a73edd"><td class="memItemLeft" align="right" valign="top"><a id="ga4e28319bbda8b3443416d650c2a73edd"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_ADCCP</b> = Crc32</td></tr>
+<tr class="separator:ga4e28319bbda8b3443416d650c2a73edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafc71655eeba273a5082667c289d453c7"><td class="memItemLeft" align="right" valign="top"><a id="gafc71655eeba273a5082667c289d453c7"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_ISO_HDLC</b> = Crc32</td></tr>
+<tr class="separator:gafc71655eeba273a5082667c289d453c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4db38dce38f4e9ae7f931dc136790292"><td class="memItemLeft" align="right" valign="top"><a id="ga4db38dce38f4e9ae7f931dc136790292"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_V42</b> = Crc32</td></tr>
+<tr class="separator:ga4db38dce38f4e9ae7f931dc136790292"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga110226db8b20210da5eb23012cdbe0e3"><td class="memItemLeft" align="right" valign="top"><a id="ga110226db8b20210da5eb23012cdbe0e3"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_XZ</b> = Crc32</td></tr>
+<tr class="separator:ga110226db8b20210da5eb23012cdbe0e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga89c947f21ac9bf97bc0af233cae8d896"><td class="memItemLeft" align="right" valign="top"><a id="ga89c947f21ac9bf97bc0af233cae8d896"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_BZIP</b> = decltype(<a class="el" href="classeul_1_1crc_1_1CrcFactory.html">CrcFactory</a>&lt;&gt;{} .set_bits&lt; 32 &gt;() .set_type&lt; uint32_t &gt;() .set_polynomial&lt; 0x04c11db7 &gt;() .set_refin&lt; false &gt;() .set_refout&lt; false &gt;() .set_init&lt; 0xffffffff &gt;() .set_xor_out&lt; 0xffffffff &gt;() .build())</td></tr>
+<tr class="separator:ga89c947f21ac9bf97bc0af233cae8d896"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga207bf193cfa145d4d850fbd74df53c3f"><td class="memItemLeft" align="right" valign="top"><a id="ga207bf193cfa145d4d850fbd74df53c3f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_AAL5</b> = Crc32_BZIP</td></tr>
+<tr class="separator:ga207bf193cfa145d4d850fbd74df53c3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga63097409c731dc5b0395510bc60ebf58"><td class="memItemLeft" align="right" valign="top"><a id="ga63097409c731dc5b0395510bc60ebf58"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_DECT_B</b> = Crc32_BZIP</td></tr>
+<tr class="separator:ga63097409c731dc5b0395510bc60ebf58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga973c8e0ecee1df760a0dd9c643cd9f54"><td class="memItemLeft" align="right" valign="top"><a id="ga973c8e0ecee1df760a0dd9c643cd9f54"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_C</b> = decltype(<a class="el" href="classeul_1_1crc_1_1CrcFactory.html">CrcFactory</a>&lt;&gt;{} .set_bits&lt; 32 &gt;() .set_type&lt; uint32_t &gt;() .set_polynomial&lt; 0x1edc6f41 &gt;() .set_refin&lt; true &gt;() .set_refout&lt; true &gt;() .set_init&lt; 0xffffffff &gt;() .set_xor_out&lt; 0xffffffff &gt;() .build())</td></tr>
+<tr class="separator:ga973c8e0ecee1df760a0dd9c643cd9f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga02559f7b465686e0ab97260246c95e07"><td class="memItemLeft" align="right" valign="top"><a id="ga02559f7b465686e0ab97260246c95e07"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_BASE91_C</b> = Crc32_C</td></tr>
+<tr class="separator:ga02559f7b465686e0ab97260246c95e07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9ef724b1110e1a9833b44d997f7134ea"><td class="memItemLeft" align="right" valign="top"><a id="ga9ef724b1110e1a9833b44d997f7134ea"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_CASTAGNOLI</b> = Crc32_C</td></tr>
+<tr class="separator:ga9ef724b1110e1a9833b44d997f7134ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga13ef9d86a693200a96ce40a1a45e9f6b"><td class="memItemLeft" align="right" valign="top"><a id="ga13ef9d86a693200a96ce40a1a45e9f6b"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_INTERLAKEN</b> = Crc32_C</td></tr>
+<tr class="separator:ga13ef9d86a693200a96ce40a1a45e9f6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa1fb34746401f6f64f8fad63b1147258"><td class="memItemLeft" align="right" valign="top"><a id="gaa1fb34746401f6f64f8fad63b1147258"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_D</b> = decltype(<a class="el" href="classeul_1_1crc_1_1CrcFactory.html">CrcFactory</a>&lt;&gt;{} .set_bits&lt; 32 &gt;() .set_type&lt; uint32_t &gt;() .set_polynomial&lt; 0xa833982b &gt;() .set_refin&lt; true &gt;() .set_refout&lt; true &gt;() .set_init&lt; 0xffffffff &gt;() .set_xor_out&lt; 0xffffffff &gt;() .build())</td></tr>
+<tr class="separator:gaa1fb34746401f6f64f8fad63b1147258"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga679ed486f61221f83e6b31d2005d0fec"><td class="memItemLeft" align="right" valign="top"><a id="ga679ed486f61221f83e6b31d2005d0fec"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_BASE91_D</b> = Crc32_D</td></tr>
+<tr class="separator:ga679ed486f61221f83e6b31d2005d0fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaedb95ca537134c9f8f5b84f200608e72"><td class="memItemLeft" align="right" valign="top"><a id="gaedb95ca537134c9f8f5b84f200608e72"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_MPEG2</b> = decltype(<a class="el" href="classeul_1_1crc_1_1CrcFactory.html">CrcFactory</a>&lt;&gt;{} .set_bits&lt; 32 &gt;() .set_type&lt; uint32_t &gt;() .set_polynomial&lt; 0x04c11db7 &gt;() .set_refin&lt; false &gt;() .set_refout&lt; false &gt;() .set_init&lt; 0xffffffff &gt;() .set_xor_out&lt; 0x00000000 &gt;() .build())</td></tr>
+<tr class="separator:gaedb95ca537134c9f8f5b84f200608e72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga673f3df18eb058012957db4b3a42c324"><td class="memItemLeft" align="right" valign="top"><a id="ga673f3df18eb058012957db4b3a42c324"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_POSIX</b> = decltype(<a class="el" href="classeul_1_1crc_1_1CrcFactory.html">CrcFactory</a>&lt;&gt;{} .set_bits&lt; 32 &gt;() .set_type&lt; uint32_t &gt;() .set_polynomial&lt; 0x04c11db7 &gt;() .set_refin&lt; false &gt;() .set_refout&lt; false &gt;() .set_init&lt; 0x00000000 &gt;() .set_xor_out&lt; 0xffffffff &gt;() .build())</td></tr>
+<tr class="separator:ga673f3df18eb058012957db4b3a42c324"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae69772750023c451d8ab6b944da8d3e1"><td class="memItemLeft" align="right" valign="top"><a id="gae69772750023c451d8ab6b944da8d3e1"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_CKSUM</b> = Crc32_POSIX</td></tr>
+<tr class="separator:gae69772750023c451d8ab6b944da8d3e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga387674b5bc4616f8c0183cb68070ca91"><td class="memItemLeft" align="right" valign="top"><a id="ga387674b5bc4616f8c0183cb68070ca91"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_Q</b> = decltype(<a class="el" href="classeul_1_1crc_1_1CrcFactory.html">CrcFactory</a>&lt;&gt;{} .set_bits&lt; 32 &gt;() .set_type&lt; uint32_t &gt;() .set_polynomial&lt; 0x814141ab &gt;() .set_refin&lt; false &gt;() .set_refout&lt; false &gt;() .set_init&lt; 0x00000000 &gt;() .set_xor_out&lt; 0x00000000 &gt;() .build())</td></tr>
+<tr class="separator:ga387674b5bc4616f8c0183cb68070ca91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga69c4526ddb6993235e887684cb377f40"><td class="memItemLeft" align="right" valign="top"><a id="ga69c4526ddb6993235e887684cb377f40"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_AXIM</b> = Crc32_Q</td></tr>
+<tr class="separator:ga69c4526ddb6993235e887684cb377f40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga609d8a5e576517dc4e0b88170f5bfc97"><td class="memItemLeft" align="right" valign="top"><a id="ga609d8a5e576517dc4e0b88170f5bfc97"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_JAMCRC</b> = decltype(<a class="el" href="classeul_1_1crc_1_1CrcFactory.html">CrcFactory</a>&lt;&gt;{} .set_bits&lt; 32 &gt;() .set_type&lt; uint32_t &gt;() .set_polynomial&lt; 0x04c11db7 &gt;() .set_refin&lt; true &gt;() .set_refout&lt; true &gt;() .set_init&lt; 0xffffffff &gt;() .set_xor_out&lt; 0x00000000 &gt;() .build())</td></tr>
+<tr class="separator:ga609d8a5e576517dc4e0b88170f5bfc97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae5f54429553f8d909809e6c7cf82e0b4"><td class="memItemLeft" align="right" valign="top"><a id="gae5f54429553f8d909809e6c7cf82e0b4"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_XFER</b> = decltype(<a class="el" href="classeul_1_1crc_1_1CrcFactory.html">CrcFactory</a>&lt;&gt;{} .set_bits&lt; 32 &gt;() .set_type&lt; uint32_t &gt;() .set_polynomial&lt; 0x000000af &gt;() .set_refin&lt; false &gt;() .set_refout&lt; false &gt;() .set_init&lt; 0x00000000 &gt;() .set_xor_out&lt; 0x00000000 &gt;() .build())</td></tr>
+<tr class="separator:gae5f54429553f8d909809e6c7cf82e0b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6c8a815c3bb5e838a0d739736cebb406"><td class="memItemLeft" align="right" valign="top"><a id="ga6c8a815c3bb5e838a0d739736cebb406"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_AUTOSAR</b> = decltype(<a class="el" href="classeul_1_1crc_1_1CrcFactory.html">CrcFactory</a>&lt;&gt;{} .set_bits&lt; 32 &gt;() .set_type&lt; uint32_t &gt;() .set_polynomial&lt; 0xf4acfb13 &gt;() .set_refin&lt; true &gt;() .set_refout&lt; true &gt;() .set_init&lt; 0xffffffff &gt;() .set_xor_out&lt; 0xffffffff &gt;() .build())</td></tr>
+<tr class="separator:ga6c8a815c3bb5e838a0d739736cebb406"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1d7f919f761e4417f918b98a80453829"><td class="memItemLeft" align="right" valign="top"><a id="ga1d7f919f761e4417f918b98a80453829"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_CD_ROM_EDC</b> = decltype(<a class="el" href="classeul_1_1crc_1_1CrcFactory.html">CrcFactory</a>&lt;&gt;{} .set_bits&lt; 32 &gt;() .set_type&lt; uint32_t &gt;() .set_polynomial&lt; 0x8001801b &gt;() .set_refin&lt; true &gt;() .set_refout&lt; true &gt;() .set_init&lt; 0x00000000 &gt;() .set_xor_out&lt; 0x00000000 &gt;() .build())</td></tr>
+<tr class="separator:ga1d7f919f761e4417f918b98a80453829"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga476da8be834b737a0c36e6cd1142cde4"><td class="memItemLeft" align="right" valign="top"><a id="ga476da8be834b737a0c36e6cd1142cde4"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>eul::crc::Crc32_MEF</b> = decltype(<a class="el" href="classeul_1_1crc_1_1CrcFactory.html">CrcFactory</a>&lt;&gt;{} .set_bits&lt; 32 &gt;() .set_type&lt; uint32_t &gt;() .set_polynomial&lt; 0x741b8cd7 &gt;() .set_refin&lt; true &gt;() .set_refout&lt; true &gt;() .set_init&lt; 0xffffffff &gt;() .set_xor_out&lt; 0x00000000 &gt;() .build())</td></tr>
+<tr class="separator:ga476da8be834b737a0c36e6cd1142cde4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
+  </ul>
+</div>
+</body>
+</html>
