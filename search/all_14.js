@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['warningpolicy_147',['WarningPolicy',['../structeul_1_1logger_1_1WarningPolicy.html',1,'eul::logger']]]
+  ['vector_164',['vector',['../classeul_1_1math_1_1vector.html',1,'eul::math']]]
 ];

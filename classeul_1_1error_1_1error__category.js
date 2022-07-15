@@ -9,7 +9,7 @@ var classeul_1_1error_1_1error__category =
     [ "equivalent", "classeul_1_1error_1_1error__category.html#a035df9a5ce26f6d7868e85bc23e8e13f", null ],
     [ "message", "classeul_1_1error_1_1error__category.html#a6fc84203d1eacc6a67117c3cd3d67b7c", null ],
     [ "name", "classeul_1_1error_1_1error__category.html#aeff03c910bae1ee53d5263722fb19143", null ],
-    [ "operator", "classeul_1_1error_1_1error__category.html#acdfc4951951a916a683bdb5dcc4c435e", null ],
+    [ "operator<=>", "classeul_1_1error_1_1error__category.html#ad0c23b5a2180102453f779002258034e", null ],
     [ "operator=", "classeul_1_1error_1_1error__category.html#abbf89fa36701b533a8d1cd12f489e539", null ],
     [ "operator=", "classeul_1_1error_1_1error__category.html#ac1ceaa4cca85e37bf6808670e9e7616b", null ],
     [ "operator==", "classeul_1_1error_1_1error__category.html#a073a80259072e7c53e130a8edac6ec0b", null ]

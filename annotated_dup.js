@@ -7,30 +7,30 @@ var annotated_dup =
           [ "index_iterator", "classeul_1_1container_1_1iterator_1_1index__iterator.html", "classeul_1_1container_1_1iterator_1_1index__iterator" ]
         ] ],
         [ "BlockFifo", "structeul_1_1container_1_1BlockFifo.html", "structeul_1_1container_1_1BlockFifo" ],
-        [ "list", "classeul_1_1container_1_1list.html", null ],
-        [ "list_node", "classeul_1_1container_1_1list__node.html", null ],
         [ "observing_list", "classeul_1_1container_1_1observing__list.html", "classeul_1_1container_1_1observing__list" ],
         [ "observing_node", "classeul_1_1container_1_1observing__node.html", "classeul_1_1container_1_1observing__node" ],
         [ "observing_node_const_iterator", "classeul_1_1container_1_1observing__node__const__iterator.html", "classeul_1_1container_1_1observing__node__const__iterator" ],
         [ "observing_node_iterator", "classeul_1_1container_1_1observing__node__iterator.html", "classeul_1_1container_1_1observing__node__iterator" ],
         [ "ring_buffer", "classeul_1_1container_1_1ring__buffer.html", "classeul_1_1container_1_1ring__buffer" ],
         [ "static_deque", "classeul_1_1container_1_1static__deque.html", "classeul_1_1container_1_1static__deque" ],
+        [ "list_node", "classeul_1_1container_1_1list__node.html", null ],
+        [ "list", "classeul_1_1container_1_1list.html", null ],
         [ "static_vector", "classeul_1_1container_1_1static__vector.html", "classeul_1_1container_1_1static__vector" ]
       ] ],
       [ "crc", null, [
         [ "detail", null, [
-          [ "deduce_type_from_size", "structeul_1_1crc_1_1detail_1_1deduce__type__from__size.html", "structeul_1_1crc_1_1detail_1_1deduce__type__from__size" ],
-          [ "NoneType", "structeul_1_1crc_1_1detail_1_1NoneType.html", null ],
           [ "TemplateType", "structeul_1_1crc_1_1detail_1_1TemplateType.html", "structeul_1_1crc_1_1detail_1_1TemplateType" ],
-          [ "TemplateValue", "structeul_1_1crc_1_1detail_1_1TemplateValue.html", "structeul_1_1crc_1_1detail_1_1TemplateValue" ]
+          [ "NoneType", "structeul_1_1crc_1_1detail_1_1NoneType.html", null ],
+          [ "TemplateValue", "structeul_1_1crc_1_1detail_1_1TemplateValue.html", "structeul_1_1crc_1_1detail_1_1TemplateValue" ],
+          [ "deduce_type_from_size", "structeul_1_1crc_1_1detail_1_1deduce__type__from__size.html", "structeul_1_1crc_1_1detail_1_1deduce__type__from__size" ]
         ] ],
         [ "Crc", "classeul_1_1crc_1_1Crc.html", "classeul_1_1crc_1_1Crc" ],
         [ "CrcFactory", "classeul_1_1crc_1_1CrcFactory.html", null ]
       ] ],
       [ "detail", null, [
+        [ "convert", "structeul_1_1detail_1_1convert.html", "structeul_1_1detail_1_1convert" ],
         [ "binder", "structeul_1_1detail_1_1binder.html", null ],
-        [ "binder< CallbackSize, std::tuple< Args... > >", "structeul_1_1detail_1_1binder_3_01CallbackSize_00_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html", "structeul_1_1detail_1_1binder_3_01CallbackSize_00_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4" ],
-        [ "convert", "structeul_1_1detail_1_1convert.html", "structeul_1_1detail_1_1convert" ]
+        [ "binder< CallbackSize, std::tuple< Args... > >", "structeul_1_1detail_1_1binder_3_01CallbackSize_00_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html", "structeul_1_1detail_1_1binder_3_01CallbackSize_00_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4" ]
       ] ],
       [ "error", null, [
         [ "error_category", "classeul_1_1error_1_1error__category.html", "classeul_1_1error_1_1error__category" ],
@@ -53,19 +53,19 @@ var annotated_dup =
         [ "service", "classeul_1_1kernel_1_1service.html", "classeul_1_1kernel_1_1service" ]
       ] ],
       [ "logger", null, [
-        [ "DebugPolicy", "structeul_1_1logger_1_1DebugPolicy.html", null ],
-        [ "DisabledPolicy", "structeul_1_1logger_1_1DisabledPolicy.html", null ],
-        [ "ErrorPolicy", "structeul_1_1logger_1_1ErrorPolicy.html", null ],
-        [ "InfoPolicy", "structeul_1_1logger_1_1InfoPolicy.html", null ],
         [ "logger", "classeul_1_1logger_1_1logger.html", "classeul_1_1logger_1_1logger" ],
         [ "logger_factory", "classeul_1_1logger_1_1logger__factory.html", "classeul_1_1logger_1_1logger__factory" ],
+        [ "DisabledPolicy", "structeul_1_1logger_1_1DisabledPolicy.html", null ],
+        [ "ErrorPolicy", "structeul_1_1logger_1_1ErrorPolicy.html", null ],
+        [ "WarningPolicy", "structeul_1_1logger_1_1WarningPolicy.html", null ],
+        [ "InfoPolicy", "structeul_1_1logger_1_1InfoPolicy.html", null ],
+        [ "DebugPolicy", "structeul_1_1logger_1_1DebugPolicy.html", null ],
+        [ "TracePolicy", "structeul_1_1logger_1_1TracePolicy.html", null ],
+        [ "logging_flags", "structeul_1_1logger_1_1logging__flags.html", "structeul_1_1logger_1_1logging__flags" ],
         [ "logger_printer", "classeul_1_1logger_1_1logger__printer.html", "classeul_1_1logger_1_1logger__printer" ],
         [ "logger_stream", "classeul_1_1logger_1_1logger__stream.html", "classeul_1_1logger_1_1logger__stream" ],
         [ "logger_stream_registry", "classeul_1_1logger_1_1logger__stream__registry.html", "classeul_1_1logger_1_1logger__stream__registry" ],
-        [ "logging_flags", "structeul_1_1logger_1_1logging__flags.html", "structeul_1_1logger_1_1logging__flags" ],
-        [ "suppressing_logger", "classeul_1_1logger_1_1suppressing__logger.html", "classeul_1_1logger_1_1suppressing__logger" ],
-        [ "TracePolicy", "structeul_1_1logger_1_1TracePolicy.html", null ],
-        [ "WarningPolicy", "structeul_1_1logger_1_1WarningPolicy.html", null ]
+        [ "suppressing_logger", "classeul_1_1logger_1_1suppressing__logger.html", "classeul_1_1logger_1_1suppressing__logger" ]
       ] ],
       [ "math", null, [
         [ "matrix", "classeul_1_1math_1_1matrix.html", "classeul_1_1math_1_1matrix" ],
@@ -82,37 +82,37 @@ var annotated_dup =
       [ "mpl", null, [
         [ "mixin", null, [
           [ "ability", "structeul_1_1mpl_1_1mixin_1_1ability.html", null ],
-          [ "ability_to_index", "structeul_1_1mpl_1_1mixin_1_1ability__to__index.html", null ],
-          [ "ability_to_index< Ability, std::tuple< Args... > >", "structeul_1_1mpl_1_1mixin_1_1ability__to__index_3_01Ability_00_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html", null ],
           [ "ability_to_index_impl", "structeul_1_1mpl_1_1mixin_1_1ability__to__index__impl.html", null ],
           [ "ability_to_index_impl< Ability, Index >", "structeul_1_1mpl_1_1mixin_1_1ability__to__index__impl_3_01Ability_00_01Index_01_4.html", null ],
           [ "ability_to_index_impl< Ability, Index, Arg, Args... >", "structeul_1_1mpl_1_1mixin_1_1ability__to__index__impl_3_01Ability_00_01Index_00_01Arg_00_01Args_8_8_8_01_4.html", null ],
+          [ "ability_to_index", "structeul_1_1mpl_1_1mixin_1_1ability__to__index.html", null ],
+          [ "ability_to_index< Ability, std::tuple< Args... > >", "structeul_1_1mpl_1_1mixin_1_1ability__to__index_3_01Ability_00_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html", null ],
           [ "access", "structeul_1_1mpl_1_1mixin_1_1access.html", "structeul_1_1mpl_1_1mixin_1_1access" ],
           [ "const_access", "structeul_1_1mpl_1_1mixin_1_1const__access.html", "structeul_1_1mpl_1_1mixin_1_1const__access" ],
-          [ "data", "structeul_1_1mpl_1_1mixin_1_1data.html", "structeul_1_1mpl_1_1mixin_1_1data" ],
           [ "data_t", "structeul_1_1mpl_1_1mixin_1_1data__t.html", "structeul_1_1mpl_1_1mixin_1_1data__t" ],
-          [ "inherit_from", "structeul_1_1mpl_1_1mixin_1_1inherit__from.html", null ],
-          [ "inherit_from< std::tuple< T... > >", "structeul_1_1mpl_1_1mixin_1_1inherit__from_3_01std_1_1tuple_3_01T_8_8_8_01_4_01_4.html", null ],
-          [ "interface", "structeul_1_1mpl_1_1mixin_1_1interface.html", "structeul_1_1mpl_1_1mixin_1_1interface" ],
-          [ "interface_t", "structeul_1_1mpl_1_1mixin_1_1interface__t.html", null ],
+          [ "data", "structeul_1_1mpl_1_1mixin_1_1data.html", "structeul_1_1mpl_1_1mixin_1_1data" ],
           [ "is_data", "structeul_1_1mpl_1_1mixin_1_1is__data.html", null ],
           [ "is_data< data_t< T > >", "structeul_1_1mpl_1_1mixin_1_1is__data_3_01data__t_3_01T_01_4_01_4.html", null ],
+          [ "inherit_from", "structeul_1_1mpl_1_1mixin_1_1inherit__from.html", null ],
+          [ "inherit_from< std::tuple< T... > >", "structeul_1_1mpl_1_1mixin_1_1inherit__from_3_01std_1_1tuple_3_01T_8_8_8_01_4_01_4.html", null ],
+          [ "interface_t", "structeul_1_1mpl_1_1mixin_1_1interface__t.html", null ],
+          [ "interface", "structeul_1_1mpl_1_1mixin_1_1interface.html", "structeul_1_1mpl_1_1mixin_1_1interface" ],
           [ "is_interface", "structeul_1_1mpl_1_1mixin_1_1is__interface.html", null ],
           [ "is_interface< interface_t< T > >", "structeul_1_1mpl_1_1mixin_1_1is__interface_3_01interface__t_3_01T_01_4_01_4.html", null ],
           [ "is_not_interface", "structeul_1_1mpl_1_1mixin_1_1is__not__interface.html", null ],
           [ "is_not_interface< interface_t< T > >", "structeul_1_1mpl_1_1mixin_1_1is__not__interface_3_01interface__t_3_01T_01_4_01_4.html", null ],
           [ "name", "structeul_1_1mpl_1_1mixin_1_1name.html", "structeul_1_1mpl_1_1mixin_1_1name" ],
-          [ "none_type", "structeul_1_1mpl_1_1mixin_1_1none__type.html", null ],
           [ "object", "structeul_1_1mpl_1_1mixin_1_1object.html", "structeul_1_1mpl_1_1mixin_1_1object" ],
-          [ "type", "structeul_1_1mpl_1_1mixin_1_1type.html", null ]
+          [ "type", "structeul_1_1mpl_1_1mixin_1_1type.html", null ],
+          [ "none_type", "structeul_1_1mpl_1_1mixin_1_1none__type.html", null ]
         ] ],
         [ "tuples", null, [
           [ "detail", null, [
             [ "filter_impl", "structeul_1_1mpl_1_1tuples_1_1detail_1_1filter__impl.html", null ],
             [ "filter_impl< pred >", "structeul_1_1mpl_1_1tuples_1_1detail_1_1filter__impl_3_01pred_01_4.html", "structeul_1_1mpl_1_1tuples_1_1detail_1_1filter__impl_3_01pred_01_4" ],
-            [ "filter_impl< pred, Type, Rest... >", "structeul_1_1mpl_1_1tuples_1_1detail_1_1filter__impl_3_01pred_00_01Type_00_01Rest_8_8_8_01_4.html", "structeul_1_1mpl_1_1tuples_1_1detail_1_1filter__impl_3_01pred_00_01Type_00_01Rest_8_8_8_01_4" ],
             [ "push_front", "structeul_1_1mpl_1_1tuples_1_1detail_1_1push__front.html", null ],
-            [ "push_front< T, std::tuple< Rest... > >", "structeul_1_1mpl_1_1tuples_1_1detail_1_1push__front_3_01T_00_01std_1_1tuple_3_01Rest_8_8_8_01_4_01_4.html", "structeul_1_1mpl_1_1tuples_1_1detail_1_1push__front_3_01T_00_01std_1_1tuple_3_01Rest_8_8_8_01_4_01_4" ]
+            [ "push_front< T, std::tuple< Rest... > >", "structeul_1_1mpl_1_1tuples_1_1detail_1_1push__front_3_01T_00_01std_1_1tuple_3_01Rest_8_8_8_01_4_01_4.html", "structeul_1_1mpl_1_1tuples_1_1detail_1_1push__front_3_01T_00_01std_1_1tuple_3_01Rest_8_8_8_01_4_01_4" ],
+            [ "filter_impl< pred, Type, Rest... >", "structeul_1_1mpl_1_1tuples_1_1detail_1_1filter__impl_3_01pred_00_01Type_00_01Rest_8_8_8_01_4.html", "structeul_1_1mpl_1_1tuples_1_1detail_1_1filter__impl_3_01pred_00_01Type_00_01Rest_8_8_8_01_4" ]
           ] ],
           [ "details", null, [
             [ "extended_tuple", "structeul_1_1mpl_1_1tuples_1_1details_1_1extended__tuple.html", "structeul_1_1mpl_1_1tuples_1_1details_1_1extended__tuple" ]
@@ -124,11 +124,11 @@ var annotated_dup =
         [ "types", null, [
           [ "details", null, [
             [ "get_index_of_binded_key", "structeul_1_1mpl_1_1types_1_1details_1_1get__index__of__binded__key.html", null ],
-            [ "get_index_of_binded_key< T, Index >", "structeul_1_1mpl_1_1types_1_1details_1_1get__index__of__binded__key_3_01T_00_01Index_01_4.html", null ],
-            [ "get_index_of_binded_key< T, Index, Arg, Args... >", "structeul_1_1mpl_1_1types_1_1details_1_1get__index__of__binded__key_3_01T_00_01Index_00_01Arg_00_01Args_8_8_8_01_4.html", null ]
+            [ "get_index_of_binded_key< T, Index, Arg, Args... >", "structeul_1_1mpl_1_1types_1_1details_1_1get__index__of__binded__key_3_01T_00_01Index_00_01Arg_00_01Args_8_8_8_01_4.html", null ],
+            [ "get_index_of_binded_key< T, Index >", "structeul_1_1mpl_1_1types_1_1details_1_1get__index__of__binded__key_3_01T_00_01Index_01_4.html", null ]
           ] ],
-          [ "bind_type", "structeul_1_1mpl_1_1types_1_1bind__type.html", null ],
           [ "binded", "structeul_1_1mpl_1_1types_1_1binded.html", "structeul_1_1mpl_1_1types_1_1binded" ],
+          [ "bind_type", "structeul_1_1mpl_1_1types_1_1bind__type.html", null ],
           [ "is_binded", "structeul_1_1mpl_1_1types_1_1is__binded.html", null ],
           [ "is_binded< binded< Key, Value > >", "structeul_1_1mpl_1_1types_1_1is__binded_3_01binded_3_01Key_00_01Value_01_4_01_4.html", null ],
           [ "tuple_index_getter", "structeul_1_1mpl_1_1types_1_1tuple__index__getter.html", null ],
@@ -159,10 +159,10 @@ var annotated_dup =
       [ "events", "structeul_1_1events.html", "structeul_1_1events" ],
       [ "function", "classeul_1_1function.html", null ],
       [ "function< ReturnType(Args...), Size >", "classeul_1_1function_3_01ReturnType_07Args_8_8_8_08_00_01Size_01_4.html", "classeul_1_1function_3_01ReturnType_07Args_8_8_8_08_00_01Size_01_4" ],
-      [ "has_type", "structeul_1_1has__type.html", null ],
-      [ "has_type< std::tuple< Args... >, Type >", "structeul_1_1has__type_3_01std_1_1tuple_3_01Args_8_8_8_01_4_00_01Type_01_4.html", null ],
       [ "memory_ptr", "classeul_1_1memory__ptr.html", "classeul_1_1memory__ptr" ],
       [ "Observer", "structeul_1_1Observer.html", null ],
+      [ "has_type", "structeul_1_1has__type.html", null ],
+      [ "has_type< std::tuple< Args... >, Type >", "structeul_1_1has__type_3_01std_1_1tuple_3_01Args_8_8_8_01_4_00_01Type_01_4.html", null ],
       [ "pointer_size", "structeul_1_1pointer__size.html", null ]
     ] ]
 ];

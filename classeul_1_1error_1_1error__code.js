@@ -8,8 +8,8 @@ var classeul_1_1error_1_1error__code =
     [ "clear", "classeul_1_1error_1_1error__code.html#a2da3e96e644cc8e3b1d836fc6cf53042", null ],
     [ "default_error_condition", "classeul_1_1error_1_1error__code.html#a48e0682a1bca0a61e1e4675805bc1333", null ],
     [ "message", "classeul_1_1error_1_1error__code.html#ac10ff6f9ebc92948dca4eed4b91f99bb", null ],
-    [ "operator", "classeul_1_1error_1_1error__code.html#a5743c18386916b39edd3b869a543869a", null ],
     [ "operator bool", "classeul_1_1error_1_1error__code.html#a59060b41eff1edc2d6f69a1bc4737beb", null ],
+    [ "operator<=>", "classeul_1_1error_1_1error__code.html#a5fd9030c5b3fbd6ddce44130def55454", null ],
     [ "operator=", "classeul_1_1error_1_1error__code.html#abb6fc5e96deb865e95d041db73e83dce", null ],
     [ "operator==", "classeul_1_1error_1_1error__code.html#a71259056bfe608a08cdf318fa54d3034", null ],
     [ "value", "classeul_1_1error_1_1error__code.html#a6ec6fe81e34cdda99ec086b79d7498da", null ]

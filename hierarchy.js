@@ -22,7 +22,7 @@ var hierarchy =
     [ "eul::logger::DebugPolicy", "structeul_1_1logger_1_1DebugPolicy.html", null ],
     [ "eul::crc::detail::deduce_type_from_size< bits >", "structeul_1_1crc_1_1detail_1_1deduce__type__from__size.html", null ],
     [ "eul::logger::DisabledPolicy", "structeul_1_1logger_1_1DisabledPolicy.html", null ],
-    [ "disjunction", null, [
+    [ "std::disjunction", null, [
       [ "eul::has_type< std::tuple< Args... >, Type >", "structeul_1_1has__type_3_01std_1_1tuple_3_01Args_8_8_8_01_4_00_01Type_01_4.html", null ]
     ] ],
     [ "eul::error::error_category", "classeul_1_1error_1_1error__category.html", [
@@ -38,7 +38,7 @@ var hierarchy =
     [ "eul::mpl::tuples::extend< T >", "structeul_1_1mpl_1_1tuples_1_1extend.html", null ],
     [ "eul::mpl::tuples::extend< std::tuple< Args... > >", "structeul_1_1mpl_1_1tuples_1_1extend_3_01std_1_1tuple_3_01Args_8_8_8_01_4_01_4.html", null ],
     [ "eul::mpl::tuples::details::extended_tuple< Types >", "structeul_1_1mpl_1_1tuples_1_1details_1_1extended__tuple.html", null ],
-    [ "false_type", null, [
+    [ "std::false_type", null, [
       [ "eul::mpl::mixin::is_data< T >", "structeul_1_1mpl_1_1mixin_1_1is__data.html", null ],
       [ "eul::mpl::mixin::is_interface< T >", "structeul_1_1mpl_1_1mixin_1_1is__interface.html", null ],
       [ "eul::mpl::mixin::is_not_interface< interface_t< T > >", "structeul_1_1mpl_1_1mixin_1_1is__not__interface_3_01interface__t_3_01T_01_4_01_4.html", null ],
@@ -96,15 +96,11 @@ var hierarchy =
     [ "eul::container::observing_list< NodeType >", "classeul_1_1container_1_1observing__list.html", null ],
     [ "eul::container::observing_list< eul::container::observing_node< eul::kernel::service * > >", "classeul_1_1container_1_1observing__list.html", null ],
     [ "eul::container::observing_list< eul::container::observing_node< eul::timer::observed_timer * > >", "classeul_1_1container_1_1observing__list.html", null ],
-    [ "eul::container::observing_list< eul::container::observing_node< logger_stream * > >", "classeul_1_1container_1_1observing__list.html", null ],
-    [ "eul::container::observing_list< eul::container::observing_node< self_type * > >", "classeul_1_1container_1_1observing__list.html", null ],
-    [ "eul::container::observing_list< eul::container::observing_node< service * > >", "classeul_1_1container_1_1observing__list.html", null ],
     [ "eul::container::observing_list< eul::container::observing_node< T > >", "classeul_1_1container_1_1observing__list.html", null ],
     [ "eul::container::observing_list< LifetimeNodeType >", "classeul_1_1container_1_1observing__list.html", null ],
     [ "eul::container::observing_list< stream_node >", "classeul_1_1container_1_1observing__list.html", null ],
     [ "eul::container::observing_list< typename slot_t::observed_type >", "classeul_1_1container_1_1observing__list.html", null ],
     [ "eul::container::observing_node< T >", "classeul_1_1container_1_1observing__node.html", null ],
-    [ "eul::container::observing_node< eul::kernel::service * >", "classeul_1_1container_1_1observing__node.html", null ],
     [ "eul::container::observing_node< eul::timer::observed_timer * >", "classeul_1_1container_1_1observing__node.html", null ],
     [ "eul::container::observing_node< logger_stream * >", "classeul_1_1container_1_1observing__node.html", null ],
     [ "eul::container::observing_node< self_type * >", "classeul_1_1container_1_1observing__node.html", null ],
@@ -127,11 +123,16 @@ var hierarchy =
     [ "eul::container::static_vector< Type, BufferSize >", "classeul_1_1container_1_1static__vector.html", null ],
     [ "eul::container::static_vector< T, ContainerSize >", "classeul_1_1container_1_1static__vector.html", null ],
     [ "eul::logger::suppressing_logger", "classeul_1_1logger_1_1suppressing__logger.html", null ],
+    [ "T", null, [
+      [ "eul::mpl::mixin::data_t< T >", "structeul_1_1mpl_1_1mixin_1_1data__t.html", null ],
+      [ "eul::mpl::mixin::inherit_from< std::tuple< T... > >", "structeul_1_1mpl_1_1mixin_1_1inherit__from_3_01std_1_1tuple_3_01T_8_8_8_01_4_01_4.html", null ],
+      [ "eul::mpl::mixin::interface_t< T >", "structeul_1_1mpl_1_1mixin_1_1interface__t.html", null ]
+    ] ],
     [ "eul::crc::detail::TemplateType< T, was_initialized >", "structeul_1_1crc_1_1detail_1_1TemplateType.html", null ],
     [ "eul::crc::detail::TemplateValue< T, v, was_initialized >", "structeul_1_1crc_1_1detail_1_1TemplateValue.html", null ],
     [ "eul::timer::timer_manager", "classeul_1_1timer_1_1timer__manager.html", null ],
     [ "eul::logger::TracePolicy", "structeul_1_1logger_1_1TracePolicy.html", null ],
-    [ "true_type", null, [
+    [ "std::true_type", null, [
       [ "eul::mpl::mixin::is_data< data_t< T > >", "structeul_1_1mpl_1_1mixin_1_1is__data_3_01data__t_3_01T_01_4_01_4.html", null ],
       [ "eul::mpl::mixin::is_interface< interface_t< T > >", "structeul_1_1mpl_1_1mixin_1_1is__interface_3_01interface__t_3_01T_01_4_01_4.html", null ],
       [ "eul::mpl::mixin::is_not_interface< T >", "structeul_1_1mpl_1_1mixin_1_1is__not__interface.html", null ],
@@ -146,12 +147,7 @@ var hierarchy =
     [ "eul::memory::pool::unique_ptr< Type, OnDestroyCallbackType >", "structeul_1_1memory_1_1pool_1_1unique__ptr.html", null ],
     [ "eul::math::vector< T, N >", "classeul_1_1math_1_1vector.html", null ],
     [ "eul::logger::WarningPolicy", "structeul_1_1logger_1_1WarningPolicy.html", null ],
-    [ "Observers", null, [
+    [ "eul::Observers", null, [
       [ "eul::Observer< Observers >", "structeul_1_1Observer.html", null ]
-    ] ],
-    [ "T", null, [
-      [ "eul::mpl::mixin::data_t< T >", "structeul_1_1mpl_1_1mixin_1_1data__t.html", null ],
-      [ "eul::mpl::mixin::inherit_from< std::tuple< T... > >", "structeul_1_1mpl_1_1mixin_1_1inherit__from_3_01std_1_1tuple_3_01T_8_8_8_01_4_01_4.html", null ],
-      [ "eul::mpl::mixin::interface_t< T >", "structeul_1_1mpl_1_1mixin_1_1interface__t.html", null ]
     ] ]
 ];

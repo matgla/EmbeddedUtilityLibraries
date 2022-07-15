@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['has_5ftype_51',['has_type',['../structeul_1_1has__type.html',1,'eul']]],
-  ['has_5ftype_3c_20std_3a_3atuple_3c_20args_2e_2e_2e_20_3e_2c_20type_20_3e_52',['has_type&lt; std::tuple&lt; Args... &gt;, Type &gt;',['../structeul_1_1has__type_3_01std_1_1tuple_3_01Args_8_8_8_01_4_00_01Type_01_4.html',1,'eul']]]
+  ['generic_5fcategory_5fimpl_69',['generic_category_impl',['../classeul_1_1error_1_1generic__category__impl.html',1,'eul::error']]],
+  ['get_5findex_5fof_5fbinded_5fkey_70',['get_index_of_binded_key',['../structeul_1_1mpl_1_1types_1_1details_1_1get__index__of__binded__key.html',1,'eul::mpl::types::details']]],
+  ['get_5findex_5fof_5fbinded_5fkey_3c_20t_2c_20index_20_3e_71',['get_index_of_binded_key&lt; T, Index &gt;',['../structeul_1_1mpl_1_1types_1_1details_1_1get__index__of__binded__key_3_01T_00_01Index_01_4.html',1,'eul::mpl::types::details']]],
+  ['get_5findex_5fof_5fbinded_5fkey_3c_20t_2c_20index_2c_20arg_2c_20args_2e_2e_2e_20_3e_72',['get_index_of_binded_key&lt; T, Index, Arg, Args... &gt;',['../structeul_1_1mpl_1_1types_1_1details_1_1get__index__of__binded__key_3_01T_00_01Index_00_01Arg_00_01Args_8_8_8_01_4.html',1,'eul::mpl::types::details']]]
 ];
