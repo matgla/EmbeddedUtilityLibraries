@@ -25,6 +25,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @ingroup crc3
+ * @{
+ */
+
 using Crc3_GSM = decltype(CrcFactory<>{}
     .set_bits<3>()
     .set_type<uint8_t>() 
@@ -44,6 +49,8 @@ using Crc3_ROHC = decltype(CrcFactory<>{}
     .set_init<0x07>()
     .set_xor_out<0x00>()
     .build());
+
+/** @} */
 
 } // namespace eul::crc
 

@@ -23,6 +23,15 @@ namespace eul::crc
 namespace detail 
 {
 
+/**
+ * @ingroup crc
+ * @brief Wraps type and contains information if it was set up
+ * 
+ * Needed to check if type setter was called on \ref CrcFactory
+ * 
+ * @tparam T holding type
+ * @tparam was_initialized object initialization status
+ */
 template <typename T, bool was_initialized = false>
 struct TemplateType
 {
@@ -31,12 +40,25 @@ struct TemplateType
     constexpr static inline bool initialized = was_initialized;
 };
 
+/**
+ * @ingroup crc
+ * @brief Unknown type for \ref TemplateType
+ */
 struct NoneType 
 {};
 
 constexpr NoneType none;
 
-
+/**
+ * @ingroup crc
+ * @brief Wraps template value and contains information if it was set up
+ * 
+ * Needed to check if value setter was called on \ref CrcFactory
+ * 
+ * @tparam T value type
+ * @tparam v holder for value
+ * @tparam was_initialized object initialization status
+ */
 template <typename T, T v, bool was_initialized = false>
 struct TemplateValue
 {
@@ -50,6 +72,13 @@ struct TemplateValue
 
 } // namespace detail
 
+/**
+ * @ingroup crc
+ * @brief Factory class to easily configure \ref Crc algorithm class
+ * 
+ * Parameters for template class are filled by creation methods. Not needed to know what are they really do.
+ */
+
 template <typename T = detail::TemplateType<int>, 
     typename polynomial = detail::TemplateValue<typename T::type, 0, false>, 
     typename xor_out = detail::TemplateValue<typename T::type, 0, false>, 
@@ -60,12 +89,25 @@ template <typename T = detail::TemplateType<int>,
 class CrcFactory
 {
 public:
+
+    /**
+     * @brief Set the CRC register type
+     * 
+     * @tparam DataType CRC register type
+     * @return \ref CrcFactory type with filled CRC register type
+     */
     template <typename DataType>
     constexpr static auto set_type()
     {
         return CrcFactory<detail::TemplateType<DataType, true>, polynomial, xor_out, init, refin, refout, bits>{};
     }
 
+    /**
+     * @brief Set the polynomial value
+     * 
+     * @tparam polynomial_value value of polynomial
+     * @return \ref CrcFactory type with filled polynomial
+     */
     template <typename T::type polynomial_value>
     constexpr static auto set_polynomial() 
     {
@@ -73,6 +115,12 @@ public:
         return CrcFactory<T, detail::TemplateValue<typename T::type, polynomial_value, true>, xor_out, init, refin, refout, bits>{};
     }
 
+    /**
+     * @brief Set the output xor value
+     * 
+     * @tparam xor_out_value value for xor operation
+     * @return \ref CrcFactory type with filled xor value
+     */
     template <typename T::type xor_out_value>
     constexpr static auto set_xor_out() 
     {
@@ -80,6 +128,12 @@ public:
         return CrcFactory<T, polynomial, detail::TemplateValue<typename T::type, xor_out_value, true>, init, refin, refout, bits>{};
     }
 
+    /**
+     * @brief Set the initial CRC register value
+     * 
+     * @tparam init_value value for CRC register initialization
+     * @return \ref CrcFactory type with initialization value
+     */
     template <typename T::type init_value>
     constexpr static auto set_init() 
     {
@@ -87,24 +141,49 @@ public:
         return CrcFactory<T, polynomial, xor_out, detail::TemplateValue<typename T::type, init_value, true>, refin, refout, bits>{};
     }
 
+    /**
+     * @brief Set the input reflection
+     * 
+     * @tparam refin_value toggles input data reflection
+     * @return \ref CrcFactory type with filled input reflection flag
+     */
     template <bool refin_value>
     constexpr static auto set_refin() 
     {
         return CrcFactory<T, polynomial, xor_out, init, detail::TemplateValue<bool, refin_value, true>, refout, bits>{};
     }
 
+    /**
+     * @brief Set the output reflection
+     * 
+     * @tparam refin_value toggles output CRC value reflection
+     * @return \ref CrcFactory type with filled output reflection flag
+     */
     template <bool refout_value>
     constexpr static auto set_refout() 
     {
         return CrcFactory<T, polynomial, xor_out, init, refin, detail::TemplateValue<bool, refout_value, true>, bits>{};
     }
 
+    /**
+     * @brief Set the number of the CRC register bit size 
+     * 
+     * @tparam bits_value number of CRC register bit size
+     * @return \ref CrcFactory type with filled CRC register size 
+     */
     template <uint8_t bits_value>
     constexpr static auto set_bits() 
     {
         return CrcFactory<T, polynomial, xor_out, init, refin, refout, detail::TemplateValue<uint8_t, bits_value, true>>{};
     }
 
+    /**
+     * @brief Construct \ref Crc object
+     * 
+     * Used to construct CRC object with specified configuration.
+     * 
+     * @return \ref Crc object with given configuration
+     */
     constexpr static auto build() 
     {
         static_assert(T::initialized, "non-initialized type");

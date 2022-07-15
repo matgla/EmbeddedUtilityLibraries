@@ -1,5 +1,5 @@
 // This file is part of EmbeddedUtilityLibraries project.
-// Copyright (C) 2022 Mateusz Stadnik
+// Copyright (C) 2021 Mateusz Stadnik
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,34 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-/* based on catalogue from: https://reveng.sourceforge.io/crc-catalogue/ */
+#include <cstdint> 
+#include <vector>
 
+#include <gtest/gtest.h>
 
-#pragma once 
+#include <eul/crc/crc32.hpp>
+#include <eul/crc/crc8.hpp>
 
-#include <cstdint>
- 
-#include "eul/crc/crc_factory.hpp"
-
-namespace eul::crc 
+namespace eul::crc
 {
 
-/**
- * @addtogroup crc30
- * @{
- */
+TEST(CrcForStringShould, CalculateCorrectly)
+{
+    const char* test = "123456789";
 
-using Crc30_CDMA = decltype(CrcFactory<>{}
-    .set_bits<30>()
-    .set_type<uint32_t>() 
-    .set_polynomial<0x2030b9c7>()
-    .set_refin<false>()
-    .set_refout<false>()
-    .set_init<0x3fffffff>()
-    .set_xor_out<0x3fffffff>()
-    .build());
-
-/** @} */
+    EXPECT_EQ(eul::crc::Crc32::calculate(test), 0xcbf43926);
+    EXPECT_EQ(eul::crc::Crc8::calculate(test), 0xf4);
+}
 
 } // namespace eul::crc
 

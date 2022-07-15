@@ -26,6 +26,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc7
+ * @{
+ */
+
 using Crc7_MMC = decltype(CrcFactory<>{}
     .set_bits<7>()
     .set_type<uint8_t>() 
@@ -57,6 +62,8 @@ using Crc7_UMTS = decltype(CrcFactory<>{}
     .set_init<0x00>()
     .set_xor_out<0x00>()
     .build());
+
+/** @} */
 
 } // namespace eul::crc
 

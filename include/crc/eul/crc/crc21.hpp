@@ -26,6 +26,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc21
+ * @{
+ */
+
 using Crc21_CAN_FD = decltype(CrcFactory<>{}
     .set_bits<21>()
     .set_type<uint32_t>() 
@@ -35,6 +40,8 @@ using Crc21_CAN_FD = decltype(CrcFactory<>{}
     .set_init<0x000000>()
     .set_xor_out<0x000000>()
     .build());
+
+/** @} */
 
 } // namespace eul::crc
 

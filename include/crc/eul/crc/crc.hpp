@@ -19,6 +19,7 @@
 #include <array>
 #include <cstdint>
 #include <span>
+#include <string_view>
 
 #include "detail/crc_utils.hpp"
 
@@ -26,11 +27,40 @@
 
 namespace eul::crc
 {
+
+/**
+ * @ingroup crc
+ * @brief Computes the CRC value for any configuration
+ * 
+ * This class uses compile-time generation of the lookup table. 
+ * Each lookup table costs 256 bytes of memory.
+ * 
+ * @tparam T underlaying type for calculations and return value
+ * @tparam polynomial polynomial for CRC algorithm, must fit in sizeof(T)
+ * @tparam xor_out value for xor operation for final value 
+ * @tparam init value to initialize CRC register
+ * @tparam refin reflect input data
+ * @tparam refout reflect final value
+ * @tparam bits size of CRC register in bits
+ * 
+ */
+
 template <typename T, T polynomial, T xor_out, T init, bool refin, bool refout, uint8_t bits>
 class Crc
 {
 public: 
+    /**
+     * @brief Alias for data view to pass input data
+     * 
+     */
     using DataType = std::span<const uint8_t>;
+
+    /**
+     * @brief Computes CRC value for input data
+     * 
+     * @param data input bytes for CRC calculation
+     * @return CRC calculated for input data
+     */
     static constexpr T calculate(DataType data)
     {
 
@@ -62,10 +92,21 @@ public:
         return crc ^ xor_out;
     }
 
+    /**
+     * @brief Computes CRC value of a provided string
+     * 
+     * @param str input string
+     * @return CRC calculated for the input string
+     */
+    static constexpr T calculate(std::string_view str)
+    {
+        return calculate(DataType{reinterpret_cast<const uint8_t*>(str.data()), str.length()});
+    } 
+
 private: 
     static constexpr T calculate_crc(T crc, T position)
     {
-        if constexpr (std::is_same_v<T, uint8_t>)
+        if constexpr (sizeof(T) == 1)
         {
             return table_[position & 0xff];
         }

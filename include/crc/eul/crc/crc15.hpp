@@ -26,6 +26,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc15
+ * @{
+ */
+
 using Crc15_CAN = decltype(CrcFactory<>{}
     .set_bits<15>()
     .set_type<uint16_t>() 
@@ -46,6 +51,7 @@ using Crc15_MPT1327 = decltype(CrcFactory<>{}
     .set_xor_out<0x0001>()
     .build());
 
+/** @} */
 
 } // namespace eul::crc
 

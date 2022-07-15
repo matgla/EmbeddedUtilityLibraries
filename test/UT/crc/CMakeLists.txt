@@ -41,6 +41,7 @@ target_sources (eul_crc_tests
         ${CMAKE_CURRENT_SOURCE_DIR}/Crc32Tests.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Crc40Tests.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Crc64Tests.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CrcForString.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CrcUtilsTests.cpp
 )
 

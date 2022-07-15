@@ -25,6 +25,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc16
+ * @{
+ */
+
 using Crc16_CCITT_ZERO = decltype(CrcFactory<>{}
     .set_bits<16>()
     .set_type<uint16_t>() 
@@ -374,7 +379,6 @@ using Crc16_PROFIBUS = decltype(CrcFactory<>{}
 
 using Crc16_IEC_61158_2 = Crc16_PROFIBUS;
 
-
-
+/** @} */
 
 } // namespace eul::crc

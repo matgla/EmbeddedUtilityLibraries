@@ -26,6 +26,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc31
+ * @{
+ */
+
 using Crc31_PHILIPS = decltype(CrcFactory<>{}
     .set_bits<31>()
     .set_type<uint32_t>() 
@@ -35,6 +40,8 @@ using Crc31_PHILIPS = decltype(CrcFactory<>{}
     .set_init<0x7fffffff>()
     .set_xor_out<0x7fffffff>()
     .build());
+
+/** @} */
 
 } // namespace eul::crc
 

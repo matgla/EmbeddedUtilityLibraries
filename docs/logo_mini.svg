@@ -2,14 +2,14 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="200mm"
+   width="33mm"
    height="22mm"
-   viewBox="0 0 200 22"
+   viewBox="0 0 33 22"
    version="1.1"
    id="svg7963"
    xml:space="preserve"
    inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
-   sodipodi:docname="logo.svg"
+   sodipodi:docname="logo_mini.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -26,7 +26,7 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="1.313495"
-     inkscape:cx="304.53104"
+     inkscape:cx="305.29237"
      inkscape:cy="28.930449"
      inkscape:window-width="3440"
      inkscape:window-height="1371"
@@ -72,9 +72,9 @@
        id="text9051"><tspan
          x="86.75135"
          y="132.40691"
-         id="tspan490"><tspan
+         id="tspan568"><tspan
            dx="0 6.2766256 8.2521963"
-           id="tspan488">EUL</tspan></tspan></text><text
+           id="tspan566">EUL</tspan></tspan></text><text
        xml:space="preserve"
        style="font-size:11.2889px;white-space:pre;inline-size:21.4135;display:inline;fill:#afc6e9;stroke-width:0.264583"
        x="82.921867"
@@ -82,10 +82,10 @@
        id="text9105"><tspan
          x="82.921867"
          y="141.36214"
-         id="tspan494"><tspan
+         id="tspan572"><tspan
            dx="0 8.1505871 9.2004604"
            style="font-family:C059;-inkscape-font-specification:C059"
-           id="tspan492">EUL</tspan></tspan></text><text
+           id="tspan570">EUL</tspan></tspan></text><text
        xml:space="preserve"
        style="font-size:12.7px;font-family:C059;-inkscape-font-specification:C059;fill:#442178;stroke-width:0.264583"
        x="35.445221"
@@ -111,14 +111,4 @@
          id="tspan1553"
          style="stroke-width:0.264583"
          x="106.24101"
-         y="15.390863" /></text><text
-       xml:space="preserve"
-       style="font-weight:600;font-size:14.1111px;line-height:0px;font-family:'Edu TAS Beginner';-inkscape-font-specification:'Edu TAS Beginner Semi-Bold';text-align:center;text-anchor:middle;fill:#003380;stroke-width:0.264583"
-       x="115.32681"
-       y="16.032629"
-       id="text201"><tspan
-         sodipodi:role="line"
-         id="tspan199"
-         style="font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;font-family:Finlandica;-inkscape-font-specification:'Finlandica Medium Italic';fill:#003380;stroke-width:0.264583"
-         x="115.32681"
-         y="16.032629">Embedded Utility Libraries</tspan></text></g></svg>
+         y="15.390863" /></text></g></svg>

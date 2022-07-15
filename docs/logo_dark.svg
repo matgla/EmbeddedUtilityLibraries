@@ -27,7 +27,7 @@
      showgrid="false"
      inkscape:zoom="1.313495"
      inkscape:cx="304.53104"
-     inkscape:cy="28.930449"
+     inkscape:cy="28.169121"
      inkscape:window-width="3440"
      inkscape:window-height="1371"
      inkscape:window-x="0"
@@ -72,9 +72,9 @@
        id="text9051"><tspan
          x="86.75135"
          y="132.40691"
-         id="tspan490"><tspan
+         id="tspan349"><tspan
            dx="0 6.2766256 8.2521963"
-           id="tspan488">EUL</tspan></tspan></text><text
+           id="tspan347">EUL</tspan></tspan></text><text
        xml:space="preserve"
        style="font-size:11.2889px;white-space:pre;inline-size:21.4135;display:inline;fill:#afc6e9;stroke-width:0.264583"
        x="82.921867"
@@ -82,10 +82,10 @@
        id="text9105"><tspan
          x="82.921867"
          y="141.36214"
-         id="tspan494"><tspan
+         id="tspan353"><tspan
            dx="0 8.1505871 9.2004604"
            style="font-family:C059;-inkscape-font-specification:C059"
-           id="tspan492">EUL</tspan></tspan></text><text
+           id="tspan351">EUL</tspan></tspan></text><text
        xml:space="preserve"
        style="font-size:12.7px;font-family:C059;-inkscape-font-specification:C059;fill:#442178;stroke-width:0.264583"
        x="35.445221"
@@ -97,7 +97,7 @@
          x="35.445221"
          y="15.241515" /></text><text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:14.1111px;line-height:0;font-family:'Edu TAS Beginner';-inkscape-font-specification:'Edu TAS Beginner Semi-Bold';text-align:center;word-spacing:0px;baseline-shift:baseline;text-anchor:middle;white-space:pre;inline-size:187.101;display:inline;fill:#442178;stroke-width:0.264583"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:14.1111px;line-height:0;font-family:'Edu TAS Beginner';-inkscape-font-specification:'Edu TAS Beginner Semi-Bold';text-align:center;word-spacing:0px;baseline-shift:baseline;text-anchor:middle;white-space:pre;inline-size:187.101;fill:#442178;stroke-width:0.264583"
        x="106.30106"
        y="15.979594"
        id="use983"
@@ -113,12 +113,12 @@
          x="106.24101"
          y="15.390863" /></text><text
        xml:space="preserve"
-       style="font-weight:600;font-size:14.1111px;line-height:0px;font-family:'Edu TAS Beginner';-inkscape-font-specification:'Edu TAS Beginner Semi-Bold';text-align:center;text-anchor:middle;fill:#003380;stroke-width:0.264583"
+       style="font-weight:600;font-size:14.1111px;line-height:0px;font-family:'Edu TAS Beginner';-inkscape-font-specification:'Edu TAS Beginner Semi-Bold';text-align:center;text-anchor:middle;fill:#deaa87;stroke-width:0.264583"
        x="115.32681"
        y="16.032629"
        id="text201"><tspan
          sodipodi:role="line"
          id="tspan199"
-         style="font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;font-family:Finlandica;-inkscape-font-specification:'Finlandica Medium Italic';fill:#003380;stroke-width:0.264583"
+         style="font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;font-family:Finlandica;-inkscape-font-specification:'Finlandica Medium Italic';fill:#deaa87;stroke-width:0.264583"
          x="115.32681"
          y="16.032629">Embedded Utility Libraries</tspan></text></g></svg>

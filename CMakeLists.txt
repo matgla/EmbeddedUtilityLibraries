@@ -18,6 +18,8 @@ cmake_minimum_required(VERSION 3.2)
 
 project(eul CXX)
 
+OPTION(BUILD_EXAMPLES OFF)
+
 # EUL for apple supports only libc++
 if (APPLE)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
@@ -141,3 +143,7 @@ if (ENABLE_CLANG_TIDY)
         VERBATIM
     )
 endif()
+
+if (BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif ()

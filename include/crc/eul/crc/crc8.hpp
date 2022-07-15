@@ -25,6 +25,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc8
+ * @{
+ */
+
 using Crc8 = decltype(CrcFactory<>{}
     .set_bits<8>()
     .set_type<uint8_t>() 
@@ -238,6 +243,7 @@ using Crc8_OPENSAFETY = decltype(CrcFactory<>{}
     .set_xor_out<0x00>()
     .build());
 
+/** @} */
 
 } // namespace eul::crc
 

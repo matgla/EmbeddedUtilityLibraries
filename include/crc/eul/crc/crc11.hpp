@@ -26,6 +26,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc11
+ * @{
+ */
+
 using Crc11_FLEXRAY = decltype(CrcFactory<>{}
     .set_bits<11>()
     .set_type<uint16_t>() 
@@ -47,6 +52,8 @@ using Crc11_UMTS = decltype(CrcFactory<>{}
     .set_init<0x000>()
     .set_xor_out<0x000>()
     .build());
+
+/** @} */
 
 } // namespace eul::crc
 

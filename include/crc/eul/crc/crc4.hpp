@@ -26,6 +26,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc4
+ * @{
+ */
+
 using Crc4_ITU = decltype(CrcFactory<>{}
     .set_bits<4>()
     .set_type<uint8_t>() 
@@ -45,6 +50,8 @@ using Crc4_INTERLAKEN = decltype(CrcFactory<>{}
     .set_init<0x0f>()
     .set_xor_out<0x0f>()
     .build());
+
+/** @} */
 
 } // namespace eul::crc
 

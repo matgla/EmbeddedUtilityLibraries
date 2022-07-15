@@ -26,6 +26,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc24
+ * @{
+ */
+
 using Crc24_BLE = decltype(CrcFactory<>{}
     .set_bits<24>()
     .set_type<uint32_t>() 
@@ -108,6 +113,7 @@ using Crc24_OS_9 = decltype(CrcFactory<>{}
     .set_xor_out<0xffffff>()
     .build());
 
+/** @} */
 
 } // namespace eul::crc
 

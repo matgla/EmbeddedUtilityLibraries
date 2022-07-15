@@ -26,6 +26,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc5
+ * @{
+ */
+
 using Crc5_EPC = decltype(CrcFactory<>{}
     .set_bits<5>()
     .set_type<uint8_t>() 
@@ -59,6 +64,8 @@ using Crc5_USB = decltype(CrcFactory<>{}
     .set_init<0x1f>()
     .set_xor_out<0x1f>()
     .build());
+
+/** @} */
 
 } // namespace eul::crc
 

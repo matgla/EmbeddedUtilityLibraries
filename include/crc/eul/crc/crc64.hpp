@@ -25,6 +25,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc64
+ * @{
+ */
+
 using Crc64_ECMA_182 = decltype(CrcFactory<>{}
     .set_bits<64>()
     .set_type<uint64_t>() 
@@ -77,5 +82,6 @@ using Crc64_MS = decltype(CrcFactory<>{}
     .set_xor_out<0x0000000000000000>()
     .build());
 
+/** @} */
 
 } // namespace eul::crc

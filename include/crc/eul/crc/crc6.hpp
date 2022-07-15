@@ -26,6 +26,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc6
+ * @{
+ */
+
 using Crc6_CDMA2000_A = decltype(CrcFactory<>{}
     .set_bits<6>()
     .set_type<uint8_t>() 
@@ -77,6 +82,8 @@ using Crc6_GSM = decltype(CrcFactory<>{}
     .set_init<0x00>()
     .set_xor_out<0x3f>()
     .build());
+
+/** @} */
 
 } // namespace eul::crc
 

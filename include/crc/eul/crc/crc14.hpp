@@ -26,6 +26,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc14
+ * @{
+ */
+
 using Crc14_DARC = decltype(CrcFactory<>{}
     .set_bits<14>()
     .set_type<uint16_t>() 
@@ -45,6 +50,8 @@ using Crc14_GSM = decltype(CrcFactory<>{}
     .set_init<0x0000>()
     .set_xor_out<0x3fff>()
     .build());
+
+/** @} */
 
 } // namespace eul::crc
 

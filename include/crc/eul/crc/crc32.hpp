@@ -25,6 +25,11 @@
 namespace eul::crc 
 {
 
+/**
+ * @addtogroup crc32
+ * @{
+ */
+
 using Crc32 = decltype(CrcFactory<>{}
     .set_bits<32>()
     .set_type<uint32_t>() 
@@ -164,5 +169,6 @@ using Crc32_MEF = decltype(CrcFactory<>{}
     .set_xor_out<0x00000000>()
     .build());
 
+/** @} */
 
 } // namespace eul::crc
