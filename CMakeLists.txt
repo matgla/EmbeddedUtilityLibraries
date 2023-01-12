@@ -30,17 +30,23 @@ set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(FetchContent)
 
 FetchContent_Declare(
-  mspkg
-  GIT_REPOSITORY https://github.com/matgla/mspkg.git
+  yaspem
+  GIT_REPOSITORY https://github.com/matgla/yaspem.git
   GIT_TAG        master
 )
 
-FetchContent_MakeAvailable(mspkg)
+FetchContent_MakeAvailable(yaspem)
 
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${mspkg_SOURCE_DIR}/cmake)
-include (mspkg)
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${yaspem_SOURCE_DIR}/cmake)
+include (yaspem)
 
-setup_mspkg(${mspkg_SOURCE_DIR})
+setup_yaspem(
+    YASPEM_SOURCE ${yaspem_SOURCE_DIR}
+    OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/packages
+    PACKAGE_FILES ${PROJECT_SOURCE_DIR}/packages.json
+)
+
+message (STATUS "Cmake modules: ${CMAKE_MODULE_PATH}")
 
 find_package(CMakeUtils REQUIRED)
 
