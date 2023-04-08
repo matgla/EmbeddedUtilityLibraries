@@ -1,4 +1,5 @@
 add_library(eul_utils STATIC)
+add_library(eul::utils ALIAS eul_utils)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/utils/eul/utils)
 

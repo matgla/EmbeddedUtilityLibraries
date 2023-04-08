@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(eul_memory_pool INTERFACE)
+add_library(eul::memory_pool ALIAS eul_memory_pool)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/memory/eul/memory/pool)
 

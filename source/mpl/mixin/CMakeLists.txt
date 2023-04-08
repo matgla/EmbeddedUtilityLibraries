@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(eul_mpl_mixin INTERFACE)
+add_library(eul::mpl::mixin ALIAS eul_mpl_mixin)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/mpl/mixin/eul/mpl/mixin)
 

@@ -1,4 +1,5 @@
 add_library(eul_logger STATIC)
+add_library(eul::logger ALIAS eul_logger)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/logger/eul/logger)
 

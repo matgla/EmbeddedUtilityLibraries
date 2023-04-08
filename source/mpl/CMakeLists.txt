@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(eul_mpl INTERFACE)
+add_library(eul::mpl ALIAS eul_mpl)
 
 add_subdirectory(mixin)
 add_subdirectory(tuples)

@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(eul_mpl_types INTERFACE)
+add_library(eul::mpl::types ALIAS eul_mpl_types)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/mpl/types/eul/mpl/types)
 

@@ -39,7 +39,6 @@ FetchContent_MakeAvailable(yaspem)
 
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${yaspem_SOURCE_DIR}/cmake)
 include (yaspem)
-
 setup_yaspem(
     YASPEM_SOURCE ${yaspem_SOURCE_DIR}
     OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/packages
@@ -112,6 +111,12 @@ add_subdirectory (source/utils)
 
 if (NOT DISABLE_TESTS)
     include (CTest)
+    setup_yaspem(
+        YASPEM_SOURCE ${yaspem_SOURCE_DIR}
+        OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/packages
+        PACKAGE_FILES ${PROJECT_SOURCE_DIR}/test/packages.json
+    )
+
     add_subdirectory(test)
 endif ()
 

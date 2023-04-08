@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(eul_iterator INTERFACE)
+add_library(eul::iterator ALIAS eul_iterator)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/iterator/eul/iterator)
 

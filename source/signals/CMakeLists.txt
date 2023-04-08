@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(eul_signals INTERFACE)
+add_library(eul::signals ALIAS eul_signals)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/signals/eul/signals)
 

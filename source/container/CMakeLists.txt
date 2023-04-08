@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library (eul_container INTERFACE)
+add_library (eul::container ALIAS eul_container)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/container/eul/container)
 

@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(eul_functional INTERFACE)
+add_library(eul::functional ALIAS eul_functional)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/functional/eul/functional)
 

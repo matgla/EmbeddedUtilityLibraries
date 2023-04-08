@@ -1,4 +1,5 @@
 add_library(eul_error STATIC)
+add_library(eul::error ALIAS eul_error)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/error/eul/error)
 

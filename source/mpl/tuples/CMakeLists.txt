@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(eul_mpl_tuples INTERFACE)
+add_library(eul::mpl::tuples ALIAS eul_mpl_tuples)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/mpl/tuples/eul/mpl/tuples)
 

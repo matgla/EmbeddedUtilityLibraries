@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(eul_timer INTERFACE)
+add_library(eul::timer ALIAS eul_timer)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/timer/eul/timer)
 

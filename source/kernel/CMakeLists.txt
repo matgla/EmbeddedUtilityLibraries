@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(eul_kernel INTERFACE)
+add_library(eul::kernel ALIAS eul_kernel)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/kernel/eul/kernel)
 

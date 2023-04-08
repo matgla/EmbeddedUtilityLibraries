@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(eul_execution INTERFACE)
+add_library(eul::execution ALIAS eul_execution)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/execution/eul/execution)
 

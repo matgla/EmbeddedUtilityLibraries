@@ -1,4 +1,5 @@
 add_library(eul_filesystem STATIC)
+add_library(eul::filesystem ALIAS eul_filesystem)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/filesystem/eul/filesystem)
 

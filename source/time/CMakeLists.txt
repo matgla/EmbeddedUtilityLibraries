@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(eul_time INTERFACE)
+add_library(eul::time ALIAS eul_time)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/time/eul/time)
 

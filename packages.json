@@ -1,35 +1,14 @@
 {
-    "dependencies": [
-        {
-            "link": "https://github.com/matgla/CMakeUtils.git",
-            "type": "git",
-            "version": "master",
-            "directory": "cmake_utils",
-            "target": "CMakeUtils",
-            "options": {
-                "is_cmake_library": true
-            }
-        },
-        {
-            "link": "https://github.com/catchorg/Catch2.git",
-            "type": "git",
-            "version": "v3.0.0-preview4",
-            "target": "catch",
-            "options": {
-                "cmake_variables": {
-                    "CATCH_BUILD_TESTING": "OFF",
-                    "CMAKE_CXX_STANDARD": "20"
-                }
-            }
-        },
-        {
-            "name": "googletest",
-            "link": "https://github.com/google/googletest.git",
-            "type": "git",
-            "version": "v1.12.0",
-            "directory": "googletest",
-            "target": "googletest",
-            "options": ""
-        }
-    ]
+  "dependencies": [
+    {
+      "link": "https://github.com/matgla/CMakeUtils.git",
+      "type": "git",
+      "version": "master",
+      "directory": "cmake_utils",
+      "target": "CMakeUtils",
+      "options": {
+        "is_cmake_library": true
+      }
+    }
+  ]
 }

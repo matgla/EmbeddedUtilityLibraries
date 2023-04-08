@@ -17,6 +17,7 @@
 add_subdirectory(pool)
 
 add_library(eul_memory INTERFACE)
+add_library(eul::memory ALIAS eul_memory)
 
 set (include_dir ${PROJECT_SOURCE_DIR}/include/memory/eul/memory)
 

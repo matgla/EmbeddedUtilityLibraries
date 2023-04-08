@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(eul_math INTERFACE)
+add_library(eul::math ALIAS eul_math)
 
 set(include_dir ${PROJECT_SOURCE_DIR}/include/math/eul/math)
 
