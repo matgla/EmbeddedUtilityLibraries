@@ -16,8 +16,9 @@
 
 #pragma once
 
-#include <cassert>
+#include <array>
 #include <bit>
+#include <cassert>
 #include <new>
 #include <type_traits>
 #include <utility>
@@ -43,14 +44,12 @@ class function<ReturnType(Args...), Size>
     };
 
 public:
-    constexpr static std::size_t size
-        = Size + sizeof(IFunctionInvoker) + sizeof(void*);
+    constexpr static std::size_t size = Size + sizeof(IFunctionInvoker) + sizeof(void*);
 
-    using storage_type = typename std::aligned_storage_t<size, alignof(void*)>;
+    using storage_type = std::array<uint8_t, size>;
     using this_type    = function<ReturnType(Args...), size>;
 
-    function() noexcept
-    = default;
+    function() noexcept = default;
 
     explicit function(std::nullptr_t) noexcept
     {
@@ -225,14 +224,15 @@ protected:
     template <typename FunctionType>
     struct FunctionInvoker : IFunctionInvoker
     {
-        FunctionInvoker() = default;
-        ~FunctionInvoker() override = default;
-        FunctionInvoker(const FunctionInvoker&) = default;
-        FunctionInvoker(FunctionInvoker&&) noexcept = default;
-        FunctionInvoker<FunctionType>& operator=(FunctionInvoker&&)  noexcept = default;
-        FunctionInvoker<FunctionType>& operator=(const FunctionInvoker&) = default;
+        FunctionInvoker()                                                    = default;
+        ~FunctionInvoker() override                                          = default;
+        FunctionInvoker(const FunctionInvoker&)                              = default;
+        FunctionInvoker(FunctionInvoker&&) noexcept                          = default;
+        FunctionInvoker<FunctionType>& operator=(FunctionInvoker&&) noexcept = default;
+        FunctionInvoker<FunctionType>& operator=(const FunctionInvoker&)     = default;
 
-        explicit FunctionInvoker(FunctionType&& function) noexcept : function_(std::move(function))
+        explicit FunctionInvoker(FunctionType&& function) noexcept
+            : function_(std::move(function))
         {
         }
 
@@ -260,19 +260,18 @@ protected:
         {
             new (new_place) FunctionInvoker(std::move(*this));
         }
+
     private:
         [[no_unique_address]] FunctionType function_;
     };
 
 
-    [[nodiscard]]
-    IFunctionInvoker& get_invoker()
+    [[nodiscard]] IFunctionInvoker& get_invoker()
     {
         return *std::bit_cast<IFunctionInvoker*>(&storage_);
     }
 
-    [[nodiscard]]
-    const IFunctionInvoker& get_invoker() const
+    [[nodiscard]] const IFunctionInvoker& get_invoker() const
     {
         return *std::bit_cast<const IFunctionInvoker*>(&storage_);
     }
@@ -282,13 +281,10 @@ protected:
     {
         using decayed_function_type = typename std::decay_t<FunctionType>;
         using function_invoker_type = FunctionInvoker<decayed_function_type>;
-        static_assert(!std::is_same<decayed_function_type, this_type>::value,
-                      "Wrong function type declared");
-        static_assert(sizeof(function_invoker_type) <= size,
-                      "Buffer overflow. Increase size parameter!");
+        static_assert(!std::is_same<decayed_function_type, this_type>::value, "Wrong function type declared");
+        static_assert(sizeof(function_invoker_type) <= size, "Buffer overflow. Increase size parameter!");
 
-        new (&storage_)
-            function_invoker_type(std::forward<FunctionType>(f));
+        new (&storage_) function_invoker_type(std::forward<FunctionType>(f));
         isCallable_ = true;
     }
 
@@ -297,17 +293,15 @@ protected:
     {
         using decayed_function_type = typename std::decay_t<FunctionType>;
         using function_invoker_type = FunctionInvoker<decayed_function_type>;
-        static_assert(!std::is_same<decayed_function_type, this_type>::value,
-                      "Wrong function type declared");
-        static_assert(sizeof(function_invoker_type) <= size,
-                      "Buffer overflow. Increase size parameter!");
+        static_assert(!std::is_same<decayed_function_type, this_type>::value, "Wrong function type declared");
+        static_assert(sizeof(function_invoker_type) <= size, "Buffer overflow. Increase size parameter!");
 
         new (&storage_) function_invoker_type(f);
         isCallable_ = true;
     }
 
 private:
-    storage_type storage_{};
+    alignas(alignof(void*)) storage_type storage_{};
     bool isCallable_{false};
 };
 
