@@ -45,8 +45,6 @@ setup_yaspem(
     PACKAGE_FILES ${PROJECT_SOURCE_DIR}/packages.json
 )
 
-message (STATUS "Cmake modules: ${CMAKE_MODULE_PATH}")
-
 find_package(CMakeUtils REQUIRED)
 
 include (sanitizers)
