@@ -22,13 +22,12 @@
 #include "eul/utils/assert.hpp"
 #include "eul/utils/math.hpp"
 
-#include <iostream>
 namespace eul::utils
 {
 
 char int_to_char(int n)
 {
-    
+
     if (constexpr int is_not_single_digit_check = 9; n > is_not_single_digit_check)
     {
         constexpr int dec_base = 10;
