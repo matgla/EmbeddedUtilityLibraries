@@ -51,6 +51,8 @@ include (sanitizers)
 add_sanitizers()
 include (coverage) 
 add_coverage()
+include (clang_tidy)
+add_clang_tidy(".*packages/.*")
 
 add_library(eul_public_flags INTERFACE)
 add_library(eul_private_flags INTERFACE)
@@ -117,41 +119,6 @@ if (NOT DISABLE_TESTS)
 
     add_subdirectory(test)
 endif ()
-
-if (ENABLE_CLANG_TIDY)
-    message (STATUS "Enabled ClangTidy")
-    include(virtualenv)
-
-    setup_virtualenv(clang_tidy_venv ${PROJECT_SOURCE_DIR}/requirements.txt)
-
-    find_program(RUN_CLANG_TIDY_EXE NAMES "run-clang-tidy" REQUIRED)
-
-    add_custom_target(filter_out_compile_commands 
-        COMMAND ${CMAKE_CURRENT_BINARY_DIR}/clang_tidy_venv/bin/compile-commands --file ${PROJECT_BINARY_DIR}/compile_commands.json 
-            --filter_files=".*_deps/.*"
-        WORKING_DIRECTORY
-            ${CMAKE_CURRENT_BINARY_DIR}
-    )
-
-    cmake_host_system_information(RESULT cpus QUERY NUMBER_OF_LOGICAL_CORES)
-
-    add_custom_target(run_clang_tidy
-        DEPENDS filter_out_compile_commands
-        COMMAND ${RUN_CLANG_TIDY_EXE} -j${cpus}
-        VERBATIM
-    )
-
-    add_custom_command(OUTPUT clang_tidy_report.txt
-        COMMAND ${RUN_CLANG_TIDY_EXE} -j${cpus} > clang_tidy_report.txt
-        DEPENDS filter_out_compile_commands
-        VERBATIM
-    )
-
-    add_custom_target(run_clang_tidy_for_sonar
-        DEPENDS clang_tidy_report.txt
-        VERBATIM
-    )
-endif()
 
 if (BUILD_EXAMPLES)
     add_subdirectory(examples)
