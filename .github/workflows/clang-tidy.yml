@@ -29,7 +29,7 @@ jobs:
         shell: bash 
         working-directory: build
         run: | 
-          cmake .. -GNinja -DENABLE_CLANG_TIDY=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++
+          cmake .. -GNinja -DEUL_ENABLE_CLANG_TIDY=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++
       - name: Execute ClangTidy
         shell: bash
         working-directory: build
