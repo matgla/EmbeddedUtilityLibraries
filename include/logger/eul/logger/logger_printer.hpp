@@ -16,8 +16,9 @@
 
 #pragma once
 
-#include <concepts>
 #include <array>
+#include <concepts>
+#include <cstdint>
 #include <string_view>
 
 #include <span>
@@ -49,8 +50,7 @@ public:
         base_ = new_base;
     }
 
-    [[nodiscard]]
-    base get_base() const
+    [[nodiscard]] base get_base() const
     {
         return base_;
     }
@@ -60,8 +60,7 @@ public:
         boolalpha_ = new_boolalpha;
     }
 
-    [[nodiscard]]
-    boolalpha get_boolalpha() const
+    [[nodiscard]] boolalpha get_boolalpha() const
     {
         return boolalpha_;
     }
@@ -81,22 +80,17 @@ constexpr logging_flags::boolalpha boolalpha = logging_flags::boolalpha::enabled
 class logger_printer final
 {
 public:
-    logger_printer(
-        const std::string_view& prefix,
-        const std::string_view& name,
-        const std::string_view& user_prefix,
-        const time::i_time_provider& time);
+    logger_printer(const std::string_view& prefix, const std::string_view& name,
+                   const std::string_view& user_prefix, const time::i_time_provider& time);
 
-    logger_printer(
-        const std::string_view& prefix,
-        const std::string_view& name,
-        const time::i_time_provider& time);
+    logger_printer(const std::string_view& prefix, const std::string_view& name,
+                   const time::i_time_provider& time);
     ~logger_printer();
 
-    logger_printer(const logger_printer& other) = delete;
-    logger_printer(logger_printer&& other) = delete;
+    logger_printer(const logger_printer& other)            = delete;
+    logger_printer(logger_printer&& other)                 = delete;
     logger_printer& operator=(const logger_printer& other) = delete;
-    logger_printer& operator=(logger_printer&& other) = delete;
+    logger_printer& operator=(logger_printer&& other)      = delete;
 
     logger_printer& operator<<(const std::string_view& str);
 
@@ -112,7 +106,7 @@ public:
         return *this;
     }
 
-    template<typename T>
+    template <typename T>
     logger_printer& operator<<(const std::span<T>& data)
     {
         write_to_streams("{");
@@ -131,7 +125,8 @@ public:
         return *this;
     }
 
-    template <typename T> requires std::same_as<T, bool>
+    template <typename T>
+        requires std::same_as<T, bool>
     logger_printer& operator<<(const T data)
     {
         if (flags_.get_boolalpha() == logging_flags::boolalpha::enabled)
@@ -150,9 +145,9 @@ public:
         return (*this << static_cast<int>(data));
     }
 
-    template <typename T, typename std::enable_if_t<
-        std::conjunction_v<std::is_integral<T>, std::is_signed<T>, std::negation<std::is_same<T, bool>>>, int
-    > = 0>
+    template <typename T, typename std::enable_if_t<std::conjunction_v<std::is_integral<T>, std::is_signed<T>,
+                                                                       std::negation<std::is_same<T, bool>>>,
+                                                    int> = 0>
     logger_printer& operator<<(T data)
     {
         int base = get_base();
@@ -170,9 +165,10 @@ public:
         return *this;
     }
 
-    template <typename T, typename std::enable_if_t<
-        std::conjunction_v<std::is_integral<T>, std::is_unsigned<T>, std::negation<std::is_same<T, bool>>>, int
-    > = 0>
+    template <typename T,
+              typename std::enable_if_t<std::conjunction_v<std::is_integral<T>, std::is_unsigned<T>,
+                                                           std::negation<std::is_same<T, bool>>>,
+                                        int> = 0>
     logger_printer& operator<<(T data)
     {
         int base = get_base();
@@ -184,9 +180,7 @@ public:
     }
 
 private:
-
-    [[nodiscard]]
-    int get_base() const;
+    [[nodiscard]] int get_base() const;
 
     void printHeader(std::string_view level) const;
     void printHeader(std::string_view level, std::string_view user_prefix) const;
@@ -204,8 +198,8 @@ private:
 
         T data = number;
 
-        number = 0;
-        int zeros_at_end = 0;
+        number              = 0;
+        int zeros_at_end    = 0;
         bool is_zero_at_end = true;
 
         while (data != 0)
@@ -231,20 +225,14 @@ private:
         while (number != 0)
         {
             constexpr std::size_t buffer_size = 2;
-            std::array<char, buffer_size> digit{
-                 "0123456789abcdef"[number%base],
-                 0
-            };
+            std::array<char, buffer_size> digit{"0123456789abcdef"[number % base], 0};
             write_to_streams(digit.data());
             number /= base;
         }
         while (zeros_at_end)
         {
             constexpr std::size_t buffer_size = 2;
-            std::array<char, buffer_size> digit{
-                '0',
-                0
-            };
+            std::array<char, buffer_size> digit{'0', 0};
             write_to_streams(digit.data());
             --zeros_at_end;
         }
