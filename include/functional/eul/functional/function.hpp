@@ -19,6 +19,7 @@
 #include <array>
 #include <bit>
 #include <cassert>
+#include <cstdint>
 #include <new>
 #include <type_traits>
 #include <utility>
