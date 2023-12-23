@@ -17,13 +17,10 @@
 #pragma once
 
 #include <cstddef>
-#include <optional>
 
 #include "eul/container/observable/observing_node.hpp"
 #include "eul/container/observable/observing_node_const_iterator.hpp"
 #include "eul/container/observable/observing_node_iterator.hpp"
-
-#include "eul/utils/noncopyable.hpp"
 
 namespace eul::container
 {
@@ -73,7 +70,7 @@ private:
 
     [[nodiscard]] const NodeType* get_end() const;
 
-    void link(NodeType& prev, NodeType& node) const;
+    void link(NodeType& prev, NodeType& node);
     void link(NodeType& node);
 
     NodeType* root_{nullptr};
@@ -93,11 +90,14 @@ observing_list<NodeType>::~observing_list()
 template <typename NodeType>
 bool observing_list<NodeType>::push_back(NodeType& node)
 {
+    if (node.get_list() != this)
+    {
+        node.reset();
+    }
     if (is_observed(&node))
     {
         return false;
     }
-    node.reset();
 
     if (!root_)
     {
@@ -128,7 +128,11 @@ bool observing_list<NodeType>::insert_after(NodeType& prev, NodeType& node)
         return false;
     }
 
-    node.reset();
+    if (node.get_list() != this)
+    {
+        node.reset();
+    }
+
     link(prev, node);
 
     return true;
@@ -152,7 +156,10 @@ bool observing_list<NodeType>::insert_before(NodeType* next, NodeType& node)
         return false;
     }
 
-    node.reset();
+    if (node.get_list() != this)
+    {
+        node.reset();
+    }
     if (current == root_)
     {
         link(node);
@@ -325,8 +332,9 @@ const NodeType* observing_list<NodeType>::get_end() const
 }
 
 template <typename NodeType>
-void observing_list<NodeType>::link(NodeType& prev, NodeType& node) const
+void observing_list<NodeType>::link(NodeType& prev, NodeType& node)
 {
+    node.set_list(this);
     node.set_next(prev.next());
 
     if (prev.next())
@@ -343,7 +351,6 @@ void observing_list<NodeType>::link(NodeType& node)
 {
     if (root_)
     {
-        root_->reset_list();
         root_->set_prev(&node);
     }
 

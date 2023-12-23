@@ -1,6 +1,6 @@
 FROM ubuntu:latest
-ARG CMAKE_VERSION=3.23.2 
-ARG SONAR_SCANNER_VERSION=4.7.0.2747
+ARG CMAKE_VERSION=3.26.1
+ARG SONAR_SCANNER_VERSION=4.8.0.2856 
 
 RUN apt-get update && apt-get install -y wget software-properties-common
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test

@@ -30,6 +30,14 @@ struct TestingElement
     int a;
 };
 
+eul::container::observing_node<TestingElement>
+    create_node(eul::container::observing_list<eul::container::observing_node<TestingElement>>* list, int a)
+{
+    eul::container::observing_node<TestingElement> e(a);
+    list->push_back(e);
+    return e;
+}
+
 TEST_CASE("Observing list should", "[ObservingListTests]") // NOLINT(readability-function-size)
 {
     SECTION("push_back elements")
@@ -409,5 +417,27 @@ TEST_CASE("Observing list should", "[ObservingListTests]") // NOLINT(readability
         }
 
         REQUIRE(expectedData == data);
+    }
+    SECTION("Support move construction")
+    {
+        eul::container::observing_list<eul::container::observing_node<TestingElement>> sut;
+        {
+            auto a1 = create_node(&sut, 1);
+            auto a2 = create_node(&sut, 2);
+            auto a3 = create_node(&sut, 3);
+            auto a4 = create_node(&sut, 4);
+
+            {
+                const std::vector<int> expectedData{1, 2, 3, 4};
+                std::vector<int> data;
+
+                for (auto& e : sut)
+                {
+                    data.push_back(e.data().a);
+                }
+
+                REQUIRE(expectedData == data);
+            }
+        }
     }
 }

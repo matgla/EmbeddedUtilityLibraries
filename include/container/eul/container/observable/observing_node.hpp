@@ -16,8 +16,6 @@
 
 #pragma once
 
-#include <utility>
-
 #include "eul/container/observable/observing_list.hpp"
 #include "eul/container/observable/observing_node_const_iterator.hpp"
 #include "eul/container/observable/observing_node_iterator.hpp"
@@ -58,6 +56,9 @@ public:
     void set_next(observing_node<T>* node);
     void set_prev(observing_node<T>* node);
     void set_prev(observing_list<observing_node<T>>* list);
+    void set_list(observing_list<observing_node<T>>* list);
+    const observing_list<observing_node<T>>* get_list() const;
+
 
     [[nodiscard]] bool is_subscribed() const;
 
@@ -101,29 +102,28 @@ observing_node<T>::observing_node(observing_node<T>&& node) noexcept
 {
     // unregister old
     list_->swap(&node, this);
-    node.reset();
 }
-
 
 template <typename T>
 void observing_node<T>::reset()
 {
-    if (prev_)
+    if (list_ && list_->find(this))
     {
-        prev_->set_next(next_);
-    }
-    if (next_)
-    {
-        next_->set_prev(prev_);
-    }
-    if (list_)
-    {
-        list_->set_root(next_);
+        if (prev_)
+        {
+            prev_->set_next(next_);
+        }
         if (next_)
         {
-            next_->set_prev(list_);
+            next_->set_prev(prev_);
+        }
+
+        if (prev_ == nullptr)
+        {
+            list_->set_root(next_);
         }
     }
+
     prev_ = nullptr;
     next_ = nullptr;
     list_ = nullptr;
@@ -179,9 +179,22 @@ void observing_node<T>::set_prev(observing_list<observing_node<T>>* list)
 }
 
 template <typename T>
+void observing_node<T>::set_list(observing_list<observing_node<T>>* list)
+{
+    list_ = list;
+}
+
+template <typename T>
+const observing_list<observing_node<T>>* observing_node<T>::get_list() const
+{
+    return list_;
+}
+
+
+template <typename T>
 bool observing_node<T>::is_subscribed() const
 {
-    return prev_ != nullptr || next_ != nullptr || list_ != nullptr;
+    return (prev_ != nullptr || next_ != nullptr) && list_ != nullptr;
 }
 
 template <typename T>

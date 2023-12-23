@@ -3,7 +3,7 @@
     {
       "link": "https://github.com/catchorg/Catch2.git",
       "type": "git",
-      "version": "v3.0.0-preview4",
+      "version": "v3.5.0",
       "target": "catch",
       "options": {
         "cmake_variables": {
