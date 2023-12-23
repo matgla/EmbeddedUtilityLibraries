@@ -36,10 +36,10 @@ public:
     ~observing_list();
 
     observing_list(const observing_list& other) = delete;
-    observing_list(observing_list&& other) = delete;
+    observing_list(observing_list&& other)      = delete;
 
     observing_list& operator=(const observing_list& other) = delete;
-    observing_list& operator=(observing_list&& other) = delete;
+    observing_list& operator=(observing_list&& other)      = delete;
 
     bool push_back(NodeType& node);
     bool push_front(NodeType& node);
@@ -66,6 +66,8 @@ public:
 
     void clear();
 
+    void swap(NodeType* old, NodeType* node) noexcept;
+
 private:
     NodeType* get_end();
 
@@ -80,7 +82,7 @@ private:
 template <typename NodeType>
 observing_list<NodeType>::observing_list()
 
-= default;
+    = default;
 
 template <typename NodeType>
 observing_list<NodeType>::~observing_list()
@@ -363,5 +365,19 @@ void observing_list<NodeType>::clear()
     }
     root_ = nullptr;
 }
+
+template <typename NodeType>
+void observing_list<NodeType>::swap(NodeType* old, NodeType* node) noexcept
+{
+    if (root_ == old)
+    {
+        root_ = node;
+    }
+    else
+    {
+        old->prev()->set_next(node);
+    }
+}
+
 
 } // namespace eul::container

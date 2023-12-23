@@ -39,11 +39,11 @@ public:
     explicit observing_node(Args... args);
     ~observing_node();
 
-    observing_node(const observing_node<T>& node) = delete;
+    observing_node(const observing_node<T>& node)               = delete;
     observing_node<T>& operator=(const observing_node<T>& node) = delete;
 
-    observing_node(observing_node<T>&& node)  noexcept = default;
-    observing_node<T>& operator=(observing_node<T>&& node)  noexcept = default;
+    observing_node(observing_node<T>&& node) noexcept;
+    observing_node<T>& operator=(observing_node<T>&& node) noexcept = default;
 
     void reset();
 
@@ -69,12 +69,12 @@ public:
     const T& operator*() const;
     const T* operator->() const noexcept;
     T& operator*();
-    T* operator->()noexcept;
+    T* operator->() noexcept;
 
 private:
     T data_;
-    observing_node<T>* next_ = nullptr;
-    observing_node<T>* prev_ = nullptr;
+    observing_node<T>* next_                 = nullptr;
+    observing_node<T>* prev_                 = nullptr;
     observing_list<observing_node<T>>* list_ = nullptr;
 };
 
@@ -91,6 +91,19 @@ observing_node<T>::~observing_node()
 {
     reset();
 }
+
+template <typename T>
+observing_node<T>::observing_node(observing_node<T>&& node) noexcept
+    : data_{node.data_}
+    , next_{node.next_}
+    , prev_{node.prev_}
+    , list_{node.list_}
+{
+    // unregister old
+    list_->swap(&node, this);
+    node.reset();
+}
+
 
 template <typename T>
 void observing_node<T>::reset()
