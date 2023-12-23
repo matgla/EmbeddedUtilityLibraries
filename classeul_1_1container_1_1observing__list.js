@@ -21,5 +21,6 @@ var classeul_1_1container_1_1observing__list =
     [ "push_back", "classeul_1_1container_1_1observing__list.html#ae9dc09158fc3d55d069811a53616add2", null ],
     [ "push_front", "classeul_1_1container_1_1observing__list.html#a67f06de9bea587037e33c3771a6e9661", null ],
     [ "set_root", "classeul_1_1container_1_1observing__list.html#aceb8b58a993ab2a13c2aa8e2c3c08b7b", null ],
-    [ "size", "classeul_1_1container_1_1observing__list.html#aeacb2ffce1586cde680d2b5acac83ce6", null ]
+    [ "size", "classeul_1_1container_1_1observing__list.html#aeacb2ffce1586cde680d2b5acac83ce6", null ],
+    [ "swap", "classeul_1_1container_1_1observing__list.html#a22f1167b832c0318f3e4214b1f1ab707", null ]
 ];

@@ -6,7 +6,7 @@ var classeul_1_1container_1_1observing__node =
     [ "observing_node", "classeul_1_1container_1_1observing__node.html#a463b6ece56b68fdd0787b9641eeb67f2", null ],
     [ "~observing_node", "classeul_1_1container_1_1observing__node.html#a7b42a7820dc1f4d4a28064938a9f05a2", null ],
     [ "observing_node", "classeul_1_1container_1_1observing__node.html#a88524539d81b1aa684d2584017011145", null ],
-    [ "observing_node", "classeul_1_1container_1_1observing__node.html#ad6e0f35ccc841fc0e5f651d532d69d6e", null ],
+    [ "observing_node", "classeul_1_1container_1_1observing__node.html#a93b3387481cb24342276b8d5303ef94c", null ],
     [ "data", "classeul_1_1container_1_1observing__node.html#a4a1df92ced936192008a04014924b84d", null ],
     [ "data", "classeul_1_1container_1_1observing__node.html#aea2e41fe0a88175556e6bce7d642275b", null ],
     [ "is_subscribed", "classeul_1_1container_1_1observing__node.html#ad398a9415d884f83f0d25a8d11b1d7e1", null ],
