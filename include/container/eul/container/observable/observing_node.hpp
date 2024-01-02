@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <utility>
+
 #include "eul/container/observable/observing_list.hpp"
 #include "eul/container/observable/observing_node_const_iterator.hpp"
 #include "eul/container/observable/observing_node_iterator.hpp"
@@ -95,7 +97,7 @@ observing_node<T>::~observing_node()
 
 template <typename T>
 observing_node<T>::observing_node(observing_node<T>&& node) noexcept
-    : data_{node.data_}
+    : data_{std::move(node.data_)}
     , next_{node.next_}
     , prev_{node.prev_}
     , list_{node.list_}
