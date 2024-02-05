@@ -480,7 +480,7 @@ $(document).ready(function(){initNavTree('observing__list_8hpp_source.html','');
 <div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    node.set_next(root_);</div>
 <div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    node.set_prev(<span class="keyword">this</span>);</div>
 <div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="preprocessor">  #pragma GCC diagnostic push </span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="preprocessor">  #pragma GCC diagnostic ignored &quot;-Wno-dangling-pointer&quot;</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="preprocessor">  #pragma GCC diagnostic ignored &quot;-Wdangling-pointer=0&quot;</span></div>
 <div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    root_ = &amp;node;</div>
 <div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="preprocessor">  #pragma GCC diagnostic pop</span></div>
 <div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;}</div>
