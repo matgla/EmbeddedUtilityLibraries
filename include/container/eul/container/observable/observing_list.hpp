@@ -357,7 +357,7 @@ void observing_list<NodeType>::link(NodeType& node)
     node.set_next(root_);
     node.set_prev(this);
   #pragma GCC diagnostic push 
-  #pragma GCC diagnostic ignored "-Wno-dangling-pointer"
+  #pragma GCC diagnostic ignored "-Wdangling-pointer=0"
     root_ = &node;
   #pragma GCC diagnostic pop
 }
