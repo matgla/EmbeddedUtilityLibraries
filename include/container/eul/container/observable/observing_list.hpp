@@ -359,7 +359,9 @@ void observing_list<NodeType>::link(NodeType& node)
 #ifdef _GNUC_
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdangling-pointer=0"
+#endif // _GNUC_
     root_ = &node;
+#ifdef _GNUC_
 #pragma GCC diagnostic pop
 #endif // _GNUC_
 }
