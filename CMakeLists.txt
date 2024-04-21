@@ -61,9 +61,11 @@ endif ()
 add_library(eul_public_flags INTERFACE)
 add_library(eul_private_flags INTERFACE)
 
+set (CMAKE_CXX_STANDARD 23)
+
 if (MSVC)
     target_compile_options(eul_public_flags INTERFACE
-        $<$<COMPILE_LANGUAGE:CXX>:/std:c++latest ${eul_cxx_compilation_flags}>
+        $<$<COMPILE_LANGUAGE:CXX>: ${eul_cxx_compilation_flags}>
     )
     target_compile_options(eul_private_flags INTERFACE
         /W4 /WX 

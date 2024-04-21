@@ -356,12 +356,12 @@ void observing_list<NodeType>::link(NodeType& node)
 
     node.set_next(root_);
     node.set_prev(this);
-#ifdef _GNUC_
+#ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdangling-pointer=0"
 #endif // _GNUC_
     root_ = &node;
-#ifdef _GNUC_
+#ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif // _GNUC_
 }
