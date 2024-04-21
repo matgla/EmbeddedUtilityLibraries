@@ -72,7 +72,7 @@ if (MSVC)
     )
 else ()
     target_compile_options(eul_public_flags INTERFACE
-        $<$<COMPILE_LANGUAGE:CXX>:-std=c++20 ${eul_cxx_compilation_flags}>
+        $<$<COMPILE_LANGUAGE:CXX>: ${eul_cxx_compilation_flags}>
     )
     target_compile_options(eul_private_flags INTERFACE
         -Wall -Wpedantic -Werror -Wextra -pedantic-errors -Wconversion -Wsign-conversion
