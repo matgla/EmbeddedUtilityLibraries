@@ -17,9 +17,9 @@
 #pragma once
 
 #include <array>
-#include <concepts>
 #include <cstdint>
 #include <string_view>
+#include <type_traits>
 
 #include <span>
 

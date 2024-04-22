@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.28)
 
 project(eul CXX)
 
@@ -77,7 +77,7 @@ else ()
         $<$<COMPILE_LANGUAGE:CXX>: ${eul_cxx_compilation_flags}>
     )
     target_compile_options(eul_private_flags INTERFACE
-        -Wall -Wpedantic -Werror -Wextra -pedantic-errors -Wconversion -Wsign-conversion
+        -Wall -Wpedantic -Werror -Wextra -pedantic-errors -Wconversion -Wsign-conversion -Wshadow
         $<$<CONFIG:DEBUG>:-Og -g>
         $<$<CONFIG:RELEASE>:-O2>
     )

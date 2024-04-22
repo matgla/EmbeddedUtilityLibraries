@@ -16,31 +16,26 @@
 
 #pragma once
 
-#ifdef __clang__
-#include <experimental/source_location>
-namespace std 
-{
-    using source_location = std::experimental::source_location;
-}
-#else 
 #include <source_location>
-#endif 
 
+#include "eul/utils/unused.hpp"
 #include <cstdlib>
 #include <string_view>
-#include "eul/utils/unused.hpp"
+
 
 #ifndef NDEBUG
 namespace eul
 {
 
-inline void assertFailed(const char* expr, std::string_view file, uint32_t line, std::string_view function, std::string_view msg)
+inline void assertFailed(const char* expr, std::string_view file, uint32_t line, std::string_view function,
+                         std::string_view msg)
 {
     UNUSED5(expr, file, line, function, msg);
 }
 
 } // namespace eul
-constexpr void eul_assert_msg(const auto value, const std::string_view msg, const std::source_location loc = std::source_location::current())
+constexpr void eul_assert_msg(const auto value, const std::string_view msg,
+                              const std::source_location loc = std::source_location::current())
 {
     if (!value)
     {
@@ -50,7 +45,8 @@ constexpr void eul_assert_msg(const auto value, const std::string_view msg, cons
 
 #else
 
-constexpr void eul_assert_msg(const auto value, const std::string_view msg, const std::source_location loc = std::source_location::current())
+constexpr void eul_assert_msg(const auto value, const std::string_view msg,
+                              const std::source_location loc = std::source_location::current())
 {
     UNUSED(value, msg, loc);
 }

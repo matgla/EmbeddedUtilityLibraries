@@ -5,28 +5,27 @@
 namespace eul::filesystem
 {
 
-path::path(std::string_view path)
-    : path_(path)
+path::path(std::string_view p)
+    : path_(p)
 {
 }
 
-path::path(const char* path)
-    : path_(path)
+path::path(const char* p)
+    : path_(p)
 {
 }
 
-path& path::operator=(const std::string_view& path)
+path& path::operator=(const std::string_view& p)
 {
-    path_ = path;
+    path_ = p;
     return *this;
 }
 
-path& path::operator=(const char* path)
+path& path::operator=(const char* p)
 {
-    path_ = path;
+    path_ = p;
     return *this;
 }
-
 
 
 bool path::is_absolute() const
@@ -118,7 +117,7 @@ path path::lexically_relative(const path& base) const
 {
     if (path_.starts_with(base.path_))
     {
-        std::string relative = path_.substr(base.path_.length(), path_.length());
+        std::string relative        = path_.substr(base.path_.length(), path_.length());
         std::size_t first_not_slash = relative.find_first_not_of('/');
         if (first_not_slash != std::string_view::npos)
         {
